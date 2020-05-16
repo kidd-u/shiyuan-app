@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'Home.dart';
-import 'Library.dart';
-import 'Mine.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
+import 'states/default.dart';
+import 'states/users.dart';
+import 'routes/login/controller/login.dart';
+import 'routes/main/controller/HomeMain.dart';
+import 'routes/home/controller/home.dart';
+import 'routes/library/controller/library.dart';
+import 'routes/todo/controller/todo.dart';
+import 'routes/message/controller/message.dart';
+import 'routes/mine/controller/mine.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,45 +17,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    return new MaterialApp(
       theme: ThemeData(
           brightness: Brightness.light, backgroundColor: Colors.white),
-      home: ScaffoldRoute(),
+      navigatorKey: DefaultUtil.navKey,
+      home: new MainApp(),
+      routes: <String, WidgetBuilder>{
+        'loginPage': (BuildContext context) => new LoginPage(),
+        'mainPage': (BuildContext context) => new HomeMainPage(),
+        'homePage': (BuildContext context) => new HomePage(),
+        'libraryPage': (BuildContext context) => new LibraryPage(),
+        'todoPage': (BuildContext context) => new TodoPage(),
+        'messagePage': (BuildContext context) => new MessagePage(),
+        'minePage': (BuildContext context) => new MinePage(),
+      },
     );
   }
 }
 
-class ScaffoldRoute extends StatefulWidget {
-  @override
-  _ScaffoldRouteState createState() => _ScaffoldRouteState();
-}
-
-class _ScaffoldRouteState extends State<ScaffoldRoute> {
-  int _selectedIndex = 0;
-  var pageList = [new HomePage(), new LibraryPage(), new MinePage()];
+class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pageList[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        // 底部导航
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business), title: Text('Business')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.people), title: Text('School')),
-        ],
-        currentIndex: _selectedIndex,
-        fixedColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    print('=============');
+    print(context);
+    print('=============');
+    ScreenUtil.init(context, width: 750, height: 1334);
+    DefaultUtil.mainContext = context;
+    return new LoginPage();
   }
 }
