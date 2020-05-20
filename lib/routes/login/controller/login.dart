@@ -60,9 +60,10 @@ class Page extends State<LoginPage> {
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           new Column(children: <Widget>[
-            headerImage(),//顶部图片
-            centerView(),//中间切换
-            phoneInput(),//手机号
+            headerImage(), //顶部图片
+            centerView(), //中间切换
+            phoneInput(), //手机号
+            passwordInput()//密码
           ])
         ],
       ),
@@ -78,7 +79,8 @@ class Page extends State<LoginPage> {
 //      'http://i2.yeyou.itc.cn/2014/huoying/hd_20140925/hyimage06.jpg',
 //    );
   }
-  Widget centerView(){
+
+  Widget centerView() {
     return new Container(
       color: Color.fromRGBO(226, 226, 226, 1),
       height: 85 * DefaultUtil.scal,
@@ -86,15 +88,15 @@ class Page extends State<LoginPage> {
         children: <Widget>[
           new Expanded(
               child: new FlatButton(
-                splashColor: Colors.transparent,
-                onPressed: () {
-                  _handleTap(0);
-                },
-                child: Text(
-                  '登录',
-                  style: new TextStyle(color: _selectIndex == 0 ? DefaultUtil.mianColor : DefaultUtil.darkColor),
-                ),
-              )),
+            splashColor: Colors.transparent,
+            onPressed: () {
+              _handleTap(0);
+            },
+            child: Text(
+              '登录',
+              style: new TextStyle(color: _selectIndex == 0 ? DefaultUtil.mianColor : DefaultUtil.darkColor),
+            ),
+          )),
           new Expanded(
               child: new FlatButton(
                   splashColor: Colors.transparent,
@@ -109,21 +111,64 @@ class Page extends State<LoginPage> {
       ),
     );
   }
-  Widget phoneInput(){
+
+  Widget phoneInput() {
     return new Container(
       width: 604 * DefaultUtil.scal,
       height: 85 * DefaultUtil.scal,
       margin: EdgeInsets.only(top: 140 * DefaultUtil.scal),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1,color: DefaultUtil.lineGrayColor))
-      ),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: DefaultUtil.lineGrayColor))),
       child: Row(
         children: <Widget>[
           Container(
             child: Icon(Icons.people),
             margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
           ),
-
+          Expanded(
+              child: Container(
+            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
+//            color: Colors.red,
+            child: TextField(
+//              autofocus: true,
+              decoration: InputDecoration(
+                  hintText: '登录账号',
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
+            ),
+          ))
+        ],
+      ),
+    );
+  }
+  Widget passwordInput() {
+    return new Container(
+      width: 604 * DefaultUtil.scal,
+      height: 85 * DefaultUtil.scal,
+      margin: EdgeInsets.only(top: 50 * DefaultUtil.scal),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: DefaultUtil.lineGrayColor))),
+      child: Row(
+        children: <Widget>[
+          Container(
+            child: Icon(Icons.people),
+            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
+          ),
+          Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
+//            color: Colors.red,
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      hintText: '登录密码',
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
+                ),
+              )
+          ),
+          Container(
+            child: Icon(Icons.remove_red_eye),
+            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
+          ),
         ],
       ),
     );
