@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+export '../common/UIKit/dialog.dart';
+export './users.dart';
+export '../common/UIKit/ColorTheme.dart';
+
+final double ScaleWidth = ScreenUtil().scaleWidth;
+final double ScreenWidth = ScreenUtil.screenWidth;
+final double ScreenHeight = ScreenUtil.screenHeight;
+
 class DefaultUtil {
   // 工厂模式
   factory DefaultUtil() => _getInstance();
@@ -16,13 +24,6 @@ class DefaultUtil {
     return _instance;
   }
 
-  static double scal = ScreenUtil().scaleWidth;
-  static double screenWidth = ScreenUtil.screenWidth;
-  static double screenHeight = ScreenUtil.screenHeight;
   static final navKey = new GlobalKey<NavigatorState>();
   static BuildContext mainContext;
-
-  static Color mianColor = Color.fromRGBO(44, 109, 210, 1);
-  static Color darkColor = Color.fromRGBO(188, 188, 188, 1);
-  static Color lineGrayColor = Color.fromRGBO(236, 235, 238, 1);
 }

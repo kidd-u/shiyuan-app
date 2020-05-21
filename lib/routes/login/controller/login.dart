@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../states/dialog.dart';
+import 'package:shiyuan/common/UIKit/UIKit.dart';
 import '../../../states/default.dart';
-import '../../../states/users.dart';
+import '../view/login.dart';
+import '../view/register.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class LoginPage extends StatefulWidget {
 
 class Page extends State<LoginPage> {
   int _selectIndex = 0;
+  List _pageView = <Widget>[new LoginView(), new RegisterView()];
+  PageController _pageController = PageController(initialPage: 0, keepPage: false);
 
   @override
   void initState() {
@@ -40,16 +43,16 @@ class Page extends State<LoginPage> {
     super.dispose();
   }
 
-  action(context) async {
-    bool res = await DialogUtil.alertConfim(content: '99999');
-    print('点击了确定===');
-    print(res);
-    DialogUtil.toastSuccess();
-  }
-
   void _handleTap(index) {
     setState(() {
       print('点击了$index');
+      _selectIndex = index;
+      _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+    });
+  }
+
+  void _pageChange(index) {
+    setState(() {
       _selectIndex = index;
     });
   }
@@ -62,8 +65,17 @@ class Page extends State<LoginPage> {
           new Column(children: <Widget>[
             headerImage(), //顶部图片
             centerView(), //中间切换
-            phoneInput(), //手机号
-            passwordInput()//密码
+            Container(
+                width: 750 * ScaleWidth,
+                height: ScreenHeight - 515 * ScaleWidth,
+                child: PageView(
+//              scrollDirection: Axis.vertical,
+                    onPageChanged: (currentPage) {
+                      _pageChange(currentPage);
+                    },
+                    controller: _pageController,
+                    children: _pageView)),
+            //密码
           ])
         ],
       ),
@@ -72,103 +84,36 @@ class Page extends State<LoginPage> {
 
   Widget headerImage() {
     return new Container(
-      color: DefaultUtil.mianColor,
-      height: 430 * DefaultUtil.scal,
+      color: MianColor,
+      height: 430 * ScaleWidth,
     );
-//    return new Image.network(
-//      'http://i2.yeyou.itc.cn/2014/huoying/hd_20140925/hyimage06.jpg',
-//    );
   }
 
   Widget centerView() {
     return new Container(
       color: Color.fromRGBO(226, 226, 226, 1),
-      height: 85 * DefaultUtil.scal,
+      height: 85 * ScaleWidth,
       child: new Row(
         children: <Widget>[
           new Expanded(
-              child: new FlatButton(
-            splashColor: Colors.transparent,
+              child: new Button(
             onPressed: () {
               _handleTap(0);
             },
             child: Text(
               '登录',
-              style: new TextStyle(color: _selectIndex == 0 ? DefaultUtil.mianColor : DefaultUtil.darkColor),
+              style: new TextStyle(color: _selectIndex == 0 ? MianColor : DarkColor, fontSize: 28 * ScaleWidth),
             ),
           )),
           new Expanded(
-              child: new FlatButton(
-                  splashColor: Colors.transparent,
+              child: new Button(
                   onPressed: () {
                     _handleTap(1);
                   },
                   child: Text(
                     '注册',
-                    style: new TextStyle(color: _selectIndex == 1 ? DefaultUtil.mianColor : DefaultUtil.darkColor),
+                    style: new TextStyle(color: _selectIndex == 1 ? MianColor : DarkColor, fontSize: 28 * ScaleWidth),
                   )))
-        ],
-      ),
-    );
-  }
-
-  Widget phoneInput() {
-    return new Container(
-      width: 604 * DefaultUtil.scal,
-      height: 85 * DefaultUtil.scal,
-      margin: EdgeInsets.only(top: 140 * DefaultUtil.scal),
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: DefaultUtil.lineGrayColor))),
-      child: Row(
-        children: <Widget>[
-          Container(
-            child: Icon(Icons.people),
-            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
-          ),
-          Expanded(
-              child: Container(
-            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
-//            color: Colors.red,
-            child: TextField(
-//              autofocus: true,
-              decoration: InputDecoration(
-                  hintText: '登录账号',
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-            ),
-          ))
-        ],
-      ),
-    );
-  }
-  Widget passwordInput() {
-    return new Container(
-      width: 604 * DefaultUtil.scal,
-      height: 85 * DefaultUtil.scal,
-      margin: EdgeInsets.only(top: 50 * DefaultUtil.scal),
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: DefaultUtil.lineGrayColor))),
-      child: Row(
-        children: <Widget>[
-          Container(
-            child: Icon(Icons.people),
-            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
-          ),
-          Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
-//            color: Colors.red,
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      hintText: '登录密码',
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-                ),
-              )
-          ),
-          Container(
-            child: Icon(Icons.remove_red_eye),
-            margin: EdgeInsets.only(left: 15 * DefaultUtil.scal),
-          ),
         ],
       ),
     );

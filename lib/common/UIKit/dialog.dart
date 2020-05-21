@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jhtoast/jhtoast.dart';
-import 'default.dart';
+import '../../states/default.dart';
 
 class DialogUtil {
   // 工厂模式
