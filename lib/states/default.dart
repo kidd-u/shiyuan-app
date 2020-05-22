@@ -12,11 +12,14 @@ final double ScreenHeight = ScreenUtil.screenHeight;
 class DefaultUtil {
   // 工厂模式
   factory DefaultUtil() => _getInstance();
+
   static DefaultUtil get instance => _getInstance();
   static DefaultUtil _instance;
+
   DefaultUtil._internal() {
     // 初始化
   }
+
   static DefaultUtil _getInstance() {
     if (_instance == null) {
       _instance = new DefaultUtil._internal();
