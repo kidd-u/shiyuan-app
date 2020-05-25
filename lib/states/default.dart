@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 export '../common/UIKit/dialog.dart';
 export './users.dart';
 export '../common/UIKit/ColorTheme.dart';
+export '../common/UIKit/UIKit.dart';
 
 final double ScaleWidth = ScreenUtil().scaleWidth;
-final double ScreenWidth = ScreenUtil.screenWidth;
-final double ScreenHeight = ScreenUtil.screenHeight;
+final double ScreenWidth = ScreenUtil.screenWidth / 2;
+final double ScreenHeight = ScreenUtil.screenHeight / 2;
 
 class DefaultUtil {
   // 工厂模式

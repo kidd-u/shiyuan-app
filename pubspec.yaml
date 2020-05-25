@@ -50,7 +50,19 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-
+  assets:
+    - imgs/login/denglu.png
+    - imgs/login/mima.png
+    - imgs/login/phone.png
+    - imgs/login/code.png
+    - imgs/login/close.png
+    - imgs/login/open.png
+    - imgs/login/sanjiao.png
+    - imgs/login/select.png
+    - imgs/login/select_de.png
+    - imgs/login/top.png
+    - imgs/nav/2.0x/back.png
+    - imgs/nav/3.0x/back.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

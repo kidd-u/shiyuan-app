@@ -48,11 +48,22 @@ class LibraryState extends State<LibraryPage> {
 
   Widget buildAppBar(BuildContext context) {
     return new AppBar(
-        title: const Text(
-          '登录',
-          style: TextStyle(color: Colors.black),
+      leading: new IconButton(
+        icon: new Icon(Icons.arrow_back_ios, color: Color.fromRGBO(163, 171, 242, 1)),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      title: const Text(
+        '忘记密码',
+        style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+          ),
         ),
-        backgroundColor: Colors.white);
+      ),
+    );
   }
 
   Widget header(BuildContext context) {

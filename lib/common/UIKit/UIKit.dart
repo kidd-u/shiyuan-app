@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../../states/default.dart';
 
@@ -102,6 +104,7 @@ class Button extends StatelessWidget {
     this.textColor,
     this.child = const Text('Button'),
     this.tag,
+    this.enabled = false,
   }) : super(key: key);
 
   final Color color; //底色
@@ -117,6 +120,7 @@ class Button extends StatelessWidget {
   final Color textColor; //按钮文字颜色
   final Widget child;
   final double tag; //tag按钮标识
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +136,12 @@ class Button extends StatelessWidget {
           highlightColor: Colors.transparent,
           color: Colors.transparent,
           onPressed: () {
-            onPressed();
-            onPressedByTag(tag);
+            if (!enabled) {
+              onPressed();
+              if (onPressedByTag is! Function) {
+                onPressedByTag(tag);
+              }
+            }
           },
           child: child),
     );
@@ -141,7 +149,7 @@ class Button extends StatelessWidget {
 }
 
 /**
- * Label文本变迁
+ * Label文本标签
  * */
 class Label extends StatelessWidget {
   const Label(
@@ -157,6 +165,10 @@ class Label extends StatelessWidget {
     this.fontSize,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
+    this.textDecoration,
+    this.decorationStyle,
+    this.onClick,
+    this.enabled = false,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -170,26 +182,38 @@ class Label extends StatelessWidget {
   final double fontSize; //字号
   final int maxLines; //行数
   final TextAlign textAlign; //对齐
+  final TextDecoration textDecoration; //下换线位置
+  final TextDecorationStyle decorationStyle;
+  final Function onClick;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      decoration: decoration,
-      margin: margin,
-      padding: padding,
-      width: width,
-      height: height,
-      child: Text(
-        data,
-        overflow: TextOverflow.ellipsis,
-        maxLines: maxLines,
-        textAlign: textAlign,
-        style: TextStyle(fontSize: fontSize, color: textColor),
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Text(
+          data,
+          overflow: TextOverflow.ellipsis,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          style: TextStyle(fontSize: fontSize, color: textColor, decoration: textDecoration, decorationStyle: decorationStyle),
+        ),
       ),
+      onTap: () {
+        if (!enabled) {
+          onClick();
+        }
+      },
     );
   }
 }
+
 /**
  * ImageView本地图片
  * */
@@ -204,6 +228,8 @@ class ImageView extends StatelessWidget {
     this.height,
     @required this.src,
     this.fit = BoxFit.cover,
+    this.onClick,
+    this.enabled = false,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -213,23 +239,235 @@ class ImageView extends StatelessWidget {
   final double height; //容器的高度
 
   final String src; //图片路径
-  final BoxFit fit;//填充模式，fill填充变形，cover比例裁剪，contain自适应大小
+  final BoxFit fit; //填充模式，fill填充变形，cover比例裁剪，contain自适应大小
+  final Function onClick;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      decoration: decoration,
-      margin: margin,
-      padding: padding,
-      width: width,
-      height: height,
-      child: Image(
-        image: AssetImage(src),
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
         width: width,
         height: height,
-        fit: fit,
+        child: Image(
+          image: AssetImage(src),
+          width: width,
+          height: height,
+          fit: fit,
+        ),
       ),
+      onTap: () {
+        if (!enabled) {
+          onClick();
+        }
+      },
     );
   }
+}
+
+/**
+ * MainTitleLabel,30px
+ * */
+class MainTitleLabel extends StatelessWidget {
+  const MainTitleLabel(
+    this.data, {
+    Key key,
+    this.color,
+    this.decoration,
+    this.margin,
+    this.padding,
+    this.width,
+    this.height,
+    this.textColor = MainTitleColor,
+    this.maxLines = 1,
+    this.textAlign = TextAlign.left,
+    this.onClick,
+    this.enabled = false,
+  }) : super(key: key);
+  final Color color; //底色
+  final Decoration decoration; // 背景装饰
+  final EdgeInsets margin; //外边距
+  final EdgeInsets padding; //内边距
+  final double width; //容器的宽度
+  final double height; //容器的高度
+
+  final String data; //文本
+  final Color textColor; //文字颜色
+  final int maxLines; //行数
+  final TextAlign textAlign; //对齐
+  final Function onClick;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Text(
+          data,
+          overflow: TextOverflow.ellipsis,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          style: TextStyle(fontSize: 30 * ScaleWidth, color: textColor),
+        ),
+      ),
+      onTap: () {
+        if (!enabled) {
+          onClick();
+        }
+      },
+    );
+  }
+}
+
+/**
+ * MainTextLabel,28px
+ * */
+class MainTextLabel extends StatelessWidget {
+  const MainTextLabel(
+    this.data, {
+    Key key,
+    this.color,
+    this.decoration,
+    this.margin,
+    this.padding,
+    this.width,
+    this.height,
+    this.textColor = MainTitleColor,
+    this.maxLines = 1,
+    this.textAlign = TextAlign.left,
+    this.onClick,
+    this.enabled = false,
+  }) : super(key: key);
+  final Color color; //底色
+  final Decoration decoration; // 背景装饰
+  final EdgeInsets margin; //外边距
+  final EdgeInsets padding; //内边距
+  final double width; //容器的宽度
+  final double height; //容器的高度
+
+  final String data; //文本
+  final Color textColor; //文字颜色
+  final int maxLines; //行数
+  final TextAlign textAlign; //对齐
+  final Function onClick;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Text(
+          data,
+          overflow: TextOverflow.ellipsis,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          style: TextStyle(fontSize: 28 * ScaleWidth, color: textColor),
+        ),
+      ),
+      onTap: () {
+        if (!enabled) {
+          onClick();
+        }
+      },
+    );
+  }
+}
+
+/**
+ * MainTextLabel,24px
+ * */
+class SubTextLabel extends StatelessWidget {
+  const SubTextLabel(
+    this.data, {
+    Key key,
+    this.color,
+    this.decoration,
+    this.margin,
+    this.padding,
+    this.width,
+    this.height,
+    this.textColor = MainTitleColor,
+    this.maxLines = 1,
+    this.textAlign = TextAlign.left,
+    this.onClick,
+    this.enabled = false,
+  }) : super(key: key);
+  final Color color; //底色
+  final Decoration decoration; // 背景装饰
+  final EdgeInsets margin; //外边距
+  final EdgeInsets padding; //内边距
+  final double width; //容器的宽度
+  final double height; //容器的高度
+
+  final String data; //文本
+  final Color textColor; //文字颜色
+  final int maxLines; //行数
+  final TextAlign textAlign; //对齐
+  final Function onClick;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Text(
+          data,
+          overflow: TextOverflow.ellipsis,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          style: TextStyle(fontSize: 24 * ScaleWidth, color: textColor),
+        ),
+      ),
+      onTap: () {
+        if (!enabled) {
+          onClick();
+        }
+      },
+    );
+  }
+}
+
+Widget buildAppBar(BuildContext context, String title, {bool showPop = true}) {
+  return new AppBar(
+    leading: showPop
+        ? new IconButton(
+            icon: new Icon(Icons.arrow_back_ios, color: Color.fromRGBO(163, 171, 242, 1)),
+            onPressed: () => Navigator.of(context).pop(),
+          )
+        : null,
+    automaticallyImplyLeading: showPop,
+    title: Text(
+      title,
+      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),
+    ),
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+        ),
+      ),
+    ),
+  );
 }

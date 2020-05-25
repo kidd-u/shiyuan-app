@@ -19,7 +19,7 @@ class Page extends State<LoginPage> {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
   }
 
@@ -59,14 +59,16 @@ class Page extends State<LoginPage> {
 
   Widget layout(BuildContext context) {
     return new Scaffold(
-      body: new ListView(
-        physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
-        children: <Widget>[
-          new Column(children: <Widget>[
+      body: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: new ListView(
+          physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
+          children: <Widget>[
             headerImage(), //顶部图片
             centerView(), //中间切换
             Container(
-                width: 750 * ScaleWidth,
+                width: ScreenWidth,
                 height: ScreenHeight - 515 * ScaleWidth,
                 child: PageView(
 //              scrollDirection: Axis.vertical,
@@ -75,47 +77,59 @@ class Page extends State<LoginPage> {
                     },
                     controller: _pageController,
                     children: _pageView)),
-            //密码
-          ])
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget headerImage() {
-    return new Container(
-      color: MianColor,
+    return new ImageView(
+      color: MainBlueColor,
       height: 430 * ScaleWidth,
+      src: 'imgs/login/top.png',
     );
   }
 
   Widget centerView() {
     return new Container(
-      color: Color.fromRGBO(226, 226, 226, 1),
-      height: 85 * ScaleWidth,
-      child: new Row(
-        children: <Widget>[
-          new Expanded(
-              child: new Button(
-            onPressed: () {
-              _handleTap(0);
-            },
-            child: Text(
-              '登录',
-              style: new TextStyle(color: _selectIndex == 0 ? MianColor : DarkColor, fontSize: 28 * ScaleWidth),
-            ),
-          )),
-          new Expanded(
-              child: new Button(
+        color: Color.fromRGBO(226, 226, 226, 1),
+        height: 85 * ScaleWidth,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            new Row(
+              children: <Widget>[
+                new Expanded(
+                    child: new Button(
                   onPressed: () {
-                    _handleTap(1);
+                    _handleTap(0);
                   },
                   child: Text(
-                    '注册',
-                    style: new TextStyle(color: _selectIndex == 1 ? MianColor : DarkColor, fontSize: 28 * ScaleWidth),
-                  )))
-        ],
-      ),
-    );
+                    '登录',
+                    style: new TextStyle(color: _selectIndex == 0 ? MainBlueColor : DarkColor, fontSize: 28 * ScaleWidth),
+                  ),
+                )),
+                new Expanded(
+                    child: new Button(
+                        onPressed: () {
+                          _handleTap(1);
+                        },
+                        child: Text(
+                          '注册',
+                          style: new TextStyle(color: _selectIndex == 1 ? MainBlueColor : DarkColor, fontSize: 28 * ScaleWidth),
+                        ))),
+              ],
+            ),
+            Positioned(
+              left: _selectIndex == 0 ? (750 / 4 - 22 / 2) * ScaleWidth : (750 / 4 * 3 - 22 / 2) * ScaleWidth,
+              bottom: 0,
+              child: ImageView(
+                src: 'imgs/login/sanjiao.png',
+                width: 22 * ScaleWidth,
+              ),
+            )
+          ],
+        ));
   }
 }
