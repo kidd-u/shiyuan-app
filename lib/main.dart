@@ -5,6 +5,7 @@ import 'states/default.dart';
 import 'states/users.dart';
 import 'routes/login/controller/login.dart';
 import 'routes/login/controller/findPassWord.dart';
+import 'routes/login/controller/newPassWord.dart';
 import 'routes/main/controller/HomeMain.dart';
 import 'routes/home/controller/home.dart';
 import 'routes/library/controller/library.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         'messagePage': (BuildContext context) => new MessagePage(),
         'minePage': (BuildContext context) => new MinePage(),
         'findPassWord': (BuildContext context) => new FindPassWordPage(),
+        'newPassWord': (BuildContext context) => new NewPassWordPage(),
       },
     );
   }

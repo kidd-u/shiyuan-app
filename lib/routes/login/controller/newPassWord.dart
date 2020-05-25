@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class LibraryPage extends StatefulWidget {
+class NewPassWordPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new LibraryState();
+    return new NewPassWordState();
   }
 }
 
-class LibraryState extends State<LibraryPage> {
+class NewPassWordState extends State<NewPassWordPage> {
   void initState() {
     super.initState();
   }
@@ -35,40 +35,82 @@ class LibraryState extends State<LibraryPage> {
 
   Widget layout(BuildContext context) {
     return new Scaffold(
-      appBar: buildAppBar(context),
-      body: new ListView(
-        physics: new AlwaysScrollableScrollPhysics(
-            parent: new BouncingScrollPhysics()),
+      appBar: buildAppBar(context,'找回密码'),
+      body: new Container(
+        width: ScreenWidth,
+        child: new Column(
+          children: <Widget>[
+            passInput(),
+            passInput1(),
+            doneBtn(),
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget passInput() {
+    return new Container(
+      width: 604 * ScaleWidth,
+      height: 85 * ScaleWidth,
+      margin: EdgeInsets.only(top: 140 * ScaleWidth),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: LineColor))),
+      child: Row(
         children: <Widget>[
-          new Text('Library'),
+          ImageView(
+            src: 'imgs/login/mima.png',
+            margin: EdgeInsets.only(left: 15 * ScaleWidth),
+            width: 32 * ScaleWidth,
+          ),
+          Expanded(
+            child: InputView(
+              margin: EdgeInsets.only(left: 15 * ScaleWidth),
+              placeholder: '请输入新密码',
+            ),
+          )
         ],
       ),
     );
   }
-
-  Widget buildAppBar(BuildContext context) {
-    return new AppBar(
-      leading: new IconButton(
-        icon: new Icon(Icons.arrow_back_ios, color: Color.fromRGBO(163, 171, 242, 1)),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      title: const Text(
-        '忘记密码',
-        style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
-      ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+  Widget passInput1() {
+    return new Container(
+      width: 604 * ScaleWidth,
+      height: 85 * ScaleWidth,
+      margin: EdgeInsets.only(top: 80 * ScaleWidth),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: LineColor))),
+      child: Row(
+        children: <Widget>[
+          ImageView(
+            src: 'imgs/login/mima.png',
+            margin: EdgeInsets.only(left: 15 * ScaleWidth),
+            width: 32 * ScaleWidth,
           ),
-        ),
+          Expanded(
+            child: InputView(
+              margin: EdgeInsets.only(left: 15 * ScaleWidth),
+              placeholder: '请输入新密码',
+            ),
+          )
+        ],
       ),
     );
   }
-
-  Widget header(BuildContext context) {
-    return new Image.network(
-      'http://i2.yeyou.itc.cn/2014/huoying/hd_20140925/hyimage06.jpg',
+  Widget doneBtn() {
+    return Button(
+      child: MainTitleLabel(
+        '登 录',
+        textColor: Colors.white,
+      ),
+//            color: MainBlueColor,
+      width: 540 * ScaleWidth,
+      height: 80 * ScaleWidth,
+      margin: EdgeInsets.only(top: 105 * ScaleWidth),
+      decoration: new BoxDecoration(
+        //背景
+        color: MainBlueColor,
+        //设置四周圆角 角度
+        borderRadius: BorderRadius.all(Radius.circular(40)),
+      ),
     );
   }
 }

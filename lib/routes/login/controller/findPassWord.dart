@@ -164,6 +164,9 @@ class FindPassWordState extends State<FindPassWordPage> {
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
+      onPressed: (){
+        Navigator.pushNamed(context, "newPassWord");
+      },
     );
   }
 
