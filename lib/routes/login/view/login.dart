@@ -126,6 +126,12 @@ class LoginViewState extends State<LoginView> {
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
+      onPressed: (){
+        print(DefaultUtil.mainContext);
+
+        DefaultUtil.navKey.currentState.pushReplacementNamed("mainTabPage");
+//      DialogUtil.toastSuccess('111');
+      },
     );
   }
 

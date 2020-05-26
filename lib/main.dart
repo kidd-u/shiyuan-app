@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       home: new MainApp(),
       routes: <String, WidgetBuilder>{
         'loginPage': (BuildContext context) => new LoginPage(),
-        'mainPage': (BuildContext context) => new HomeMainPage(),
+        'mainTabPage': (BuildContext context) => new HomeMainPage(),
         'homePage': (BuildContext context) => new HomePage(),
         'libraryPage': (BuildContext context) => new LibraryPage(),
         'todoPage': (BuildContext context) => new TodoPage(),

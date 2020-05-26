@@ -30,6 +30,10 @@ dependencies:
   cupertino_icons: any
   flutter_screenutil: any
   jhtoast: any
+  flutter_swiper : any
+  dio: any
+  cached_network_image: any
+  flutter_staggered_grid_view: any
 
 dev_dependencies:
   flutter_test:
@@ -61,8 +65,36 @@ flutter:
     - imgs/login/select.png
     - imgs/login/select_de.png
     - imgs/login/top.png
-    - imgs/nav/2.0x/back.png
-    - imgs/nav/3.0x/back.png
+    - imgs/nav/back.png
+    - imgs/tabbar/daiban.png
+    - imgs/tabbar/daiban_se.png
+    - imgs/tabbar/shouye.png
+    - imgs/tabbar/shouye_se.png
+    - imgs/tabbar/shujuzhongxin.png
+    - imgs/tabbar/shujuzhongxin_se.png
+    - imgs/tabbar/wode.png
+    - imgs/tabbar/wode_se.png
+    - imgs/tabbar/xiaoxi.png
+    - imgs/tabbar/xiaoxi_se.png
+    - imgs/home/banner.png
+    - imgs/home/yinhuanfaqi.png
+    - imgs/home/xianshangpeixun.png
+    - imgs/home/jihuajiancha.png
+    - imgs/home/xianxiapeixun.png
+    - imgs/home/yinhuanzhenggai.png
+    - imgs/home/zuoyeguanli.png
+    - imgs/home/gonggao.png
+    - imgs/home/zaixiankaoshi.png
+    - imgs/home/waibujiaoyu.png
+    - imgs/home/falvbiaozhunku.png
+    - imgs/home/xiangguanfanganquangongzuo.png
+    - imgs/home/zuoyeguanli2.png
+    - imgs/home/yinhuanfaqi2.png
+    - imgs/home/xianshangpeixun2.png
+    - imgs/home/jihuajiancha2.png
+    - imgs/home/xianxiapeixun2.png
+    - imgs/home/yinhuanzhenggai2.png
+    - imgs/home/anquanhuiwu.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -6,11 +6,14 @@ import '../../states/default.dart';
 class DialogUtil {
   // 工厂模式
   factory DialogUtil() => _getInstance();
+
   static DialogUtil get instance => _getInstance();
   static DialogUtil _instance;
+
   DialogUtil._internal() {
     // 初始化
   }
+
   static DialogUtil _getInstance() {
     if (_instance == null) {
       _instance = new DialogUtil._internal();
@@ -18,26 +21,26 @@ class DialogUtil {
     return _instance;
   }
 
-  static toastText({String msg: '操作成功'}) {
-    JhToast.showText(DefaultUtil.mainContext, msg: msg);
+  static toastText(BuildContext context, String msg) {
+    JhToast.showText(context, msg: msg == null ? '操作成功' : msg);
   }
 
-  static toastSuccess({String msg: '操作成功'}) {
-    JhToast.showSuccess(DefaultUtil.mainContext, msg: msg);
+  static toastSuccess(BuildContext context, String msg) {
+    JhToast.showSuccess(context, msg: msg == null ? '操作成功' : msg);
   }
 
-  static toastError({String msg: '操作失败'}) {
-    JhToast.showError(DefaultUtil.mainContext, msg: msg);
+  static toastError(BuildContext context, String msg) {
+    JhToast.showError(context, msg: msg == null ? '操作失败' : msg);
   }
 
-  static Future<bool> alertConfim({title: '温馨提示', content: '无'}) async {
+  static Future<bool> alertConfim(BuildContext context, String content, String title) async {
     return await showDialog(
-        context: DefaultUtil.mainContext,
+        context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return new CupertinoAlertDialog(
-            title: Text(title),
-            content: Text(content),
+            title: Text(title == null ? '温馨提示' : title),
+            content: Text(content == null ? '无' : content),
             actions: <Widget>[
               CupertinoDialogAction(
                 child: Text('取消', style: TextStyle(color: Colors.red)),

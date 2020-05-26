@@ -28,6 +28,6 @@ class DefaultUtil {
     return _instance;
   }
 
-  static final navKey = new GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
   static BuildContext mainContext;
 }

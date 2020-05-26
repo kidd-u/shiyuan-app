@@ -138,7 +138,7 @@ class Button extends StatelessWidget {
           onPressed: () {
             if (!enabled) {
               onPressed();
-              if (onPressedByTag is! Function) {
+              if (onPressedByTag is Function) {
                 onPressedByTag(tag);
               }
             }
@@ -163,6 +163,7 @@ class Label extends StatelessWidget {
     this.height,
     this.textColor,
     this.fontSize,
+    this.fontWeight = FontWeight.w400,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
     this.textDecoration,
@@ -180,6 +181,7 @@ class Label extends StatelessWidget {
   final String data; //文本
   final Color textColor; //文字颜色
   final double fontSize; //字号
+  final FontWeight fontWeight; //粗细
   final int maxLines; //行数
   final TextAlign textAlign; //对齐
   final TextDecoration textDecoration; //下换线位置
@@ -202,11 +204,17 @@ class Label extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: maxLines,
           textAlign: textAlign,
-          style: TextStyle(fontSize: fontSize, color: textColor, decoration: textDecoration, decorationStyle: decorationStyle),
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            color: textColor,
+            decoration: textDecoration,
+            decorationStyle: decorationStyle,
+          ),
         ),
       ),
       onTap: () {
-        if (!enabled) {
+        if (!enabled && onClick is Function) {
           onClick();
         }
       },
@@ -261,7 +269,7 @@ class ImageView extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (!enabled) {
+        if (!enabled && onClick is Function) {
           onClick();
         }
       },
@@ -321,7 +329,7 @@ class MainTitleLabel extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (!enabled) {
+        if (!enabled && onClick is Function) {
           onClick();
         }
       },
@@ -381,7 +389,7 @@ class MainTextLabel extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (!enabled) {
+        if (!enabled && onClick is Function) {
           onClick();
         }
       },
@@ -441,12 +449,77 @@ class SubTextLabel extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if (!enabled) {
+        if (!enabled && onClick is Function) {
           onClick();
         }
       },
     );
   }
+}
+/**
+ * SmallTextLabel,20px
+ * */
+class SmallTextLabel extends StatelessWidget {
+  const SmallTextLabel(
+      this.data, {
+        Key key,
+        this.color,
+        this.decoration,
+        this.margin = EdgeInsets.zero,
+        this.padding = EdgeInsets.zero,
+        this.width,
+        this.height,
+        this.textColor = MainTitleColor,
+        this.maxLines = 1,
+        this.textAlign = TextAlign.center,
+        this.onClick,
+        this.enabled = false,
+      }) : super(key: key);
+  final Color color; //底色
+  final Decoration decoration; // 背景装饰
+  final EdgeInsets margin; //外边距
+  final EdgeInsets padding; //内边距
+  final double width; //容器的宽度
+  final double height; //容器的高度
+
+  final String data; //文本
+  final Color textColor; //文字颜色
+  final int maxLines; //行数
+  final TextAlign textAlign; //对齐
+  final Function onClick;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Text(
+          data,
+          overflow: TextOverflow.ellipsis,
+          maxLines: maxLines,
+          textAlign: textAlign,
+          style: TextStyle(fontSize: 20 * ScaleWidth, color: textColor),
+        ),
+      ),
+      onTap: () {
+        if (!enabled && onClick is Function) {
+          onClick();
+        }
+      },
+    );
+  }
+}
+Widget LineView(BuildContext context) {
+  return new Container(
+    color: LineColor,
+    height: 0.5,
+  );
 }
 
 Widget buildAppBar(BuildContext context, String title, {bool showPop = true}) {

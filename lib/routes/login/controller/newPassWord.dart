@@ -111,6 +111,9 @@ class NewPassWordState extends State<NewPassWordPage> {
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
+      onPressed: (){
+
+      },
     );
   }
 }
