@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../view/online.dart';
+import '../view/offline.dart';
 
 class LibraryPage extends StatefulWidget {
   @override
@@ -8,12 +10,16 @@ class LibraryPage extends StatefulWidget {
     return new LibraryState();
   }
 }
-
+GlobalKey<OnLineViewState> onlineKey = GlobalKey(debugLabel: 'online');
 class LibraryState extends State<LibraryPage> {
   var _scrollController = new ScrollController(initialScrollOffset: 0);
 
+  Widget _online = new OnLineView(key: onlineKey,title: '线上',);
+  Widget _offline = new OffLineView(title: '线下',);
+
   void initState() {
     super.initState();
+//    onlineKey.currentState.getTitle();
   }
 
   @override
@@ -41,18 +47,23 @@ class LibraryState extends State<LibraryPage> {
         appBar: buildAppBar(context),
         backgroundColor: Color.fromRGBO(116, 143, 254, 1),
         body: new StaggeredGridView.countBuilder(
-          padding: EdgeInsets.all(26 * ScaleWidth),
+          padding: EdgeInsets.all(25 * ScaleWidth),
           crossAxisCount: 4,
           itemCount: 8,
-          itemBuilder: (BuildContext context, int index) =>
-          new Container(
-              color: Colors.green,
-              child: new Center(
-                child: new CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: new Text('$index'),
-                ),
-              )),
+          itemBuilder: (BuildContext context, int index) {
+            if(index == 0){
+              return _online;
+            }
+            return new Container(
+                color: Colors.green,
+                child: new Center(
+                  child: new CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: new Text('$index'),
+                  ),
+                ));
+          },
+
           staggeredTileBuilder: (int index) {
             if (index == 0) {
               return new StaggeredTile.extent(4, 150);
