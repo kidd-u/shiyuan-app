@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return new MaterialApp(
       theme: ThemeData(
+        platform: TargetPlatform.iOS,
           brightness: Brightness.light, backgroundColor: Colors.white),
       navigatorKey: DefaultUtil.navKey,
       home: new MainApp(),

@@ -157,11 +157,12 @@ class Label extends StatelessWidget {
     Key key,
     this.color,
     this.decoration,
-    this.margin,
-    this.padding,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
     this.width,
     this.height,
     this.textColor,
+    this.textBackGround,
     this.fontSize,
     this.fontWeight = FontWeight.w400,
     this.maxLines = 1,
@@ -170,6 +171,7 @@ class Label extends StatelessWidget {
     this.decorationStyle,
     this.onClick,
     this.enabled = false,
+    this.lineHeight = 1,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -180,6 +182,7 @@ class Label extends StatelessWidget {
 
   final String data; //文本
   final Color textColor; //文字颜色
+  final Color textBackGround; //文字底色
   final double fontSize; //字号
   final FontWeight fontWeight; //粗细
   final int maxLines; //行数
@@ -188,6 +191,7 @@ class Label extends StatelessWidget {
   final TextDecorationStyle decorationStyle;
   final Function onClick;
   final bool enabled;
+  final double lineHeight; //行高
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +209,9 @@ class Label extends StatelessWidget {
           maxLines: maxLines,
           textAlign: textAlign,
           style: TextStyle(
+            backgroundColor: textBackGround,
             fontSize: fontSize,
+            height: lineHeight,
             fontWeight: fontWeight,
             color: textColor,
             decoration: textDecoration,
@@ -290,6 +296,7 @@ class MainTitleLabel extends StatelessWidget {
     this.padding,
     this.width,
     this.height,
+    this.fontWeight = FontWeight.w400,
     this.textColor = MainTitleColor,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
@@ -304,6 +311,7 @@ class MainTitleLabel extends StatelessWidget {
   final double height; //容器的高度
 
   final String data; //文本
+  final FontWeight fontWeight; //粗细
   final Color textColor; //文字颜色
   final int maxLines; //行数
   final TextAlign textAlign; //对齐
@@ -325,7 +333,11 @@ class MainTitleLabel extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: maxLines,
           textAlign: textAlign,
-          style: TextStyle(fontSize: 30 * ScaleWidth, color: textColor),
+          style: TextStyle(
+            fontSize: 30 * ScaleWidth,
+            color: textColor,
+            fontWeight: fontWeight,
+          ),
         ),
       ),
       onTap: () {
@@ -350,6 +362,7 @@ class MainTextLabel extends StatelessWidget {
     this.padding,
     this.width,
     this.height,
+    this.fontWeight = FontWeight.w400,
     this.textColor = MainTitleColor,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
@@ -364,6 +377,7 @@ class MainTextLabel extends StatelessWidget {
   final double height; //容器的高度
 
   final String data; //文本
+  final FontWeight fontWeight; //粗细
   final Color textColor; //文字颜色
   final int maxLines; //行数
   final TextAlign textAlign; //对齐
@@ -385,7 +399,11 @@ class MainTextLabel extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: maxLines,
           textAlign: textAlign,
-          style: TextStyle(fontSize: 28 * ScaleWidth, color: textColor),
+          style: TextStyle(
+            fontSize: 28 * ScaleWidth,
+            color: textColor,
+            fontWeight: fontWeight,
+          ),
         ),
       ),
       onTap: () {
@@ -410,6 +428,7 @@ class SubTextLabel extends StatelessWidget {
     this.padding,
     this.width,
     this.height,
+    this.fontWeight = FontWeight.w400,
     this.textColor = MainTitleColor,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
@@ -424,6 +443,7 @@ class SubTextLabel extends StatelessWidget {
   final double height; //容器的高度
 
   final String data; //文本
+  final FontWeight fontWeight; //粗细
   final Color textColor; //文字颜色
   final int maxLines; //行数
   final TextAlign textAlign; //对齐
@@ -445,7 +465,11 @@ class SubTextLabel extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: maxLines,
           textAlign: textAlign,
-          style: TextStyle(fontSize: 24 * ScaleWidth, color: textColor),
+          style: TextStyle(
+            fontSize: 24 * ScaleWidth,
+            color: textColor,
+            fontWeight: fontWeight,
+          ),
         ),
       ),
       onTap: () {
@@ -456,25 +480,26 @@ class SubTextLabel extends StatelessWidget {
     );
   }
 }
+
 /**
  * SmallTextLabel,20px
  * */
 class SmallTextLabel extends StatelessWidget {
   const SmallTextLabel(
-      this.data, {
-        Key key,
-        this.color,
-        this.decoration,
-        this.margin = EdgeInsets.zero,
-        this.padding = EdgeInsets.zero,
-        this.width,
-        this.height,
-        this.textColor = MainTitleColor,
-        this.maxLines = 1,
-        this.textAlign = TextAlign.center,
-        this.onClick,
-        this.enabled = false,
-      }) : super(key: key);
+    this.data, {
+    Key key,
+    this.color,
+    this.decoration,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    this.width,
+    this.height,
+    this.textColor = MainTitleColor,
+    this.maxLines = 1,
+    this.textAlign = TextAlign.center,
+    this.onClick,
+    this.enabled = false,
+  }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
   final EdgeInsets margin; //外边距
@@ -515,6 +540,7 @@ class SmallTextLabel extends StatelessWidget {
     );
   }
 }
+
 Widget LineView(BuildContext context) {
   return new Container(
     color: LineColor,

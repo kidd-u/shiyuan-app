@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shiyuan/states/default.dart';
+import 'package:shiyuan/common/UIKit/TabBarPageView.dart';
 
 class TodoPage extends StatefulWidget {
   @override
@@ -8,6 +10,12 @@ class TodoPage extends StatefulWidget {
 }
 
 class Page extends State<TodoPage> {
+  //定义Tab标签
+  var tabTexts = ["全部", "待支付", "已完成"];
+
+  //定义ab标签对应的Page
+  var pages = [Center(child: Text("内容（全部）")), Center(child: Text("内容（待支付）")), Center(child: Text("内容（已完成）"))];
+
   void initState() {
     super.initState();
   }
@@ -22,6 +30,29 @@ class Page extends State<TodoPage> {
     return layout(context);
   }
 
+  Widget layout(BuildContext context) {
+    return Scaffold(
+      appBar: buildAppBar(context),
+      body: TabBarPageView(
+          tabTexts: tabTexts,
+          pages: pages,
+          onTabChanged: (index) {
+            print("onTabChanged-->index:$index");
+          }),
+    );
+  }
+
+  Widget buildAppBar(BuildContext context) {
+    return new AppBar(
+      elevation: 1,
+      title: const Text(
+        '待办',
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
+
   @override
   void deactivate() {
     super.deactivate();
@@ -30,33 +61,5 @@ class Page extends State<TodoPage> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  Widget layout(BuildContext context) {
-    return new Scaffold(
-      appBar: buildAppBar(context),
-      body: new ListView(
-        physics: new AlwaysScrollableScrollPhysics(
-            parent: new BouncingScrollPhysics()),
-        children: <Widget>[
-          new Text('Todo'),
-        ],
-      ),
-    );
-  }
-
-  Widget buildAppBar(BuildContext context) {
-    return new AppBar(
-        title: const Text(
-          '登录',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white);
-  }
-
-  Widget header(BuildContext context) {
-    return new Image.network(
-      'http://i2.yeyou.itc.cn/2014/huoying/hd_20140925/hyimage06.jpg',
-    );
   }
 }

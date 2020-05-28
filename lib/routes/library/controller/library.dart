@@ -3,6 +3,8 @@ import 'package:shiyuan/states/default.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../view/online.dart';
 import '../view/offline.dart';
+import '../view/cart.dart';
+import '../view/rankingList.dart';
 
 class LibraryPage extends StatefulWidget {
   @override
@@ -10,12 +12,25 @@ class LibraryPage extends StatefulWidget {
     return new LibraryState();
   }
 }
+
 GlobalKey<OnLineViewState> onlineKey = GlobalKey(debugLabel: 'online');
+
 class LibraryState extends State<LibraryPage> {
   var _scrollController = new ScrollController(initialScrollOffset: 0);
 
-  Widget _online = new OnLineView(key: onlineKey,title: '线上',);
-  Widget _offline = new OffLineView(title: '线下',);
+  Widget _online = new OnLineView(
+    key: onlineKey,
+    title: '线上',
+  );
+  Widget _offline = new OffLineView(
+    title: '线下',
+  );
+  Widget _cartZongshu = new CartView(tag: 0,); //本月隐患总数
+  Widget _cartYiZhenggai = new CartView(tag: 1,); //已整改
+  Widget _cartDaiZhenggai = new CartView(tag: 2,); //待整改
+  Widget _cartWeiZXhenggai = new CartView(tag: 3,); //超期未整改
+  Widget _cartZhenggaiLv = new CartView(tag: 4,); //隐患整改率
+  Widget _list = new RankingListView(); //排名
 
   void initState() {
     super.initState();
@@ -51,24 +66,20 @@ class LibraryState extends State<LibraryPage> {
           crossAxisCount: 4,
           itemCount: 8,
           itemBuilder: (BuildContext context, int index) {
-            if(index == 0){
-              return _online;
-            }
-            return new Container(
-                color: Colors.green,
-                child: new Center(
-                  child: new CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: new Text('$index'),
-                  ),
-                ));
-          },
+            if (index == 0) return _online;
+            if (index == 1) return _offline;
+            if (index == 2) return _cartZongshu;
+            if (index == 3) return _cartYiZhenggai;
+            if (index == 4) return _cartDaiZhenggai;
+            if (index == 5) return _cartWeiZXhenggai;
+            if (index == 6) return _cartZhenggaiLv;
+            if (index == 7) return _list;
 
+            return null;
+          },
           staggeredTileBuilder: (int index) {
-            if (index == 0) {
-              return new StaggeredTile.extent(4, 150);
-            }
-            return new StaggeredTile.count(2, index.isEven ? 2 : 1);
+            if (index == 0 || index == 1 || index == 7) return new StaggeredTile.extent(4, 775 * ScaleWidth);
+            return new StaggeredTile.extent(2, 408 * ScaleWidth);
           },
           mainAxisSpacing: 29 * ScaleWidth,
           crossAxisSpacing: 29 * ScaleWidth,

@@ -95,6 +95,24 @@ flutter:
     - imgs/home/xianxiapeixun2.png
     - imgs/home/yinhuanzhenggai2.png
     - imgs/home/anquanhuiwu.png
+    - imgs/library/yueduleiji.png
+    - imgs/library/tongbishangyue.png
+    - imgs/library/yiwancheng.png
+    - imgs/library/daizhixing.png
+    - imgs/library/yueduleiji2.png
+    - imgs/library/tongbishangyue2.png
+    - imgs/library/yiwancheng2.png
+    - imgs/library/daizhixing2.png
+    - imgs/library/yinhuantiaoshu.png
+    - imgs/library/yizhenggai.png
+    - imgs/library/daizhenggai.png
+    - imgs/library/weizhenggai.png
+    - imgs/library/zhenggailv.png
+    - imgs/library/jiangpai.png
+    - imgs/library/UP.png
+    - imgs/library/UP2.png
+    - imgs/library/down.png
+    - imgs/library/down2.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
