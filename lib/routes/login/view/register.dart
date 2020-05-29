@@ -76,6 +76,7 @@ class RegisterViewState extends State<RegisterView> {
 
   Widget layout(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           phoneInput(),

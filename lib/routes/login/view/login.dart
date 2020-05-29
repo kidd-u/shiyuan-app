@@ -43,6 +43,7 @@ class LoginViewState extends State<LoginView> {
 
   Widget layout(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: Column(
         children: <Widget>[
           phoneInput(),

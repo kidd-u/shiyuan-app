@@ -113,6 +113,13 @@ flutter:
     - imgs/library/UP2.png
     - imgs/library/down.png
     - imgs/library/down2.png
+    - imgs/message/xiaoxi1.png
+    - imgs/message/xiaoxi2.png
+    - imgs/message/xiaoxi3.png
+    - imgs/mine/bg2.png
+    - imgs/mine/dangqianbanben.png
+    - imgs/mine/tuichudenglu.png
+    - imgs/mine/xiugaimima.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

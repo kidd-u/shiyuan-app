@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/UIKit/TabBarPageView.dart';
+import '../view/todoPage.dart';
 
 class TodoPage extends StatefulWidget {
   @override
@@ -11,10 +12,10 @@ class TodoPage extends StatefulWidget {
 
 class Page extends State<TodoPage> {
   //定义Tab标签
-  var tabTexts = ["全部", "待支付", "已完成"];
+  var tabTexts = ["近七日待办", "全部待办"];
 
   //定义ab标签对应的Page
-  var pages = [Center(child: Text("内容（全部）")), Center(child: Text("内容（待支付）")), Center(child: Text("内容（已完成）"))];
+  var pages = [TodoView(title: '1',), TodoView(title: '2',)];
 
   void initState() {
     super.initState();

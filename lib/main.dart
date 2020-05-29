@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       theme: ThemeData(
         platform: TargetPlatform.iOS,
-          brightness: Brightness.light, backgroundColor: Colors.white),
+          brightness: Brightness.dark, backgroundColor: Colors.white),
       navigatorKey: DefaultUtil.navKey,
       home: new MainApp(),
       routes: <String, WidgetBuilder>{

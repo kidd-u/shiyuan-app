@@ -45,6 +45,7 @@ class _MainRouteState extends State<HomeMainPage> {
       bottomNavigationBar: BottomNavigationBar(
         // 底部导航
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: tabbarItem(0), title: getTabTitle(0)),
           BottomNavigationBarItem(icon: tabbarItem(1), title: getTabTitle(1)),

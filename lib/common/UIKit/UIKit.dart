@@ -161,7 +161,7 @@ class Label extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.width,
     this.height,
-    this.textColor,
+    this.textColor = Colors.black,
     this.textBackGround,
     this.fontSize,
     this.fontWeight = FontWeight.w400,
@@ -195,36 +195,38 @@ class Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        child: Text(
-          data,
-          overflow: TextOverflow.ellipsis,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          style: TextStyle(
-            backgroundColor: textBackGround,
-            fontSize: fontSize,
-            height: lineHeight,
-            fontWeight: fontWeight,
-            color: textColor,
-            decoration: textDecoration,
-            decorationStyle: decorationStyle,
-          ),
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Text(
+        data,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          backgroundColor: textBackGround,
+          fontSize: fontSize,
+          height: lineHeight,
+          fontWeight: fontWeight,
+          color: textColor,
+          decoration: textDecoration,
+          decorationStyle: decorationStyle,
         ),
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
-          onClick();
-        }
-      },
     );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
+          onClick();
+        },
+      );
+    }
+    return view;
   }
 }
 
@@ -259,27 +261,29 @@ class ImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Image(
+        image: AssetImage(src),
         width: width,
         height: height,
-        child: Image(
-          image: AssetImage(src),
-          width: width,
-          height: height,
-          fit: fit,
-        ),
+        fit: fit,
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
-          onClick();
-        }
-      },
     );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
+          onClick();
+        },
+      );
+    }
+    return view;
   }
 }
 
@@ -302,6 +306,7 @@ class MainTitleLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
+    this.lineHeight = 1,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -317,35 +322,39 @@ class MainTitleLabel extends StatelessWidget {
   final TextAlign textAlign; //对齐
   final Function onClick;
   final bool enabled;
+  final double lineHeight; //行高
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        child: Text(
-          data,
-          overflow: TextOverflow.ellipsis,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          style: TextStyle(
-            fontSize: 30 * ScaleWidth,
-            color: textColor,
-            fontWeight: fontWeight,
-          ),
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Text(
+        data,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          fontSize: 30 * ScaleWidth,
+          height: lineHeight,
+          color: textColor,
+          fontWeight: fontWeight,
         ),
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
-          onClick();
-        }
-      },
     );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
+          onClick();
+        },
+      );
+    }
+    return view;
   }
 }
 
@@ -368,6 +377,7 @@ class MainTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
+    this.lineHeight = 1,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -383,35 +393,39 @@ class MainTextLabel extends StatelessWidget {
   final TextAlign textAlign; //对齐
   final Function onClick;
   final bool enabled;
+  final double lineHeight; //行高
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        child: Text(
-          data,
-          overflow: TextOverflow.ellipsis,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          style: TextStyle(
-            fontSize: 28 * ScaleWidth,
-            color: textColor,
-            fontWeight: fontWeight,
-          ),
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Text(
+        data,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          fontSize: 28 * ScaleWidth,
+          height: lineHeight,
+          color: textColor,
+          fontWeight: fontWeight,
         ),
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
-          onClick();
-        }
-      },
     );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
+          onClick();
+        },
+      );
+    }
+    return view;
   }
 }
 
@@ -434,6 +448,7 @@ class SubTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
+    this.lineHeight = 1,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -449,35 +464,39 @@ class SubTextLabel extends StatelessWidget {
   final TextAlign textAlign; //对齐
   final Function onClick;
   final bool enabled;
+  final double lineHeight; //行高
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        child: Text(
-          data,
-          overflow: TextOverflow.ellipsis,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          style: TextStyle(
-            fontSize: 24 * ScaleWidth,
-            color: textColor,
-            fontWeight: fontWeight,
-          ),
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Text(
+        data,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          fontSize: 24 * ScaleWidth,
+          height: lineHeight,
+          color: textColor,
+          fontWeight: fontWeight,
         ),
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
-          onClick();
-        }
-      },
     );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
+          onClick();
+        },
+      );
+    }
+    return view;
   }
 }
 
@@ -499,6 +518,7 @@ class SmallTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.onClick,
     this.enabled = false,
+    this.lineHeight = 1,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -513,41 +533,58 @@ class SmallTextLabel extends StatelessWidget {
   final TextAlign textAlign; //对齐
   final Function onClick;
   final bool enabled;
+  final double lineHeight; //行高
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: color,
-        decoration: decoration,
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        child: Text(
-          data,
-          overflow: TextOverflow.ellipsis,
-          maxLines: maxLines,
-          textAlign: textAlign,
-          style: TextStyle(fontSize: 20 * ScaleWidth, color: textColor),
+    Widget view = Container(
+      color: color,
+      decoration: decoration,
+      margin: margin,
+      padding: padding,
+      width: width,
+      height: height,
+      child: Text(
+        data,
+        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          fontSize: 20 * ScaleWidth,
+          height: lineHeight,
+          color: textColor,
         ),
       ),
-      onTap: () {
-        if (!enabled && onClick is Function) {
+    );
+    if (!enabled && onClick is Function) {
+      return GestureDetector(
+        child: view,
+        onTap: () {
           onClick();
-        }
-      },
+        },
+      );
+    }
+    return view;
+  }
+}
+/**
+ * LineView
+ * */
+class LineView extends StatelessWidget{
+  const LineView({Key key,this.margin = EdgeInsets.zero}):super(key:key);
+  final EdgeInsets margin;
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: margin,
+      color: LineColor,
+      height: 0.5,
     );
   }
 }
-
-Widget LineView(BuildContext context) {
-  return new Container(
-    color: LineColor,
-    height: 0.5,
-  );
-}
-
+/**
+ * AppBar
+ * */
 Widget buildAppBar(BuildContext context, String title, {bool showPop = true}) {
   return new AppBar(
     leading: showPop

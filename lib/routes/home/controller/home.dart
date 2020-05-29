@@ -187,7 +187,7 @@ class Page extends State<HomePage> {
               ],
             ),
           ),
-          LineView(context),
+          LineView(),
           Container(
             width: ScreenWidth,
             height: 359 * ScaleWidth,
@@ -255,7 +255,7 @@ class Page extends State<HomePage> {
               ],
             ),
           ),
-          LineView(context),
+          LineView(),
           Container(
             width: ScreenWidth,
             height: 359 * ScaleWidth,
