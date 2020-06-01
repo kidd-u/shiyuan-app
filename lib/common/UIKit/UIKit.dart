@@ -76,7 +76,7 @@ class InputView extends StatelessWidget {
         onEditingComplete: onEditingComplete,
         onSubmitted: onSubmitted,
         enabled: enabled,
-        style: TextStyle(fontSize: 28 * ScaleWidth),
+        style: TextStyle(fontSize: 28 * ScaleWidth,color: Colors.black),
         decoration: InputDecoration(
             hintText: placeholder,
             hintStyle: TextStyle(fontSize: 28 * ScaleWidth, color: Color.fromRGBO(149, 147, 151, 1)),
@@ -246,6 +246,7 @@ class ImageView extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.onClick,
     this.enabled = false,
+    this.borderRadius_Img = 0,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -258,6 +259,7 @@ class ImageView extends StatelessWidget {
   final BoxFit fit; //填充模式，fill填充变形，cover比例裁剪，contain自适应大小
   final Function onClick;
   final bool enabled;
+  final double borderRadius_Img;//图片圆角，和背景圆角不同
 
   @override
   Widget build(BuildContext context) {
@@ -268,11 +270,14 @@ class ImageView extends StatelessWidget {
       padding: padding,
       width: width,
       height: height,
-      child: Image(
-        image: AssetImage(src),
-        width: width,
-        height: height,
-        fit: fit,
+      child:ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(borderRadius_Img)),
+        child:  Image(
+          image: AssetImage(src),
+          width: width,
+          height: height,
+          fit: fit,
+        ),
       ),
     );
     if (!enabled && onClick is Function) {
@@ -306,7 +311,7 @@ class MainTitleLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
-    this.lineHeight = 1,
+    this.lineHeight,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -340,9 +345,10 @@ class MainTitleLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 30 * ScaleWidth,
-          height: lineHeight,
+          height: lineHeight!=null?lineHeight:null,
           color: textColor,
           fontWeight: fontWeight,
+//          backgroundColor: Colors.cyan
         ),
       ),
     );

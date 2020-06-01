@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
@@ -20,23 +21,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return new MaterialApp(
-      theme: ThemeData(
-        platform: TargetPlatform.iOS,
-          brightness: Brightness.dark, backgroundColor: Colors.white),
-      navigatorKey: DefaultUtil.navKey,
-      home: new MainApp(),
-      routes: <String, WidgetBuilder>{
-        'loginPage': (BuildContext context) => new LoginPage(),
-        'mainTabPage': (BuildContext context) => new HomeMainPage(),
-        'homePage': (BuildContext context) => new HomePage(),
-        'libraryPage': (BuildContext context) => new LibraryPage(),
-        'todoPage': (BuildContext context) => new TodoPage(),
-        'messagePage': (BuildContext context) => new MessagePage(),
-        'minePage': (BuildContext context) => new MinePage(),
-        'findPassWord': (BuildContext context) => new FindPassWordPage(),
-        'newPassWord': (BuildContext context) => new NewPassWordPage(),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: (){
+        //收起键盘
+        FocusScope.of(context).requestFocus(FocusNode());
       },
+      child: new MaterialApp(
+        builder: BotToastInit(),
+        navigatorObservers: [BotToastNavigatorObserver()],
+        theme: ThemeData(
+            platform: TargetPlatform.iOS,
+            brightness: Brightness.dark, backgroundColor: Colors.white),
+        navigatorKey: DefaultUtil.navKey,
+        home: new MainApp(),
+        routes: <String, WidgetBuilder>{
+          'loginPage': (BuildContext context) => new LoginPage(),
+          'mainTabPage': (BuildContext context) => new HomeMainPage(),
+          'homePage': (BuildContext context) => new HomePage(),
+          'libraryPage': (BuildContext context) => new LibraryPage(),
+          'todoPage': (BuildContext context) => new TodoPage(),
+          'messagePage': (BuildContext context) => new MessagePage(),
+          'minePage': (BuildContext context) => new MinePage(),
+          'findPassWord': (BuildContext context) => new FindPassWordPage(),
+          'newPassWord': (BuildContext context) => new NewPassWordPage(),
+        },
+      ),
     );
   }
 }

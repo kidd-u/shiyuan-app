@@ -29,9 +29,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: any
   flutter_screenutil: any
-  jhtoast: any
+  bot_toast: any
   flutter_swiper : any
   dio: any
+  connectivity: any
   cached_network_image: any
   flutter_staggered_grid_view: any
 
@@ -120,6 +121,7 @@ flutter:
     - imgs/mine/dangqianbanben.png
     - imgs/mine/tuichudenglu.png
     - imgs/mine/xiugaimima.png
+    - imgs/mine/right_icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

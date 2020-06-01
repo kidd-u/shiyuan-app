@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../states/default.dart';
 
@@ -10,6 +11,7 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   bool _closeEye = true;
+  String _phone, _password;
 
   void initState() {
     super.initState();
@@ -25,20 +27,24 @@ class LoginViewState extends State<LoginView> {
     return layout(context);
   }
 
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void closeEye() {
     setState(() {
       _closeEye = !_closeEye;
     });
+  }
+
+  void login() async {
+    if (_phone == null || _phone.length == 0) {
+      DialogUtil.showToast('请填写账号');
+    }
+    if (_password == null || _password.length == 0) {
+      DialogUtil.showToast('请填写账号');
+    }
+    Response res = await HttpUtil().post('/account/login',queryParameters: {
+      'phone':_phone,
+      'password':_password
+    });
+//    print(res);
   }
 
   Widget layout(BuildContext context) {
@@ -72,6 +78,10 @@ class LoginViewState extends State<LoginView> {
             child: InputView(
               margin: EdgeInsets.only(left: 15 * ScaleWidth),
               placeholder: '登录账号',
+              keyboardType: TextInputType.number,
+              onChanged: (String text) {
+                _phone = text;
+              },
             ),
           )
         ],
@@ -97,6 +107,9 @@ class LoginViewState extends State<LoginView> {
               margin: EdgeInsets.only(left: 15 * ScaleWidth),
               obscureText: _closeEye,
               placeholder: '登录密码',
+              onChanged: (String text) {
+                _password = text;
+              },
             ),
           ),
           ImageView(
@@ -111,6 +124,7 @@ class LoginViewState extends State<LoginView> {
       ),
     );
   }
+
   Widget doneBtn() {
     return Button(
       child: MainTitleLabel(
@@ -127,10 +141,10 @@ class LoginViewState extends State<LoginView> {
         //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(40)),
       ),
-      onPressed: (){
-        print(DefaultUtil.mainContext);
+      onPressed: () {
+        login();
 
-        DefaultUtil.navKey.currentState.pushReplacementNamed("mainTabPage");
+//        PageUtil.pushAndReplace('mainTabPage');
 //      DialogUtil.toastSuccess('111');
       },
     );
@@ -148,4 +162,13 @@ class LoginViewState extends State<LoginView> {
     );
   }
 
+  @override
+  void deactivate() {
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

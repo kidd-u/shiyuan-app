@@ -68,6 +68,7 @@ class FindPassWordState extends State<FindPassWordPage> {
   Widget layout(BuildContext context) {
     return new Scaffold(
       appBar: buildAppBar(context, '忘记密码'),
+      backgroundColor: Colors.white,
       body: new Container(
         width: ScreenWidth,
         child: new Column(
@@ -95,16 +96,9 @@ class FindPassWordState extends State<FindPassWordPage> {
             width: 32 * ScaleWidth,
           ),
           Expanded(
-              child: Container(
+              child: InputView(
                 margin: EdgeInsets.only(left: 15 * ScaleWidth),
-//            color: Colors.red,
-                child: TextField(
-//              autofocus: true,
-                  decoration: InputDecoration(
-                      hintText: '登录账号',
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-                ),
+                placeholder: '登录账号',
               ))
         ],
       ),
@@ -125,16 +119,9 @@ class FindPassWordState extends State<FindPassWordPage> {
             width: 32 * ScaleWidth,
           ),
           Expanded(
-              child: Container(
+              child: InputView(
                 margin: EdgeInsets.only(left: 15 * ScaleWidth),
-//            color: Colors.red,
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      hintText: '短信验证码',
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-                ),
+                placeholder: '短信验证码',
               )),
           MainTextLabel(
             _vftext,

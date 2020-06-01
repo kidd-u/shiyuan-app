@@ -103,17 +103,10 @@ class RegisterViewState extends State<RegisterView> {
             width: 32 * ScaleWidth,
           ),
           Expanded(
-              child: Container(
-            margin: EdgeInsets.only(left: 15 * ScaleWidth),
-//            color: Colors.red,
-            child: TextField(
-//              autofocus: true,
-              decoration: InputDecoration(
-                  hintText: '登录账号',
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-            ),
-          ))
+              child: InputView(
+                margin: EdgeInsets.only(left: 15 * ScaleWidth),
+                placeholder: '登录账号',
+              ))
         ],
       ),
     );
@@ -133,17 +126,10 @@ class RegisterViewState extends State<RegisterView> {
             width: 32 * ScaleWidth,
           ),
           Expanded(
-              child: Container(
-            margin: EdgeInsets.only(left: 15 * ScaleWidth),
-//            color: Colors.red,
-            child: TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: '短信验证码',
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-            ),
-          )),
+              child: InputView(
+                margin: EdgeInsets.only(left: 15 * ScaleWidth),
+                placeholder: '短信验证码',
+              )),
           MainTextLabel(
             _vftext,
             enabled: _clickable,
@@ -172,17 +158,11 @@ class RegisterViewState extends State<RegisterView> {
             width: 32 * ScaleWidth,
           ),
           Expanded(
-              child: Container(
-            margin: EdgeInsets.only(left: 15 * ScaleWidth),
-//            color: Colors.red,
-            child: TextField(
-              obscureText: _closeEye,
-              decoration: InputDecoration(
-                  hintText: '登录密码',
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
-            ),
-          )),
+              child: InputView(
+                obscureText: true,
+                margin: EdgeInsets.only(left: 15 * ScaleWidth),
+                placeholder: '登录密码',
+              )),
           ImageView(
             src: _closeEye ? 'imgs/login/close.png' : 'imgs/login/open.png',
             margin: EdgeInsets.only(left: 15 * ScaleWidth),

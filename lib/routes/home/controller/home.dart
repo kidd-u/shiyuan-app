@@ -118,7 +118,7 @@ class Page extends State<HomePage> {
                     height: 38 * ScaleWidth,
                     margin: EdgeInsets.only(bottom: 6 * ScaleWidth),
                     onClick: () {
-                      DialogUtil.toastSuccess(context, '111');
+                      DialogUtil.showToast('111');
                     },
                   ),
                 ),
@@ -152,7 +152,7 @@ class Page extends State<HomePage> {
                   control: null,
                   onTap: (int index) {
 //                    print(DefaultUtil.mainContext);
-                    DialogUtil.toastText(context, '点击了$index');
+                    DialogUtil.showToast('点击了$index');
                   },
                 ),
               )

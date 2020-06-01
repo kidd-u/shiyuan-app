@@ -5,6 +5,8 @@ export '../common/UIKit/dialog.dart';
 export './users.dart';
 export '../common/UIKit/ColorTheme.dart';
 export '../common/UIKit/UIKit.dart';
+export './http.dart';
+export './page.dart';
 
 final double ScaleWidth = ScreenUtil().scaleWidth;
 final double ScreenWidth = ScreenUtil.screenWidth / 2;
