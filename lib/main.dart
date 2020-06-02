@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'states/default.dart';
-import 'states/users.dart';
 import 'routes/login/controller/login.dart';
 import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
@@ -23,18 +22,16 @@ class MyApp extends StatelessWidget {
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: (){
+      onTap: () {
         //收起键盘
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: new MaterialApp(
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],
-        theme: ThemeData(
-            platform: TargetPlatform.iOS,
-            brightness: Brightness.dark, backgroundColor: Colors.white),
+        theme: ThemeData(platform: TargetPlatform.iOS, brightness: Brightness.light, backgroundColor: Colors.white),
         navigatorKey: DefaultUtil.navKey,
-        home: new MainApp(),
+        home: new HomePage(),
         routes: <String, WidgetBuilder>{
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
@@ -51,14 +48,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainApp extends StatelessWidget {
+class HomePage extends StatefulWidget {
   @override
+  _HomePage createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
+  @override
+  initState() {
+    super.initState();
+    UserInfo().getUserInfo(); //初始化项目，获取本地缓存的用户数据
+  }
+
   Widget build(BuildContext context) {
     print('=============');
     print(context);
     print('=============');
     ScreenUtil.init(context, width: 750, height: 1334);
     DefaultUtil.mainContext = context;
-    return new LoginPage();
+    return UserInfo().info() == null ? LoginPage() : HomeMainPage();
   }
 }

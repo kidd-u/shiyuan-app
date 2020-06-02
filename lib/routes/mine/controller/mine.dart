@@ -23,7 +23,8 @@ class Page extends State<MinePage> {
     return layout(context);
   }
   void loginOut()async{
-    DialogUtil.alertConfim('确定退出登录？',onConfirm: (){
+    DialogUtil.dialogConfim('确定退出登录？',onConfirm: (){
+      UserInfo().cleanUserInfo();
       PageUtil.pushAndRemoveAll('loginPage');
     });
   }

@@ -1,6 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../../states/default.dart';
+import '../model/user.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert' as Convert;
 
 class LoginView extends StatefulWidget {
   @override
@@ -33,18 +35,22 @@ class LoginViewState extends State<LoginView> {
     });
   }
 
-  void login() async {
+  void login() async{
     if (_phone == null || _phone.length == 0) {
       DialogUtil.showToast('请填写账号');
     }
     if (_password == null || _password.length == 0) {
       DialogUtil.showToast('请填写账号');
     }
-    Response res = await HttpUtil().post('/account/login',queryParameters: {
-      'phone':_phone,
-      'password':_password
+//    Dio dio = new Dio();
+//    var res = await dio.post('https://api.goushubao.com/api/student/agent/login/phone',data: {'phone':'18337157771','code':'123456'});
+//    print(res.toString());
+    var res =await HttpUtil().post('/account/login',queryParameters: {
+      'phone':'99546451302',
+      'password':'123456'
     });
-//    print(res);
+    await UserInfo().setInfo(res);
+    PageUtil.pushAndReplace('mainTabPage');
   }
 
   Widget layout(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:shiyuan/common/UIKit/UIKit.dart';
 
 class DialogUtil {
   // 工厂模式
@@ -38,7 +39,7 @@ class DialogUtil {
     showToast(msg ?? '操作失败');
   }
 
-  static Future<bool> alertConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
+  static Future<bool> dialogConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
         color: Colors.black38,
@@ -73,14 +74,14 @@ class DialogUtil {
       );
     });
   }
-  static Future<bool> alertDialog(String content, {String title}) async {
+  static Future<bool> dialogAlert(String content, {String title}) async {
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
         color: Colors.black38,
         child: Center(
           child: Container(
             child: CupertinoAlertDialog(
-              title: Text(title == null ? '温馨提示' : title),
+            title: Label(title == null ? '提示' : title,textAlign: TextAlign.center,margin: EdgeInsets.only(bottom: 8),),
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(

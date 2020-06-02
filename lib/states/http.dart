@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import './network_utils.dart';
 import 'package:shiyuan/states/default.dart';
 
@@ -36,24 +37,25 @@ class HttpUtil {
   static HttpUtil _instance;
   Dio dio;
   BaseOptions options;
-  TokenInterceptor tokenInterceptor;
 
   HttpUtil._internal() {
+    print('初始化');
     // 初始化
     options = new BaseOptions(
       baseUrl: 'http://47.105.133.198/safecoop/api',
       //连接服务器超时时间，单位是毫秒.
-      connectTimeout: 10000,
-      receiveTimeout: 5000,
-      headers: {},
+      connectTimeout: 30 * 1000,
+      receiveTimeout: 30 * 1000,
+      headers: {
+        'Source': 'APP',
+        'Authorization': UserInfo().info() != null ? UserInfo().info().jwt:'',
+      },
 
 //      contentType: ContentType.parse("multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL"),
 //      contentType: ContentType.parse('application/x-www-form-urlencoded'),
     );
-    tokenInterceptor = new TokenInterceptor();
     dio = new Dio(options);
-//    dio.transformer = new FlutterTransformer();
-    dio.interceptors.add(tokenInterceptor);
+    dio.transformer = new FlutterTransformer();
   }
 
   static HttpUtil _getInstance() {
@@ -63,16 +65,11 @@ class HttpUtil {
     return _instance;
   }
 
-  addToken(token) {
-    tokenInterceptor.token = token;
-  }
-
   get(url, {queryParameters, options}) async {
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      DialogUtil.alertDialog('网络加载失败，请检查网络');
       return networkErrorTransform(response);
     } else {
       try {
@@ -80,22 +77,29 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
+        return networkSuccess(response);
       } on DioError catch (error) {
-        print('=======================error=======================');
-        print('$error');
-        print('=======================error=======================');
-        if (error.type == DioErrorType.CONNECT_TIMEOUT) {
-          response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
-        } else {
-          response = new Response(statusCode: 1, statusMessage: error.message);
-        }
-        print("-----error code==" + response.statusCode.toString());
-        return networkErrorTransform(response);
+        return networkError(error);
       }
-      if (response.data['code'] != 0) {
-        DialogUtil.alertDialog(response.data['error']);
+    }
+  }
+
+  post(url, {queryParameters, Function onSuccess, Function onError}) async {
+    Response response;
+    bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
+    if (!networkReachable) {
+      response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
+      return networkErrorTransform(response);
+    } else {
+      try {
+        response = await dio.post(
+          url,
+          data: queryParameters,
+        );
+        return networkSuccess(response);
+      } on DioError catch (error) {
+        return networkError(error);
       }
-      return Future.value(response.data['data']);
     }
   }
 
@@ -104,7 +108,6 @@ class HttpUtil {
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      DialogUtil.alertDialog('网络加载失败，请检查网络');
       return networkErrorTransform(response);
     } else {
       try {
@@ -112,75 +115,10 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
+        return networkSuccess(response);
       } on DioError catch (error) {
-        print('=======================error=======================');
-        print('$error');
-        print('=======================error=======================');
-        if (error.type == DioErrorType.CONNECT_TIMEOUT) {
-          response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
-        } else {
-          response = new Response(statusCode: 1, statusMessage: error.message);
-        }
-        print("-----error code==" + response.statusCode.toString());
-        return networkErrorTransform(response);
+        return networkError(error);
       }
-      if (response.data['code'] != 0) {
-        DialogUtil.alertDialog(response.data['error']);
-      }
-      return Future.value(response.data['data']);
-    }
-  }
-
-  post(url, {queryParameters, options}) async {
-    Response response;
-    bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
-    if (!networkReachable) {
-      response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      DialogUtil.alertDialog('网络加载失败，请检查网络');
-      return networkErrorTransform(response);
-    } else {
-      dio.post(
-        url,
-        data: queryParameters,
-      ).then((Response res) {
-        response = res;
-        if (response.data['code'] != 0) {
-          DialogUtil.alertDialog(response.data['error']);
-        }
-        return Future.value(response.data['data']);
-      }).catchError((DioError error){
-        print('=======================error=======================');
-        print('$error');
-        print('=======================error=======================');
-        if (error.type == DioErrorType.CONNECT_TIMEOUT) {
-          response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
-        } else {
-          response = new Response(statusCode: 1, statusMessage: error.message);
-        }
-        print("-----error code==" + response.statusCode.toString());
-        return networkErrorTransform(response);
-      });
-//      try {
-//        response = await dio.post(
-//          url,
-//          data: queryParameters,
-//        );
-//      } on DioError catch (error) {
-//        print('=======================error=======================');
-//        print('$error');
-//        print('=======================error=======================');
-//        if (error.type == DioErrorType.CONNECT_TIMEOUT) {
-//          response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
-//        } else {
-//          response = new Response(statusCode: 1, statusMessage: error.message);
-//        }
-//        print("-----error code==" + response.statusCode.toString());
-//        return networkErrorTransform(response);
-//      }
-//      if (response.data['code'] != 0) {
-//        DialogUtil.alertDialog(response.data['error']);
-//      }
-//      return Future.value(response.data['data']);
     }
   }
 
@@ -189,7 +127,6 @@ class HttpUtil {
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      DialogUtil.alertDialog('网络加载失败，请检查网络');
       return networkErrorTransform(response);
     } else {
       try {
@@ -197,27 +134,37 @@ class HttpUtil {
           url,
           data: queryParameters,
         );
+        return networkSuccess(response);
       } on DioError catch (error) {
-        print('=======================error=======================');
-        print('$error');
-        print('=======================error=======================');
-        if (error.type == DioErrorType.CONNECT_TIMEOUT) {
-          response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
-        } else {
-          response = new Response(statusCode: 1, statusMessage: error.message);
-        }
-        print("-----error code==" + response.statusCode.toString());
-        return networkErrorTransform(response);
+        return networkError(error);
       }
-      if (response.data['code'] != 0) {
-        DialogUtil.alertDialog(response.data['error']);
-      }
-      return Future.value(response.data['data']);
     }
   }
-
+  networkSuccess(Response response){
+    print('**********response');
+    print(response);
+    if (response.data['code'] != 0) {
+      response = new Response(statusCode: 1, statusMessage: response.data['err']);
+      return networkErrorTransform(response);
+    }
+    return response.data['data'];
+  }
+  networkError(DioError error){
+    Response response;
+    print('=======================error=======================');
+    print('$error');
+    print('=======================error=======================');
+    if (error.type == DioErrorType.CONNECT_TIMEOUT) {
+      response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
+    } else {
+      response = new Response(statusCode: 1, statusMessage: error.message);
+    }
+    return networkErrorTransform(response);
+  }
   networkErrorTransform(Response response) {
     print("networkErrorTransform === $response");
-    return Future.error(NetworkError(response.statusCode, response.statusMessage));
+    DialogUtil.dialogAlert(response.statusMessage);
+    throw '错误';
+    return null;
   }
 }
