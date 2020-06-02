@@ -42,14 +42,13 @@ class LoginViewState extends State<LoginView> {
     if (_password == null || _password.length == 0) {
       DialogUtil.showToast('请填写账号');
     }
-//    Dio dio = new Dio();
-//    var res = await dio.post('https://api.goushubao.com/api/student/agent/login/phone',data: {'phone':'18337157771','code':'123456'});
-//    print(res.toString());
-    var res =await HttpUtil().post('/account/login',queryParameters: {
+    var token =await HttpUtil().post('/account/login',queryParameters: {
       'phone':'99546451302',
       'password':'123456'
     });
-    await UserInfo().setInfo(res);
+    await UserInfo().setToken(token);
+    var res = await HttpUtil().get('/account/staff/' + UserInfo().token().jwt);
+
     PageUtil.pushAndReplace('mainTabPage');
   }
 

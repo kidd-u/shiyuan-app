@@ -1,11 +1,11 @@
 import 'dart:convert';
-class UserModel {
+class UserToken {
   String jwt;
   List<String> perms;
 
-  UserModel({this.jwt, this.perms});
+  UserToken({this.jwt, this.perms});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserToken.fromJson(Map<String, dynamic> json) {
     jwt = json['jwt'];
     perms = json['perms'].cast<String>();
   }

@@ -48,7 +48,7 @@ class HttpUtil {
       receiveTimeout: 30 * 1000,
       headers: {
         'Source': 'APP',
-        'Authorization': UserInfo().info() != null ? UserInfo().info().jwt:'',
+        'Authorization': UserInfo().token() != null ? UserInfo().token().jwt:'',
       },
 
 //      contentType: ContentType.parse("multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL"),
@@ -77,9 +77,9 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
-        return networkSuccess(response);
+        return networkSuccess(url,response);
       } on DioError catch (error) {
-        return networkError(error);
+        return networkError(url,error);
       }
     }
   }
@@ -96,9 +96,9 @@ class HttpUtil {
           url,
           data: queryParameters,
         );
-        return networkSuccess(response);
+        return networkSuccess(url,response);
       } on DioError catch (error) {
-        return networkError(error);
+        return networkError(url,error);
       }
     }
   }
@@ -115,9 +115,9 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
-        return networkSuccess(response);
+        return networkSuccess(url,response);
       } on DioError catch (error) {
-        return networkError(error);
+        return networkError(url,error);
       }
     }
   }
@@ -134,26 +134,27 @@ class HttpUtil {
           url,
           data: queryParameters,
         );
-        return networkSuccess(response);
+        return networkSuccess(url,response);
       } on DioError catch (error) {
-        return networkError(error);
+        return networkError(url,error);
       }
     }
   }
-  networkSuccess(Response response){
-    print('**********response');
+  networkSuccess(String url,Response response){
+    print('=======================success $url=======================');
     print(response);
+    print('=======================success $url=======================');
     if (response.data['code'] != 0) {
       response = new Response(statusCode: 1, statusMessage: response.data['err']);
       return networkErrorTransform(response);
     }
     return response.data['data'];
   }
-  networkError(DioError error){
+  networkError(String url,DioError error){
     Response response;
-    print('=======================error=======================');
+    print('=======================error $url=======================');
     print('$error');
-    print('=======================error=======================');
+    print('=======================error $url=======================');
     if (error.type == DioErrorType.CONNECT_TIMEOUT) {
       response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
     } else {

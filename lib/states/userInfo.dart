@@ -18,24 +18,19 @@ class UserInfo {
     return _instance;
   }
 
-  UserModel _info;
+  UserToken _token;
 
-  UserModel info() {
-    return _info;
+  UserToken token() {
+    return _token;
   }
   void cleanUserInfo()async{
     var prefs = await SharedPreferences.getInstance();
     prefs.remove('userInfo');
   }
-  void setInfo(info) async {
-    print('缓存信息111');
-    _info = UserModel.fromJson(info);
-    print('缓存信息');
-    print(_info.toJson());
+  void setToken(token) async {
+    _token = UserToken.fromJson(token);
     var prefs = await SharedPreferences.getInstance(); //存一遍本地
-    prefs.setString("userInfo", Convert.jsonEncode(_info.toJson())); //存Sring
-    print('=====info111');
-    print(UserInfo().info().jwt);
+    prefs.setString("token", Convert.jsonEncode(_token.toJson())); //存Sring
   }
 
   getUserInfo() async {
@@ -50,7 +45,7 @@ class UserInfo {
       String jwt = String.fromCharCodes(Convert.base64Decode(userInfo['jwt']));
       print(jwt);
       userInfo['jwt'] = jwt;
-      _info = UserModel.fromJson(userInfo);
+      _token = UserToken.fromJson(userInfo);
     }
   }
 }

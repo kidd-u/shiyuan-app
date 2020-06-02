@@ -66,6 +66,6 @@ class _HomePage extends State<HomePage> {
     print('=============');
     ScreenUtil.init(context, width: 750, height: 1334);
     DefaultUtil.mainContext = context;
-    return UserInfo().info() == null ? LoginPage() : HomeMainPage();
+    return UserInfo().token() == null ? LoginPage() : HomeMainPage();
   }
 }
