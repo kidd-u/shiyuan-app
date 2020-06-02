@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiyuan/states/default.dart';
 import '../routes/login/model/user.dart';
 import 'dart:convert' as Convert;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,17 +26,19 @@ class UserInfo {
   }
   void cleanUserInfo()async{
     var prefs = await SharedPreferences.getInstance();
-    prefs.remove('userInfo');
+    prefs.remove('token');
+    HttpUtil().setHeader();
   }
   void setToken(token) async {
     _token = UserToken.fromJson(token);
     var prefs = await SharedPreferences.getInstance(); //存一遍本地
     prefs.setString("token", Convert.jsonEncode(_token.toJson())); //存Sring
+    HttpUtil().setHeader();
   }
 
   getUserInfo() async {
     var prefs = await SharedPreferences.getInstance();
-    String info = prefs.getString("userInfo");
+    String info = prefs.getString("token");
     print('==========本地缓存===========');
     print(info);
     if (info != null) {

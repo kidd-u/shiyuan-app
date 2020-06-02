@@ -57,6 +57,12 @@ class HttpUtil {
     dio = new Dio(options);
     dio.transformer = new FlutterTransformer();
   }
+  setHeader(){
+    dio.options.headers={
+      'Source': 'APP',
+      'Authorization': UserInfo().token() != null ? UserInfo().token().jwt:'',
+    };
+  }
 
   static HttpUtil _getInstance() {
     if (_instance == null) {
