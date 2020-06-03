@@ -70,6 +70,7 @@ flutter:
     - imgs/login/select_de.png
     - imgs/login/top.png
     - imgs/nav/back.png
+    - imgs/nav/LaunchImage.png
     - imgs/tabbar/daiban.png
     - imgs/tabbar/daiban_se.png
     - imgs/tabbar/shouye.png
@@ -99,6 +100,7 @@ flutter:
     - imgs/home/xianxiapeixun2.png
     - imgs/home/yinhuanzhenggai2.png
     - imgs/home/anquanhuiwu.png
+    - imgs/home/kaoshidangan.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

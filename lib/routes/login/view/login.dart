@@ -47,7 +47,7 @@ class LoginViewState extends State<LoginView> {
       'password':'123456'
     });
     await UserInfo().setToken(token);
-    var res = await HttpUtil().get('/account/staff/' + UserInfo().token().jwt);
+//    var res = await HttpUtil().get('/account/staff/' + UserInfo().token().jwt);
 
     PageUtil.pushAndReplace('mainTabPage');
   }

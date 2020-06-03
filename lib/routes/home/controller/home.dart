@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:shiyuan/common/FlowDelegate/TestFlowDelegate.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -167,6 +167,14 @@ class Page extends State<HomePage> {
    * 常用
    * */
   Widget changyong(BuildContext context) {
+    List<Widget> items = [
+      changyongItem(context, 'imgs/home/yinhuanfaqi.png', '隐患发起', 0),
+      changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 1),
+      changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 2),
+      changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 3),
+      changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 4),
+      changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 5),
+    ];
     return new Container(
       width: ScreenWidth,
       height: 424 * ScaleWidth,
@@ -191,17 +199,19 @@ class Page extends State<HomePage> {
           Container(
             width: ScreenWidth,
             height: 359 * ScaleWidth,
-            child: Wrap(
-              spacing: 0, //主轴上子控件的间距
-              runSpacing: 0, //交叉轴上子控件之间的间距
-              children: <Widget>[
-                changyongItem(context, 'imgs/home/yinhuanfaqi.png', '隐患发起', 0),
-                changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 1),
-                changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 2),
-                changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 3),
-                changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 4),
-                changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 5),
-              ],
+            child: new StaggeredGridView.countBuilder(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              crossAxisCount: 5,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                return items[index];
+              },
+              staggeredTileBuilder: (int index) {
+                return new StaggeredTile.extent(1, 358 / 2 * ScaleWidth);
+              },
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
             ),
           )
         ],
@@ -234,10 +244,23 @@ class Page extends State<HomePage> {
    * 全部
    * */
   Widget quanbu(BuildContext context) {
+    List<Widget> items = [
+      quanbuItem(context, 'imgs/home/zaixiankaoshi.png', '在线考试', 0),
+      quanbuItem(context, 'imgs/home/waibujiaoyu.png', '外部教育', 1),
+      quanbuItem(context, 'imgs/home/falvbiaozhunku.png', '法律标准库', 2),
+      quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '相关方安全工作', 3),
+      quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '作业管理', 4),
+      quanbuItem(context, 'imgs/home/yinhuanfaqi2.png', '隐患发起', 5),
+      quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '线上培训', 6),
+      quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 7),
+      quanbuItem(context, 'imgs/home/xianxiapeixun2.png', '线下培训', 8),
+      quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患整改', 9),
+      quanbuItem(context, 'imgs/home/anquanhuiwu.png', '安全会务', 10),
+      quanbuItem(context, 'imgs/home/kaoshidangan.png', '考试档案', 11),
+    ];
     return new Container(
       margin: EdgeInsets.only(top: 18 * ScaleWidth),
       width: ScreenWidth,
-      height: 574 * ScaleWidth,
       color: Colors.white,
       child: new Column(
         children: <Widget>[
@@ -258,23 +281,20 @@ class Page extends State<HomePage> {
           LineView(),
           Container(
             width: ScreenWidth,
-            height: 359 * ScaleWidth,
-            child: Wrap(
-              spacing: 0, //主轴上子控件的间距
-              runSpacing: 0, //交叉轴上子控件之间的间距
-              children: <Widget>[
-                quanbuItem(context, 'imgs/home/zaixiankaoshi.png', '在线考试', 0),
-                quanbuItem(context, 'imgs/home/waibujiaoyu.png', '外部教育', 1),
-                quanbuItem(context, 'imgs/home/falvbiaozhunku.png', '法律标准库', 2),
-                quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '相关方安全工作', 3),
-                quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '作业管理', 4),
-                quanbuItem(context, 'imgs/home/yinhuanfaqi2.png', '隐患发起', 5),
-                quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '线上培训', 6),
-                quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 7),
-                quanbuItem(context, 'imgs/home/xianxiapeixun2.png', '线下培训', 8),
-                quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患整改', 9),
-                quanbuItem(context, 'imgs/home/anquanhuiwu.png', '安全会务', 10),
-              ],
+            height: 550 * ScaleWidth,
+            child: new StaggeredGridView.countBuilder(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              crossAxisCount: 5,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                return items[index];
+              },
+              staggeredTileBuilder: (int index) {
+                return new StaggeredTile.extent(1, 358 / 2 * ScaleWidth);
+              },
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
             ),
           )
         ],
@@ -292,6 +312,7 @@ class Page extends State<HomePage> {
             src: src,
             width: 77 * ScaleWidth,
             height: 61 * ScaleWidth,
+            fit: BoxFit.contain,
             margin: EdgeInsets.only(top: 35 * ScaleWidth),
             onClick: () {
               print('$index');

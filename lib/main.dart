@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'states/default.dart';
+import './LaunchImage.dart';
 import 'routes/login/controller/login.dart';
 import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: DefaultUtil.navKey,
         home: new HomePage(),
         routes: <String, WidgetBuilder>{
+          'LaunchImage': (BuildContext context) => new LaunchImagePage(),
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
@@ -66,6 +68,6 @@ class _HomePage extends State<HomePage> {
     print('=============');
     ScreenUtil.init(context, width: 750, height: 1334);
     DefaultUtil.mainContext = context;
-    return UserInfo().token() == null ? LoginPage() : HomeMainPage();
+    return LaunchImagePage();
   }
 }
