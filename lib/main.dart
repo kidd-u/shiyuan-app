@@ -9,6 +9,7 @@ import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
 import 'routes/main/controller/HomeMain.dart';
 import 'routes/home/controller/home.dart';
+import 'routes/home/controller/yinhuanfaqi.dart';
 import 'routes/library/controller/library.dart';
 import 'routes/todo/controller/todo.dart';
 import 'routes/message/controller/message.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
+          'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
           'messagePage': (BuildContext context) => new MessagePage(),

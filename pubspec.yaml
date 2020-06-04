@@ -38,6 +38,7 @@ dependencies:
   connectivity: any
   cached_network_image: any
   flutter_staggered_grid_view: any
+  image_picker: 0.6.7
 
 dev_dependencies:
   flutter_test:
@@ -101,6 +102,8 @@ flutter:
     - imgs/home/yinhuanzhenggai2.png
     - imgs/home/anquanhuiwu.png
     - imgs/home/kaoshidangan.png
+    - imgs/home/yinhuanfaqi/xinzengyinhuan.png
+    - imgs/home/yinhuanfaqi/delete.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

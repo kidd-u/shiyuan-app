@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -39,7 +41,70 @@ class DialogUtil {
     showToast(msg ?? '操作失败');
   }
 
-  static Future<bool> dialogConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
+  static Future dialogConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: Container(
+            child: CupertinoAlertDialog(
+              title: Text(title == null ? '温馨提示' : title),
+              content: Text(content == null ? '无' : content),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('取消', style: TextStyle(color: Colors.red)),
+                  onPressed: () {
+                    if (onCancel != null) {
+                      onCancel();
+                    }
+                    cancelFunc();
+                    completer.completeError('点击了取消');
+//                    throw '点击了取消';
+                  },
+                ),
+                FlatButton(
+                  child: Text('确定'),
+                  onPressed: () {
+                    if (onConfirm != null) {
+                      onConfirm();
+                    }
+                    cancelFunc();
+                    completer.complete(true);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  static Future<bool> dialogAlert(String content, {String title}) async {
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: Container(
+            child: CupertinoAlertDialog(
+            title: Label(title == null ? '提示' : title,textAlign: TextAlign.center,margin: EdgeInsets.only(bottom: 8),),
+              content: Text(content == null ? '无' : content),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('确定'),
+                  onPressed: () {
+                    cancelFunc();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+  static Future<bool> dialogSheet(String content, {Function onConfirm, String title, Function onCancel}) async {
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
         color: Colors.black38,
@@ -64,29 +129,6 @@ class DialogUtil {
                     if (onConfirm != null) {
                       onConfirm();
                     }
-                    cancelFunc();
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-  }
-  static Future<bool> dialogAlert(String content, {String title}) async {
-    BotToast.showWidget(toastBuilder: (cancelFunc) {
-      return Container(
-        color: Colors.black38,
-        child: Center(
-          child: Container(
-            child: CupertinoAlertDialog(
-            title: Label(title == null ? '提示' : title,textAlign: TextAlign.center,margin: EdgeInsets.only(bottom: 8),),
-              content: Text(content == null ? '无' : content),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('确定'),
-                  onPressed: () {
                     cancelFunc();
                   },
                 ),

@@ -3,7 +3,7 @@ import './default.dart';
 class PageUtil {
   /** 普通跳转 */
   static push(String page) {
-    DefaultUtil.navKey.currentState.pushReplacementNamed(page);
+    DefaultUtil.navKey.currentState.pushNamed(page);
   }
   /** 返回，可携带返回值 */
   static pop<T extends Object>([T result]){

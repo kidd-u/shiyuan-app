@@ -168,12 +168,12 @@ class Page extends State<HomePage> {
    * */
   Widget changyong(BuildContext context) {
     List<Widget> items = [
-      changyongItem(context, 'imgs/home/yinhuanfaqi.png', '隐患发起', 0),
-      changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 1),
-      changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 2),
-      changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 3),
-      changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 4),
-      changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 5),
+      changyongItem(context, 'imgs/home/yinhuanfaqi.png', '隐患发起', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 'yinhuanfaqi'),
     ];
     return new Container(
       width: ScreenWidth,
@@ -219,7 +219,7 @@ class Page extends State<HomePage> {
     );
   }
 
-  Widget changyongItem(BuildContext context, String src, String title, int index) {
+  Widget changyongItem(BuildContext context, String src, String title, String page) {
     return Container(
       width: ScreenWidth / 5,
       height: 358 / 2 * ScaleWidth,
@@ -231,7 +231,7 @@ class Page extends State<HomePage> {
             height: 100 * ScaleWidth,
             margin: EdgeInsets.only(top: 35 * ScaleWidth),
             onClick: () {
-              print('$index');
+              PageUtil.push(page);
             },
           ),
           SmallTextLabel(title),

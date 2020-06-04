@@ -29,6 +29,7 @@ class InputView extends StatelessWidget {
     this.onEditingComplete,
     this.onSubmitted,
     this.enabled,
+    this.textAlign = TextAlign.left,
   }) : super(key: key);
 
   final Color color; //底色
@@ -52,6 +53,7 @@ class InputView extends StatelessWidget {
   final VoidCallback onEditingComplete; //点击完成
   final ValueChanged<String> onSubmitted; //点击完成
   final bool enabled; //禁用，false为禁用
+  final TextAlign textAlign;//文字对齐
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class InputView extends StatelessWidget {
       width: width,
       height: height,
       child: TextField(
+        textAlign: textAlign,
         controller: controller,
         focusNode: focusNode,
         keyboardType: keyboardType,
@@ -436,7 +439,7 @@ class MainTextLabel extends StatelessWidget {
 }
 
 /**
- * MainTextLabel,24px
+ * SubTextLabel,24px
  * */
 class SubTextLabel extends StatelessWidget {
   const SubTextLabel(
@@ -591,12 +594,12 @@ class LineView extends StatelessWidget{
 /**
  * AppBar
  * */
-Widget buildAppBar(BuildContext context, String title, {bool showPop = true}) {
+Widget buildAppBar(BuildContext context, String title, {bool showPop = true,List<Widget> actions}) {
   return new AppBar(
     leading: showPop
         ? new IconButton(
             icon: new Icon(Icons.arrow_back_ios, color: Color.fromRGBO(163, 171, 242, 1)),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => PageUtil.pop(),
           )
         : null,
     automaticallyImplyLeading: showPop,
@@ -611,5 +614,6 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true}) {
         ),
       ),
     ),
+    actions: actions,
   );
 }
