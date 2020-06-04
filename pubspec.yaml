@@ -104,6 +104,8 @@ flutter:
     - imgs/home/kaoshidangan.png
     - imgs/home/yinhuanfaqi/xinzengyinhuan.png
     - imgs/home/yinhuanfaqi/delete.png
+    - imgs/home/yinhuanfaqi/add.png
+    - imgs/home/yinhuanfaqi/add2.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

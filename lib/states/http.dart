@@ -38,6 +38,13 @@ class HttpUtil {
   Dio dio;
   BaseOptions options;
 
+  static HttpUtil _getInstance() {
+    if (_instance == null) {
+      _instance = new HttpUtil._internal();
+    }
+    return _instance;
+  }
+
   HttpUtil._internal() {
     print('初始化');
     // 初始化
@@ -48,7 +55,7 @@ class HttpUtil {
       receiveTimeout: 30 * 1000,
       headers: {
         'Source': 'APP',
-        'Authorization': UserInfo().token() != null ? UserInfo().token().jwt:'',
+        'Authorization': UserInfo().token() != null ? UserInfo().token().jwt : '',
       },
 
 //      contentType: ContentType.parse("multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL"),
@@ -57,18 +64,12 @@ class HttpUtil {
     dio = new Dio(options);
     dio.transformer = new FlutterTransformer();
   }
-  setHeader(){
-    dio.options.headers={
-      'Source': 'APP',
-      'Authorization': UserInfo().token() != null ? UserInfo().token().jwt:'',
-    };
-  }
 
-  static HttpUtil _getInstance() {
-    if (_instance == null) {
-      _instance = new HttpUtil._internal();
-    }
-    return _instance;
+  setHeader() {
+    dio.options.headers = {
+      'Source': 'APP',
+      'Authorization': UserInfo().token() != null ? UserInfo().token().jwt : '',
+    };
   }
 
   get(url, {queryParameters, options}) async {
@@ -83,9 +84,9 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
-        return networkSuccess(url,response);
+        return networkSuccess(url, response);
       } on DioError catch (error) {
-        return networkError(url,error);
+        return networkError(url, error);
       }
     }
   }
@@ -102,9 +103,9 @@ class HttpUtil {
           url,
           data: queryParameters,
         );
-        return networkSuccess(url,response);
+        return networkSuccess(url, response);
       } on DioError catch (error) {
-        return networkError(url,error);
+        return networkError(url, error);
       }
     }
   }
@@ -121,9 +122,9 @@ class HttpUtil {
           url,
           queryParameters: queryParameters,
         );
-        return networkSuccess(url,response);
+        return networkSuccess(url, response);
       } on DioError catch (error) {
-        return networkError(url,error);
+        return networkError(url, error);
       }
     }
   }
@@ -140,13 +141,14 @@ class HttpUtil {
           url,
           data: queryParameters,
         );
-        return networkSuccess(url,response);
+        return networkSuccess(url, response);
       } on DioError catch (error) {
-        return networkError(url,error);
+        return networkError(url, error);
       }
     }
   }
-  networkSuccess(String url,Response response){
+
+  networkSuccess(String url, Response response) {
     print('=======================success $url=======================');
     print(response);
     print('=======================success $url=======================');
@@ -156,7 +158,8 @@ class HttpUtil {
     }
     return response.data['data'];
   }
-  networkError(String url,DioError error){
+
+  networkError(String url, DioError error) {
     Response response;
     print('=======================error $url=======================');
     print('$error');
@@ -168,6 +171,7 @@ class HttpUtil {
     }
     return networkErrorTransform(response);
   }
+
   networkErrorTransform(Response response) {
     print("networkErrorTransform === $response");
     DialogUtil.dialogAlert(response.statusMessage);

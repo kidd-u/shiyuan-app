@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
-import 'package:shiyuan/common/UIKit/SelectImage.dart';
+import '../view/yinhuanfaqiView.dart';
+import '../model/yinhuanfaqiModel.dart';
 
 class YinhuanFaqiPage extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class YinhuanFaqiPage extends StatefulWidget {
 }
 
 class YinhuanFaqiState extends State<YinhuanFaqiPage> {
+  List<YinhuanfaqiModel> modelArray = [];
   void initState() {
     super.initState();
   }
@@ -48,25 +50,41 @@ class YinhuanFaqiState extends State<YinhuanFaqiPage> {
     return new Scaffold(
       appBar: buildAppBar(context, '隐患发起', actions: [rightBtn]),
       backgroundColor: BackgroundColor,
-      body: new ListView(
+      body:new ListView.builder(
+        padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
-        children: <Widget>[
-          view1(context),
-          LineView(),
-          view2(context),
-          LineView(),
-          view3(context),
-          LineView(),
-          view4(context),
-          LineView(),
-          view5(context),
-          LineView(),
-        ],
+        itemBuilder: (context, index){
+          if(index == 0){
+            return Column(
+              children: <Widget>[
+                view1(context),
+                LineView(),
+                view2(context),
+                LineView(),
+                view3(context),
+                LineView(),
+                view4(context),
+                LineView(),
+                view5(context),
+                LineView(),
+              ],
+            );
+          }
+          return YinhuanfaqiView(model: modelArray[index - 1],index: index,);
+        },
+        itemCount:modelArray.length + 1,
       ),
+
       floatingActionButton: ImageView(
         src: 'imgs/home/yinhuanfaqi/xinzengyinhuan.png',
         width: 130 * ScaleWidth,
         height: 130 * ScaleWidth,
+        onClick: (){
+          setState(() {
+            modelArray.add(YinhuanfaqiModel(name:'安全隐患1',imgs: []));
+            print(modelArray);
+          });
+        },
       ),
     );
   }

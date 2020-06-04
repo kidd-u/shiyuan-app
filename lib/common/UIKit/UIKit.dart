@@ -174,7 +174,7 @@ class Label extends StatelessWidget {
     this.decorationStyle,
     this.onClick,
     this.enabled = false,
-    this.lineHeight = 1,
+    this.lineHeight = 1.2,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -386,7 +386,7 @@ class MainTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
-    this.lineHeight = 1,
+    this.lineHeight,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -420,7 +420,7 @@ class MainTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 28 * ScaleWidth,
-          height: lineHeight,
+          height: lineHeight!=null?lineHeight:null,
           color: textColor,
           fontWeight: fontWeight,
         ),
@@ -457,7 +457,7 @@ class SubTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.onClick,
     this.enabled = false,
-    this.lineHeight = 1,
+    this.lineHeight,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -491,7 +491,7 @@ class SubTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 24 * ScaleWidth,
-          height: lineHeight,
+          height: lineHeight!=null?lineHeight:null,
           color: textColor,
           fontWeight: fontWeight,
         ),
@@ -527,7 +527,7 @@ class SmallTextLabel extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.onClick,
     this.enabled = false,
-    this.lineHeight = 1,
+    this.lineHeight,
   }) : super(key: key);
   final Color color; //底色
   final Decoration decoration; // 背景装饰
@@ -560,7 +560,7 @@ class SmallTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 20 * ScaleWidth,
-          height: lineHeight,
+          height: lineHeight!=null?lineHeight:null,
           color: textColor,
         ),
       ),

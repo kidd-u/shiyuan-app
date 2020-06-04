@@ -3,6 +3,7 @@ import 'package:shiyuan/states/default.dart';
 import '../routes/login/model/user.dart';
 import 'dart:convert' as Convert;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shiyuan/common/UIKit/SelectImage.dart';
 
 class UserInfo {
   factory UserInfo() => _getInstance();
@@ -49,6 +50,7 @@ class UserInfo {
       print(jwt);
       userInfo['jwt'] = jwt;
       _token = UserToken.fromJson(userInfo);
+      qiniuUtil().getToken();//初始化七牛token
     }
   }
 }

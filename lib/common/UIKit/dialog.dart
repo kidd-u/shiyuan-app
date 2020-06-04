@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:shiyuan/common/UIKit/UIKit.dart';
+import 'package:shiyuan/states/default.dart';
 
 class DialogUtil {
   // 工厂模式
@@ -81,6 +82,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   static Future<bool> dialogAlert(String content, {String title}) async {
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
@@ -88,7 +90,11 @@ class DialogUtil {
         child: Center(
           child: Container(
             child: CupertinoAlertDialog(
-            title: Label(title == null ? '提示' : title,textAlign: TextAlign.center,margin: EdgeInsets.only(bottom: 8),),
+              title: Label(
+                title == null ? '提示' : title,
+                textAlign: TextAlign.center,
+                margin: EdgeInsets.only(bottom: 8),
+              ),
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(
@@ -104,39 +110,90 @@ class DialogUtil {
       );
     });
   }
-  static Future<bool> dialogSheet(String content, {Function onConfirm, String title, Function onCancel}) async {
+
+  static Future dialogSheet(List<String> actions, {String title = '提示'}) async {
+    Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
-      return Container(
-        color: Colors.black38,
-        child: Center(
+      List<Widget> actionItems = [];
+      for (int i = 0; i < actions.length; i++) {
+        String element = actions[i];
+        Widget item = GestureDetector(
+          onTap: (){
+            completer.complete(i);
+            cancelFunc();
+          },
           child: Container(
-            child: CupertinoAlertDialog(
-              title: Text(title == null ? '温馨提示' : title),
-              content: Text(content == null ? '无' : content),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('取消', style: TextStyle(color: Colors.red)),
-                  onPressed: () {
-                    if (onCancel != null) {
-                      onCancel();
-                    }
-                    cancelFunc();
-                  },
-                ),
-                FlatButton(
-                  child: Text('确定'),
-                  onPressed: () {
-                    if (onConfirm != null) {
-                      onConfirm();
-                    }
-                    cancelFunc();
-                  },
-                ),
-              ],
+            width: 700 * ScaleWidth,
+            height: 45.0,
+            //边框设置
+            decoration: new BoxDecoration(
+                border: new Border(bottom: BorderSide(color: LineColor,width: 0.5))
             ),
+            child: Center(
+                child: Text(
+              element,
+              style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.w400),
+            )),
           ),
+        );
+        actionItems.add(item);
+      }
+      return Container(
+        width: ScreenWidth,
+        color: Colors.black38,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              child: Container(
+                  width: 700 * ScaleWidth,
+                  height: 45.0 * (actions.length + 1),
+                  color: Colors.white,
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: 700 * ScaleWidth,
+                        height: 45.0,
+                        //边框设置
+                        decoration: new BoxDecoration(
+                            border: new Border(bottom: BorderSide(color: LineColor,width: 0.5))
+                        ),
+                        child: Center(
+                            child: Text(
+                              title,
+                              style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.w400),
+                            )),
+                      ),
+                      ...actionItems,
+                    ],
+                  )),
+            ),
+            Button(
+              width: 700 * ScaleWidth,
+              height: 45,
+              margin: EdgeInsets.only(bottom: 10, top: 15),
+              //边框设置
+              decoration: new BoxDecoration(
+                //背景
+                color: Colors.white,
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              child: Text(
+                '取消',
+                style: TextStyle(color: WarningColor, fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              onPressed: () {
+                cancelFunc();
+                completer.completeError('点击了取消');
+              },
+            ),
+          ],
         ),
       );
     });
+    return completer.future;
   }
 }
