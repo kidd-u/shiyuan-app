@@ -10,6 +10,7 @@ class qiniuUtil {
   static qiniuUtil get instance => _getInstance();
   static qiniuUtil _instance;
   String token;
+  String cdn;
 
   qiniuUtil._internal() {}
 
@@ -23,15 +24,16 @@ class qiniuUtil {
   void getToken() async {
     Map res = await HttpUtil().get('/qiniu/token');
     token = res['token'];
+    cdn = res['cdn'];
   }
 }
 
 class SelectImage extends StatefulWidget {
-  const SelectImage({Key key, this.src, this.width = 100, this.heidht = 100, this.margin}) : super(key: key);
-  final String src;
-  final double width;
-  final double heidht;
-  final EdgeInsets margin;
+  SelectImage({Key key, this.src, this.width = 100, this.heidht = 100, this.margin}) : super(key: key);
+  String src;
+  double width;
+  double heidht;
+  EdgeInsets margin;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,7 +43,9 @@ class SelectImage extends StatefulWidget {
 
 class SelectImageState extends State<SelectImage> {
   final _picker = ImagePicker();
-  File _file;
+  PickedFile _file;
+  String _src;
+  bool isUploading, uploadFailed;
 
   void initState() {
     super.initState();
@@ -52,18 +56,62 @@ class SelectImageState extends State<SelectImage> {
     return layout(context);
   }
 
+  void onTapSelect() async {
+    var index = await DialogUtil.dialogSheet(['相册', '拍照']);
+    if (index == 0) {
+      selectImages();
+    } else {
+      selectCamera();
+    }
+  }
+
   Future<void> selectImages() async {
     PickedFile image = await _picker.getImage(source: ImageSource.gallery);
-    _file = File(image.path);
+    setState(() {
+      _file = image;
+    });
     print(_file.path);
+    uploadAvatar();
   }
 
   Future<void> selectCamera() async {
     PickedFile image = await _picker.getImage(source: ImageSource.camera);
     setState(() {
-      _file = File(image.path);
+      _file = image;
     });
     print(_file.path);
+    uploadAvatar();
+  }
+
+  void uploadAvatar() async {
+    setState(() {
+      isUploading = true;
+      uploadFailed = false;
+    });
+    Dio dio = new Dio();
+    var bytes = await _file.readAsBytes();
+    String timer = DateTime.now().millisecondsSinceEpoch.toString();
+    List ary = _file.path.split('.');
+    FormData data = new FormData.fromMap({
+      'token': qiniuUtil().token,
+      'file': MultipartFile.fromBytes(bytes),
+      'key': timer + '.' + ary.last,
+    });
+    Options options = new Options(contentType: 'multipart/form-data');
+    dio.post('http://upload.qiniup.com', data: data, options: options).then((res) {
+      print('上传成功');
+      print(res);
+      setState(() {
+        widget.src = qiniuUtil().cdn + '/' + res.data['key'];
+        print(widget.src);
+        isUploading = false;
+      });
+    }).catchError((err) {
+      setState(() {
+        uploadFailed = true;
+      });
+      print(err.toString());
+    });
   }
 
   Widget layout(BuildContext context) {
@@ -74,12 +122,14 @@ class SelectImageState extends State<SelectImage> {
         height: widget.heidht,
         color: Color(0xFFF3F5F8),
         child: widget.src == null
-            ? Image.file(
-                _file,
-                width: widget.width,
-                height: widget.heidht,
-                fit: BoxFit.cover,
-              )
+            ? _file == null
+                ? placehold(context)
+                : Image.file(
+                    File(_file.path),
+                    width: widget.width,
+                    height: widget.heidht,
+                    fit: BoxFit.cover,
+                  )
             : Image.network(
                 widget.src,
                 width: widget.width,
@@ -87,14 +137,29 @@ class SelectImageState extends State<SelectImage> {
                 fit: BoxFit.cover,
               ),
       ),
-      onTap: () async {
-        var index = await DialogUtil.dialogSheet(['相册', '拍照']);
-        if (index == 0) {
-          selectImages();
-        } else {
-          selectCamera();
-        }
+      onTap: () {
+        onTapSelect();
       },
+    );
+  }
+
+  Widget placehold(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: <Widget>[
+        ImageView(
+          src: 'imgs/home/yinhuanfaqi/add2.png',
+          width: 34 * ScaleWidth,
+          height: 34 * ScaleWidth,
+          margin: EdgeInsets.only(top: 41 * ScaleWidth),
+        ),
+        Label(
+          '添加附件',
+          fontSize: 18 * ScaleWidth,
+          textColor: Color(0xFFBEBEBE),
+          margin: EdgeInsets.only(top: 95 * ScaleWidth),
+        ),
+      ],
     );
   }
 

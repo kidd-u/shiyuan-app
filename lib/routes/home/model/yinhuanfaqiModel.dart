@@ -28,7 +28,7 @@ class Imgs {
   String src;
   String msg;
 
-  Imgs({this.src, this.msg});
+  Imgs({this.src = '', this.msg = ''});
 
   Imgs.fromJson(Map<String, dynamic> json) {
     src = json['src'];

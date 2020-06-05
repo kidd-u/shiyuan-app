@@ -169,7 +169,7 @@ class Page extends State<HomePage> {
   Widget changyong(BuildContext context) {
     List<Widget> items = [
       changyongItem(context, 'imgs/home/yinhuanfaqi.png', '隐患发起', 'yinhuanfaqi'),
-      changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 'xianshangpeixun'),
       changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 'yinhuanfaqi'),
       changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 'yinhuanfaqi'),
       changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 'yinhuanfaqi'),

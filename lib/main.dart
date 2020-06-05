@@ -10,6 +10,7 @@ import 'routes/login/controller/newPassWord.dart';
 import 'routes/main/controller/HomeMain.dart';
 import 'routes/home/controller/home.dart';
 import 'routes/home/controller/yinhuanfaqi.dart';
+import 'routes/home/controller/xianshangpeixun.dart';
 import 'routes/library/controller/library.dart';
 import 'routes/todo/controller/todo.dart';
 import 'routes/message/controller/message.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
+          'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(),
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
           'messagePage': (BuildContext context) => new MessagePage(),

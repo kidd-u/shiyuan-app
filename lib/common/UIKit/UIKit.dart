@@ -617,3 +617,11 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true,List
     actions: actions,
   );
 }
+Widget rightChoose(){
+  return ImageView(
+    src: 'imgs/mine/right_icon.png',
+    width: 12 * ScaleWidth,
+    height: 23 * ScaleWidth,
+    margin: EdgeInsets.only(right: 30 * ScaleWidth),
+  );
+}
