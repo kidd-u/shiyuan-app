@@ -11,3 +11,5 @@ export 'package:shiyuan/common/WorkUI/WorkChoose.dart';
 export 'package:shiyuan/common/WorkUI/WorkFenShu.dart';
 export 'package:shiyuan/common/WorkUI/WorkTitleTest.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestRadio.dart';
+export 'package:shiyuan/common/WorkUI/WorkTestLastBtn.dart';
+export 'package:shiyuan/common/WorkUI/WorkTestNextBtn.dart';

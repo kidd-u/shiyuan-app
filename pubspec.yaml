@@ -39,6 +39,8 @@ dependencies:
   cached_network_image: any
   flutter_staggered_grid_view: any
   image_picker: 0.6.7
+  chewie: 0.9.10
+  video_player: 0.10.11+1
 
 dev_dependencies:
   flutter_test:
@@ -106,6 +108,10 @@ flutter:
     - imgs/home/yinhuanfaqi/delete.png
     - imgs/home/yinhuanfaqi/add.png
     - imgs/home/yinhuanfaqi/add2.png
+    - imgs/home/xianshangpeixun/wrong.png
+    - imgs/home/xianshangpeixun/right.png
+    - imgs/home/xianshangpeixun/rightbutton.png
+    - imgs/home/xianshangpeixun/leftbutton.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png
@@ -132,6 +138,7 @@ flutter:
     - imgs/mine/tuichudenglu.png
     - imgs/mine/xiugaimima.png
     - imgs/mine/right_icon.png
+    - imgs/icon/search.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

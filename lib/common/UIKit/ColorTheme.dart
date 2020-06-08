@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 /** 主色调，蓝色 */
 const Color MainBlueColor = Color.fromRGBO(44, 109, 210, 1);
+/** 主色调，深蓝色 */
+const Color MainDarkBlueColor = Color(0xFF112DB8);
 /** 主标题，正文，褐色 */
 const Color MainTitleColor = Colors.black;
 /** 二级标题，主题，深灰色 */

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
-import '../model/AnswerModel.dart';
+import '../../model/AnswerModel.dart';
 
 class XianXiaPeiXunPage extends StatefulWidget {
   @override

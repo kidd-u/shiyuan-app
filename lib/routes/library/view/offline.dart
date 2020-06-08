@@ -53,7 +53,7 @@ class OffLineViewState extends State<OffLineView> {
                     children: <Widget>[
                       Label('45', fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
                       Label('月度累计',
-                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 25 * ScaleWidth))
+                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 15 * ScaleWidth))
                     ],
                   ),
                 ),
@@ -78,7 +78,7 @@ class OffLineViewState extends State<OffLineView> {
                         ),
                       ),
                       Label('同比上月',
-                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 25 * ScaleWidth))
+                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 15 * ScaleWidth))
                     ],
                   ),
                 )
@@ -98,7 +98,7 @@ class OffLineViewState extends State<OffLineView> {
                       children: <Widget>[
                         Label('45', fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
                         Label('已完成',
-                            fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 25 * ScaleWidth))
+                            fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 15 * ScaleWidth))
                       ],
                     )),
                 ImageView(
@@ -114,7 +114,7 @@ class OffLineViewState extends State<OffLineView> {
                     children: <Widget>[
                       Label('45', fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
                       Label('待执行',
-                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 25 * ScaleWidth))
+                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 15 * ScaleWidth))
                     ],
                   ),
                 )

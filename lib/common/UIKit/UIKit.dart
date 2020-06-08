@@ -30,6 +30,7 @@ class InputView extends StatelessWidget {
     this.onSubmitted,
     this.enabled,
     this.textAlign = TextAlign.left,
+    this.contentPadding,
   }) : super(key: key);
 
   final Color color; //底色
@@ -53,7 +54,8 @@ class InputView extends StatelessWidget {
   final VoidCallback onEditingComplete; //点击完成
   final ValueChanged<String> onSubmitted; //点击完成
   final bool enabled; //禁用，false为禁用
-  final TextAlign textAlign;//文字对齐
+  final TextAlign textAlign; //文字对齐
+  final EdgeInsets contentPadding; //用于输入框对齐错误，谨慎使用
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +81,9 @@ class InputView extends StatelessWidget {
         onEditingComplete: onEditingComplete,
         onSubmitted: onSubmitted,
         enabled: enabled,
-        style: TextStyle(fontSize: 28 * ScaleWidth,color: Colors.black),
+        style: TextStyle(fontSize: 28 * ScaleWidth, color: Colors.black),
         decoration: InputDecoration(
+            contentPadding: contentPadding,
             hintText: placeholder,
             hintStyle: TextStyle(fontSize: 28 * ScaleWidth, color: Color.fromRGBO(149, 147, 151, 1)),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
@@ -147,6 +150,75 @@ class Button extends StatelessWidget {
             }
           },
           child: child),
+    );
+  }
+}
+
+class TextButton extends StatelessWidget {
+  const TextButton(
+    this.data, {
+    Key key,
+    this.color,
+    this.decoration,
+    this.margin,
+    this.padding,
+    this.width,
+    this.height,
+    this.onPressed,
+    this.onPressedByTag,
+    this.child,
+    this.textColor,
+    this.fontSize,
+    this.fontWeight = FontWeight.w400,
+    this.tag,
+    this.enabled = false,
+  }) : super(key: key);
+  final Color color; //底色
+  final Decoration decoration; // 背景装饰
+  final EdgeInsets margin; //外边距
+  final EdgeInsets padding; //内边距
+  final double width; //容器的宽度
+  final double height; //容器的高度
+  @required
+  final VoidCallback onPressed; //按钮点击回调
+  final Function onPressedByTag;
+  final String data; //文本
+  final Widget child;
+  final Color textColor; //按钮文字颜色
+  final double fontSize; //字号
+  final FontWeight fontWeight; //粗细
+  final double tag; //tag按钮标识
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        color: color,
+        decoration: decoration,
+        margin: margin,
+        padding: padding,
+        width: width,
+        height: height,
+        child: Center(
+          child: child == null
+              ? Text(
+                  data,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
+                  ),
+                )
+              : child,
+        ),
+      ),
+      onTap: () {
+        onPressed();
+        if (onPressedByTag != null) {
+          onPressedByTag(tag);
+        }
+      },
     );
   }
 }
@@ -262,7 +334,7 @@ class ImageView extends StatelessWidget {
   final BoxFit fit; //填充模式，fill填充变形，cover比例裁剪，contain自适应大小
   final Function onClick;
   final bool enabled;
-  final double borderRadius_Img;//图片圆角，和背景圆角不同
+  final double borderRadius_Img; //图片圆角，和背景圆角不同
 
   @override
   Widget build(BuildContext context) {
@@ -273,9 +345,9 @@ class ImageView extends StatelessWidget {
       padding: padding,
       width: width,
       height: height,
-      child:ClipRRect(
+      child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(borderRadius_Img)),
-        child:  Image(
+        child: Image(
           image: AssetImage(src),
           width: width,
           height: height,
@@ -348,7 +420,7 @@ class MainTitleLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 30 * ScaleWidth,
-          height: lineHeight!=null?lineHeight:null,
+          height: lineHeight != null ? lineHeight : null,
           color: textColor,
           fontWeight: fontWeight,
 //          backgroundColor: Colors.cyan
@@ -420,7 +492,7 @@ class MainTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 28 * ScaleWidth,
-          height: lineHeight!=null?lineHeight:null,
+          height: lineHeight != null ? lineHeight : null,
           color: textColor,
           fontWeight: fontWeight,
         ),
@@ -491,7 +563,7 @@ class SubTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 24 * ScaleWidth,
-          height: lineHeight!=null?lineHeight:null,
+          height: lineHeight != null ? lineHeight : null,
           color: textColor,
           fontWeight: fontWeight,
         ),
@@ -560,7 +632,7 @@ class SmallTextLabel extends StatelessWidget {
         textAlign: textAlign,
         style: TextStyle(
           fontSize: 20 * ScaleWidth,
-          height: lineHeight!=null?lineHeight:null,
+          height: lineHeight != null ? lineHeight : null,
           color: textColor,
         ),
       ),
@@ -576,12 +648,14 @@ class SmallTextLabel extends StatelessWidget {
     return view;
   }
 }
+
 /**
  * LineView
  * */
-class LineView extends StatelessWidget{
-  const LineView({Key key,this.margin = EdgeInsets.zero}):super(key:key);
+class LineView extends StatelessWidget {
+  const LineView({Key key, this.margin = EdgeInsets.zero}) : super(key: key);
   final EdgeInsets margin;
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -591,10 +665,11 @@ class LineView extends StatelessWidget{
     );
   }
 }
+
 /**
  * AppBar
  * */
-Widget buildAppBar(BuildContext context, String title, {bool showPop = true,List<Widget> actions}) {
+Widget buildAppBar(BuildContext context, String title, {bool showPop = true, List<Widget> actions}) {
   return new AppBar(
     leading: showPop
         ? new IconButton(
@@ -617,7 +692,8 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true,List
     actions: actions,
   );
 }
-Widget rightChoose(){
+
+Widget rightChoose() {
   return ImageView(
     src: 'imgs/mine/right_icon.png',
     width: 12 * ScaleWidth,

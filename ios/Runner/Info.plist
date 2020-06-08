@@ -22,6 +22,19 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>用于头像与流程</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>提交操作视频</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>用于头像与流程</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>用于头像与流程</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -29,6 +42,7 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
@@ -39,19 +53,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>用于头像与流程</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>用于头像与流程</string>
-	<key>NSCameraUsageDescription</key>
-	<string>用于头像与流程</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>提交操作视频</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

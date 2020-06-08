@@ -10,13 +10,27 @@ import 'routes/login/controller/newPassWord.dart';
 import 'routes/main/controller/HomeMain.dart';
 import 'routes/home/controller/home.dart';
 import 'routes/home/controller/yinhuanfaqi.dart';
-import 'routes/home/controller/xianshangpeixun.dart';
+import 'routes/home/controller/xianshang/xianshangList.dart';
+import 'routes/home/controller/xianshang/xianshangpeixun.dart';
+import 'routes/home/controller/xianshang/zaixiankaoshi.dart';
+import 'routes/home/controller/xianshang/wendangjiaoyu.dart';
+import 'routes/home/controller/xianshang/imagejiaoyu.dart';
+import 'routes/home/controller/xianshang/videojiaoyu.dart';
 import 'routes/library/controller/library.dart';
 import 'routes/todo/controller/todo.dart';
 import 'routes/message/controller/message.dart';
 import 'routes/mine/controller/mine.dart';
 
-void main() => runApp(MyApp());
+void main(){
+  // 强制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+
+  runApp(new MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -41,7 +55,12 @@ class MyApp extends StatelessWidget {
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
+          'xianshangList': (BuildContext context) => new XianShangList(),
           'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(),
+          'zaixiankaoshi': (BuildContext context) => new ZaiXianKaoShiPage(),
+          'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(),
+          'imagejiaoyu': (BuildContext context) => new ImageJiaoYuPage(),
+          'videojiaoyu': (BuildContext context) => new VideoJiaoYuPage(),
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
           'messagePage': (BuildContext context) => new MessagePage(),
