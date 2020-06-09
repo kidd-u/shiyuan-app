@@ -66,7 +66,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
         body: Column(
           children: <Widget>[
             Expanded(
-              child: Column(
+              child: ListView(
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 30 * ScaleWidth),
@@ -91,6 +91,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
                     '地下车库安全教育',
                     margin: EdgeInsets.only(top: 47 * ScaleWidth),
                     fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 23 * ScaleWidth),

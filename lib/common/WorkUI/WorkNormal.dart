@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class WorkInputArea extends StatefulWidget {
-  const WorkInputArea({Key key,this.title, this.margin, this.color = Colors.white, this.value, this.placehoder = '请输入', this.onChange, this.height}) : super(key: key);
+class WorkNormal extends StatefulWidget {
+  const WorkNormal({Key key, this.title, this.margin, this.color = Colors.white,@required this.children}) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
-  final String value;
-  final String placehoder;
-  final Function onChange;
-  final double height;
+  final List<Widget> children;
 
   @override
   State<StatefulWidget> createState() {
-    return new WorkInputAreaState();
+    return new WorkNormalState();
   }
 }
 
-class WorkInputAreaState extends State<WorkInputArea> {
+class WorkNormalState extends State<WorkNormal> {
   void initState() {
     super.initState();
   }
@@ -30,13 +27,22 @@ class WorkInputAreaState extends State<WorkInputArea> {
   Widget layout(BuildContext context) {
     return Column(
       children: <Widget>[
-        InputView(
+        LineView(),
+        new Container(
           margin: widget.margin,
           color: widget.color,
-          height: widget.height != null ? widget.height : 163 * ScaleWidth,
-          padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
-          placeholder: widget.placehoder,
-          maxLines: 999,
+          height: 88 * ScaleWidth,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: MainTitleLabel(
+                  widget.title,
+                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+                ),
+              ),
+              ...widget.children,
+            ],
+          ),
         ),
         LineView(),
       ],

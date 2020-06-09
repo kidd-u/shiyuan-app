@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class XianShangPage extends StatefulWidget {
-  const XianShangPage({Key key, this.title}) : super(key: key);
+class JiHuaPage extends StatefulWidget {
+  const JiHuaPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return new XianShangPageState();
+    return new JiHuaPageState();
   }
 }
 
-class XianShangPageState extends State<XianShangPage> {
+class JiHuaPageState extends State<JiHuaPage> {
   void initState() {
     super.initState();
   }
@@ -35,7 +35,7 @@ class XianShangPageState extends State<XianShangPage> {
                 child: Column(
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
                       child: Container(
                         width: 690 * ScaleWidth,
                         height: 291 * ScaleWidth,
@@ -43,7 +43,7 @@ class XianShangPageState extends State<XianShangPage> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              color: SuccessColor,
+                              color: NormalColor,
                               height: 92 * ScaleWidth,
                               child: Row(
                                 children: <Widget>[
@@ -90,11 +90,7 @@ class XianShangPageState extends State<XianShangPage> {
                 ),
               ),
               onTap: () {
-                if (index.isEven) {
-                  PageUtil.push('xianshangpeixun');
-                } else {
-                  PageUtil.push('zaixiankaoshi');
-                }
+                PageUtil.push('jianchaDetail');
               },
             );
             return null;

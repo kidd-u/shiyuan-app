@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
+import 'package:shiyuan/routes/home/controller/jihua/jihuajianchaPage.dart';
 import 'states/default.dart';
 import './LaunchImage.dart';
 import 'routes/login/controller/login.dart';
@@ -9,6 +10,10 @@ import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
 import 'routes/main/controller/HomeMain.dart';
 import 'routes/home/controller/home.dart';
+import 'routes/library/controller/library.dart';
+import 'routes/todo/controller/todo.dart';
+import 'routes/message/controller/message.dart';
+import 'routes/mine/controller/mine.dart';
 import 'routes/home/controller/yinhuanfaqi.dart';
 import 'routes/home/controller/xianshang/xianshangList.dart';
 import 'routes/home/controller/xianshang/xianshangpeixun.dart';
@@ -16,10 +21,10 @@ import 'routes/home/controller/xianshang/zaixiankaoshi.dart';
 import 'routes/home/controller/xianshang/wendangjiaoyu.dart';
 import 'routes/home/controller/xianshang/imagejiaoyu.dart';
 import 'routes/home/controller/xianshang/videojiaoyu.dart';
-import 'routes/library/controller/library.dart';
-import 'routes/todo/controller/todo.dart';
-import 'routes/message/controller/message.dart';
-import 'routes/mine/controller/mine.dart';
+import 'routes/home/controller/xianshang/xianshangshenhe.dart';
+import 'routes/home/controller/jihua/jihuajiancha.dart';
+import 'routes/home/controller/jihua/jianchaDetail.dart';
+import 'routes/home/controller/jihua/jianchaForm.dart';
 
 void main(){
   // 强制竖屏
@@ -54,6 +59,12 @@ class MyApp extends StatelessWidget {
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
+          'libraryPage': (BuildContext context) => new LibraryPage(),
+          'todoPage': (BuildContext context) => new TodoPage(),
+          'messagePage': (BuildContext context) => new MessagePage(),
+          'minePage': (BuildContext context) => new MinePage(),
+          'findPassWord': (BuildContext context) => new FindPassWordPage(),
+          'newPassWord': (BuildContext context) => new NewPassWordPage(),
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
           'xianshangList': (BuildContext context) => new XianShangList(),
           'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(),
@@ -61,12 +72,10 @@ class MyApp extends StatelessWidget {
           'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(),
           'imagejiaoyu': (BuildContext context) => new ImageJiaoYuPage(),
           'videojiaoyu': (BuildContext context) => new VideoJiaoYuPage(),
-          'libraryPage': (BuildContext context) => new LibraryPage(),
-          'todoPage': (BuildContext context) => new TodoPage(),
-          'messagePage': (BuildContext context) => new MessagePage(),
-          'minePage': (BuildContext context) => new MinePage(),
-          'findPassWord': (BuildContext context) => new FindPassWordPage(),
-          'newPassWord': (BuildContext context) => new NewPassWordPage(),
+          'xianshangshenhe': (BuildContext context) => new XianShangShenHePage(),
+          'jihuajiancha': (BuildContext context) => new JiHuaJianCha(),
+          'jianchaDetail': (BuildContext context) => new JianChaDetailPage(),
+          'jianchaForm': (BuildContext context) => new JianChaFormPage(),
         },
       ),
     );

@@ -112,6 +112,9 @@ flutter:
     - imgs/home/xianshangpeixun/right.png
     - imgs/home/xianshangpeixun/rightbutton.png
     - imgs/home/xianshangpeixun/leftbutton.png
+    - imgs/home/xianshangpeixun/file.png
+    - imgs/home/xianshangpeixun/video.png
+    - imgs/home/jihua/jianchabiaozhun.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png
