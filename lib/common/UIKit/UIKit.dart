@@ -167,8 +167,8 @@ class TextButton extends StatelessWidget {
     this.onPressed,
     this.onPressedByTag,
     this.child,
-    this.textColor,
-    this.fontSize,
+    this.textColor = Colors.black,
+    this.fontSize = 14,
     this.fontWeight = FontWeight.w400,
     this.tag,
     this.enabled = false,
@@ -205,6 +205,7 @@ class TextButton extends StatelessWidget {
               ? Text(
                   data,
                   style: TextStyle(
+                    decoration: TextDecoration.none,
                     color: textColor,
                     fontSize: fontSize,
                     fontWeight: fontWeight,
@@ -419,6 +420,7 @@ class MainTitleLabel extends StatelessWidget {
         maxLines: maxLines,
         textAlign: textAlign,
         style: TextStyle(
+          decoration: TextDecoration.none,
           fontSize: 30 * ScaleWidth,
           height: lineHeight != null ? lineHeight : null,
           color: textColor,
@@ -491,6 +493,7 @@ class MainTextLabel extends StatelessWidget {
         maxLines: maxLines,
         textAlign: textAlign,
         style: TextStyle(
+          decoration: TextDecoration.none,
           fontSize: 28 * ScaleWidth,
           height: lineHeight != null ? lineHeight : null,
           color: textColor,

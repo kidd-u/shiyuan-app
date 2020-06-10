@@ -32,8 +32,9 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
 
   Widget layout(BuildContext context) {
     return Container(
-      height: 136 * ScaleWidth,
-      margin: EdgeInsets.only(bottom: 22 * ScaleWidth),
+      color: Colors.white,
+//      height: 136 * ScaleWidth,
+      padding: EdgeInsets.only(bottom: 22 * ScaleWidth),
       child: Row(
         children: <Widget>[
           SelectImage(

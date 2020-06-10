@@ -19,3 +19,4 @@ export 'package:shiyuan/common/WorkUI/WorkFile.dart';
 export 'package:shiyuan/common/WorkUI/WorkNormal.dart';
 export 'package:shiyuan/common/WorkUI/WorkRadio.dart';
 export 'package:shiyuan/common/WorkUI/WorkEmpty.dart';
+export 'package:shiyuan/common/WorkUI/WorkDrop.dart';

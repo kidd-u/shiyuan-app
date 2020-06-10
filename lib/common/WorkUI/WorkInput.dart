@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkInput extends StatefulWidget {
-  const WorkInput({Key key, this.title,this.must = false, this.margin, this.color = Colors.white, this.value, this.placehoder = '请输入', this.onChange}) : super(key: key);
+  const WorkInput(
+      {Key key, this.title, this.must = false, this.margin, this.color = Colors.white, this.value, this.placehoder = '请输入', this.onChange})
+      : super(key: key);
   final String title;
   final bool must;
   final EdgeInsets margin;
@@ -40,7 +42,7 @@ class WorkInputState extends State<WorkInput> {
                 child: Row(
                   children: <Widget>[
                     MainTitleLabel(
-                      widget.must ? '*':'',
+                      widget.must ? '*' : '',
                       textColor: WarningColor,
                       margin: EdgeInsets.only(left: 30 * ScaleWidth),
                     ),
@@ -48,14 +50,14 @@ class WorkInputState extends State<WorkInput> {
                       widget.title,
                     ),
                   ],
-                )
+                ),
               ),
               InputView(
                 placeholder: widget.placehoder,
                 width: 380 * ScaleWidth,
                 margin: EdgeInsets.only(right: 30 * ScaleWidth),
                 textAlign: TextAlign.right,
-                onChanged: (text){
+                onChanged: (text) {
                   widget.onChange(text);
                 },
               )

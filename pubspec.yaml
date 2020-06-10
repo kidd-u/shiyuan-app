@@ -30,7 +30,7 @@ dependencies:
   provider: ^3.0.0
   cupertino_icons: any
   flutter_screenutil: any
-  bot_toast: any
+  bot_toast: 3.0.0
   flutter_swiper : any
   dio: any
   dio_flutter_transformer: ^3.0.2
@@ -115,6 +115,10 @@ flutter:
     - imgs/home/xianshangpeixun/file.png
     - imgs/home/xianshangpeixun/video.png
     - imgs/home/jihua/jianchabiaozhun.png
+    - imgs/home/jihua/drop.png
+    - imgs/home/jihua/building.png
+    - imgs/home/xianxia/scan.png
+    - imgs/home/xianxia/signtop.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

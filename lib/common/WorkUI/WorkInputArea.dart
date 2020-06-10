@@ -2,7 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkInputArea extends StatefulWidget {
-  const WorkInputArea({Key key,this.title, this.margin, this.color = Colors.white, this.value, this.placehoder = '请输入', this.onChange, this.height}) : super(key: key);
+  const WorkInputArea({
+    Key key,
+    this.title = '',
+    this.margin,
+    this.color = Colors.white,
+    this.value,
+    this.placehoder = '请输入',
+    this.onChange,
+    this.height,
+    this.showTopLine = true,
+    this.showBottomLine = true,
+    this.must = false,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
@@ -10,6 +22,9 @@ class WorkInputArea extends StatefulWidget {
   final String placehoder;
   final Function onChange;
   final double height;
+  final bool showTopLine;
+  final bool showBottomLine;
+  final bool must;
 
   @override
   State<StatefulWidget> createState() {
@@ -28,17 +43,48 @@ class WorkInputAreaState extends State<WorkInputArea> {
   }
 
   Widget layout(BuildContext context) {
+    List<Widget> topViews = [];
+    if (widget.showBottomLine) {
+      topViews.add(LineView());
+    }
+    List<Widget> bottomViews = [];
+    if (widget.showBottomLine) {
+      bottomViews.add(LineView());
+    }
     return Column(
       children: <Widget>[
-        InputView(
-          margin: widget.margin,
-          color: widget.color,
+        ...topViews,
+        Container(
+          color: Colors.white,
+          width: ScreenWidth,
           height: widget.height != null ? widget.height : 163 * ScaleWidth,
-          padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
-          placeholder: widget.placehoder,
-          maxLines: 999,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MainTitleLabel(
+                widget.must ? '*' : '',
+                textColor: WarningColor,
+                margin: EdgeInsets.only(left: 30 * ScaleWidth, top: 30 * ScaleWidth),
+              ),
+              MainTitleLabel(
+                widget.title,
+                margin: EdgeInsets.only(top: 30 * ScaleWidth),
+              ),
+              Expanded(
+                child: InputView(
+                  contentPadding: EdgeInsets.zero,
+                  margin: widget.margin,
+                  color: widget.color,
+                  height: widget.height != null ? widget.height : 163 * ScaleWidth,
+                  padding: EdgeInsets.only(left: 10 * ScaleWidth, right: 30 * ScaleWidth, top: 30 * ScaleWidth, bottom: 10 * ScaleWidth),
+                  placeholder: widget.placehoder,
+                  maxLines: 999,
+                ),
+              ),
+            ],
+          ),
         ),
-        LineView(),
+        ...bottomViews,
       ],
     );
   }

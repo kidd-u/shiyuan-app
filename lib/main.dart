@@ -25,6 +25,8 @@ import 'routes/home/controller/xianshang/xianshangshenhe.dart';
 import 'routes/home/controller/jihua/jihuajiancha.dart';
 import 'routes/home/controller/jihua/jianchaDetail.dart';
 import 'routes/home/controller/jihua/jianchaForm.dart';
+import 'routes/home/controller/xianxia/signOne.dart';
+import 'routes/home/controller/xianxia/xianxiaList.dart';
 
 void main(){
   // 强制竖屏
@@ -76,6 +78,8 @@ class MyApp extends StatelessWidget {
           'jihuajiancha': (BuildContext context) => new JiHuaJianCha(),
           'jianchaDetail': (BuildContext context) => new JianChaDetailPage(),
           'jianchaForm': (BuildContext context) => new JianChaFormPage(),
+          'signOne': (BuildContext context) => new SignOnePage(),
+          'xianxiaList': (BuildContext context) => new XianXiaList(),
         },
       ),
     );

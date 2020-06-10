@@ -26,6 +26,7 @@ class WorkImageTitleState extends State<WorkImageTitle> {
 
   Widget layout(BuildContext context) {
     return Container(
+      color: Colors.white,
       height: 73 * ScaleWidth,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
