@@ -83,11 +83,15 @@ class InputView extends StatelessWidget {
         enabled: enabled,
         style: TextStyle(fontSize: 28 * ScaleWidth, color: Colors.black),
         decoration: InputDecoration(
-            contentPadding: contentPadding,
-            hintText: placeholder,
-            hintStyle: TextStyle(fontSize: 28 * ScaleWidth, color: Color.fromRGBO(149, 147, 151, 1)),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent))),
+          contentPadding: contentPadding,
+          hintText: placeholder,
+          hintStyle: TextStyle(fontSize: 28 * ScaleWidth, color: Color.fromRGBO(149, 147, 151, 1)),
+          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+        ),
       ),
     );
   }
@@ -154,6 +158,9 @@ class Button extends StatelessWidget {
   }
 }
 
+/**
+ * Button 纯文字按钮
+ * */
 class TextButton extends StatelessWidget {
   const TextButton(
     this.data, {
@@ -243,7 +250,7 @@ class Label extends StatelessWidget {
     this.fontWeight = FontWeight.w400,
     this.maxLines = 1,
     this.textAlign = TextAlign.left,
-    this.textDecoration,
+    this.textDecoration = TextDecoration.none,
     this.decorationStyle,
     this.onClick,
     this.enabled = false,
@@ -693,6 +700,46 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true, Lis
       ),
     ),
     actions: actions,
+  );
+}
+
+Widget navBar(window, title) {
+  return new Container(
+    color: Colors.transparent,
+    height: MediaQueryData.fromWindow(window).padding.top + kToolbarHeight,
+    child: Stack(
+      alignment: AlignmentDirectional.bottomStart,
+      children: <Widget>[
+        ImageView(
+          src: 'imgs/nav/back.png',
+          margin: EdgeInsets.only(left: 15, bottom: 20),
+        ),
+        GestureDetector(
+          child: Container(
+            color: Colors.transparent,
+            width: 30,
+            height: 30,
+            margin: EdgeInsets.only(left: 15, bottom: 16),
+          ),
+          onTap: () => PageUtil.pop(),
+        ),
+        Container(
+          height: 20,
+          margin: EdgeInsets.only(bottom: 20),
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                decoration: TextDecoration.none,
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        )
+      ],
+    ),
   );
 }
 

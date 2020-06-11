@@ -41,6 +41,7 @@ dependencies:
   image_picker: 0.6.7
   chewie: 0.9.10
   video_player: 0.10.11+1
+  qrcode: 1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,8 @@ flutter:
     - imgs/login/select_de.png
     - imgs/login/top.png
     - imgs/nav/back.png
+    - imgs/nav/sao.png
+    - imgs/nav/xian.png
     - imgs/nav/LaunchImage.png
     - imgs/tabbar/daiban.png
     - imgs/tabbar/daiban_se.png
@@ -119,6 +122,9 @@ flutter:
     - imgs/home/jihua/building.png
     - imgs/home/xianxia/scan.png
     - imgs/home/xianxia/signtop.png
+    - imgs/home/xianxia/sign.png
+    - imgs/home/xianxia/signsuccess.png
+    - imgs/home/xianxia/peixunjilu.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkButtonCancel extends StatefulWidget {
-  const WorkButtonCancel({Key key, this.margin,this.onClick}) : super(key: key);
+  const WorkButtonCancel({
+    Key key,
+    this.margin,
+    this.onClick,
+    this.title = '驳回',
+  }) : super(key: key);
   final EdgeInsets margin;
   final Function onClick;
+  final String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,13 +47,13 @@ class WorkButtonCancelState extends State<WorkButtonCancel> {
         ),
         child: Center(
           child: MainTitleLabel(
-            '驳回',
+            widget.title,
             textColor: Colors.white,
           ),
         ),
       ),
-      onTap: (){
-        if(widget.onClick != null){
+      onTap: () {
+        if (widget.onClick != null) {
           widget.onClick();
         }
       },

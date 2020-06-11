@@ -3,13 +3,23 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/UIKit/SelectImage.dart';
 
 class WorkImageWithMessage extends StatefulWidget {
-  const WorkImageWithMessage({Key key, this.src,this.message, this.margin, this.color = Colors.white, this.onChange,this.onDelete}) : super(key: key);
+  const WorkImageWithMessage({
+    Key key,
+    this.src,
+    this.message,
+    this.margin,
+    this.color = Colors.white,
+    this.onChange,
+    this.onDelete,
+    this.enabled = true,
+  }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
   final Function onChange;
   final Function onDelete;
   final String src;
   final String message;
+  final bool enabled; //禁用，false为禁用
 
   @override
   State<StatefulWidget> createState() {
@@ -18,7 +28,8 @@ class WorkImageWithMessage extends StatefulWidget {
 }
 
 class WorkImageWithMessageState extends State<WorkImageWithMessage> {
-  String _src,_message;
+  String _src, _message;
+
   void initState() {
     _src = widget.src;
     _message = widget.message;
@@ -32,7 +43,8 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
 
   Widget layout(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: widget.color,
+      margin: widget.margin,
 //      height: 136 * ScaleWidth,
       padding: EdgeInsets.only(bottom: 22 * ScaleWidth),
       child: Row(
@@ -57,14 +69,14 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
               children: <Widget>[
                 Expanded(
                     child: InputView(
-                      maxLines: 999,
-                      placeholder: '请输入照片描述......',
-                      margin: EdgeInsets.only(left: 18 * ScaleWidth),
-                      onChanged: (text) {
-                        _message = text;
-                        widget.onChange(_src,_message);
-                      },
-                    )),
+                  maxLines: 999,
+                  placeholder: '请输入照片描述......',
+                  margin: EdgeInsets.only(left: 18 * ScaleWidth),
+                  onChanged: (text) {
+                    _message = text;
+                    widget.onChange(_src, _message);
+                  },
+                )),
                 Container(
                     width: 77 * ScaleWidth,
                     height: 136 * ScaleWidth,

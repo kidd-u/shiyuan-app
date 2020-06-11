@@ -24,22 +24,34 @@ class DialogUtil {
     return _instance;
   }
 
+  static showLoading() {
+    BotToast.showLoading();
+  }
+
+  static hiddenLoading() {
+    BotToast.closeAllLoading();
+  }
+
   static showToast(String msg) {
+    Completer completer = new Completer();
     BotToast.showText(
-      text: msg,
-      align: Alignment.center,
-      borderRadius: BorderRadius.all(Radius.circular(20)),
-      contentPadding: EdgeInsets.only(left: 24, right: 24, top: 7, bottom: 7),
-      contentColor: Color.fromRGBO(140, 140, 140, 1),
-    );
+        text: msg,
+        align: Alignment.center,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        contentPadding: EdgeInsets.only(left: 24, right: 24, top: 7, bottom: 7),
+        contentColor: Color.fromRGBO(140, 140, 140, 1),
+        onClose: () {
+          completer.complete(true);
+        });
+    return completer.future;
   }
 
   static toastSuccess(String msg) {
-    showToast(msg ?? '操作成功');
+    return showToast(msg ?? '操作成功');
   }
 
   static toastError(BuildContext context, String msg) {
-    showToast(msg ?? '操作失败');
+    return showToast(msg ?? '操作失败');
   }
 
   static Future dialogConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
@@ -118,7 +130,7 @@ class DialogUtil {
       for (int i = 0; i < actions.length; i++) {
         String element = actions[i];
         Widget item = GestureDetector(
-          onTap: (){
+          onTap: () {
             completer.complete(i);
             cancelFunc();
           },
@@ -126,9 +138,7 @@ class DialogUtil {
             width: 700 * ScaleWidth,
             height: 45.0,
             //边框设置
-            decoration: new BoxDecoration(
-                border: new Border(bottom: BorderSide(color: LineColor,width: 0.5))
-            ),
+            decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
             child: Center(
                 child: Text(
               element,
@@ -157,14 +167,12 @@ class DialogUtil {
                         width: 700 * ScaleWidth,
                         height: 45.0,
                         //边框设置
-                        decoration: new BoxDecoration(
-                            border: new Border(bottom: BorderSide(color: LineColor,width: 0.5))
-                        ),
+                        decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
                         child: Center(
                             child: Text(
-                              title,
-                              style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.w400),
-                            )),
+                          title,
+                          style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.w400),
+                        )),
                       ),
                       ...actionItems,
                     ],
@@ -191,6 +199,55 @@ class DialogUtil {
               },
             ),
           ],
+        ),
+      );
+    });
+    return completer.future;
+  }
+
+  /** 签到成功 */
+  static Future dialogSignSuccess() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: Container(
+            width: 625 * ScaleWidth,
+            height: 688 * ScaleWidth,
+            child: Stack(
+              alignment: AlignmentDirectional.topCenter,
+              children: <Widget>[
+                ImageView(
+                  src: 'imgs/home/xianxia/signsuccess.png',
+                  width: 625 * ScaleWidth,
+                  height: 688 * ScaleWidth,
+                ),
+                Label(
+                  '签到成功!',
+                  margin: EdgeInsets.only(top: 325 * ScaleWidth),
+                  fontSize: 56 * ScaleWidth,
+                  fontWeight: FontWeight.bold,
+                  textColor: MainBlueColor,
+                ),
+                TextButton(
+                  '确定',
+                  textColor: Colors.white,
+                  width: 386 * ScaleWidth,
+                  height: 88 * ScaleWidth,
+                  margin: EdgeInsets.only(top: 500 * ScaleWidth),
+                  decoration: new BoxDecoration(
+                    color: Color(0xFF3160D1),
+                    borderRadius: BorderRadius.all(Radius.circular(44 * ScaleWidth)),
+                  ),
+                  onPressed: () {
+                    cancelFunc();
+                    completer.complete(true);
+                  },
+                )
+              ],
+            ),
+          ),
         ),
       );
     });

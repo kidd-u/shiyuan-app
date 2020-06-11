@@ -3,6 +3,7 @@ import 'package:shiyuan/common/WorkUI/work.dart';
 import 'package:shiyuan/states/default.dart';
 import 'dart:ui';
 
+
 class SignOnePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -14,7 +15,12 @@ class SignOneState extends State<SignOnePage> {
   void initState() {
     super.initState();
   }
-
+  scan()async{
+//    String str = await PageUtil.push('qrcode');
+//    await DialogUtil.toastSuccess(str);
+//    print(str);
+    PageUtil.push('signTwo');
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +29,7 @@ class SignOneState extends State<SignOnePage> {
           Container(
             color: Colors.white,
             child: new ListView(
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.only(bottom: 40),
               physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
               children: <Widget>[
                 ImageView(
@@ -50,53 +56,16 @@ class SignOneState extends State<SignOnePage> {
                           color: MainDarkBlueColor,
                           borderRadius: BorderRadius.all(Radius.circular(49*ScaleWidth)),
                       ),
+                      onPressed: (){
+                        scan();
+                      },
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          navBar()
-        ],
-      ),
-    );
-  }
-
-  Widget navBar() {
-    return new Container(
-      color: Colors.transparent,
-      height: MediaQueryData.fromWindow(window).padding.top + kToolbarHeight,
-      child: Stack(
-        alignment: AlignmentDirectional.bottomStart,
-        children: <Widget>[
-          ImageView(
-            src: 'imgs/nav/back.png',
-            margin: EdgeInsets.only(left: 15, bottom: 20),
-          ),
-          GestureDetector(
-            child: Container(
-              color: Colors.transparent,
-              width: 30,
-              height: 30,
-              margin: EdgeInsets.only(left: 15, bottom: 16),
-            ),
-            onTap: () => PageUtil.pop(),
-          ),
-          Container(
-            height: 20,
-            margin: EdgeInsets.only(bottom: 20),
-            child: Center(
-              child: Text(
-                '签到',
-                style: TextStyle(
-                  decoration: TextDecoration.none,
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          )
+          navBar(window,'签到'),
         ],
       ),
     );

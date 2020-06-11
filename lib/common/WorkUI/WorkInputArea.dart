@@ -7,13 +7,14 @@ class WorkInputArea extends StatefulWidget {
     this.title = '',
     this.margin,
     this.color = Colors.white,
-    this.value,
+    this.value = '',
     this.placehoder = '请输入',
     this.onChange,
     this.height,
     this.showTopLine = true,
     this.showBottomLine = true,
     this.must = false,
+    this.enabled = true,
   }) : super(key: key);
   final String title;
   final EdgeInsets margin;
@@ -25,6 +26,7 @@ class WorkInputArea extends StatefulWidget {
   final bool showTopLine;
   final bool showBottomLine;
   final bool must;
+  final bool enabled; //禁用，false为禁用
 
   @override
   State<StatefulWidget> createState() {
@@ -33,8 +35,12 @@ class WorkInputArea extends StatefulWidget {
 }
 
 class WorkInputAreaState extends State<WorkInputArea> {
+  TextEditingController controller = TextEditingController();
   void initState() {
     super.initState();
+    setState(() {
+      controller.text = widget.value;
+    });
   }
 
   @override
@@ -72,6 +78,8 @@ class WorkInputAreaState extends State<WorkInputArea> {
               ),
               Expanded(
                 child: InputView(
+                  controller: controller,
+                  enabled: widget.enabled,
                   contentPadding: EdgeInsets.zero,
                   margin: widget.margin,
                   color: widget.color,

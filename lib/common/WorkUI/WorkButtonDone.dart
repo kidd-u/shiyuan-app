@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkButtonDone extends StatefulWidget {
-  const WorkButtonDone({Key key, this.margin,this.onClick}) : super(key: key);
+  const WorkButtonDone({
+    Key key,
+    this.margin,
+    this.onClick,
+    this.title = '通过',
+  }) : super(key: key);
   final EdgeInsets margin;
   final Function onClick;
+  final String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,13 +47,13 @@ class WorkButtonDoneState extends State<WorkButtonDone> {
         ),
         child: Center(
           child: MainTitleLabel(
-            '通过',
+            widget.title,
             textColor: Colors.white,
           ),
         ),
       ),
-      onTap: (){
-        if(widget.onClick != null){
+      onTap: () {
+        if (widget.onClick != null) {
           widget.onClick();
         }
       },

@@ -29,11 +29,19 @@ class qiniuUtil {
 }
 
 class SelectImage extends StatefulWidget {
-  SelectImage({Key key, this.src, this.width = 100, this.heidht = 100, this.margin}) : super(key: key);
+  SelectImage({
+    Key key,
+    this.src,
+    this.width = 100,
+    this.heidht = 100,
+    this.margin,
+    this.enabled = true,
+  }) : super(key: key);
   String src;
   double width;
   double heidht;
   EdgeInsets margin;
+  final bool enabled; //禁用，false为禁用
 
   @override
   State<StatefulWidget> createState() {
@@ -115,6 +123,10 @@ class SelectImageState extends State<SelectImage> {
   }
 
   Widget layout(BuildContext context) {
+    Widget view;
+    if(widget.src != null){
+      view =
+    }
     return GestureDetector(
       child: Container(
         margin: widget.margin,

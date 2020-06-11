@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class XianXiaPage extends StatefulWidget {
-  const XianXiaPage({Key key, this.title}) : super(key: key);
+class YinHuanPage extends StatefulWidget {
+  const YinHuanPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return new XianXiaPageState();
+    return new YinHuanPageState();
   }
 }
 
-class XianXiaPageState extends State<XianXiaPage> {
+class YinHuanPageState extends State<YinHuanPage> {
   void initState() {
     super.initState();
   }
@@ -90,7 +90,7 @@ class XianXiaPageState extends State<XianXiaPage> {
                 ),
               ),
               onTap: () {
-                PageUtil.push('xianxiaDetail');
+                PageUtil.push('yinhuanDetail');
               },
             );
             return null;

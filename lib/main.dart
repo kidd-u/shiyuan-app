@@ -26,7 +26,14 @@ import 'routes/home/controller/jihua/jihuajiancha.dart';
 import 'routes/home/controller/jihua/jianchaDetail.dart';
 import 'routes/home/controller/jihua/jianchaForm.dart';
 import 'routes/home/controller/xianxia/signOne.dart';
+import 'routes/home/controller/xianxia/signTwo.dart';
 import 'routes/home/controller/xianxia/xianxiaList.dart';
+import 'routes/home/controller/xianxia/qrcode.dart';
+import 'routes/home/controller/xianxia/xianxiaDetail.dart';
+import 'routes/home/controller/xianxia/signList.dart';
+import 'routes/home/controller/xianxia/signNot.dart';
+import 'routes/home/controller/yinhuan/yinhuanList.dart';
+import 'routes/home/controller/yinhuan/yinhuanDetail.dart';
 
 void main(){
   // 强制竖屏
@@ -79,7 +86,14 @@ class MyApp extends StatelessWidget {
           'jianchaDetail': (BuildContext context) => new JianChaDetailPage(),
           'jianchaForm': (BuildContext context) => new JianChaFormPage(),
           'signOne': (BuildContext context) => new SignOnePage(),
+          'signTwo': (BuildContext context) => new SignTwoPage(),
           'xianxiaList': (BuildContext context) => new XianXiaList(),
+          'qrcode': (BuildContext context) => new QrCodePage(),
+          'xianxiaDetail': (BuildContext context) => new XianXiaDetailPage(),
+          'signList': (BuildContext context) => new SignListPage(),
+          'signNot': (BuildContext context) => new SignNotPage(),
+          'yinhuanList': (BuildContext context) => new YinHuanList(),
+          'yinhuanDetail': (BuildContext context) => new YinHuanDetailPage(),
         },
       ),
     );
