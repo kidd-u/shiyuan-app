@@ -34,6 +34,10 @@ import 'routes/home/controller/xianxia/signList.dart';
 import 'routes/home/controller/xianxia/signNot.dart';
 import 'routes/home/controller/yinhuan/yinhuanList.dart';
 import 'routes/home/controller/yinhuan/yinhuanDetail.dart';
+import 'routes/home/controller/homework/homework.dart';
+import 'routes/home/controller/homework/homeworkList.dart';
+import 'routes/home/controller/homework/homeworkApply.dart';
+import 'routes/home/controller/homework/homeworkCheck.dart';
 
 void main(){
   // 强制竖屏
@@ -94,6 +98,10 @@ class MyApp extends StatelessWidget {
           'signNot': (BuildContext context) => new SignNotPage(),
           'yinhuanList': (BuildContext context) => new YinHuanList(),
           'yinhuanDetail': (BuildContext context) => new YinHuanDetailPage(),
+          'homework': (BuildContext context) => new HomeWorkPage(),
+          'homeworkList': (BuildContext context) => new HomeWorkList(),
+          'homeworkApply': (BuildContext context) => new HomeWorkApplyPage(),
+          'homeworkCheck': (BuildContext context) => new HomeWorkCheckPage(),
         },
       ),
     );

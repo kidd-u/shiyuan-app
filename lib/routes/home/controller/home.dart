@@ -173,7 +173,7 @@ class Page extends State<HomePage> {
       changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 'jihuajiancha'),
       changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 'xianxiaList'),
       changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 'yinhuanList'),
-      changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 'yinhuanfaqi'),
+      changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 'homework'),
     ];
     return new Container(
       width: ScreenWidth,
@@ -249,7 +249,7 @@ class Page extends State<HomePage> {
       quanbuItem(context, 'imgs/home/waibujiaoyu.png', '外部教育', '1'),
       quanbuItem(context, 'imgs/home/falvbiaozhunku.png', '法律标准库', '2'),
       quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '相关方安全工作', '3'),
-      quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '作业管理', '4'),
+      quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '作业管理', 'homework'),
       quanbuItem(context, 'imgs/home/yinhuanfaqi2.png', '隐患发起', 'yinhuanfaqi'),
       quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '线上培训', 'xianshangList'),
       quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 'jihuajiancha'),

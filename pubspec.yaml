@@ -125,6 +125,13 @@ flutter:
     - imgs/home/xianxia/sign.png
     - imgs/home/xianxia/signsuccess.png
     - imgs/home/xianxia/peixunjilu.png
+    - imgs/home/yinhuan/liuchengjinzhan.png
+    - imgs/home/homework/denggaozuoye.png
+    - imgs/home/homework/donghuozuoye.png
+    - imgs/home/homework/lingxinggongcheng.png
+    - imgs/home/homework/linshiyongdian.png
+    - imgs/home/homework/youxiankongjian.png
+    - imgs/home/homework/tianjiazhaopian.png
     - imgs/library/yueduleiji.png
     - imgs/library/tongbishangyue.png
     - imgs/library/yiwancheng.png

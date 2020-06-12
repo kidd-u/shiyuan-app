@@ -35,27 +35,37 @@ class WorkEmptyState extends State<WorkEmpty> {
   }
 
   Widget layout(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        widget.showTopLine ? LineView() : Container(),
-        new Container(
-          margin: widget.margin,
-          color: widget.color,
-          height: 88 * ScaleWidth,
-          padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Row(
-                  children: <Widget>[...widget.leftActions],
+    List<Widget> topViews = [];
+    List<Widget> bottomViews = [];
+    if (widget.showTopLine) {
+      topViews.add(LineView());
+    }
+    if (widget.showBottomLine) {
+      bottomViews.add(LineView());
+    }
+    return Container(
+      margin: widget.margin,
+      color: widget.color,
+      child: Column(
+        children: <Widget>[
+          ...topViews,
+          new Container(
+            height: 88 * ScaleWidth,
+            padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[...widget.leftActions],
+                  ),
                 ),
-              ),
-              ...widget.rightActions,
-            ],
+                ...widget.rightActions,
+              ],
+            ),
           ),
-        ),
-        widget.showBottomLine ? LineView() : Container(),
-      ],
+          ...bottomViews,
+        ],
+      ),
     );
   }
 

@@ -124,8 +124,22 @@ class SelectImageState extends State<SelectImage> {
 
   Widget layout(BuildContext context) {
     Widget view;
-    if(widget.src != null){
-      view =
+    if (widget.src != null) {
+      view = Image.network(
+        widget.src,
+        width: widget.width,
+        height: widget.heidht,
+        fit: BoxFit.cover,
+      );
+    } else if (_file != null) {
+      view = Image.file(
+        File(_file.path),
+        width: widget.width,
+        height: widget.heidht,
+        fit: BoxFit.cover,
+      );
+    } else if (widget.enabled) {
+      view = placehold(context);
     }
     return GestureDetector(
       child: Container(
@@ -133,23 +147,10 @@ class SelectImageState extends State<SelectImage> {
         width: widget.width,
         height: widget.heidht,
         color: Color(0xFFF3F5F8),
-        child: widget.src == null
-            ? _file == null
-                ? placehold(context)
-                : Image.file(
-                    File(_file.path),
-                    width: widget.width,
-                    height: widget.heidht,
-                    fit: BoxFit.cover,
-                  )
-            : Image.network(
-                widget.src,
-                width: widget.width,
-                height: widget.heidht,
-                fit: BoxFit.cover,
-              ),
+        child: view,
       ),
       onTap: () {
+        if (!widget.enabled) return;
         onTapSelect();
       },
     );
