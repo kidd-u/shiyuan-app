@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkChoose extends StatefulWidget {
-  const WorkChoose({Key key, this.title, this.margin, this.color = Colors.white, this.value, this.placeholder = '请选择', this.onChange}) : super(key: key);
+  const WorkChoose({
+    Key key,
+    this.title,
+    this.margin,
+    this.color = Colors.white,
+    this.value,
+    this.placeholder = '请选择',
+    this.onChange,
+    this.showBottomLine = true,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
   final String value;
   final String placeholder;
   final CallbackAction onChange;
+  final bool showBottomLine;
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +37,10 @@ class WorkChooseState extends State<WorkChoose> {
   }
 
   Widget layout(BuildContext context) {
+    List<Widget> views = [];
+    if (widget.showBottomLine) {
+      views.add(LineView());
+    }
     return Column(
       children: <Widget>[
         new Container(
@@ -59,7 +73,7 @@ class WorkChooseState extends State<WorkChoose> {
             ],
           ),
         ),
-        LineView(),
+        ...views,
       ],
     );
   }

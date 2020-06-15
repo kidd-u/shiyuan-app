@@ -7,10 +7,12 @@ class WorkButtonCancel extends StatefulWidget {
     this.margin,
     this.onClick,
     this.title = '驳回',
+    this.showBorder = true,
   }) : super(key: key);
   final EdgeInsets margin;
   final Function onClick;
   final String title;
+  final bool showBorder;
 
   @override
   State<StatefulWidget> createState() {
@@ -34,17 +36,25 @@ class WorkButtonCancelState extends State<WorkButtonCancel> {
         width: 272 * ScaleWidth,
         height: 80 * ScaleWidth,
         margin: widget.margin,
-        decoration: new BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFF75E52), Color(0xFFE03E31)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          //设置四周圆角 角度
-          borderRadius: BorderRadius.all(Radius.circular(10 * ScaleWidth)),
-          //设置四周边框
-          border: new Border.all(width: 1, color: Color(0xFFD4D4D4)),
-        ),
+        decoration: widget.showBorder
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFF75E52), Color(0xFFE03E31)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                //设置四周圆角 角度
+                borderRadius: BorderRadius.all(Radius.circular(10 * ScaleWidth)),
+                //设置四周边框
+                border: new Border.all(width: 1, color: Color(0xFFD4D4D4)),
+              )
+            : BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFF75E52), Color(0xFFE03E31)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
         child: Center(
           child: MainTitleLabel(
             widget.title,

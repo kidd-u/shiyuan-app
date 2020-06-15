@@ -40,11 +40,13 @@ class YinhuanfaqiViewState extends State<YinhuanfaqiView> {
                 widget.onDelete();
               }),
           WorkInputArea(placehoder: '填写隐患说明......', onChange: (text) {}),
-          WorkImageTitle(onAdd: () {
-            setState(() {
-              widget.model.imgs.add(Imgs());
-            });
-          }),
+          WorkImageTitle(
+              leftActions: <Widget>[],
+              onAdd: () {
+                setState(() {
+                  widget.model.imgs.add(Imgs());
+                });
+              }),
           Container(
               height: 158 * widget.model.imgs.length * ScaleWidth,
               child: ListView.builder(
@@ -53,7 +55,7 @@ class YinhuanfaqiViewState extends State<YinhuanfaqiView> {
                   return WorkImageWithMessage(
                     src: widget.model.imgs[index].src,
                     message: widget.model.imgs[index].msg,
-                    onDelete: (){
+                    onDelete: () {
                       setState(() {
                         widget.model.imgs.removeAt(index);
                       });
@@ -64,8 +66,14 @@ class YinhuanfaqiViewState extends State<YinhuanfaqiView> {
               )),
           WorkTitle(title: '整改要求'),
           WorkInputArea(placehoder: '填写隐患说明......', height: 303 * ScaleWidth, onChange: (text) {}),
-          WorkChoose(title: '整改人:',placeholder: '选择整改人',),
-          WorkChoose(title: '限期整改时间:',placeholder: '请选择日期',),
+          WorkChoose(
+            title: '整改人:',
+            placeholder: '选择整改人',
+          ),
+          WorkChoose(
+            title: '限期整改时间:',
+            placeholder: '请选择日期',
+          ),
         ],
       ),
     );

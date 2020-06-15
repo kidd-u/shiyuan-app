@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkImageTitle extends StatefulWidget {
-  const WorkImageTitle({Key key, this.title, this.margin, this.color = Colors.white, this.onAdd}) : super(key: key);
+  const WorkImageTitle({
+    Key key,
+    this.title,
+    this.margin,
+    this.color = Colors.white,
+    this.onAdd,
+    this.must = false,
+    @required
+    this.leftActions,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
   final Function onAdd;
+  final bool must;
+  final List<Widget> leftActions;
 
   @override
   State<StatefulWidget> createState() {
@@ -31,6 +42,18 @@ class WorkImageTitleState extends State<WorkImageTitle> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                MainTitleLabel(
+                  widget.must ? '*' : '',
+                  textColor: WarningColor,
+                  margin: EdgeInsets.only(left: 30 * ScaleWidth, top: 30 * ScaleWidth),
+                ),
+                ...widget.leftActions,
+              ],
+            ),
+          ),
           ImageView(
             src: 'imgs/home/yinhuanfaqi/add.png',
             width: 30 * ScaleWidth,

@@ -2,12 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkTitle extends StatefulWidget {
-  const WorkTitle({Key key, this.title, this.margin, this.color = Colors.white, this.value = '无', this.onChange}) : super(key: key);
+  const WorkTitle({
+    Key key,
+    this.title,
+    this.margin,
+    this.color = Colors.white,
+    this.value = '无',
+    this.onChange,
+    this.showTopLine = true,
+    this.showBottomLine = true,
+    this.fontWeight = FontWeight.bold,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
   final String value;
   final Function onChange;
+  final bool showTopLine;
+  final bool showBottomLine;
+  final FontWeight fontWeight;
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +39,18 @@ class WorkTitleState extends State<WorkTitle> {
   }
 
   Widget layout(BuildContext context) {
+    List<Widget> topViews = [];
+    List<Widget> bottomViews = [];
+    if (widget.showTopLine) {
+      topViews.add(LineView());
+    }
+    if (widget.showBottomLine) {
+      bottomViews.add(LineView());
+    }
+
     return Column(
       children: <Widget>[
-        LineView(),
+        ...topViews,
         new Container(
           margin: widget.margin,
           color: widget.color,
@@ -38,14 +60,14 @@ class WorkTitleState extends State<WorkTitle> {
               Expanded(
                 child: MainTitleLabel(
                   widget.title,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: widget.fontWeight,
                   margin: EdgeInsets.only(left: 30 * ScaleWidth),
                 ),
               ),
             ],
           ),
         ),
-        LineView(),
+        ...bottomViews,
       ],
     );
   }

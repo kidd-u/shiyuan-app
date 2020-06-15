@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkRadio extends StatefulWidget {
-  WorkRadio({Key key, this.title, @required this.value, @required this.model, this.onChange, this.margin, this.width, this.height, this.color})
-      : super(key: key);
+  WorkRadio({
+    Key key,
+    this.title,
+    @required this.value,
+    @required this.model,
+    this.onChange,
+    this.margin,
+    this.width,
+    this.height,
+    this.color,
+  }) : super(key: key);
   final String title;
   dynamic value;
   dynamic model;

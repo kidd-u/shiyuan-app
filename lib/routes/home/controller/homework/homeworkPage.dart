@@ -109,7 +109,6 @@ class HomeWorkPageState extends State<HomeWorkPage> {
   Widget textBtn(String text, {Color color = Colors.white, String path, double width}) {
     return TextButton(
       text,
-//      padding: EdgeInsets.only(left: 32 * ScaleWidth, right: 32 * ScaleWidth),
       margin: EdgeInsets.only(left: 10 * ScaleWidth),
       width: width == null ? 132 * ScaleWidth : width,
       height: 50 * ScaleWidth,
@@ -124,6 +123,9 @@ class HomeWorkPageState extends State<HomeWorkPage> {
               color: color,
               borderRadius: BorderRadius.all(Radius.circular(25 * ScaleWidth)),
             ),
+      onPressed: (){
+        PageUtil.push('homeworkCheck');
+      },
     );
   }
 

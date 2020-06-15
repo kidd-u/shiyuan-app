@@ -13,6 +13,7 @@ class WorkImageWithMessage extends StatefulWidget {
     this.onDelete,
     this.enabled = true,
     this.showBorder = true,
+    this.paddingTop = 0,
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
@@ -22,6 +23,7 @@ class WorkImageWithMessage extends StatefulWidget {
   final String message;
   final bool enabled; //禁用，false为禁用
   final bool showBorder; //是否显示边框
+  final double paddingTop;
 
   @override
   State<StatefulWidget> createState() {
@@ -98,7 +100,7 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
       color: widget.color,
       margin: widget.margin,
 //      height: 136 * ScaleWidth,
-      padding: EdgeInsets.only(bottom: 22 * ScaleWidth),
+      padding: EdgeInsets.only(bottom: 22 * ScaleWidth, top: widget.paddingTop),
       child: Row(
         children: <Widget>[
           SelectImage(
@@ -111,7 +113,7 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
             child: Container(
 //              width: 518 * ScaleWidth,
               height: 136 * ScaleWidth,
-              margin: EdgeInsets.only(left: 29 * ScaleWidth,right: 29*ScaleWidth),
+              margin: EdgeInsets.only(left: 29 * ScaleWidth, right: 29 * ScaleWidth),
               //边框设置
               decoration: widget.showBorder
                   ? new BoxDecoration(
