@@ -6,7 +6,7 @@ class WorkDrop extends StatefulWidget {
   WorkDrop(
     this.context, {
     Key key,
-    this.title,
+    @required this.title,
     this.margin,
     this.color = Colors.white,
     this.value,
@@ -115,7 +115,7 @@ class WorkDropState extends State<WorkDrop> {
                                       children: <Widget>[MainTextLabel(widget.actions[i])],
                                     ),
                                   ),
-                                  onTap: (){
+                                  onTap: () {
                                     print(widget.actions[i]);
                                     setState(() {
                                       widget.value = widget.actions[i];

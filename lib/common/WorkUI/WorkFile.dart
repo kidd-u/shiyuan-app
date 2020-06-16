@@ -7,8 +7,16 @@ enum File {
 }
 
 class WorkFile extends StatefulWidget {
-  const WorkFile({Key key, this.title = '无', this.margin, this.color = Colors.white, this.src, this.name = '', this.type = File.video, this.onChange})
-      : super(key: key);
+  const WorkFile({
+    Key key,
+    @required this.title = '无',
+    this.margin,
+    this.color = Colors.white,
+    this.src,
+    @required this.name,
+    @required this.type = File.video,
+    this.onChange,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;

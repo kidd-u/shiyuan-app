@@ -77,6 +77,7 @@ flutter:
     - imgs/nav/sao.png
     - imgs/nav/xian.png
     - imgs/nav/LaunchImage.png
+    - imgs/nav/empty.png
     - imgs/tabbar/daiban.png
     - imgs/tabbar/daiban_se.png
     - imgs/tabbar/shouye.png

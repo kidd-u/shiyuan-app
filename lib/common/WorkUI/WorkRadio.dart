@@ -4,7 +4,7 @@ import 'package:shiyuan/states/default.dart';
 class WorkRadio extends StatefulWidget {
   WorkRadio({
     Key key,
-    this.title,
+    @required this.title = '',
     @required this.value,
     @required this.model,
     this.onChange,

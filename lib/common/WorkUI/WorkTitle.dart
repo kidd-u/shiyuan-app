@@ -4,7 +4,7 @@ import 'package:shiyuan/states/default.dart';
 class WorkTitle extends StatefulWidget {
   const WorkTitle({
     Key key,
-    this.title,
+    @required this.title,
     this.margin,
     this.color = Colors.white,
     this.value = '无',

@@ -17,6 +17,7 @@ import 'routes/mine/controller/mine.dart';
 import 'routes/home/controller/yinhuanfaqi.dart';
 import 'routes/home/controller/xianshang/xianshangList.dart';
 import 'routes/home/controller/xianshang/xianshangpeixun.dart';
+import 'routes/home/controller/xianshang/testError.dart';
 import 'routes/home/controller/xianshang/zaixiankaoshi.dart';
 import 'routes/home/controller/xianshang/wendangjiaoyu.dart';
 import 'routes/home/controller/xianshang/imagejiaoyu.dart';
@@ -28,7 +29,7 @@ import 'routes/home/controller/jihua/jianchaForm.dart';
 import 'routes/home/controller/xianxia/signOne.dart';
 import 'routes/home/controller/xianxia/signTwo.dart';
 import 'routes/home/controller/xianxia/xianxiaList.dart';
-import 'routes/home/controller/xianxia/qrcode.dart';
+import 'routes/home/controller/qrcode.dart';
 import 'routes/home/controller/xianxia/xianxiaDetail.dart';
 import 'routes/home/controller/xianxia/signList.dart';
 import 'routes/home/controller/xianxia/signNot.dart';
@@ -38,6 +39,16 @@ import 'routes/home/controller/homework/homework.dart';
 import 'routes/home/controller/homework/homeworkList.dart';
 import 'routes/home/controller/homework/homeworkApply.dart';
 import 'routes/home/controller/homework/homeworkCheck.dart';
+import 'routes/home/controller/testOnLine/testList.dart';
+import 'routes/home/controller/testFile/testFileList.dart';
+import 'routes/home/controller/testFile/testFileDetail.dart';
+import 'routes/home/controller/specialPeople/specialPeopleList.dart';
+import 'routes/home/controller/specialPeople/specialPeopleDetail.dart';
+import 'routes/home/controller/falv/falvList.dart';
+import 'routes/home/controller/aboutSafe/aboutSafe.dart';
+import 'routes/home/controller/safeMeet/safeMeetList.dart';
+import 'routes/home/controller/safeMeet/safeMeetSignOne.dart';
+import 'routes/home/controller/safeMeet/safeMeetSignTwo.dart';
 
 void main(){
   // 强制竖屏
@@ -81,6 +92,7 @@ class MyApp extends StatelessWidget {
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
           'xianshangList': (BuildContext context) => new XianShangList(),
           'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(),
+          'testError': (BuildContext context) => new TestErrorPage(),
           'zaixiankaoshi': (BuildContext context) => new ZaiXianKaoShiPage(),
           'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(),
           'imagejiaoyu': (BuildContext context) => new ImageJiaoYuPage(),
@@ -102,6 +114,16 @@ class MyApp extends StatelessWidget {
           'homeworkList': (BuildContext context) => new HomeWorkList(),
           'homeworkApply': (BuildContext context) => new HomeWorkApplyPage(),
           'homeworkCheck': (BuildContext context) => new HomeWorkCheckPage(),
+          'testList': (BuildContext context) => new TestList(),
+          'testFileList': (BuildContext context) => new TestFileList(),
+          'testFileDetail': (BuildContext context) => new TestFileDetailPage(),
+          'specialPeopleList': (BuildContext context) => new SpecialPeopleList(),
+          'specialPeopleDetail': (BuildContext context) => new SpecialPeopleDetailPage(),
+          'falvList': (BuildContext context) => new FaLvList(),
+          'aboutSafe': (BuildContext context) => new AboutSafePage(),
+          'safeMeetList': (BuildContext context) => new SafeMeetList(),
+          'safeMeetSignOne': (BuildContext context) => new SafeMeetSignOnePage(),
+          'safeMeetSignTwo': (BuildContext context) => new SafeMeetSignTwoPage(),
         },
       ),
     );

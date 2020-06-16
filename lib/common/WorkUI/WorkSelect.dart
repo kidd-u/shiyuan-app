@@ -4,7 +4,7 @@ import 'package:shiyuan/states/default.dart';
 class WorkSelect extends StatefulWidget {
   const WorkSelect({
     Key key,
-    this.title,
+    @required this.title,
     this.must = false,
     this.margin,
     this.color = Colors.white,
