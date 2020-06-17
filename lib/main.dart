@@ -49,6 +49,11 @@ import 'routes/home/controller/aboutSafe/aboutSafe.dart';
 import 'routes/home/controller/safeMeet/safeMeetList.dart';
 import 'routes/home/controller/safeMeet/safeMeetSignOne.dart';
 import 'routes/home/controller/safeMeet/safeMeetSignTwo.dart';
+import 'routes/home/controller/safeMeet/safeMeetDetail.dart';
+import 'routes/home/controller/safeMeet/safeMeetSignList.dart';
+import 'routes/home/controller/shangji/shangjiList.dart';
+import 'routes/home/controller/shangji/shangjiApply.dart';
+import 'routes/home/controller/notice.dart';
 
 void main(){
   // 强制竖屏
@@ -124,6 +129,11 @@ class MyApp extends StatelessWidget {
           'safeMeetList': (BuildContext context) => new SafeMeetList(),
           'safeMeetSignOne': (BuildContext context) => new SafeMeetSignOnePage(),
           'safeMeetSignTwo': (BuildContext context) => new SafeMeetSignTwoPage(),
+          'safeMeetDetail': (BuildContext context) => new SafeMeetDetailPage(),
+          'safeMeetSignList': (BuildContext context) => new SafeMeetSignListPage(),
+          'shangjiList': (BuildContext context) => new ShangJiList(),
+          'shangjiApply': (BuildContext context) => new ShangJiApplyPage(),
+          'notice': (BuildContext context) => new NoticePage(),
         },
       ),
     );

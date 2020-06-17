@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
-enum SafeMeetType {
+enum ShangJiType {
   normal, //已完成
   loading, //进行中
   error, //超期未考
 }
 
-class SafeMeetPage extends StatefulWidget {
-  const SafeMeetPage({Key key, this.title}) : super(key: key);
+class ShangJiPage extends StatefulWidget {
+  const ShangJiPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return new SafeMeetPageState();
+    return new ShangJiPageState();
   }
 }
 
-class SafeMeetPageState extends State<SafeMeetPage> {
+class ShangJiPageState extends State<ShangJiPage> {
   void initState() {
     super.initState();
   }
@@ -37,15 +37,15 @@ class SafeMeetPageState extends State<SafeMeetPage> {
 //          itemExtent: 323 * ScaleWidth,
 //          itemExtent: 365 * ScaleWidth,
           itemBuilder: (BuildContext context, int index) {
-            if (index == 0) return itemCell(SafeMeetType.normal);
-            if (index == 1) return itemCell(SafeMeetType.loading);
-            if (index == 2) return itemCell(SafeMeetType.error);
+            if (index == 0) return itemCell(ShangJiType.normal);
+            if (index == 1) return itemCell(ShangJiType.loading);
+            if (index == 2) return itemCell(ShangJiType.error);
             return null;
           }),
     );
   }
 
-  Widget itemCell(SafeMeetType type) {
+  Widget itemCell(ShangJiType type) {
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(bottom: 30 * ScaleWidth),
@@ -57,14 +57,14 @@ class SafeMeetPageState extends State<SafeMeetPage> {
             child: Column(
               children: <Widget>[
                 Container(
-                  color: type == SafeMeetType.normal ? SuccessColor : type == SafeMeetType.loading ? LoadingColor : ErrorColor,
+                  color: type == ShangJiType.normal ? SuccessColor : type == ShangJiType.loading ? LoadingColor : ErrorColor,
                   height: 92 * ScaleWidth,
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: MainTitleLabel('2020年冬季防火专项培训', textColor: Colors.white, margin: EdgeInsets.only(left: 36 * ScaleWidth)),
+                        child: MainTitleLabel('21903810381', textColor: Colors.white, margin: EdgeInsets.only(left: 36 * ScaleWidth)),
                       ),
-                      SubTextLabel('已完成', textColor: Colors.white, margin: EdgeInsets.only(right: 32 * ScaleWidth)),
+                      SubTextLabel('待整改', textColor: Colors.white, margin: EdgeInsets.only(right: 32 * ScaleWidth)),
                     ],
                   ),
                 ),
@@ -74,10 +74,20 @@ class SafeMeetPageState extends State<SafeMeetPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      MainTextLabel('开始时间：2020-01-15',textColor: Color(0xFF7D7D7D)),
-                      MainTextLabel('培训地点：A306',textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 10*ScaleWidth)),
-                      MainTextLabel('组织部门：后勤管理处',textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 10*ScaleWidth)),
-                      MainTextLabel('打卡方式：电子签字',textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 10*ScaleWidth)),
+                      MainTextLabel('检查部门/单位：市卫纪委', textColor: Color(0xFF7D7D7D)),
+                      MainTextLabel('责任部门/单位：相关方1号', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
+                      MainTextLabel('整改要求：立即停工，检查设备', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
+                      MainTextLabel('整改人：赵小刚', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
+                      LineView(margin: EdgeInsets.only(top: 20 * ScaleWidth)),
+                      Container(
+                        margin: EdgeInsets.only(top: 20 * ScaleWidth),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            SubTextLabel('2020-05-13', textColor: Color(0xFF7D7D7D)),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 )
@@ -88,19 +98,19 @@ class SafeMeetPageState extends State<SafeMeetPage> {
       ),
       onTap: () {
         switch (type) {
-          case SafeMeetType.normal:
+          case ShangJiType.normal:
             {
-              PageUtil.push('safeMeetDetail');
+              PageUtil.push('ShangJiDetail');
             }
             break;
-          case SafeMeetType.loading:
+          case ShangJiType.loading:
             {
               PageUtil.push('zaixiankaoshi');
             }
             break;
-          case SafeMeetType.error:
+          case ShangJiType.error:
             {
-              PageUtil.push('safeMeetDetail');
+              PageUtil.push('ShangJiDetail');
             }
             break;
 

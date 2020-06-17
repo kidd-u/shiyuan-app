@@ -7,6 +7,7 @@ class WorkInputArea extends StatefulWidget {
     this.title = '',
     this.margin,
     this.color = Colors.white,
+    this.decoration,
     this.value = '',
     this.placehoder = '请输入',
     this.onChange,
@@ -19,6 +20,7 @@ class WorkInputArea extends StatefulWidget {
   final String title;
   final EdgeInsets margin;
   final Color color;
+  final Decoration decoration; // 背景装饰
   final String value;
   final String placehoder;
   final Function onChange;
@@ -50,7 +52,7 @@ class WorkInputAreaState extends State<WorkInputArea> {
 
   Widget layout(BuildContext context) {
     List<Widget> topViews = [];
-    if (widget.showBottomLine) {
+    if (widget.showTopLine) {
       topViews.add(LineView());
     }
     List<Widget> bottomViews = [];
@@ -64,6 +66,7 @@ class WorkInputAreaState extends State<WorkInputArea> {
           color: Colors.white,
           width: ScreenWidth,
           height: widget.height != null ? widget.height : 163 * ScaleWidth,
+          decoration: widget.decoration,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -86,7 +89,8 @@ class WorkInputAreaState extends State<WorkInputArea> {
                   height: widget.height != null ? widget.height : 163 * ScaleWidth,
                   padding: EdgeInsets.only(left: 10 * ScaleWidth, right: 30 * ScaleWidth, top: 30 * ScaleWidth, bottom: 10 * ScaleWidth),
                   placeholder: widget.placehoder,
-                  maxLines: 999,
+                  maxLines: 9999,
+                  decoration: widget.decoration,
                 ),
               ),
             ],

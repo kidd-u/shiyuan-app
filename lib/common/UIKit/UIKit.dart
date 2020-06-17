@@ -28,7 +28,7 @@ class InputView extends StatelessWidget {
     this.onChanged,
     this.onEditingComplete,
     this.onSubmitted,
-    this.enabled,
+    this.enabled = true,
     this.textAlign = TextAlign.left,
     this.contentPadding,
   }) : super(key: key);
@@ -80,7 +80,7 @@ class InputView extends StatelessWidget {
         onChanged: onChanged,
         onEditingComplete: onEditingComplete,
         onSubmitted: onSubmitted,
-        enabled: enabled,
+        enableInteractiveSelection: enabled,
         style: TextStyle(fontSize: 28 * ScaleWidth, color: Colors.black),
         decoration: InputDecoration(
           contentPadding: contentPadding,

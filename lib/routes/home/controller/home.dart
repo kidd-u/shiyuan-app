@@ -152,7 +152,7 @@ class Page extends State<HomePage> {
                   control: null,
                   onTap: (int index) {
 //                    print(DefaultUtil.mainContext);
-                    DialogUtil.showToast('点击了$index');
+                    PageUtil.push('notice');
                   },
                 ),
               )
@@ -257,6 +257,7 @@ class Page extends State<HomePage> {
       quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患整改', 'yinhuanList'),
       quanbuItem(context, 'imgs/home/anquanhuiwu.png', '安全会务', 'safeMeetList'),
       quanbuItem(context, 'imgs/home/kaoshidangan.png', '考试档案', 'testFileList'),
+      quanbuItem(context, 'imgs/home/shangjijiancha.png', '上级检查', 'shangjiList'),
     ];
     return new Container(
       margin: EdgeInsets.only(top: 18 * ScaleWidth),

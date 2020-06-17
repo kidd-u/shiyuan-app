@@ -7,6 +7,7 @@ export '../common/UIKit/ColorTheme.dart';
 export '../common/UIKit/UIKit.dart';
 export './http.dart';
 export './page.dart';
+export './filter.dart';
 
 
 final double ScaleWidth = ScreenUtil().scaleWidth;
