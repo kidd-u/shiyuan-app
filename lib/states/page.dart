@@ -23,6 +23,7 @@ class PageUtil {
   }
   /** 跳转并销毁当前页面 */
   static pushAndReplace(String page,{Object arguments}){
+    print(page);
     DefaultUtil.navKey.currentState.pushReplacementNamed(page,arguments: arguments);
   }
 }

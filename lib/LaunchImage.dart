@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'dart:async';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LaunchImagePage extends StatefulWidget {
   @override
@@ -12,9 +13,15 @@ class LaunchImagePage extends StatefulWidget {
 class LaunchImageState extends State<LaunchImagePage> {
   Timer _timer;
 
-  void initState() {
+  void initState(){
     super.initState();
-    _startTimer();
+//    _startTimer();
+    checkLogin();
+  }
+  checkLogin()async{
+    await UserInfo().getUserInfo();
+    String page = UserInfo().token() == null ? 'loginPage' : 'mainTabPage';
+    PageUtil.pushAndReplace(page);
   }
 
   @override
@@ -24,6 +31,7 @@ class LaunchImageState extends State<LaunchImagePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, width: 750, height: 1334);
     return layout(context);
   }
 
@@ -55,12 +63,11 @@ class LaunchImageState extends State<LaunchImagePage> {
   }
 
   Widget layout(BuildContext context) {
-    return new Scaffold(
-      body: ImageView(
-        src: 'imgs/nav/LaunchImage.png',
-        width: ScreenWidth,
-        height: ScreenHeight,
-      ),
+    return new ImageView(
+      color: Colors.transparent,
+      src: 'imgs/nav/LaunchImage.png',
+      width: ScreenWidth,
+      height: ScreenHeight,
     );
   }
 }

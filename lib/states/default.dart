@@ -33,5 +33,5 @@ class DefaultUtil {
   }
 
   static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
-  static BuildContext mainContext;
+//  static BuildContext mainContext;
 }

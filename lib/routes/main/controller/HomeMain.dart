@@ -7,6 +7,7 @@ import '../../message/controller/message.dart';
 import '../../mine/controller/mine.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+
 class HomeMainPage extends StatefulWidget {
   @override
   _MainRouteState createState() => _MainRouteState();

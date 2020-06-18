@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(platform: TargetPlatform.iOS, brightness: Brightness.light, backgroundColor: Colors.white),
         navigatorKey: DefaultUtil.navKey,
-        home: new HomePage(),
+        home: new LaunchImagePage(),
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),
           'loginPage': (BuildContext context) => new LoginPage(),
@@ -147,9 +147,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   @override
-  initState() {
+  initState(){
     super.initState();
-    UserInfo().getUserInfo(); //初始化项目，获取本地缓存的用户数据
+//    UserInfo.getUserInfo(); //初始化项目，获取本地缓存的用户数据
   }
 
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class _HomePage extends State<HomePage> {
     print(context);
     print('=============');
     ScreenUtil.init(context, width: 750, height: 1334);
-    DefaultUtil.mainContext = context;
+//    DefaultUtil.mainContext = context;
     return LaunchImagePage();
   }
 }
