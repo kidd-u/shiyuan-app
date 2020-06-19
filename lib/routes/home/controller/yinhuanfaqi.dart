@@ -44,7 +44,7 @@ class YinhuanFaqiState extends State<YinhuanFaqiPage> {
       appBar: buildAppBar(context, '隐患发起', actions: [rightBtn]),
       backgroundColor: BackgroundColor,
       body: new ListView.builder(
-        padding: EdgeInsets.only(bottom: 100),
+        padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         itemBuilder: (context, index) {
           if (index == 0) {

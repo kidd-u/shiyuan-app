@@ -7,6 +7,7 @@
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     UIImageView *launchImage=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Launch"]];
     launchImage.frame=[UIScreen mainScreen].bounds;
+    launchImage.contentMode=UIViewContentModeScaleAspectFill;
     [self.window addSubview:launchImage];
     [GeneratedPluginRegistrant registerWithRegistry:self];
     self.window.rootViewController.view.alpha = 0;

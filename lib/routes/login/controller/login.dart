@@ -12,15 +12,24 @@ class LoginPage extends StatefulWidget {
   }
 }
 
-class Page extends State<LoginPage> {
+class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
+  TabController _controller;
   int _selectIndex = 0;
   List _pageView = <Widget>[new LoginView(), new RegisterView()];
-  PageController _pageController = PageController(initialPage: 0, keepPage: false);
+
+//  PageController _pageController = PageController(initialPage: 0, keepPage: false);
 
   @override
   void initState() {
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
+    _controller = TabController(length: 2, vsync: this);
+    _controller.addListener(() {
+      if (_selectIndex == _controller.index) return;
+      setState(() {
+        _selectIndex = _controller.index;
+      });
+    });
   }
 
   @override
@@ -45,9 +54,11 @@ class Page extends State<LoginPage> {
 
   void _handleTap(index) {
     setState(() {
+      if (_selectIndex == index) return;
       print('点击了$index');
       _selectIndex = index;
-      _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+      _controller.animateTo(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+//      _pageController.animateToPage(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
     });
   }
 
@@ -59,6 +70,7 @@ class Page extends State<LoginPage> {
 
   Widget layout(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.white,
       body: MediaQuery.removePadding(
         context: context,
         removeTop: true,
@@ -68,15 +80,22 @@ class Page extends State<LoginPage> {
             headerImage(), //顶部图片
             centerView(), //中间切换
             Container(
-                width: ScreenWidth,
-                height: ScreenHeight - 515 * ScaleWidth,
-                child: PageView(
-//              scrollDirection: Axis.vertical,
-                    onPageChanged: (currentPage) {
-                      _pageChange(currentPage);
-                    },
-                    controller: _pageController,
-                    children: _pageView)),
+              width: ScreenWidth,
+              height: ScreenHeight / 2,
+              child: DefaultTabController(
+                  length: 2,
+                  child: TabBarView(
+                    controller: _controller,
+                    children: _pageView,
+                  )),
+//              child: PageView(
+//                onPageChanged: (currentPage) {
+//                  _pageChange(currentPage);
+//                },
+//                controller: _pageController,
+//                children: _pageView,
+//              ),
+            ),
           ],
         ),
       ),

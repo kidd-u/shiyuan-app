@@ -20,7 +20,7 @@ class JianChaDetailState extends State<JianChaDetailPage> {
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '计划检查详情'),
       body: new ListView(
-        padding: EdgeInsets.only(bottom: 30),
+        padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           WorkInput(title: '计划名称：', placehoder: '请输入计划名称', must: true),

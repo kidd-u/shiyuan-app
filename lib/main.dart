@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:shiyuan/routes/home/controller/jihua/jihuajianchaPage.dart';
 import 'states/default.dart';
@@ -82,6 +83,12 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(platform: TargetPlatform.iOS, brightness: Brightness.light, backgroundColor: Colors.white),
         navigatorKey: DefaultUtil.navKey,
+        localizationsDelegates: [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [const Locale('zh', 'CH')],
         home: new LaunchImagePage(),
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),

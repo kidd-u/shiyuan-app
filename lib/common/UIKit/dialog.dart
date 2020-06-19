@@ -23,11 +23,11 @@ class DialogUtil {
     }
     return _instance;
   }
-
+  /** 加载中 */
   static showLoading() {
     BotToast.showLoading();
   }
-
+  /** 取消所有加载中 */
   static hiddenLoading() {
     BotToast.closeAllLoading();
   }
@@ -45,16 +45,16 @@ class DialogUtil {
         });
     return completer.future;
   }
-
+  /** 成功提示悬浮 */
   static toastSuccess(String msg) {
     return showToast(msg ?? '操作成功');
   }
-
+  /** 失败提示悬浮 */
   static toastError(BuildContext context, String msg) {
     return showToast(msg ?? '操作失败');
   }
-
-  static Future dialogConfim(String content, {Function onConfirm, String title, Function onCancel}) async {
+  /** confim操作提示 */
+  static Future dialogConfim(String content, {String title}) async {
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
@@ -66,22 +66,16 @@ class DialogUtil {
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('取消', style: TextStyle(color: Colors.red)),
+                  child: Text('取消', style: TextStyle(color: Colors.black,fontSize: 30*ScaleWidth)),
                   onPressed: () {
-                    if (onCancel != null) {
-                      onCancel();
-                    }
                     cancelFunc();
                     completer.completeError('点击了取消');
 //                    throw '点击了取消';
                   },
                 ),
                 FlatButton(
-                  child: Text('确定'),
+                  child: Text('确定',style: TextStyle(color: MainDarkBlueColor,fontSize: 30*ScaleWidth),),
                   onPressed: () {
-                    if (onConfirm != null) {
-                      onConfirm();
-                    }
                     cancelFunc();
                     completer.complete(true);
                   },
@@ -94,7 +88,7 @@ class DialogUtil {
     });
     return completer.future;
   }
-
+  /** alert无返回值提示 */
   static Future<bool> dialogAlert(String content, {String title}) async {
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
@@ -110,7 +104,7 @@ class DialogUtil {
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('确定'),
+                  child: Text('确定',style: TextStyle(color: MainDarkBlueColor,fontSize: 30*ScaleWidth),),
                   onPressed: () {
                     cancelFunc();
                   },
@@ -122,7 +116,7 @@ class DialogUtil {
       );
     });
   }
-
+  /** sheet底部弹框 */
   static Future dialogSheet(List<String> actions, {String title = '提示'}) async {
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
@@ -171,7 +165,7 @@ class DialogUtil {
                         child: Center(
                             child: Text(
                           title,
-                          style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.w400),
+                          style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.bold),
                         )),
                       ),
                       ...actionItems,
@@ -198,6 +192,39 @@ class DialogUtil {
                 completer.completeError('点击了取消');
               },
             ),
+          ],
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 选择日期 */
+  static Future showTimePicker(BuildContext context) async {
+    Completer completer = new Completer();
+    var _dateTime = DateTime.now();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              color: Colors.white,
+              height: 100*ScaleWidth,
+            ),
+            Container(
+              color: Colors.white,
+              height: 450*ScaleWidth,
+              child: CupertinoDatePicker(
+//                minimumDate: DateTime.parse("1980-05-21"),
+//                maximumDate: DateTime.parse("2019-05-21"),
+                mode: CupertinoDatePickerMode.date,
+                initialDateTime: _dateTime,
+                onDateTimeChanged: (date) {
+                  _dateTime = date;
+                },
+              ),
+            )
           ],
         ),
       );
@@ -253,4 +280,529 @@ class DialogUtil {
     });
     return completer.future;
   }
+
+  /** 开始检查 */
+  static Future dialogBeganCheck() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 474 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/jiancha.png',
+                    width: 133 * ScaleWidth,
+                    height: 130 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 63 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定开始本次检查',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36 * ScaleWidth,
+                    textColor: Color(0xFF62CCA2),
+                    margin: EdgeInsets.only(top: 270 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 开始考试 */
+  static Future dialogBeganTest() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 474 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/kaoshi.png',
+                    width: 160 * ScaleWidth,
+                    height: 141 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 51 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定开始考试',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36 * ScaleWidth,
+                    textColor: Color(0xFF62CCA2),
+                    margin: EdgeInsets.only(top: 270 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 完成培训 */
+  static Future dialogEndTraining() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 474 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/wanchengpeixun.png',
+                    width: 184 * ScaleWidth,
+                    height: 137 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 51 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定完成培训',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36 * ScaleWidth,
+                    textColor: Color(0xFF62CCA2),
+                    margin: EdgeInsets.only(top: 270 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 离开培训 */
+  static Future dialogLeaveTraining() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 510 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/tanhao.png',
+                    width: 114 * ScaleWidth,
+                    height: 100 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 61 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定离开培训界面',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36 * ScaleWidth,
+                    textColor: ErrorColor,
+                    margin: EdgeInsets.only(top: 239 * ScaleWidth),
+                  ),
+                  Label(
+                    '培训尚未结束\n现在离开已培训内容无效',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 30 * ScaleWidth,
+                    textColor: Colors.black,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    margin: EdgeInsets.only(top: 300 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 重新培训 */
+  static Future dialogAgainTraining() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 474 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/chongixnpeixun.png',
+                    width: 194 * ScaleWidth,
+                    height: 175 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 51 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定重新培训？',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 30 * ScaleWidth,
+                    textColor: Colors.black,
+                    textAlign: TextAlign.center,
+                    margin: EdgeInsets.only(top: 270 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+  /** 培训已完成，开始考试 */
+  static Future dialogTrainingDone() async {
+    Completer completer = new Completer();
+    BotToast.showWidget(toastBuilder: (cancelFunc) {
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * ScaleWidth),
+            child: Container(
+              width: 606 * ScaleWidth,
+              height: 474 * ScaleWidth,
+              color: Colors.white,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ImageView(
+                    src: 'imgs/normal/peixunyiwancheng.png',
+                    width: 256 * ScaleWidth,
+                    height: 145 * ScaleWidth,
+                    margin: EdgeInsets.only(top: 51 * ScaleWidth),
+                  ),
+                  Label(
+                    '培训已完成',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36 * ScaleWidth,
+                    textColor: Color(0xFF62CCA2),
+                    textAlign: TextAlign.center,
+                    margin: EdgeInsets.only(top: 239 * ScaleWidth),
+                  ),
+                  Label(
+                    '是否确定开始考试?',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 30 * ScaleWidth,
+                    textColor: Colors.black,
+                    textAlign: TextAlign.center,
+                    margin: EdgeInsets.only(top: 300 * ScaleWidth),
+                  ),
+                  Positioned(
+                    bottom: 93 * ScaleWidth,
+                    left: 0,
+                    right: 0,
+                    height: 0.5,
+                    child: Container(
+                      color: LineColor,
+                      height: 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 93 * ScaleWidth,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            '取消',
+                            fontSize: 30*ScaleWidth,
+                            textColor: Colors.black,
+                            onPressed: (){
+                              completer.completeError(false);
+                              cancelFunc();
+                            },
+                          ),
+                        ),
+                        Container(
+                          color: LineColor,
+                          width: 0.5,
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            '确定',
+                            fontSize: 30*ScaleWidth,
+                            textColor: MainDarkBlueColor,
+                            onPressed: (){
+                              completer.complete(true);
+                              cancelFunc();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return completer.future;
+  }
+
 }

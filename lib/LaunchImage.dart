@@ -11,7 +11,7 @@ class LaunchImagePage extends StatefulWidget {
 }
 
 class LaunchImageState extends State<LaunchImagePage> {
-  Timer _timer;
+//  Timer _timer;
 
   void initState(){
     super.initState();
@@ -43,24 +43,24 @@ class LaunchImageState extends State<LaunchImagePage> {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+//    _timer.cancel();
   }
 
-  _startTimer() {
-    int _seconds = 3;
-    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
-      if (_seconds == 0) {
-        _cancelTimer();
-        String page = UserInfo().token() == null ? 'loginPage' : 'mainTabPage';
-        PageUtil.pushAndReplace(page);
-      }
-      _seconds--;
-    });
-  }
-
-  _cancelTimer() {
-    _timer.cancel();
-  }
+//  _startTimer() {
+//    int _seconds = 3;
+//    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
+//      if (_seconds == 0) {
+//        _cancelTimer();
+//        String page = UserInfo().token() == null ? 'loginPage' : 'mainTabPage';
+//        PageUtil.pushAndReplace(page);
+//      }
+//      _seconds--;
+//    });
+//  }
+//
+//  _cancelTimer() {
+//    _timer.cancel();
+//  }
 
   Widget layout(BuildContext context) {
     return new ImageView(

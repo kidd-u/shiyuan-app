@@ -25,7 +25,7 @@ class JiHuaPageState extends State<JiHuaPage> {
     return new Container(
       color: BackgroundColor,
       child: ListView.builder(
-          padding: EdgeInsets.only(bottom: 30),
+          padding: EdgeInsets.only(bottom: 40),
           itemCount: 9,
           itemExtent: 323 * ScaleWidth,
           itemBuilder: (BuildContext context, int index) {

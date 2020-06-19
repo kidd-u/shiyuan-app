@@ -42,6 +42,8 @@ dependencies:
   chewie: 0.9.10
   video_player: 0.10.11+1
   qrcode: 1.0.4
+  flutter_cupertino_localizations: ^1.0.1
+  flutter_cupertino_date_picker: ^1.0.26
 
 dev_dependencies:
   flutter_test:
@@ -161,6 +163,13 @@ flutter:
     - imgs/mine/xiugaimima.png
     - imgs/mine/right_icon.png
     - imgs/icon/search.png
+    - imgs/normal/jiancha.png
+    - imgs/normal/kaoshi.png
+    - imgs/normal/wanchengpeixun.png
+    - imgs/normal/tanhao.png
+    - imgs/normal/chongixnpeixun.png
+    - imgs/normal/peixunyiwancheng.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

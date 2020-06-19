@@ -23,10 +23,9 @@ class Page extends State<MinePage> {
     return layout(context);
   }
   void loginOut()async{
-    DialogUtil.dialogConfim('确定退出登录？',onConfirm: (){
-      UserInfo().cleanUserInfo();
-      PageUtil.pushAndRemoveAll('loginPage');
-    });
+    await DialogUtil.dialogConfim('确定退出登录？');
+    UserInfo().cleanUserInfo();
+    PageUtil.pushAndRemoveAll('loginPage');
   }
   Widget layout(BuildContext context) {
     return new Scaffold(

@@ -177,7 +177,7 @@ class Page extends State<HomePage> {
     ];
     return new Container(
       width: ScreenWidth,
-      height: 424 * ScaleWidth,
+      height: 426 * ScaleWidth,
       color: Colors.white,
       child: new Column(
         children: <Widget>[
@@ -191,6 +191,9 @@ class Page extends State<HomePage> {
                   margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   fontSize: 26 * ScaleWidth,
                   fontWeight: FontWeight.bold,
+                  onClick: (){
+                    DialogUtil.showTimePicker(context);
+                  },
                 )
               ],
             ),

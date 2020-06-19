@@ -40,7 +40,7 @@ class Page extends State<XianXiaPeiXunPage> {
       appBar: buildAppBar(context, '线上培训考试结果'),
       backgroundColor: BackgroundColor,
       body: new ListView.builder(
-        padding: EdgeInsets.only(bottom: 100),
+        padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         itemBuilder: (context, index) {
           if (index == 0) {
