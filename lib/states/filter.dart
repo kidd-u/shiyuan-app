@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 class Filter{
   static saveValue(dynamic obj){
     return obj ?? '';
@@ -20,8 +21,9 @@ class Filter{
   }
   static time(String date){
     DateTime time = DateTime.parse(date);
-    time = time.toLocal();
-    String t = time.year.toString() + '-' + time.month.toString() + '-' + time.day.toString();
-    return t;
+    return formatDate(time, [yyyy,'-',mm,'-',dd]);
+  }
+  static timeRefresh(DateTime time){
+    return formatDate(time, [hh,':',nn]);
   }
 }

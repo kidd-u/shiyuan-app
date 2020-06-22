@@ -11,20 +11,17 @@ class JiHuaJianCha extends StatefulWidget {
 }
 
 class JiHuaJianChaState extends State<JiHuaJianCha> {
+  bool _isLeft = true;
+  String _type='TEMP_CHECK';
+
   //定义Tab标签
   var tabTexts = ["待执行", "已完成", "超期未执行"];
 
   //定义ab标签对应的Page
   var pages = [
-    JiHuaPage(
-      title: '1',
-    ),
-    JiHuaPage(
-      title: '2',
-    ),
-    JiHuaPage(
-      title: '3',
-    ),
+    JiHuaPage(type: 'TEMP_CHECK'),
+    JiHuaPage(type: 'TEMP_CHECK'),
+    JiHuaPage(type: 'TEMP_CHECK'),
   ];
 
   void initState() {
@@ -48,6 +45,64 @@ class JiHuaJianChaState extends State<JiHuaJianCha> {
             )
           ],
         ));
+  }
+
+  Widget buildAppBar(BuildContext context, String title) {
+    return new AppBar(
+      title: segmented(),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget segmented() {
+    return Container(
+      width: 210,
+      height: 27,
+      //边框设置
+      decoration: new BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        border: new Border.all(width: 1, color: Colors.white),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: TextButton(
+              '临时检查',
+              color: _isLeft ? Colors.white : Colors.transparent,
+              textColor: _isLeft ? Colors.black : Colors.white,
+              fontSize: 13,
+              onPressed: () {
+                setState(() {
+                  _isLeft = true;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: TextButton(
+              '计划检查',
+              color: _isLeft ? Colors.transparent : Colors.white,
+              textColor: _isLeft ? Colors.white : Colors.black,
+              fontSize: 13,
+              onPressed: () {
+                setState(() {
+                  _isLeft = false;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

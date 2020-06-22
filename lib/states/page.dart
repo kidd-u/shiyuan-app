@@ -10,20 +10,26 @@ class PageUtil {
 //  final String text;
 //  2、page 注册时接受参数
 //  'qrcode': (BuildContext context) => new QrCodePage(text:ModalRoute.of(context).settings.arguments),
-  static push(String page,{Object arguments}) {
-    return DefaultUtil.navKey.currentState.pushNamed(page,arguments: arguments);
+  static push(String page, {Object arguments}) {
+    print('***************************');
+    print('push to ' + page);
+    print('***************************');
+    return DefaultUtil.navKey.currentState.pushNamed(page, arguments: arguments);
   }
+
   /** 返回，可携带返回值 */
-  static pop<T extends Object>([T result]){
+  static pop<T extends Object>([T result]) {
     DefaultUtil.navKey.currentState.pop(result);
   }
+
   /** 跳转并销毁所有页面 */
-  static pushAndRemoveAll(String page,{Object arguments}){
-    DefaultUtil.navKey.currentState.pushNamedAndRemoveUntil(page, (route) => false,arguments: arguments);
+  static pushAndRemoveAll(String page, {Object arguments}) {
+    DefaultUtil.navKey.currentState.pushNamedAndRemoveUntil(page, (route) => false, arguments: arguments);
   }
+
   /** 跳转并销毁当前页面 */
-  static pushAndReplace(String page,{Object arguments}){
+  static pushAndReplace(String page, {Object arguments}) {
     print(page);
-    DefaultUtil.navKey.currentState.pushReplacementNamed(page,arguments: arguments);
+    DefaultUtil.navKey.currentState.pushReplacementNamed(page, arguments: arguments);
   }
 }

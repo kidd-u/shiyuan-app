@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import './network_utils.dart';
 import 'package:shiyuan/states/default.dart';
+import './LogUtil.dart';
 
 class TokenInterceptor extends Interceptor {
   String token;
@@ -46,7 +47,7 @@ class HttpUtil {
   }
 
   HttpUtil._internal() {
-    print('初始化');
+    LogUtil.d('初始化');
     // 初始化
     options = new BaseOptions(
       baseUrl: 'http://47.105.133.198/safecoop/api',
@@ -72,110 +73,120 @@ class HttpUtil {
     };
   }
 
-  get(url, {queryParameters, options}) async {
+  static Future get(url, {params}) async {
+    Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      return networkErrorTransform(response);
+      networkErrorTransform(response, completer);
     } else {
       try {
-        response = await dio.get(
-          url,
-          queryParameters: queryParameters,
-        );
-        return networkSuccess(url, response);
+        response = await HttpUtil().dio.get(
+              url,
+              queryParameters: params,
+            );
+        networkSuccess(url, response, completer);
       } on DioError catch (error) {
-        return networkError(url, error);
+        networkError(url, error, completer);
       }
     }
+    return completer.future;
   }
 
-  post(url, {queryParameters, Function onSuccess, Function onError}) async {
+  static Future post(url, {params}) async {
+    Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      return networkErrorTransform(response);
+      networkErrorTransform(response, completer);
     } else {
       try {
-        response = await dio.post(
-          url,
-          data: queryParameters,
-        );
-        return networkSuccess(url, response);
+        response = await HttpUtil().dio.post(
+              url,
+              data: params,
+            );
+        networkSuccess(url, response, completer);
       } on DioError catch (error) {
-        return networkError(url, error);
+        networkError(url, error, completer);
       }
     }
+    return completer.future;
   }
 
-  put(url, {queryParameters, options}) async {
+  static put(url, {params}) async {
+    Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      return networkErrorTransform(response);
+      networkErrorTransform(response, completer);
     } else {
       try {
-        response = await dio.put(
-          url,
-          queryParameters: queryParameters,
-        );
-        return networkSuccess(url, response);
+        response = await HttpUtil().dio.put(
+              url,
+              queryParameters: params,
+            );
+        networkSuccess(url, response, completer);
       } on DioError catch (error) {
-        return networkError(url, error);
+        networkError(url, error, completer);
       }
     }
+    return completer.future;
   }
 
-  delete(url, {queryParameters, options}) async {
+  static delete(url, {params}) async {
+    Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
     if (!networkReachable) {
       response = new Response(statusCode: 1, statusMessage: "网络加载失败，请检查网络");
-      return networkErrorTransform(response);
+      networkErrorTransform(response, completer);
     } else {
       try {
-        response = await dio.delete(
-          url,
-          data: queryParameters,
-        );
-        return networkSuccess(url, response);
+        response = await HttpUtil().dio.delete(
+              url,
+              queryParameters: params,
+            );
+        networkSuccess(url, response, completer);
       } on DioError catch (error) {
-        return networkError(url, error);
+        networkError(url, error, completer);
       }
     }
+    return completer.future;
   }
 
-  networkSuccess(String url, Response response) {
-    print('=======================success $url=======================');
-    print(response);
-    print('=======================success $url=======================');
+  static networkSuccess(String url, Response response, Completer completer) {
+    LogUtil.d('=======================success $url=======================');
+    LogUtil.d(response.toString());
+    LogUtil.d('=======================success $url=======================');
     if (response.data['code'] != 0) {
+      LogUtil.d('服务器返回错误');
       response = new Response(statusCode: 1, statusMessage: response.data['err']);
-      return networkErrorTransform(response);
+      networkErrorTransform(response, completer);
+    } else {
+      LogUtil.d('获取到数据');
+      completer.complete(response.data['data']);
     }
-    return response.data['data'];
   }
 
-  networkError(String url, DioError error) {
+  static networkError(String url, DioError error, Completer completer) {
     Response response;
-    print('=======================error $url=======================');
-    print('$error');
-    print('=======================error $url=======================');
+    LogUtil.d('=======================error $url=======================');
+    LogUtil.d('$error');
+    LogUtil.d('=======================error $url=======================');
     if (error.type == DioErrorType.CONNECT_TIMEOUT) {
       response = new Response(statusCode: NetworkError.NETWORK_TIMEOUT, statusMessage: "网络加载超时，请检查网络");
     } else {
       response = new Response(statusCode: 1, statusMessage: error.message);
     }
-    return networkErrorTransform(response);
+    networkErrorTransform(response, completer);
   }
 
-  networkErrorTransform(Response response) {
-    print("networkErrorTransform === $response");
+  static networkErrorTransform(Response response, Completer completer) {
+    LogUtil.d("networkErrorTransform === $response");
     DialogUtil.dialogAlert(response.statusMessage);
-    throw '错误';
-    return null;
+    completer.completeError(response);
   }
 }

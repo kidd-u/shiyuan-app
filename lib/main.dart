@@ -88,7 +88,8 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        supportedLocales: [const Locale('zh', 'CH')],
+        supportedLocales: [Locale('zh', 'CH')],
+//        localeResolutionCallback: S.delegate.resolution(),
         home: new LaunchImagePage(),
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),

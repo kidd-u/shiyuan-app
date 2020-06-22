@@ -22,7 +22,7 @@ class qiniuUtil {
   }
 
   void getToken() async {
-    Map res = await HttpUtil().get('/qiniu/token');
+    Map res = await HttpUtil.get('/qiniu/token');
     token = res['token'];
     cdn = res['cdn'];
   }
