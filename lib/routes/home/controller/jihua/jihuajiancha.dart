@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
-import 'package:shiyuan/common/UIKit/TabBarPageView.dart';
-import './jihuajianchaPage.dart';
+import './jihuajianchaTab.dart';
 
 class JiHuaJianCha extends StatefulWidget {
   @override
@@ -10,44 +9,56 @@ class JiHuaJianCha extends StatefulWidget {
   }
 }
 
-class JiHuaJianChaState extends State<JiHuaJianCha> {
-  bool _isLeft = true;
-  String _type='TEMP_CHECK';
-
-  //定义Tab标签
-  var tabTexts = ["待执行", "已完成", "超期未执行"];
-
-  //定义ab标签对应的Page
-  var pages = [
-    JiHuaPage(type: 'TEMP_CHECK'),
-    JiHuaPage(type: 'TEMP_CHECK'),
-    JiHuaPage(type: 'TEMP_CHECK'),
+class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderStateMixin {
+  int _selectIndex = 0;
+  TabController _controller;
+  List _pageView = <Widget>[
+    new JiHuaJianChaTab(type: 'TEMP_CHECK'),
+    new JiHuaJianChaTab(type: 'REGULAR_CHECK'),
   ];
 
   void initState() {
     super.initState();
+    _controller = TabController(length: 2, vsync: this);
+    _controller.addListener(() {
+      if (_selectIndex == _controller.index) return;
+      setState(() {
+        _selectIndex = _controller.index;
+      });
+    });
+  }
+
+  void _handleTap(index) {
+    setState(() {
+      if (_selectIndex == index) return;
+      print('点击了$index');
+      _selectIndex = index;
+      _controller.animateTo(index, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context, '计划检查'),
+        appBar: buildAppBar(context),
         body: Column(
           children: <Widget>[
             LineView(),
             Expanded(
-              child: TabBarPageView(
-                  tabTexts: tabTexts,
-                  pages: pages,
-                  onTabChanged: (index) {
-                    print("onTabChanged-->index:$index");
-                  }),
+//              height: ScreenHeight - DefaultUtil.navHeight,
+              child: DefaultTabController(
+                length: 2,
+                child: TabBarView(
+                  controller: _controller,
+                  children: _pageView,
+                ),
+              ),
             )
           ],
         ));
   }
 
-  Widget buildAppBar(BuildContext context, String title) {
+  Widget buildAppBar(BuildContext context) {
     return new AppBar(
       title: segmented(),
       flexibleSpace: Container(
@@ -76,12 +87,12 @@ class JiHuaJianChaState extends State<JiHuaJianCha> {
             flex: 1,
             child: TextButton(
               '临时检查',
-              color: _isLeft ? Colors.white : Colors.transparent,
-              textColor: _isLeft ? Colors.black : Colors.white,
+              color: _selectIndex == 0 ? Colors.white : Colors.transparent,
+              textColor: _selectIndex == 0 ? Colors.black : Colors.white,
               fontSize: 13,
               onPressed: () {
                 setState(() {
-                  _isLeft = true;
+                  _handleTap(0);
                 });
               },
             ),
@@ -90,12 +101,12 @@ class JiHuaJianChaState extends State<JiHuaJianCha> {
             flex: 1,
             child: TextButton(
               '计划检查',
-              color: _isLeft ? Colors.transparent : Colors.white,
-              textColor: _isLeft ? Colors.white : Colors.black,
+              color: _selectIndex == 0 ? Colors.transparent : Colors.white,
+              textColor: _selectIndex == 0 ? Colors.white : Colors.black,
               fontSize: 13,
               onPressed: () {
                 setState(() {
-                  _isLeft = false;
+                  _handleTap(1);
                 });
               },
             ),

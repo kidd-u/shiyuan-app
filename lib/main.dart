@@ -56,16 +56,12 @@ import 'routes/home/controller/shangji/shangjiList.dart';
 import 'routes/home/controller/shangji/shangjiApply.dart';
 import 'routes/home/controller/notice.dart';
 
-void main(){
+void main() {
   // 强制竖屏
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(new MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -79,6 +75,7 @@ class MyApp extends StatelessWidget {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: new MaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],
         theme: ThemeData(platform: TargetPlatform.iOS, brightness: Brightness.light, backgroundColor: Colors.white),
@@ -112,8 +109,22 @@ class MyApp extends StatelessWidget {
           'videojiaoyu': (BuildContext context) => new VideoJiaoYuPage(),
           'xianshangshenhe': (BuildContext context) => new XianShangShenHePage(),
           'jihuajiancha': (BuildContext context) => new JiHuaJianCha(),
-          'jianchaDetail': (BuildContext context) => new JianChaDetailPage(),
-          'jianchaForm': (BuildContext context) => new JianChaFormPage(),
+          'jianchaDetail': (BuildContext context) {
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new JianChaDetailPage(
+              procId: arguments['procId'],
+              taskId: arguments['taskId'],
+              showHistory: arguments['showHistory'],
+            );
+          },
+          'jianchaForm': (BuildContext context) {
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new JianChaFormPage(
+              procId: arguments['procId'],
+              taskId: arguments['taskId'],
+              showForm: arguments['showForm'],
+            );
+          },
           'signOne': (BuildContext context) => new SignOnePage(),
           'signTwo': (BuildContext context) => new SignTwoPage(),
           'xianxiaList': (BuildContext context) => new XianXiaList(),
@@ -155,7 +166,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   @override
-  initState(){
+  initState() {
     super.initState();
 //    UserInfo.getUserInfo(); //初始化项目，获取本地缓存的用户数据
   }
@@ -164,7 +175,7 @@ class _HomePage extends State<HomePage> {
     print('=============');
     print(context);
     print('=============');
-    ScreenUtil.init(context, width: 750, height: 1334);
+    ScreenUtil.init(width: 750, height: 1334);
 //    DefaultUtil.mainContext = context;
     return LaunchImagePage();
   }

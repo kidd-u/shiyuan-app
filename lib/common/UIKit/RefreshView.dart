@@ -25,16 +25,27 @@ class RefreshViewController {
 
   /// 完成刷新
   void finishRefresh({bool success, bool noMore}) {
-    _state.controller.finishRefresh(success: success, noMore: noMore);
+    ///下拉不允许显示noMore
+    _state.controller.finishRefresh(success: success, noMore: false);
+    _state.controller.resetLoadState();
+    _state.controller.finishLoad(success: success, noMore: noMore);
+    if (!_state.isRefresh) return;
+    if (_state.refreshCompleter == null) return;
     _state.refreshCompleter.complete(true);
-    _state.changeRefreshTime();
   }
 
   /// 完成加载
   void finishLoad({bool success, bool noMore}) {
     _state.controller.finishLoad(success: success, noMore: noMore);
+    if (_state.isRefresh) return;
+    if (_state.loadCompleter == null) return;
     _state.loadCompleter.complete(true);
-    _state.changeLoadTime();
+  }
+
+  /// 通用完成加载
+  void finish({bool success, bool noMore}) {
+    finishRefresh(success: success, noMore: noMore);
+    finishLoad(success: success, noMore: noMore);
   }
 
   /// 恢复刷新状态(用于没有更多后)
@@ -83,26 +94,15 @@ class RefreshView extends StatefulWidget {
 
 class RefreshViewState extends State<RefreshView> {
   EasyRefreshController controller = EasyRefreshController();
-  var _refreshTime = DateTime.now();
-  var _loadTime = DateTime.now();
   Completer refreshCompleter;
   Completer loadCompleter;
+  bool isRefresh;
 
   void initState() {
     super.initState();
   }
 
-  void changeRefreshTime() {
-    setState(() {
-      _refreshTime = DateTime.now();
-    });
-  }
-
-  void changeLoadTime() {
-    setState(() {
-      _loadTime = DateTime.now();
-    });
-  }
+  GlobalKey<ClassicalFooterWidgetState> footKey = GlobalKey(debugLabel: 'foot');
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +110,7 @@ class RefreshViewState extends State<RefreshView> {
       controller: controller,
       child: widget.scrollView,
       onRefresh: () async {
+        isRefresh = true;
         widget.onRefresh();
         refreshCompleter = new Completer();
         return refreshCompleter.future;
@@ -117,11 +118,19 @@ class RefreshViewState extends State<RefreshView> {
       onLoad: widget.count == 0
           ? null
           : () {
-              if (widget.count == 0) return null;
+              if (widget.count == 0) {
+                controller.finishLoad(success: true, noMore: true);
+                return null;
+              }
+              isRefresh = false;
               widget.onLoad();
               loadCompleter = new Completer();
               return loadCompleter.future;
             },
+      taskIndependence: true,
+      enableControlFinishRefresh: true,
+      enableControlFinishLoad: true,
+      firstRefresh: true,
       header: ClassicalHeader(
         enableInfiniteRefresh: false,
         infoColor: Colors.black87,
@@ -131,17 +140,17 @@ class RefreshViewState extends State<RefreshView> {
         refreshedText: '刷新完成',
         refreshFailedText: '刷新失败',
         noMoreText: '没有更多了',
-        infoText: '上次更新' + Filter.timeRefresh(_refreshTime),
+        showInfo: false,
       ),
       footer: ClassicalFooter(
+        key: footKey,
         loadText: '上拉加载',
         loadReadyText: '松开加载',
         loadingText: '正在加载...',
         loadedText: '加载完成',
         loadFailedText: '加载失败',
         noMoreText: '没有更多数据',
-        infoText: '上次更新' + Filter.timeRefresh(_loadTime),
-        infoColor: Colors.black87,
+        showInfo: false,
       ),
       emptyWidget: widget.count == 0
           ? Container(

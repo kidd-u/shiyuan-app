@@ -5,6 +5,15 @@ import '../../view/jihuaCell.dart';
 import '../../view/JainChaBiaoZhunCell.dart';
 
 class JianChaFormPage extends StatefulWidget {
+  JianChaFormPage({
+    Key key,
+    this.procId,
+    this.taskId,
+    this.showForm,
+  }) : super();
+  String procId;
+  String taskId;
+  bool showForm;
   @override
   State<StatefulWidget> createState() {
     return new JianChaFormState();
@@ -12,8 +21,27 @@ class JianChaFormPage extends StatefulWidget {
 }
 
 class JianChaFormState extends State<JianChaFormPage> {
+  List _dataArray=[];
+  Map _formData={};
   void initState() {
     super.initState();
+    loadDetail();
+    if(widget.showForm){
+      loadForm();
+    }
+  }
+  loadDetail()async{
+    var res=await HttpUtil.get('/process/common/detail/'+widget.procId);
+    setState(() {
+      _dataArray=res;
+    });
+  }
+  loadForm()async{
+    var res=await HttpUtil.get('/process/safecheck/todo/'+widget.taskId);
+
+    setState(() {
+      _formData=res;
+    });
   }
 
   @override
@@ -28,6 +56,14 @@ class JianChaFormState extends State<JianChaFormPage> {
         ),
       ),
     );
+    List<Widget> views=[];
+    _dataArray.forEach((element) {
+      String title=element['name'];
+      String value=element['label'];
+      views.add(WorkSelect(title: title,value: value));
+    });
+    String format=_formData['format'];
+    List style=_formData[format.toLowerCase()];
     return new Scaffold(
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '检查计划执行', actions: [btn]),
@@ -35,12 +71,8 @@ class JianChaFormState extends State<JianChaFormPage> {
         padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
-          WorkSelect(title: '检查地点或项目：', value: '二号楼一层电梯'),
-          WorkSelect(title: '计划：', value: '2020年3月隐患综合排查'),
-          WorkSelect(title: '日期：', value: '2020-03-08'),
-          WorkSelect(title: '检查人：', value: '高帅'),
-          WorkSelect(title: '检查部门：', value: '后勤保障部'),
-          getTitle(1),
+          ...views,
+          getTitle(format),
           WorkEmpty(
             leftActions: <Widget>[MainTitleLabel('火灾自动报警系统联动控制柜', fontWeight: FontWeight.bold)],
             rightActions: <Widget>[],
@@ -81,13 +113,13 @@ class JianChaFormState extends State<JianChaFormPage> {
           WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', showTopLine: false),
           WorkImageTitle(leftActions: <Widget>[]),
           WorkImageWithMessage(),
-          getTitle(0),
+          getTitle(format),
           WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth, showBottomLine: false),
           WorkImageWithMessage(),
           WorkInputArea(title: '整改要求:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth),
           WorkChoose(title: '整改人:', placeholder: '选择整改人'),
           WorkChoose(title: '限期整改时间:', placeholder: '请选择日期'),
-          getTitle(2),
+          getTitle(format),
           WorkDrop(context, title: '空压机状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
           WorkDrop(context, title: '冷干机状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
           WorkDrop(context, title: '配电箱状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
@@ -95,7 +127,7 @@ class JianChaFormState extends State<JianChaFormPage> {
           WorkDrop(context, title: '环境卫生 :', must: true, actions: ['选项1', '选项2', '选项3']),
           WorkInput(title: '储气罐压力(Mpa):', must: true),
           WorkInputArea(title: '其他情况 :', placehoder: '请输入......', must: true),
-          getTitle(1),
+          getTitle(format),
           JianChaBiaoZhunCell(),
           JianChaBiaoZhunCell(),
         ],
@@ -103,9 +135,9 @@ class JianChaFormState extends State<JianChaFormPage> {
     );
   }
 
-  Widget getTitle(int type) {
+  Widget getTitle(String style) {
     List<Widget> actions = [];
-    if (type == 0) {
+    if (style == 'STYLE1') {
       Widget label = MainTextLabel('已符合', textColor: SuccessColor);
       actions.add(label);
     } else {
@@ -121,10 +153,10 @@ class JianChaFormState extends State<JianChaFormPage> {
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
       );
-      if (type == 1) {
+      if (style == 'STYLE3') {//3对应card2
         actions.add(fuheBtn);
       }
-      if (type == 2) {
+      if (style == 'STYLE2') {//2对应card3
         Widget yinhuanBtn = TextButton(
           '发起隐患',
           width: 130 * ScaleWidth,
@@ -148,7 +180,7 @@ class JianChaFormState extends State<JianChaFormPage> {
       leftActions: <Widget>[
         ImageView(src: 'imgs/home/jihua/jianchabiaozhun.png', width: 52 * ScaleWidth, height: 56 * ScaleWidth),
         MainTitleLabel(
-          '检查标准 1',
+          Filter.checkStyle(style),
           fontWeight: FontWeight.bold,
           margin: EdgeInsets.only(left: 14 * ScaleWidth),
         )

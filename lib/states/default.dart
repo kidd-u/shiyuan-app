@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:ui';
 
 export '../common/UIKit/dialog.dart';
 export '../common/UIKit/RefreshView.dart';
@@ -12,8 +13,8 @@ export './filter.dart';
 
 
 final double ScaleWidth = ScreenUtil().scaleWidth;
-final double ScreenWidth = ScreenUtil.screenWidth / 2;
-final double ScreenHeight = ScreenUtil.screenHeight / 2;
+final double ScreenWidth = ScreenUtil.screenWidth;
+final double ScreenHeight = ScreenUtil.screenHeight;
 
 class DefaultUtil {
   // 工厂模式
@@ -34,5 +35,6 @@ class DefaultUtil {
   }
 
   static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+  static final navHeight=MediaQueryData.fromWindow(window).padding.top + kToolbarHeight;
 //  static BuildContext mainContext;
 }

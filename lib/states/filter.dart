@@ -1,4 +1,5 @@
 import 'package:date_format/date_format.dart';
+import 'package:shiyuan/common/UIKit/ColorTheme.dart';
 class Filter{
   static saveValue(dynamic obj){
     return obj ?? '';
@@ -25,5 +26,18 @@ class Filter{
   }
   static timeRefresh(DateTime time){
     return formatDate(time, [hh,':',nn]);
+  }
+  static checkColor(String status){
+    if (status == '已开始') return NormalColor;
+    if (status == '超期未执行') return ErrorColor;
+    if (status == '已完成') return SuccessColor;
+    if (status == '未完成') return WaitingColor;
+    return NormalColor;
+  }
+  static checkStyle(String style){
+    if(style == 'STYLE1') return '检查标准 1';
+    if(style == 'STYLE2') return '检查标准 3';
+    if(style == 'STYLE') return '检查标准 2';
+    return '检查标准';
   }
 }

@@ -81,7 +81,7 @@ class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
             centerView(), //中间切换
             Container(
               width: ScreenWidth,
-              height: ScreenHeight / 2,
+              height: ScreenHeight,
               child: DefaultTabController(
                   length: 2,
                   child: TabBarView(

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class JiHuaPage extends StatefulWidget {
-  const JiHuaPage({Key key, this.type}) : super(key: key);
-  final String type;
+  JiHuaPage({Key key, @required this.type, @required this.status}) : super(key: key);
+  String type;
+  String status;
 
   @override
   State<StatefulWidget> createState() {
@@ -12,19 +13,15 @@ class JiHuaPage extends StatefulWidget {
 }
 
 class JiHuaPageState extends State<JiHuaPage> {
-  List dataArray = [];
+  List _header = [];
+  List _content = [];
+  int _pageIndex = 0;
   RefreshViewController controller = new RefreshViewController();
 
   @override
   void initState() {
     print('initState');
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((callback){
-      controller.callRefresh();
-      print("addPostFrameCallback be invoke");
-    });
-
   }
 
   @override
@@ -34,24 +31,76 @@ class JiHuaPageState extends State<JiHuaPage> {
   }
 
   void onRefresh() async {
-    try{
-      var res = await HttpUtil.get('/process/common/task/summary',params: {'type':'TEMP_CHECK'});
-      controller.finishRefresh(success: true,noMore: false);
-    }catch(err){
-      controller.finishRefresh(success: false,noMore: true);
+    _pageIndex = 0;
+    _header = [];
+    _content = [];
+    loadDataByPage(_pageIndex);
+  }
+
+  void onLoad() async {
+    loadDataByPage(_pageIndex + 1);
+  }
+
+  void loadDataByPage(int page) async {
+    try {
+      var res = await HttpUtil.get(
+        '/process/common/task/summary',
+        params: {'type': widget.type, 'status': widget.status, 'page': page, 'size': 15, 'sort': 'id'},
+      );
+      List header = res['header'];
+      List content = res['page']['content'];
+      setState(() {
+        _header = [..._header, ...header];
+        _content = [..._content, ...content];
+        _pageIndex = page;
+      });
+      controller.finish(success: true, noMore: _content.length < 15);
+    } catch (err) {
+      controller.finish(success: false, noMore: page != 0);
+      print(err);
     }
   }
 
-  void onLoad() async {}
+  didSelectCellForIndex(int index) async {
+    String status = _content[index]['status'];
+    String taskId = _content[index]['id'];
+    String procId = _content[index]['procId'];
+    switch (status) {
+      case '已开始':
+        {
+          await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
+          PageUtil.push('jianchaForm',arguments: {'procId':procId,'taskId':taskId,'showForm':true});
+        }
+        break;
+
+      case '未开始':
+        {}
+        break;
+      case '已完成':
+        {
+          PageUtil.push('jianchaDetail',arguments: {'procId':procId,'taskId':taskId,'showHistory':true});
+        }
+        break;
+      case '超期未执行':
+        {}
+        break;
+
+      default:
+        {}
+        break;
+    }
+
+  }
 
   Widget layout(BuildContext context) {
     return new Container(
       color: BackgroundColor,
+      height: ScreenHeight - DefaultUtil.navHeight - 80 * ScaleWidth,
       child: RefreshView(
         scrollView: listView(),
         onRefresh: () => onRefresh(),
         onLoad: () => onLoad(),
-        count: dataArray.length,
+        count: _content.length,
         controller: controller,
       ),
     );
@@ -60,9 +109,23 @@ class JiHuaPageState extends State<JiHuaPage> {
   Widget listView() {
     return ListView.builder(
         padding: EdgeInsets.only(bottom: 40),
-        itemCount: dataArray.length,
-        itemExtent: 323 * ScaleWidth,
+        itemCount: _content.length,
+//        itemExtent: 323 * ScaleWidth,
         itemBuilder: (BuildContext context, int index) {
+          //==========刷新数据==========
+          String title = _content[index]['name'];
+          String status = _content[index]['status'];
+          Color topColor = Filter.checkColor(status);
+          List<Widget> items = [];
+          _header.forEach((element) {
+            String text = element['text'];
+            String key = element['key'];
+            String value = _content[index][key];
+            if (key != 'name') {
+              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+            }
+          });
+
           return GestureDetector(
             child: Container(
               margin: EdgeInsets.only(top: 32 * ScaleWidth),
@@ -72,50 +135,40 @@ class JiHuaPageState extends State<JiHuaPage> {
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     child: Container(
                       width: 690 * ScaleWidth,
-                      height: 291 * ScaleWidth,
+//                      height: 291 * ScaleWidth,
                       color: Colors.white,
                       child: Column(
                         children: <Widget>[
                           Container(
-                            color: NormalColor,
+                            color: topColor,
                             height: 92 * ScaleWidth,
                             child: Row(
                               children: <Widget>[
                                 Expanded(
                                   child: MainTitleLabel(
-                                    '2020年冬季防火专项培训',
+                                    title,
                                     textColor: Colors.white,
-                                    margin: EdgeInsets.only(left: 36 * ScaleWidth),
+                                    margin: EdgeInsets.only(left: 36 * ScaleWidth, right: 15 * ScaleWidth),
                                   ),
                                 ),
                                 SubTextLabel(
-                                  '已完成',
+                                  status,
                                   textColor: Colors.white,
                                   margin: EdgeInsets.only(right: 32 * ScaleWidth),
                                 ),
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              width: 690 * ScaleWidth,
-                              padding: EdgeInsets.only(top: 26 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  MainTextLabel('结束时间：2020-03-12'),
-                                  MainTextLabel(
-                                    '培训类别：年度教育',
-                                    margin: EdgeInsets.only(top: 16 * ScaleWidth),
-                                  ),
-                                  MainTextLabel(
-                                    '培训对象：全体员工',
-                                    margin: EdgeInsets.only(top: 16 * ScaleWidth),
-                                  ),
-                                ],
-                              ),
+                          Container(
+                            width: 690 * ScaleWidth,
+                            padding: EdgeInsets.only(top: 26 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth, bottom: 10 * ScaleWidth),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ...items,
+                              ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -124,7 +177,7 @@ class JiHuaPageState extends State<JiHuaPage> {
               ),
             ),
             onTap: () {
-              PageUtil.push('jianchaDetail');
+              didSelectCellForIndex(index);
             },
           );
           return null;

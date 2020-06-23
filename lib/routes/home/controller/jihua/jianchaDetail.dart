@@ -3,6 +3,16 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
 class JianChaDetailPage extends StatefulWidget {
+  JianChaDetailPage({
+    Key key,
+    this.procId,
+    this.taskId,
+    this.showHistory,
+  }) : super();
+  String procId;
+  String taskId;
+  bool showHistory;
+
   @override
   State<StatefulWidget> createState() {
     return new JianChaDetailState();
@@ -10,12 +20,26 @@ class JianChaDetailPage extends StatefulWidget {
 }
 
 class JianChaDetailState extends State<JianChaDetailPage> {
+  List _dataArray=[];
   void initState() {
     super.initState();
+    loadDetail();
+  }
+  loadDetail()async{
+    var res=await HttpUtil.get('/process/common/detail/'+widget.procId);
+    setState(() {
+      _dataArray=res;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> views=[];
+    _dataArray.forEach((element) {
+      String title=element['name'];
+      String value=element['label'];
+      views.add(WorkSelect(title: title,value: value));
+    });
     return new Scaffold(
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '计划检查详情'),
@@ -23,14 +47,7 @@ class JianChaDetailState extends State<JianChaDetailPage> {
         padding: EdgeInsets.only(bottom: 40),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
-          WorkInput(title: '计划名称：', placehoder: '请输入计划名称', must: true),
-          WorkSelect(title: '检查地点或项目：', value: 'A栋电梯设备'),
-          WorkSelect(title: '检查标准：', value: '综合检查表：季度'),
-          WorkSelect(title: '检查组成员：', value: '高帅、赵晓明、王小虎'),
-          WorkSelect(title: '检查部门：', value: '后勤保障部'),
-          WorkSelect(title: '开始日期：', value: '2020-03-08'),
-          WorkSelect(title: '完成日期：', value: '2020-03-09'),
-          WorkSelect(title: '记录人：', value: '高帅'),
+          ...views,
           titleNum(),
           JianChaDetailCell(),
           JianChaDetailCell(),
