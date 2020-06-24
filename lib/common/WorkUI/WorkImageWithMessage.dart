@@ -5,15 +5,16 @@ import 'package:shiyuan/common/UIKit/SelectImage.dart';
 class WorkImageWithMessage extends StatefulWidget {
   const WorkImageWithMessage({
     Key key,
-    this.src,
-    this.message = '',
+    @required this.src,
+    @required this.message = '',
     this.margin,
     this.color = Colors.white,
-    this.onChange,
-    this.onDelete,
+    @required this.onChange,
+    @required this.onDelete,
     this.enabled = true,
     this.showBorder = true,
     this.paddingTop = 0,
+    @required this.index,
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
@@ -24,6 +25,7 @@ class WorkImageWithMessage extends StatefulWidget {
   final bool enabled; //禁用，false为禁用
   final bool showBorder; //是否显示边框
   final double paddingTop;
+  final int index; //用于记录下标
 
   @override
   State<StatefulWidget> createState() {
@@ -58,22 +60,22 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
           widget.onChange(_src, _message);
         },
       ));
-      Widget delete = Container(
-        width: 77 * ScaleWidth,
-        height: 136 * ScaleWidth,
-        //边框设置
-        decoration: new BoxDecoration(
-          color: ErrorColor,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(3.0),
-            bottomRight: Radius.circular(3.0),
+      Widget delete = GestureDetector(
+        onTap: () async {
+          await DialogUtil.dialogConfim('是否确认删除');
+          widget.onDelete(widget.index);
+        },
+        child: Container(
+          width: 77 * ScaleWidth,
+          height: 136 * ScaleWidth,
+          //边框设置
+          decoration: new BoxDecoration(
+            color: ErrorColor,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(3.0),
+              bottomRight: Radius.circular(3.0),
+            ),
           ),
-        ),
-        child: GestureDetector(
-          onTap: () async {
-            await DialogUtil.dialogConfim('是否确认删除');
-            widget.onDelete();
-          },
           child: Center(
             child: SubTextLabel(
               '删除',
@@ -108,6 +110,7 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
             heidht: 136 * ScaleWidth,
             margin: EdgeInsets.only(left: 30 * ScaleWidth),
             enabled: widget.enabled,
+            src: _src,
           ),
           Expanded(
             child: Container(

@@ -50,7 +50,7 @@ class JiHuaPageState extends State<JiHuaPage> {
       List header = res['header'];
       List content = res['page']['content'];
       setState(() {
-        _header = [..._header, ...header];
+        _header = header;
         _content = [..._content, ...content];
         _pageIndex = page;
       });
@@ -66,7 +66,7 @@ class JiHuaPageState extends State<JiHuaPage> {
     String taskId = _content[index]['id'];
     String procId = _content[index]['procId'];
     switch (status) {
-      case '已开始':
+      case '待执行':
         {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
           PageUtil.push('jianchaForm',arguments: {'procId':procId,'taskId':taskId,'showForm':true});

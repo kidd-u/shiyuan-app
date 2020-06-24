@@ -14,6 +14,7 @@ class JianChaFormPage extends StatefulWidget {
   String procId;
   String taskId;
   bool showForm;
+
   @override
   State<StatefulWidget> createState() {
     return new JianChaFormState();
@@ -21,26 +22,29 @@ class JianChaFormPage extends StatefulWidget {
 }
 
 class JianChaFormState extends State<JianChaFormPage> {
-  List _dataArray=[];
-  Map _formData={};
+  List _dataArray = [];
+  Map _formData = {};
+
   void initState() {
     super.initState();
     loadDetail();
-    if(widget.showForm){
+    if (widget.showForm) {
       loadForm();
     }
   }
-  loadDetail()async{
-    var res=await HttpUtil.get('/process/common/detail/'+widget.procId);
+
+  loadDetail() async {
+    var res = await HttpUtil.get('/process/common/detail/' + widget.procId);
     setState(() {
-      _dataArray=res;
+      _dataArray = res;
     });
   }
-  loadForm()async{
-    var res=await HttpUtil.get('/process/safecheck/todo/'+widget.taskId);
+
+  loadForm() async {
+    var res = await HttpUtil.get('/process/safecheck/todo/' + widget.taskId);
 
     setState(() {
-      _formData=res;
+      _formData = res;
     });
   }
 
@@ -56,14 +60,22 @@ class JianChaFormState extends State<JianChaFormPage> {
         ),
       ),
     );
-    List<Widget> views=[];
+    List<Widget> views = [];
     _dataArray.forEach((element) {
-      String title=element['name'];
-      String value=element['label'];
-      views.add(WorkSelect(title: title,value: value));
+      String title = element['name'];
+      String value = element['label'];
+      views.add(WorkSelect(title: title, value: value));
     });
-    String format=_formData['format'];
-    List style=_formData[format.toLowerCase()];
+    List<Widget> cards = [];
+    if (_formData.containsKey('format')) {
+      String format = _formData['format'];
+      format = format.toLowerCase() ?? '';
+      List style = _formData[format];
+      if (format == 'style1') cards = getCard1(format, style); //执行标准样式
+      if (format == 'style2') cards = getCard3(format, style); //下拉选择样式，后台2和3写反了
+      if (format == 'style3') cards = getCard2(format, style); //发起隐患样式
+    }
+
     return new Scaffold(
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '检查计划执行', actions: [btn]),
@@ -72,64 +84,7 @@ class JianChaFormState extends State<JianChaFormPage> {
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           ...views,
-          getTitle(format),
-          WorkEmpty(
-            leftActions: <Widget>[MainTitleLabel('火灾自动报警系统联动控制柜', fontWeight: FontWeight.bold)],
-            rightActions: <Widget>[],
-            showTopLine: false,
-            showBottomLine: false,
-          ),
-          JiHuaCell(
-            type: JiHuaType.normal,
-            title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
-          ),
-          JiHuaCell(
-            type: JiHuaType.waring,
-            title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
-          ),
-          JiHuaCell(
-            type: JiHuaType.danger,
-            title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
-          ),
-          WorkEmpty(
-            leftActions: <Widget>[
-              MainTitleLabel('非检查标准内隐患', fontWeight: FontWeight.bold),
-            ],
-            rightActions: <Widget>[
-              ImageView(
-                src: 'imgs/home/yinhuanfaqi/add.png',
-                width: 30 * ScaleWidth,
-                height: 29 * ScaleWidth,
-                margin: EdgeInsets.only(right: 20 * ScaleWidth),
-                onClick: () {},
-              ),
-              MainTextLabel(
-                '添加隐患',
-                textColor: Color(0xFF959595),
-                onClick: () {},
-              ),
-            ],
-          ),
-          WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', showTopLine: false),
-          WorkImageTitle(leftActions: <Widget>[]),
-          WorkImageWithMessage(),
-          getTitle(format),
-          WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth, showBottomLine: false),
-          WorkImageWithMessage(),
-          WorkInputArea(title: '整改要求:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth),
-          WorkChoose(title: '整改人:', placeholder: '选择整改人'),
-          WorkChoose(title: '限期整改时间:', placeholder: '请选择日期'),
-          getTitle(format),
-          WorkDrop(context, title: '空压机状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
-          WorkDrop(context, title: '冷干机状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
-          WorkDrop(context, title: '配电箱状态 :', must: true, actions: ['选项1', '选项2', '选项3']),
-          WorkDrop(context, title: '排水系统 :', must: true, actions: ['选项1', '选项2', '选项3']),
-          WorkDrop(context, title: '环境卫生 :', must: true, actions: ['选项1', '选项2', '选项3']),
-          WorkInput(title: '储气罐压力(Mpa):', must: true),
-          WorkInputArea(title: '其他情况 :', placehoder: '请输入......', must: true),
-          getTitle(format),
-          JianChaBiaoZhunCell(),
-          JianChaBiaoZhunCell(),
+          ...cards,
         ],
       ),
     );
@@ -153,10 +108,12 @@ class JianChaFormState extends State<JianChaFormPage> {
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
       );
-      if (style == 'STYLE3') {//3对应card2
+      if (style == 'STYLE3') {
+        //3对应card2
         actions.add(fuheBtn);
       }
-      if (style == 'STYLE2') {//2对应card3
+      if (style == 'STYLE2') {
+        //2对应card3
         Widget yinhuanBtn = TextButton(
           '发起隐患',
           width: 130 * ScaleWidth,
@@ -187,6 +144,82 @@ class JianChaFormState extends State<JianChaFormPage> {
       ],
       rightActions: <Widget>[...actions],
     );
+  }
+
+  ///执行标准样式
+  List<Widget> getCard1(String format, List style) {
+    return [
+      getTitle(format),
+      WorkEmpty(
+        leftActions: <Widget>[MainTitleLabel('火灾自动报警系统联动控制柜', fontWeight: FontWeight.bold)],
+        rightActions: <Widget>[],
+        showTopLine: false,
+        showBottomLine: false,
+      ),
+      JiHuaCell(
+        type: JiHuaType.normal,
+        title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
+      ),
+      JiHuaCell(
+        type: JiHuaType.waring,
+        title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
+      ),
+      JiHuaCell(
+        type: JiHuaType.danger,
+        title: '认真执行《电力安全工作规程》等电业法规；做好系统模拟图、二次线路图、电缆走向图。认真执行工作票、操作票、临时用电证。定期检修、定期试验、定期清理。',
+      ),
+      WorkEmpty(
+        leftActions: <Widget>[
+          MainTitleLabel('非检查标准内隐患', fontWeight: FontWeight.bold),
+        ],
+        rightActions: <Widget>[
+          ImageView(
+            src: 'imgs/home/yinhuanfaqi/add.png',
+            width: 30 * ScaleWidth,
+            height: 29 * ScaleWidth,
+            margin: EdgeInsets.only(right: 20 * ScaleWidth),
+            onClick: () {},
+          ),
+          MainTextLabel(
+            '添加隐患',
+            textColor: Color(0xFF959595),
+            onClick: () {},
+          ),
+        ],
+      ),
+      WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', showTopLine: false),
+      WorkImageTitle(leftActions: <Widget>[]),
+      WorkImageWithMessage(),
+    ];
+  }
+
+  ///发起隐患样式
+  List<Widget> getCard2(String format, List style) {
+    return [
+      getTitle(format),
+      WorkInputArea(title: '安全隐患:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth, showBottomLine: false),
+      WorkImageWithMessage(),
+      WorkInputArea(title: '整改要求:', placehoder: '填写隐患说明......', height: 238 * ScaleWidth),
+      WorkChoose(title: '整改人:', placeholder: '选择整改人'),
+      WorkChoose(title: '限期整改时间:', placeholder: '请选择日期'),
+    ];
+  }
+
+  ///下拉选择样式
+  List<Widget> getCard3(String format, List style) {
+    List<Widget> views = [getTitle(format)];
+    for (int i = 0; i < style.length; i++) {
+      Map params = style[i];
+      views.add(WorkUtil.getWorkFormWidget(params, context: context, must: true, onChange: (value) {
+        print('选择了' + value);
+      }));
+    }
+    views.add(WorkYinhuanTitle(
+      onClick: () async {
+        var res = await PageUtil.push('YinhuanAdd', arguments: {'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+      },
+    ));
+    return views;
   }
 
   @override

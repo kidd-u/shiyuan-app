@@ -27,6 +27,7 @@ import 'routes/home/controller/xianshang/xianshangshenhe.dart';
 import 'routes/home/controller/jihua/jihuajiancha.dart';
 import 'routes/home/controller/jihua/jianchaDetail.dart';
 import 'routes/home/controller/jihua/jianchaForm.dart';
+import 'routes/home/controller/jihua/YinhuanAdd.dart';
 import 'routes/home/controller/xianxia/signOne.dart';
 import 'routes/home/controller/xianxia/signTwo.dart';
 import 'routes/home/controller/xianxia/xianxiaList.dart';
@@ -54,6 +55,7 @@ import 'routes/home/controller/safeMeet/safeMeetDetail.dart';
 import 'routes/home/controller/safeMeet/safeMeetSignList.dart';
 import 'routes/home/controller/shangji/shangjiList.dart';
 import 'routes/home/controller/shangji/shangjiApply.dart';
+import 'package:shiyuan/common/WorkUI/WorkChooseStore.dart';
 import 'routes/home/controller/notice.dart';
 
 void main() {
@@ -93,6 +95,10 @@ class MyApp extends StatelessWidget {
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
+          'WorkChooseStore': (BuildContext context) {
+            var arguments = ModalRoute.of(context).settings.arguments;
+            return new WorkChooseStorePage(value: arguments);
+          },
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
           'messagePage': (BuildContext context) => new MessagePage(),
@@ -120,6 +126,14 @@ class MyApp extends StatelessWidget {
           'jianchaForm': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaFormPage(
+              procId: arguments['procId'],
+              taskId: arguments['taskId'],
+              showForm: arguments['showForm'],
+            );
+          },
+          'YinhuanAdd': (BuildContext context) {
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new YinhuanAddPage(
               procId: arguments['procId'],
               taskId: arguments['taskId'],
               showForm: arguments['showForm'],

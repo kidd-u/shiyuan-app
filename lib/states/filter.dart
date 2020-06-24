@@ -35,9 +35,9 @@ class Filter{
     return NormalColor;
   }
   static checkStyle(String style){
-    if(style == 'STYLE1') return '检查标准 1';
-    if(style == 'STYLE2') return '检查标准 3';
-    if(style == 'STYLE') return '检查标准 2';
+    if(style.toLowerCase() == 'style1') return '检查标准 1';
+    if(style.toLowerCase() == 'style2') return '检查标准 3';
+    if(style.toLowerCase() == 'style') return '检查标准 2';
     return '检查标准';
   }
 }

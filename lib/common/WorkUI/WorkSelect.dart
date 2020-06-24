@@ -4,8 +4,9 @@ import 'package:shiyuan/states/default.dart';
 class WorkSelect extends StatefulWidget {
   const WorkSelect({
     Key key,
-    @required this.title,
+    @required this.title = '',
     this.must = false,
+    this.enable = true,
     this.margin,
     this.color = Colors.white,
     this.value,
@@ -15,11 +16,12 @@ class WorkSelect extends StatefulWidget {
   }) : super(key: key);
   final String title;
   final bool must;
+  final bool enable;
   final EdgeInsets margin;
   final Color color;
   final String value;
   final String placeholder;
-  final CallbackAction onChange;
+  final Function onChange;
   final bool showBottomLine;
 
   @override
@@ -61,6 +63,7 @@ class WorkSelectState extends State<WorkSelect> {
                     ),
                     MainTitleLabel(
                       widget.title,
+                      width: 295*ScaleWidth,
                     ),
                   ],
                 ),

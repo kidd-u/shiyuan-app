@@ -20,9 +20,9 @@ class WorkDrop extends StatefulWidget {
   final Color color;
   String value;
   final String placeholder;
-  final CallbackAction onChange;
+  final Function onChange;
   final bool must;
-  final List<String> actions;
+  final List<dynamic> actions;
   final BuildContext context;
 
   @override
@@ -76,6 +76,7 @@ class WorkDropState extends State<WorkDrop> {
                     ),
                     MainTitleLabel(
                       widget.title,
+                      width: 295*ScaleWidth,
                     ),
                   ],
                 ),
@@ -112,13 +113,14 @@ class WorkDropState extends State<WorkDrop> {
                                     color: Colors.transparent,
                                     padding: EdgeInsets.only(left: 20 * ScaleWidth, right: 20 * ScaleWidth),
                                     child: Row(
-                                      children: <Widget>[MainTextLabel(widget.actions[i])],
+                                      children: <Widget>[MainTextLabel(widget.actions[i].toString())],
                                     ),
                                   ),
                                   onTap: () {
                                     print(widget.actions[i]);
                                     setState(() {
                                       widget.value = widget.actions[i];
+                                      widget.onChange(widget.value);
                                     });
                                     cancelFunc();
                                   },

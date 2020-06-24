@@ -2,12 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class WorkSelectTime extends StatefulWidget {
-  const WorkSelectTime({Key key, this.title, this.margin, this.color = Colors.white, this.value = '无', this.onChange}) : super(key: key);
+  WorkSelectTime({
+    Key key,
+    this.title,
+    this.margin,
+    this.color = Colors.white,
+    this.value,
+    this.placeholder = '请选择时间',
+    this.must = false,
+    this.enable = true,
+    this.onChange,
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final Color color;
-  final String value;
-  final CallbackAction onChange;
+  String value;
+  final String placeholder;
+  final bool must;
+  final bool enable;
+  final Function onChange;
 
   @override
   State<StatefulWidget> createState() {
@@ -35,17 +48,49 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
           child: Row(
             children: <Widget>[
               Expanded(
-                child: MainTitleLabel(
-                  widget.title,
-                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+                child: Row(
+                  children: <Widget>[
+                    MainTitleLabel(
+                      widget.must ? '*' : '',
+                      textColor: WarningColor,
+                      margin: EdgeInsets.only(left: 30 * ScaleWidth),
+                    ),
+                    MainTitleLabel(
+                      widget.title,
+                      width: 295 * ScaleWidth,
+                    ),
+                  ],
                 ),
               ),
-              MainTextLabel(
-                widget.value,
-                width: 380 * ScaleWidth,
-                margin: EdgeInsets.only(right: 30 * ScaleWidth),
+              widget.value == null
+                  ? MainTextLabel(
+                widget.placeholder,
+                width: 350 * ScaleWidth,
+                margin: EdgeInsets.only(right: 18 * ScaleWidth),
                 textAlign: TextAlign.right,
+                textColor: Color(0xFFACABAE),
+                onClick: () async {
+                  var res = await PageUtil.push('WorkChooseStore');
+                  setState(() {
+                    widget.value = res;
+                  });
+                  widget.onChange(res);
+                },
               )
+                  : MainTextLabel(
+                widget.value,
+                width: 350 * ScaleWidth,
+                margin: EdgeInsets.only(right: 18 * ScaleWidth),
+                textAlign: TextAlign.right,
+                onClick: () async {
+                  var res = await PageUtil.push('WorkChooseStore',arguments: widget.value);
+                  setState(() {
+                    widget.value = res;
+                  });
+                  widget.onChange(res);
+                },
+              ),
+              rightChoose(),
             ],
           ),
         ),

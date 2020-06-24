@@ -6,6 +6,7 @@ class WorkInput extends StatefulWidget {
     Key key,
     this.title,
     this.must = false,
+    this.enable = true,
     this.margin,
     this.color = Colors.white,
     this.value,
@@ -14,6 +15,7 @@ class WorkInput extends StatefulWidget {
   }) : super(key: key);
   final String title;
   final bool must;
+  final bool enable;
   final EdgeInsets margin;
   final Color color;
   final String value;
@@ -58,11 +60,13 @@ class WorkInputState extends State<WorkInput> {
                     ),
                     MainTitleLabel(
                       widget.title,
+                      width: 295*ScaleWidth,
                     ),
                   ],
                 ),
               ),
               InputView(
+                enabled: widget.enable,
                 controller: controller,
                 placeholder: widget.placehoder,
                 width: 380 * ScaleWidth,

@@ -36,12 +36,14 @@ class SelectImage extends StatefulWidget {
     this.heidht = 100,
     this.margin,
     this.enabled = true,
+    this.onChange,
   }) : super(key: key);
   String src;
   double width;
   double heidht;
   EdgeInsets margin;
   final bool enabled; //禁用，false为禁用
+  final Function onChange;
 
   @override
   State<StatefulWidget> createState() {
@@ -113,6 +115,7 @@ class SelectImageState extends State<SelectImage> {
         widget.src = qiniuUtil().cdn + '/' + res.data['key'];
         print(widget.src);
         isUploading = false;
+        widget.onChange(widget.src);
       });
     }).catchError((err) {
       setState(() {
@@ -124,7 +127,7 @@ class SelectImageState extends State<SelectImage> {
 
   Widget layout(BuildContext context) {
     Widget view;
-    if (widget.src != null) {
+    if (widget.src != null && widget.src!='') {
       view = Image.network(
         widget.src,
         width: widget.width,

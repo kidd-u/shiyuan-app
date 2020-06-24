@@ -43,7 +43,7 @@ class LoginViewState extends State<LoginView> {
       DialogUtil.showToast('请填写账号');
     }
     var token =await HttpUtil.post('/account/login',params: {
-      'phone':'98519060074',
+      'phone':'992-70233529',
       'password':'123456'
     });
     UserInfo().setToken(token);
