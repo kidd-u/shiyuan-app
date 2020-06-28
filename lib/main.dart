@@ -96,8 +96,8 @@ class MyApp extends StatelessWidget {
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
           'WorkChooseStore': (BuildContext context) {
-            var arguments = ModalRoute.of(context).settings.arguments;
-            return new WorkChooseStorePage(value: arguments);
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new WorkChooseStorePage(arguments: arguments);
           },
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
@@ -126,6 +126,7 @@ class MyApp extends StatelessWidget {
           'jianchaForm': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaFormPage(
+              title: arguments['title'],
               procId: arguments['procId'],
               taskId: arguments['taskId'],
               showForm: arguments['showForm'],
@@ -133,11 +134,7 @@ class MyApp extends StatelessWidget {
           },
           'YinhuanAdd': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
-            return new YinhuanAddPage(
-              procId: arguments['procId'],
-              taskId: arguments['taskId'],
-              showForm: arguments['showForm'],
-            );
+            return new YinhuanAddPage(arguments: arguments);
           },
           'signOne': (BuildContext context) => new SignOnePage(),
           'signTwo': (BuildContext context) => new SignTwoPage(),

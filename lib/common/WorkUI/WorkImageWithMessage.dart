@@ -111,6 +111,12 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
             margin: EdgeInsets.only(left: 30 * ScaleWidth),
             enabled: widget.enabled,
             src: _src,
+            onChange: (value){
+              setState(() {
+                _src = value;
+              });
+              widget.onChange(_src, _message);
+            },
           ),
           Expanded(
             child: Container(

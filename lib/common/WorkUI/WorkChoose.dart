@@ -8,6 +8,7 @@ class WorkChoose extends StatefulWidget {
     this.margin,
     this.color = Colors.white,
     this.value,
+    this.isPeople,
     this.placeholder = '请选择',
     this.showBottomLine = true,
     this.must = false,
@@ -18,6 +19,7 @@ class WorkChoose extends StatefulWidget {
   final EdgeInsets margin;
   final Color color;
   String value;
+  final isPeople;
   final String placeholder;
   final bool showBottomLine;
   final bool must;
@@ -31,6 +33,8 @@ class WorkChoose extends StatefulWidget {
 }
 
 class WorkChooseState extends State<WorkChoose> {
+  StreamSubscription<PageEvent> _bus;
+
   void initState() {
     super.initState();
   }
@@ -39,7 +43,19 @@ class WorkChooseState extends State<WorkChoose> {
   Widget build(BuildContext context) {
     return layout(context);
   }
+  chooseStore()async{
+    print({'isPeople':widget.isPeople});
+    PageUtil.push('WorkChooseStore',arguments: {'isPeople':widget.isPeople});
+    _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
+      print(data.params);
+      _bus.cancel();
+      setState(() {
+        widget.value = data.params['name'];
+      });
+      widget.onChange(data.params);
+    });
 
+  }
   Widget layout(BuildContext context) {
     List<Widget> views = [];
     if (widget.showBottomLine) {
@@ -76,11 +92,7 @@ class WorkChooseState extends State<WorkChoose> {
                       textAlign: TextAlign.right,
                       textColor: Color(0xFFACABAE),
                       onClick: () async {
-                        var res = await PageUtil.push('WorkChooseStore');
-                        setState(() {
-                          widget.value = res;
-                        });
-                        widget.onChange(res);
+                        chooseStore();
                       },
                     )
                   : MainTextLabel(
@@ -89,11 +101,7 @@ class WorkChooseState extends State<WorkChoose> {
                       margin: EdgeInsets.only(right: 18 * ScaleWidth),
                       textAlign: TextAlign.right,
                       onClick: () async {
-                        var res = await PageUtil.push('WorkChooseStore',arguments: widget.value);
-                        setState(() {
-                          widget.value = res;
-                        });
-                        widget.onChange(res);
+                        chooseStore();
                       },
                     ),
               rightChoose(),

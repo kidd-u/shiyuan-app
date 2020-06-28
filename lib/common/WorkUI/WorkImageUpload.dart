@@ -92,10 +92,12 @@ class WorkImageUploadState extends State<WorkImageUpload> {
             item['src'] = src;
             item['message'] = message;
           });
+          widget.onChange(_imagesArray);
         },
         onDelete: (index) {
           setState(() {
             _imagesArray.removeAt(index);
+            widget.onChange(_imagesArray);
           });
         },
       ));

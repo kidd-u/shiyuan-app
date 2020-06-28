@@ -5,13 +5,9 @@ import 'package:shiyuan/states/default.dart';
 class YinhuanAddPage extends StatefulWidget {
   YinhuanAddPage({
     Key key,
-    this.procId,
-    this.taskId,
-    this.showForm,
+    this.arguments,
   }) : super();
-  String procId;
-  String taskId;
-  bool showForm;
+  Map arguments;
 
   @override
   State<StatefulWidget> createState() {
@@ -21,9 +17,16 @@ class YinhuanAddPage extends StatefulWidget {
 
 class YinhuanAddState extends State<YinhuanAddPage> {
   List _dataArray = [];
+  List _formArray = [];
+  String _title; //计划名称
+  String _procId; //任务id
 
   void initState() {
     super.initState();
+    setState(() {
+      _title = widget.arguments['title'];
+      _procId = widget.arguments['procId'];
+    });
     getFormData();
   }
 
@@ -32,6 +35,20 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     setState(() {
       _dataArray = res;
     });
+    _formArray = _dataArray.map((e) {
+      Map res = {
+        'index': e['index'],
+        'name': e['name'],
+        'type': e['type'],
+        'label': e['label'],
+        'value': [],
+      };
+      if (e['name'] == '计划') {
+        res['value'] = [_procId];
+      }
+      return res;
+    }).toList();
+    print(_formArray);
   }
 
   @override
@@ -46,10 +63,26 @@ class YinhuanAddState extends State<YinhuanAddPage> {
         ),
       ),
     );
-    List<Widget> views=[];
+    List<Widget> views = [];
     for (int i = 0; i < _dataArray.length; i++) {
       var params = _dataArray[i];
-      views.add(WorkUtil.getWorkFormWidget(params));
+      if (params['name'] == '计划') {
+        views.add(WorkSelect(title: params['name'], value: _title));
+      } else {
+        views.add(WorkUtil.getWorkFormWidget(params, onChange: (value) {
+          print('选择的回调');
+          print(value);
+          if (value is List) {
+            _formArray[i]['value'] = [...value];
+          } else if (value is Map) {
+            _formArray[i]['value'] = [value['id']];
+          } else {
+            _formArray[i]['value'] = [value];
+          }
+          print('准备提交的form');
+          print(_formArray);
+        }));
+      }
     }
     return new Scaffold(
       backgroundColor: BackgroundColor,

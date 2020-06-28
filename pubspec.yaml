@@ -45,6 +45,7 @@ dependencies:
   flutter_cupertino_date_picker: ^1.0.26
   flutter_easyrefresh: ^2.1.1
   date_format: ^1.0.8
+  event_bus: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -163,6 +164,8 @@ flutter:
     - imgs/mine/tuichudenglu.png
     - imgs/mine/xiugaimima.png
     - imgs/mine/right_icon.png
+    - imgs/mine/select_se.png
+    - imgs/mine/select_de.png
     - imgs/icon/search.png
     - imgs/normal/jiancha.png
     - imgs/normal/kaoshi.png

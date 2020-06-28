@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:shiyuan/common/UIKit/UIKit.dart';
 import 'package:shiyuan/states/default.dart';
+import 'package:date_format/date_format.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 
 class DialogUtil {
   // 工厂模式
@@ -55,6 +57,7 @@ class DialogUtil {
   }
   /** confim操作提示 */
   static Future dialogConfim(String content, {String title}) async {
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
@@ -90,6 +93,7 @@ class DialogUtil {
   }
   /** alert无返回值提示 */
   static Future<bool> dialogAlert(String content, {String title}) async {
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
         color: Colors.black38,
@@ -118,6 +122,7 @@ class DialogUtil {
   }
   /** sheet底部弹框 */
   static Future dialogSheet(List<String> actions, {String title = '提示'}) async {
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       List<Widget> actionItems = [];
@@ -202,33 +207,30 @@ class DialogUtil {
   static Future showTimePicker(BuildContext context) async {
     Completer completer = new Completer();
     var _dateTime = DateTime.now();
-    BotToast.showWidget(toastBuilder: (cancelFunc) {
-      return Container(
-        color: Colors.black38,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              color: Colors.white,
-              height: 100*ScaleWidth,
-            ),
-            Container(
-              color: Colors.white,
-              height: 450*ScaleWidth,
-              child: CupertinoDatePicker(
-//                minimumDate: DateTime.parse("1980-05-21"),
-//                maximumDate: DateTime.parse("2019-05-21"),
-                mode: CupertinoDatePickerMode.date,
-                initialDateTime: _dateTime,
-                onDateTimeChanged: (date) {
-                  _dateTime = date;
-                },
-              ),
-            )
-          ],
+
+    DatePicker.showDatePicker(
+        context,
+        pickerTheme: DateTimePickerTheme(
+          showTitle: true,
+          confirm: Text('确定',style:TextStyle(color:Colors.red)),
+          cancel: Text('取消',style: TextStyle(color: Colors.cyan)),
         ),
-      );
-    });
+        minDateTime: DateTime.now(),
+//        maxDateTime: DateTime.now().add(Duration(days: 7)),
+        initialDateTime: _dateTime,
+        // dateFormat: "yyyy-MMMM-dd", //只包含年、月、日
+//        dateFormat: 'yyyy年M月d日  EEE,H时:m分',
+        dateFormat: 'yyyy  MMMM  dd',
+        pickerMode: DateTimePickerMode.date,
+        locale: DateTimePickerLocale.zh_cn,
+        onCancel: (){
+          debugPrint("onCancel");
+        },
+        onConfirm: (dateTime,List<int> index){
+          _dateTime=dateTime;
+          completer.complete(_dateTime);
+        }
+    );
     return completer.future;
   }
 

@@ -62,6 +62,7 @@ class JiHuaPageState extends State<JiHuaPage> {
   }
 
   didSelectCellForIndex(int index) async {
+    String title = _content[index]['name'];
     String status = _content[index]['status'];
     String taskId = _content[index]['id'];
     String procId = _content[index]['procId'];
@@ -69,7 +70,7 @@ class JiHuaPageState extends State<JiHuaPage> {
       case '待执行':
         {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
-          PageUtil.push('jianchaForm',arguments: {'procId':procId,'taskId':taskId,'showForm':true});
+          PageUtil.push('jianchaForm',arguments: {'title':title,'procId':procId,'taskId':taskId,'showForm':true});
         }
         break;
 
@@ -78,7 +79,7 @@ class JiHuaPageState extends State<JiHuaPage> {
         break;
       case '已完成':
         {
-          PageUtil.push('jianchaDetail',arguments: {'procId':procId,'taskId':taskId,'showHistory':true});
+          PageUtil.push('jianchaDetail',arguments: {'title':title,'procId':procId,'taskId':taskId,'showHistory':true});
         }
         break;
       case '超期未执行':

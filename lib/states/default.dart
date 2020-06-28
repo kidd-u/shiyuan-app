@@ -10,6 +10,7 @@ export '../common/UIKit/UIKit.dart';
 export './http.dart';
 export './page.dart';
 export './filter.dart';
+export './event_util.dart';
 
 
 final double ScaleWidth = ScreenUtil().scaleWidth;

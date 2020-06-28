@@ -7,10 +7,12 @@ import '../../view/JainChaBiaoZhunCell.dart';
 class JianChaFormPage extends StatefulWidget {
   JianChaFormPage({
     Key key,
-    this.procId,
-    this.taskId,
-    this.showForm,
+    this.title,//任务标题
+    this.procId,//任务id
+    this.taskId,//表单id
+    this.showForm,//是否是回显
   }) : super();
+  String title;
   String procId;
   String taskId;
   bool showForm;
@@ -216,7 +218,7 @@ class JianChaFormState extends State<JianChaFormPage> {
     }
     views.add(WorkYinhuanTitle(
       onClick: () async {
-        var res = await PageUtil.push('YinhuanAdd', arguments: {'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+        var res = await PageUtil.push('YinhuanAdd', arguments: {'title':widget.title,'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
       },
     ));
     return views;

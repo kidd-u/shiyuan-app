@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import './default.dart';
 
 class PageUtil {
@@ -20,6 +22,13 @@ class PageUtil {
   /** 返回，可携带返回值 */
   static pop<T extends Object>([T result]) {
     DefaultUtil.navKey.currentState.pop(result);
+  }
+  /** 返回
+   * flutter跨页面返回不支携带数据，请使用bus
+   * */
+  static popToName(String page) {
+//    DefaultUtil.navKey.currentState.popAndPushNamed(page,result: result);
+    DefaultUtil.navKey.currentState.popUntil(ModalRoute.withName(page));
   }
 
   /** 跳转并销毁所有页面 */

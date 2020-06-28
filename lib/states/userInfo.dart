@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiyuan/common/WorkUI/WorkChooseStore.dart';
 import 'package:shiyuan/states/default.dart';
 import '../routes/login/model/user.dart';
 import 'dart:convert' as Convert;
@@ -63,6 +64,7 @@ class UserInfo {
         userInfo['jwt'] = jwt;
         _token = UserToken.fromJson(userInfo);
         qiniuUtil().getToken();//初始化七牛token
+        WorkChooseStoreUtil().getAllData();//初始化人员选择
       }
       completer.complete(true);
     }).catchError((err){

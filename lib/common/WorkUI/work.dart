@@ -55,6 +55,9 @@ class WorkUtil {
           String name = params['name'];
           bool required = params['config']['required'];
           bool disabled = params['config']['disabled'];
+//          if () {
+//
+//          }
           return WorkInput(title: name, must: must == true ? must : required, enable: !disabled ?? enable, onChange: (value) => onChange(value));
         }
         break;
@@ -63,7 +66,8 @@ class WorkUtil {
           String name = params['name'];
           bool required = params['config']['required'];
           bool disabled = params['config']['disabled'];
-          return WorkChoose(title: name, must: required, enable: !disabled, onChange: (value) => onChange(value));
+          bool isPeople = params['config']['store'] == 'ACCOUNT';
+          return WorkChoose(title: name, isPeople: isPeople, must: required, enable: !disabled, onChange: (value) => onChange(value));
         }
         break;
       case 'CUpload':

@@ -37,6 +37,9 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
   Widget build(BuildContext context) {
     return layout(context);
   }
+  selectTime()async{
+    var time = await DialogUtil.showTimePicker(context);
+  }
 
   Widget layout(BuildContext context) {
     return Column(
@@ -70,11 +73,7 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
                 textAlign: TextAlign.right,
                 textColor: Color(0xFFACABAE),
                 onClick: () async {
-                  var res = await PageUtil.push('WorkChooseStore');
-                  setState(() {
-                    widget.value = res;
-                  });
-                  widget.onChange(res);
+                  selectTime();
                 },
               )
                   : MainTextLabel(
@@ -83,11 +82,7 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
                 margin: EdgeInsets.only(right: 18 * ScaleWidth),
                 textAlign: TextAlign.right,
                 onClick: () async {
-                  var res = await PageUtil.push('WorkChooseStore',arguments: widget.value);
-                  setState(() {
-                    widget.value = res;
-                  });
-                  widget.onChange(res);
+                  selectTime();
                 },
               ),
               rightChoose(),
