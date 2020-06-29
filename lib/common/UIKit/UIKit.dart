@@ -80,7 +80,8 @@ class InputView extends StatelessWidget {
         onChanged: onChanged,
         onEditingComplete: onEditingComplete,
         onSubmitted: onSubmitted,
-        enableInteractiveSelection: enabled,
+//        enableInteractiveSelection: enabled,
+        enabled: enabled,
         style: TextStyle(fontSize: 28 * ScaleWidth, color: Colors.black),
         decoration: InputDecoration(
           contentPadding: contentPadding,

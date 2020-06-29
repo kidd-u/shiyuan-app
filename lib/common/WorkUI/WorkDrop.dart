@@ -99,6 +99,7 @@ class WorkDropState extends State<WorkDrop> {
                         color: Colors.transparent,
                       ),
                       onTap: () {
+                        DialogUtil.hiddenKeyboard();
                         BotToast.showAttachedWidget(
                             backgroundColor: Color.fromRGBO(0, 0, 0, 0.3),
                             targetContext: context,

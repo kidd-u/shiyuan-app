@@ -126,6 +126,7 @@ class MyApp extends StatelessWidget {
           'jianchaForm': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaFormPage(
+              type: arguments['type'],
               title: arguments['title'],
               procId: arguments['procId'],
               taskId: arguments['taskId'],

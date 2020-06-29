@@ -22,6 +22,7 @@ class PageUtil {
   /** 返回，可携带返回值 */
   static pop<T extends Object>([T result]) {
     DefaultUtil.navKey.currentState.pop(result);
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
   }
   /** 返回
    * flutter跨页面返回不支携带数据，请使用bus
@@ -29,6 +30,7 @@ class PageUtil {
   static popToName(String page) {
 //    DefaultUtil.navKey.currentState.popAndPushNamed(page,result: result);
     DefaultUtil.navKey.currentState.popUntil(ModalRoute.withName(page));
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
   }
 
   /** 跳转并销毁所有页面 */

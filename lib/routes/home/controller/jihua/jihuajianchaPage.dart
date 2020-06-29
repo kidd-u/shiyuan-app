@@ -20,8 +20,8 @@ class JiHuaPageState extends State<JiHuaPage> {
 
   @override
   void initState() {
-    print('initState');
     super.initState();
+    print('initState');
   }
 
   @override
@@ -70,7 +70,11 @@ class JiHuaPageState extends State<JiHuaPage> {
       case '待执行':
         {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
-          PageUtil.push('jianchaForm',arguments: {'title':title,'procId':procId,'taskId':taskId,'showForm':true});
+          bool res = await PageUtil.push('jianchaForm',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showForm': true});
+          if (res) {
+            controller.callRefresh();
+          }
         }
         break;
 
@@ -79,7 +83,8 @@ class JiHuaPageState extends State<JiHuaPage> {
         break;
       case '已完成':
         {
-          PageUtil.push('jianchaDetail',arguments: {'title':title,'procId':procId,'taskId':taskId,'showHistory':true});
+          await PageUtil.push('jianchaDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': true});
         }
         break;
       case '超期未执行':
@@ -90,7 +95,6 @@ class JiHuaPageState extends State<JiHuaPage> {
         {}
         break;
     }
-
   }
 
   Widget layout(BuildContext context) {
@@ -188,17 +192,18 @@ class JiHuaPageState extends State<JiHuaPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    print('didChangeDependencies');
   }
 
   @override
   void deactivate() {
-    print('deactivate');
     super.deactivate();
+    print('deactivate');
   }
 
   @override
   void dispose() {
-    print('dispose');
     super.dispose();
+    print('dispose');
   }
 }

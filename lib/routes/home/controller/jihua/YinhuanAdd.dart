@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
+import 'package:shiyuan/states/LogUtil.dart';
 import 'package:shiyuan/states/default.dart';
 
 class YinhuanAddPage extends StatefulWidget {
@@ -17,7 +18,8 @@ class YinhuanAddPage extends StatefulWidget {
 
 class YinhuanAddState extends State<YinhuanAddPage> {
   List _dataArray = [];
-  List _formArray = [];
+
+//  List _formArray = [];
   String _title; //计划名称
   String _procId; //任务id
 
@@ -26,29 +28,55 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     setState(() {
       _title = widget.arguments['title'];
       _procId = widget.arguments['procId'];
+      print(widget.arguments['procId'] is String);
     });
     getFormData();
   }
 
-  getFormData() async {
+  void getFormData() async {
     var res = await HttpUtil.get('/process/common/init', params: {'name': 'DANGER_ELIMI'});
     setState(() {
       _dataArray = res;
     });
-    _formArray = _dataArray.map((e) {
-      Map res = {
-        'index': e['index'],
-        'name': e['name'],
-        'type': e['type'],
-        'label': e['label'],
-        'value': [],
-      };
-      if (e['name'] == '计划') {
-        res['value'] = [_procId];
+  }
+
+  void submit() async {
+    if (!checkRequired()) {
+      return;
+    }
+    PageUtil.pop({'forms': _dataArray});
+//    DialogUtil.showLoading();
+//    var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
+//    await DialogUtil.toastSuccess('提交成功');
+  }
+
+  bool checkRequired() {
+    for (int i = 0; i < _dataArray.length; i++) {
+      Map params = _dataArray[i];
+      String name = params['name'];
+      bool required = params['config']['required'];
+      List value = params['value'];
+      if (required) {
+        if (value.length == 0) {
+          DialogUtil.dialogAlert('【$name】为必填');
+          return false;
+        } else {
+          var obj = value[0];
+          if (obj is String) {
+            if ((obj as String).length == 0) {
+              DialogUtil.dialogAlert('【$name】为必填');
+              return false;
+            }
+          } else if (obj is List) {
+            if ((obj as List).length == 0) {
+              DialogUtil.dialogAlert('【$name】为必填');
+              return false;
+            }
+          }
+        }
       }
-      return res;
-    }).toList();
-    print(_formArray);
+    }
+    return true;
   }
 
   @override
@@ -62,25 +90,34 @@ class YinhuanAddState extends State<YinhuanAddPage> {
           fontWeight: FontWeight.w400,
         ),
       ),
+      onPressed: () => submit(),
     );
     List<Widget> views = [];
     for (int i = 0; i < _dataArray.length; i++) {
       var params = _dataArray[i];
       if (params['name'] == '计划') {
+        _dataArray[i]['value'] = [_procId];
+        _dataArray[i]['label'] = _title;
         views.add(WorkSelect(title: params['name'], value: _title));
+      } else if (params['label'] != null) {
+//        _dataArray[i]['value'] = [params['label']];
       } else {
         views.add(WorkUtil.getWorkFormWidget(params, onChange: (value) {
           print('选择的回调');
           print(value);
           if (value is List) {
-            _formArray[i]['value'] = [...value];
+            List valueStrAry = value.map((e) => Filter.toJson(e)).toList();
+            _dataArray[i]['value'] = [...valueStrAry];
+            _dataArray[i]['label'] = Filter.toJson([...value]);
           } else if (value is Map) {
-            _formArray[i]['value'] = [value['id']];
+            _dataArray[i]['value'] = [value['value']];
+            _dataArray[i]['label'] = value['label'];
           } else {
-            _formArray[i]['value'] = [value];
+            _dataArray[i]['value'] = [value];
+            _dataArray[i]['label'] = value;
           }
           print('准备提交的form');
-          print(_formArray);
+          LogUtil.d(Filter.toJson(_dataArray));
         }));
       }
     }

@@ -75,7 +75,7 @@ class HttpUtil {
 
   static Future get(url, {params}) async {
     LogUtil.d('=======================params $url=======================');
-    LogUtil.d(params.toString());
+    LogUtil.d(Filter.toJson(params));
     LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
@@ -99,7 +99,7 @@ class HttpUtil {
 
   static Future post(url, {params}) async {
     LogUtil.d('=======================params $url=======================');
-    LogUtil.d(params.toString());
+    LogUtil.d(Filter.toJson(params));
     LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
@@ -164,6 +164,7 @@ class HttpUtil {
   }
 
   static networkSuccess(String url, Response response, Completer completer) {
+    DialogUtil.hiddenLoading();
     LogUtil.d('=======================success $url=======================');
     LogUtil.d(response.toString());
     LogUtil.d('=======================success $url=======================');
@@ -178,6 +179,7 @@ class HttpUtil {
   }
 
   static networkError(String url, DioError error, Completer completer) {
+    DialogUtil.hiddenLoading();
     Response response;
     LogUtil.d('=======================error $url=======================');
     LogUtil.d('$error');

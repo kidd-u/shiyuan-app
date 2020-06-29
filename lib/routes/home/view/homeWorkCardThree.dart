@@ -67,7 +67,7 @@ class HomeWorkCardThreeState extends State<HomeWorkCardThree> {
                     ],
                   ),
                 ),
-                WorkInputArea(enabled: false, value: '有违章行为，进行处分', showTopLine: false, showBottomLine: false, height: 188 * ScaleWidth),
+                WorkInputArea(enable: false, value: '有违章行为，进行处分', showTopLine: false, showBottomLine: false, height: 188 * ScaleWidth),
                 WorkTitle(title: '上传照片（3/10）', fontWeight: FontWeight.w400, showTopLine: false, showBottomLine: false),
                 WorkImageWithMessage(enabled: false, showBorder: false, message: '现场检查照片1'),
                 WorkImageWithMessage(enabled: false, showBorder: false, message: '现场检查照片2'),

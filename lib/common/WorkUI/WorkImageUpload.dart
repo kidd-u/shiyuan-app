@@ -12,6 +12,7 @@ class WorkImageUpload extends StatefulWidget {
     this.showTopLine = false,
     this.showBottomLine = true,
     this.enable = true,
+    this.value,
     this.onChange,
   }) : super(key: key);
   final String title;
@@ -21,6 +22,7 @@ class WorkImageUpload extends StatefulWidget {
   final bool showBottomLine;
   final bool must;
   final bool enable;
+  final List value;
   final Function onChange;
 
   @override
@@ -30,13 +32,14 @@ class WorkImageUpload extends StatefulWidget {
 }
 
 class WorkImageUploadState extends State<WorkImageUpload> {
-  List _imagesArray = [
-    {'src': '', 'message': ''}
-  ];
+  List _imagesArray = [];
 
   void initState() {
     super.initState();
-
+    _imagesArray = widget.value ??
+        [
+          {'src': '', 'message': ''}
+        ];
   }
 
   @override
@@ -53,7 +56,7 @@ class WorkImageUploadState extends State<WorkImageUpload> {
     if (widget.showBottomLine) {
       bottomViews.add(LineView());
     }
-    List<Widget> rightActions=[];
+    List<Widget> rightActions = [];
     if (widget.enable) {
       rightActions = [
         ImageView(
@@ -79,7 +82,7 @@ class WorkImageUploadState extends State<WorkImageUpload> {
         ),
       ];
     }
-    List<Widget> imageItems=[];
+    List<Widget> imageItems = [];
     for (int i = 0; i < _imagesArray.length; i++) {
       var item = _imagesArray[i];
       imageItems.add(WorkImageWithMessage(

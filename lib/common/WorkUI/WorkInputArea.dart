@@ -15,7 +15,7 @@ class WorkInputArea extends StatefulWidget {
     this.showTopLine = true,
     this.showBottomLine = true,
     this.must = false,
-    this.enabled = true,
+    this.enable = true,
   }) : super(key: key);
   final String title;
   final EdgeInsets margin;
@@ -28,7 +28,7 @@ class WorkInputArea extends StatefulWidget {
   final bool showTopLine;
   final bool showBottomLine;
   final bool must;
-  final bool enabled; //禁用，false为禁用
+  final bool enable; //禁用，false为禁用
 
   @override
   State<StatefulWidget> createState() {
@@ -73,16 +73,17 @@ class WorkInputAreaState extends State<WorkInputArea> {
               MainTitleLabel(
                 widget.must ? '*' : '',
                 textColor: WarningColor,
-                margin: EdgeInsets.only(left: 30 * ScaleWidth, top: 30 * ScaleWidth),
+                margin: EdgeInsets.only(left: 30 * ScaleWidth, top: 26 * ScaleWidth),
               ),
               MainTitleLabel(
                 widget.title,
-                margin: EdgeInsets.only(top: 30 * ScaleWidth),
+                margin: EdgeInsets.only(top: 26 * ScaleWidth),
               ),
               Expanded(
                 child: InputView(
+                  autofocus: false,
                   controller: controller,
-                  enabled: widget.enabled,
+                  enabled: widget.enable,
                   contentPadding: EdgeInsets.zero,
                   margin: widget.margin,
                   color: widget.color,
@@ -91,6 +92,9 @@ class WorkInputAreaState extends State<WorkInputArea> {
                   placeholder: widget.placehoder,
                   maxLines: 9999,
                   decoration: widget.decoration,
+                  onChanged: (value){
+                    widget.onChange(value);
+                  },
                 ),
               ),
             ],
@@ -107,9 +111,11 @@ class WorkInputAreaState extends State<WorkInputArea> {
   }
 
   @override
+
   void deactivate() {
     super.deactivate();
   }
+
 
   @override
   void dispose() {

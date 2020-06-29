@@ -67,7 +67,7 @@ class HomeWorkCardTwoState extends State<HomeWorkCardTwo> {
                     ],
                   ),
                 ),
-                WorkInputArea(enabled: false, value: '通告', showTopLine: false, showBottomLine: false),
+                WorkInputArea(enable: false, value: '通告', showTopLine: false, showBottomLine: false),
                 WorkTitle(
                     title: '上传照片（0/10）', fontWeight: FontWeight.w400, showTopLine: false, showBottomLine: false, margin: EdgeInsets.only(bottom: 30)),
               ],

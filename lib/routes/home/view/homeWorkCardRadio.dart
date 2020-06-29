@@ -84,7 +84,7 @@ class HomeWorkCardRadioState extends State<HomeWorkCardRadio> {
                 WorkSelect(title: '上级审批：', value: '余建伟', showBottomLine: false),
                 WorkSelect(title: '上级审批：', value: '余建伟', showBottomLine: false),
                 LineView(margin: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth)),
-                WorkInputArea(enabled: false, value: '现场已检查，不错', showTopLine: false, showBottomLine: false, height: 188 * ScaleWidth),
+                WorkInputArea(enable: false, value: '现场已检查，不错', showTopLine: false, showBottomLine: false, height: 188 * ScaleWidth),
                 WorkTitle(title: '上传照片（3/10）', fontWeight: FontWeight.w400, showTopLine: false, showBottomLine: false),
                 WorkImageWithMessage(enabled: false, showBorder: false, message: '现场检查照片1'),
                 WorkImageWithMessage(enabled: false, showBorder: false, message: '现场检查照片2'),

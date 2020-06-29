@@ -38,7 +38,12 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
     return layout(context);
   }
   selectTime()async{
-    var time = await DialogUtil.showTimePicker(context);
+    var time = await DialogUtil.showTimePicker(context,normalTime: widget.value);
+    print(time is DateTime);
+    setState(() {
+      widget.value=Filter.dateToTime(time);
+      widget.onChange(widget.value);
+    });
   }
 
   Widget layout(BuildContext context) {

@@ -25,6 +25,9 @@ class DialogUtil {
     }
     return _instance;
   }
+  static hiddenKeyboard(){
+    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
+  }
   /** 加载中 */
   static showLoading() {
     BotToast.showLoading();
@@ -57,7 +60,7 @@ class DialogUtil {
   }
   /** confim操作提示 */
   static Future dialogConfim(String content, {String title}) async {
-    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
+    hiddenKeyboard();
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
@@ -73,6 +76,7 @@ class DialogUtil {
                   onPressed: () {
                     cancelFunc();
                     completer.completeError('点击了取消');
+                    hiddenKeyboard();
 //                    throw '点击了取消';
                   },
                 ),
@@ -81,6 +85,7 @@ class DialogUtil {
                   onPressed: () {
                     cancelFunc();
                     completer.complete(true);
+                    hiddenKeyboard();
                   },
                 ),
               ],
@@ -93,7 +98,7 @@ class DialogUtil {
   }
   /** alert无返回值提示 */
   static Future<bool> dialogAlert(String content, {String title}) async {
-    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
+    hiddenKeyboard();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       return Container(
         color: Colors.black38,
@@ -122,7 +127,7 @@ class DialogUtil {
   }
   /** sheet底部弹框 */
   static Future dialogSheet(List<String> actions, {String title = '提示'}) async {
-    FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
+    hiddenKeyboard();
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
       List<Widget> actionItems = [];
@@ -132,6 +137,7 @@ class DialogUtil {
           onTap: () {
             completer.complete(i);
             cancelFunc();
+            hiddenKeyboard();
           },
           child: Container(
             width: 700 * ScaleWidth,
@@ -195,6 +201,7 @@ class DialogUtil {
               onPressed: () {
                 cancelFunc();
                 completer.completeError('点击了取消');
+                hiddenKeyboard();
               },
             ),
           ],
@@ -204,9 +211,10 @@ class DialogUtil {
     return completer.future;
   }
   /** 选择日期 */
-  static Future showTimePicker(BuildContext context) async {
+  static Future showTimePicker(BuildContext context,{String normalTime}) async {
+    hiddenKeyboard();
     Completer completer = new Completer();
-    var _dateTime = DateTime.now();
+    var _dateTime = normalTime == null?DateTime.now():DateTime.parse(normalTime);
 
     DatePicker.showDatePicker(
         context,
@@ -229,6 +237,7 @@ class DialogUtil {
         onConfirm: (dateTime,List<int> index){
           _dateTime=dateTime;
           completer.complete(_dateTime);
+          hiddenKeyboard();
         }
     );
     return completer.future;

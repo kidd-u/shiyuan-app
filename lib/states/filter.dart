@@ -21,6 +21,12 @@ class Filter {
   static toJson(dynamic obj) {
     return convert.jsonEncode(obj);
   }
+  static jsonDeCode(String obj) {
+    if (obj == null) {
+      return null;
+    }
+    return convert.jsonDecode(obj);
+  }
 
   static auditType(String type) {
     if (type == 'wait') return '待审核';
@@ -33,6 +39,10 @@ class Filter {
   static time(String date) {
     DateTime time = DateTime.parse(date);
     return formatDate(time, [yyyy, '-', mm, '-', dd]);
+  }
+  static dateToTime(DateTime date) {
+//    DateTime time = DateTime.parse(date);
+    return formatDate(date, [yyyy, '-', mm, '-', dd]);
   }
 
   static timeRefresh(DateTime time) {
