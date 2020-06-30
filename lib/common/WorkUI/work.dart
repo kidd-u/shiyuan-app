@@ -41,8 +41,8 @@ class WorkUtil {
       case 'SELECT':
         {
           String title = params['label'];
-          String value = params['desc'];
-          List options = params['options'];
+          String value = params['value'];
+          List options = params['options']??[];
           return WorkDrop(context, title: title,value: value, actions: options, must: must, onChange: (value) => onChange(value));
         }
         break;
@@ -50,7 +50,7 @@ class WorkUtil {
       case 'INPUT':
         {
           String title = params['label'];
-          String value = params['desc'];
+          String value = params['value'];
           List options = params['options'];
           return WorkInput(title: title,value: value, must: must, enable: enable, onChange: (value) => onChange(value));
         }

@@ -12,13 +12,11 @@ class JianChaFormPage extends StatefulWidget {
     this.title, //任务标题
     this.procId, //任务id
     this.taskId, //表单id
-    this.showForm, //是否是回显
   }) : super();
   String type;
   String title;
   String procId;
   String taskId;
-  bool showForm;
 
   @override
   State<StatefulWidget> createState() {
@@ -37,9 +35,7 @@ class JianChaFormState extends State<JianChaFormPage> {
   void initState() {
     super.initState();
     loadDetail();
-    if (widget.showForm) {
-      loadForm();
-    }
+    loadForm();
   }
 
   void loadDetail() async {
@@ -66,18 +62,30 @@ class JianChaFormState extends State<JianChaFormPage> {
   void submit() async {
     print(widget.type);
     var content = _style ?? [];
-    for (int i = 0; i < content.length; i++) {
-      Map params = _style[i];
-      if (params['value'] == null || params['value'].length == 0) {
-        String title = params['label'];
-        DialogUtil.dialogAlert('【$title】为必填项');
-        return;
+    if (_FORMAT == 'STYLE1') {
+      var contentAry = [];
+      for (int i = 0; i < content.length; i++) {
+        Map item = content[i];
+        contentAry = [...contentAry, ...item['content']];
+      }
+      content = contentAry;
+    }
+    if (_FORMAT == 'STYLE3') {
+      for (int i = 0; i < content.length; i++) {
+        Map params = _style[i];
+        if (params['value'] == null || params['value'].length == 0) {
+          String title = params['label'];
+          DialogUtil.dialogAlert('【$title】为必填项');
+          return;
+        }
       }
     }
+
     await DialogUtil.dialogConfim('确定提交吗?');
-    await HttpUtil.post('/process/common/init/batch?name=DANGER_ELIMI', params: {'batch': _yinhuanArray});
+    if (_yinhuanArray.length > 0) {
+      await HttpUtil.post('/process/common/init/batch?name=DANGER_ELIMI', params: {'batch': _yinhuanArray});
+    }
     var params = {'format': _FORMAT, 'content': content};
-    LogUtil.d(Filter.toJson(params));
     await HttpUtil.post('/process/safecheck/todo/' + widget.taskId, params: params);
     await DialogUtil.toastSuccess('提交成功!');
     PageUtil.pop(true);
@@ -113,7 +121,9 @@ class JianChaFormState extends State<JianChaFormPage> {
           forms: item['forms'],
           onDelete: () async {
             await DialogUtil.dialogConfim('是否确认删除该隐患?');
-            _yinhuanArray.removeAt(i);
+            setState(() {
+              _yinhuanArray.removeAt(i);
+            });
           }));
     }
 
@@ -149,28 +159,17 @@ class JianChaFormState extends State<JianChaFormPage> {
         color: MainDarkBlueColor,
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
+      onPressed: () {
+        print(_FORMAT);
+        if (_FORMAT == 'STYLE1') {
+          changeCard1();
+        }
+        if (_FORMAT == 'STYLE2') {
+          changeCard3();
+        }
+      },
     );
-    if (_FORMAT != 'STYLE2') {
-      actions.add(fuheBtn);
-    }
-    if (_FORMAT == 'STYLE2') {
-      //2对应card3
-      Widget yinhuanBtn = TextButton(
-        '发起隐患',
-        width: 130 * ScaleWidth,
-        height: 52 * ScaleWidth,
-        textColor: Colors.white,
-        fontSize: 24 * ScaleWidth,
-        margin: EdgeInsets.only(left: 17 * ScaleWidth),
-        //边框设置
-        decoration: new BoxDecoration(
-          color: ErrorColor,
-          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-        ),
-      );
-
-      actions.add(yinhuanBtn);
-    }
+    actions.add(fuheBtn);
 
     return WorkEmpty(
       margin: EdgeInsets.only(top: 20 * ScaleWidth),
@@ -184,6 +183,29 @@ class JianChaFormState extends State<JianChaFormPage> {
       ],
       rightActions: <Widget>[...actions],
     );
+  }
+
+  void changeCard1() {
+    for (int i = 0; i < _style.length; i++) {
+      Map params = _style[i];
+      List content = params['content'];
+      for (int i = 0; i < content.length; i++) {
+        setState(() {
+          content[i]['value'] = 1;
+        });
+      }
+    }
+  }
+
+  void changeCard3() {
+    for (int i = 0; i < _style.length; i++) {
+      Map params = _style[i];
+      if (params['type'] == 'SELECT') {
+        setState(() {
+          _style[i]['value'] = params['options'][0];
+        });
+      }
+    }
   }
 
   ///执行标准样式
@@ -204,9 +226,18 @@ class JianChaFormState extends State<JianChaFormPage> {
       for (int i = 0; i < content.length; i++) {
         String desc = content[i]['desc'];
         views.add(
-          JiHuaCell(
-            type: JiHuaType.normal,
-            title: desc,
+          GestureDetector(
+            onTap: () async {
+              var res = await DialogUtil.dialogSheet(['符合', '不符合']);
+              print(res);
+              setState(() {
+                content[i]['value'] = res + 1;
+              });
+            },
+            child: JiHuaCell(
+              type: content[i]['value'],
+              title: desc,
+            ),
           ),
         );
       }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/common/WorkUI/WorkChooseStore.dart';
 import 'package:shiyuan/states/default.dart';
 import '../routes/login/model/user.dart';
+import '../routes/login/model/UserInfo.dart';
 import 'dart:convert' as Convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shiyuan/common/UIKit/SelectImage.dart';
@@ -23,6 +24,7 @@ class UserInfo {
   }
 
   UserToken _token;
+  static UserInfoModel userInfo;
 
   UserToken token() {
     return _token;

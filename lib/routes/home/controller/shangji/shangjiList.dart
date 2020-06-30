@@ -15,16 +15,11 @@ class ShangJiListState extends State<ShangJiList> {
   var tabTexts = ["全部数据", "待整改", "待复检", "已完成", "已超期"];
 
   //定义ab标签对应的Page
-  var pages = [
-    ShangJiPage(title: '1'),
-    ShangJiPage(title: '2'),
-    ShangJiPage(title: '3'),
-    ShangJiPage(title: '3'),
-    ShangJiPage(title: '3'),
-  ];
+  var pages;
 
   void initState() {
     super.initState();
+    pages = tabTexts.map((e) => ShangJiPage(type: 'DANGER_ELIMI', status: e)).toList();
   }
 
   @override

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-enum JiHuaType { normal, waring, danger }
-
 class JiHuaCell extends StatefulWidget {
   const JiHuaCell({Key key, this.title, this.type}) : super(key: key);
   final String title;
-  final JiHuaType type;
+  final int type;
 
   @override
   State<StatefulWidget> createState() {
@@ -36,7 +34,7 @@ class JiHuaCellState extends State<JiHuaCell> {
             bottom: 0,
             width: 8 * ScaleWidth,
             child: Container(
-              color: widget.type == JiHuaType.normal ? SuccessColor : widget.type == JiHuaType.waring ? LoadingColor : WarningColor,
+              color: widget.type == 1 ? SuccessColor : widget.type == 2 ? WarningColor : LoadingColor,
             ),
           ),
           MainTextLabel(

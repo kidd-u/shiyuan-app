@@ -186,7 +186,7 @@ class DialogUtil {
             Button(
               width: 700 * ScaleWidth,
               height: 45,
-              margin: EdgeInsets.only(bottom: 10, top: 15),
+              margin: EdgeInsets.only(bottom: 15, top: 15),
               //边框设置
               decoration: new BoxDecoration(
                 //背景

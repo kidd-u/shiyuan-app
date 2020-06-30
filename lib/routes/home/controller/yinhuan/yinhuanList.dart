@@ -15,29 +15,11 @@ class YinHuanListState extends State<YinHuanList> {
   var tabTexts = ["全部数据", "待整改", "待验收", "已完成", "已超期", "验收未通过"];
 
   //定义ab标签对应的Page
-  var pages = [
-    YinHuanPage(
-      title: '1',
-    ),
-    YinHuanPage(
-      title: '2',
-    ),
-    YinHuanPage(
-      title: '3',
-    ),
-    YinHuanPage(
-      title: '4',
-    ),
-    YinHuanPage(
-      title: '5',
-    ),
-    YinHuanPage(
-      title: '6',
-    ),
-  ];
+  var pages;
 
   void initState() {
     super.initState();
+    pages = tabTexts.map((e) => YinHuanPage(type: 'DANGER_ELIMI', status: e)).toList();
   }
 
   @override

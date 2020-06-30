@@ -9,8 +9,13 @@ enum ShangJiType {
 }
 
 class ShangJiPage extends StatefulWidget {
-  const ShangJiPage({Key key, this.title}) : super(key: key);
-  final String title;
+  const ShangJiPage({
+    Key key,
+    this.type,
+    this.status,
+  }) : super(key: key);
+  final String type;
+  final String status;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,6 +24,11 @@ class ShangJiPage extends StatefulWidget {
 }
 
 class ShangJiPageState extends State<ShangJiPage> {
+  List _header = [];
+  List _content = [];
+  int _pageIndex = 0;
+  RefreshViewController controller = new RefreshViewController();
+
   void initState() {
     super.initState();
   }
@@ -28,20 +38,61 @@ class ShangJiPageState extends State<ShangJiPage> {
     return layout(context);
   }
 
+  void onRefresh() async {
+    _pageIndex = 0;
+    _header = [];
+    _content = [];
+    loadDataByPage(_pageIndex);
+  }
+
+  void onLoad() async {
+    loadDataByPage(_pageIndex + 1);
+  }
+
+  void loadDataByPage(int page) async {
+    try {
+      var res = await HttpUtil.get(
+        '/process/common/task/summary',
+        params: {'type': widget.type, 'status': widget.status, 'page': page, 'size': 15, 'sort': 'id'},
+      );
+      List header = res['header'];
+      List content = res['page']['content'];
+      setState(() {
+        _header = header;
+        _content = [..._content, ...content];
+        _pageIndex = page;
+      });
+      controller.finish(success: true, noMore: _content.length < 15);
+    } catch (err) {
+      controller.finish(success: false, noMore: page != 0);
+      print(err);
+    }
+  }
+
   Widget layout(BuildContext context) {
     return new Container(
       color: BackgroundColor,
-      child: ListView.builder(
-          padding: EdgeInsets.all(30 * ScaleWidth),
-          itemCount: 3,
+      child: RefreshView(
+        scrollView: listView(),
+        onRefresh: () => onRefresh(),
+        onLoad: () => onLoad(),
+        count: _content.length,
+        controller: controller,
+      ),
+    );
+  }
+  Widget listView(){
+    return ListView.builder(
+      padding: EdgeInsets.all(30 * ScaleWidth),
+      itemCount: 3,
 //          itemExtent: 323 * ScaleWidth,
 //          itemExtent: 365 * ScaleWidth,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) return itemCell(ShangJiType.normal);
-            if (index == 1) return itemCell(ShangJiType.loading);
-            if (index == 2) return itemCell(ShangJiType.error);
-            return null;
-          }),
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) return itemCell(ShangJiType.normal);
+        if (index == 1) return itemCell(ShangJiType.loading);
+        if (index == 2) return itemCell(ShangJiType.error);
+        return null;
+      },
     );
   }
 

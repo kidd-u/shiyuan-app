@@ -87,14 +87,22 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
       views.add(input);
       views.add(delete);
     } else {
+      TextEditingController controller=new TextEditingController();
+      controller.text=_message;
       Widget text = Expanded(
-        child: SubTextLabel(
-          widget.message,
-          maxLines: 9999,
-//          width: 518 * ScaleWidth - 2,
-          height: 136 * ScaleWidth - 2,
-          padding: EdgeInsets.all(5),
-        ),
+//        child: SubTextLabel(
+//          widget.message,
+//          maxLines: 9999,
+////          width: 518 * ScaleWidth - 2,
+//          height: 136 * ScaleWidth - 2,
+//          padding: EdgeInsets.all(5),
+//        ),
+      child: InputView(
+        controller: controller,
+        enabled: false,
+        maxLines: 9999,
+        contentPadding: EdgeInsets.all(15*ScaleWidth),
+      ),
       );
       views.add(text);
     }

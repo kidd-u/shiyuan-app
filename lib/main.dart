@@ -27,6 +27,7 @@ import 'routes/home/controller/xianshang/xianshangshenhe.dart';
 import 'routes/home/controller/jihua/jihuajiancha.dart';
 import 'routes/home/controller/jihua/jianchaDetail.dart';
 import 'routes/home/controller/jihua/jianchaForm.dart';
+import 'routes/home/controller/jihua/jianchaFormDetail.dart';
 import 'routes/home/controller/jihua/YinhuanAdd.dart';
 import 'routes/home/controller/xianxia/signOne.dart';
 import 'routes/home/controller/xianxia/signTwo.dart';
@@ -118,9 +119,10 @@ class MyApp extends StatelessWidget {
           'jianchaDetail': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaDetailPage(
+              type: arguments['type'],
+              title: arguments['title'],
               procId: arguments['procId'],
               taskId: arguments['taskId'],
-              showHistory: arguments['showHistory'],
             );
           },
           'jianchaForm': (BuildContext context) {
@@ -130,7 +132,15 @@ class MyApp extends StatelessWidget {
               title: arguments['title'],
               procId: arguments['procId'],
               taskId: arguments['taskId'],
-              showForm: arguments['showForm'],
+            );
+          },
+          'jianchaFormDetail': (BuildContext context) {
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new JianChaFormDetailPage(
+              type: arguments['type'],
+              title: arguments['title'],
+              procId: arguments['procId'],
+              recordId: arguments['recordId'],
             );
           },
           'YinhuanAdd': (BuildContext context) {

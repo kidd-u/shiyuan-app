@@ -14,7 +14,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
   TabController _controller;
   List _pageView = <Widget>[
     new JiHuaJianChaTab(type: 'TEMP_CHECK'),
-    new JiHuaJianChaTab(type: 'REGULAR_CHECK'),
+    new JiHuaJianChaTab(type: 'REGULAR_CHECK_RECORD'),
   ];
 
   void initState() {

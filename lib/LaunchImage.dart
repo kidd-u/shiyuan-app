@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiyuan/routes/login/model/UserInfo.dart';
 import 'package:shiyuan/states/default.dart';
 import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,14 +14,18 @@ class LaunchImagePage extends StatefulWidget {
 class LaunchImageState extends State<LaunchImagePage> {
 //  Timer _timer;
 
-  void initState(){
+  void initState() {
     super.initState();
 //    _startTimer();
     checkLogin();
   }
-  checkLogin()async{
+
+  checkLogin() async {
     await UserInfo().getUserInfo();
     String page = UserInfo().token() == null ? 'loginPage' : 'mainTabPage';
+    HttpUtil.get('/account/mine').then((value) {
+      UserInfo.userInfo = UserInfoModel.fromJson(value);
+    });
     PageUtil.pushAndReplace(page);
   }
 

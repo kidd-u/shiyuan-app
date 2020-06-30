@@ -21,11 +21,34 @@ class Filter {
   static toJson(dynamic obj) {
     return convert.jsonEncode(obj);
   }
+
   static jsonDeCode(String obj) {
     if (obj == null) {
       return null;
     }
     return convert.jsonDecode(obj);
+  }
+
+  /** yyyy-mm-dd */
+  static time(String date) {
+    DateTime time = DateTime.parse(date);
+    return formatDate(time, [yyyy, '-', mm, '-', dd]);
+  }
+
+  /** yyyy-mm-dd hh-dd */
+  static timeHours(String date) {
+    DateTime time = DateTime.parse(date);
+    return formatDate(time, [yyyy, '-', mm, '-', dd, '  ', hh, ':', nn]);
+  }
+
+  /** DateTime转String */
+  static dateToTime(DateTime date) {
+//    DateTime time = DateTime.parse(date);
+    return formatDate(date, [yyyy, '-', mm, '-', dd]);
+  }
+
+  static timeRefresh(DateTime time) {
+    return formatDate(time, [hh, ':', nn]);
   }
 
   static auditType(String type) {
@@ -34,19 +57,6 @@ class Filter {
     if (type == 'done') return '审核通过';
     if (type == 'waring') return '审核失败';
     return type;
-  }
-
-  static time(String date) {
-    DateTime time = DateTime.parse(date);
-    return formatDate(time, [yyyy, '-', mm, '-', dd]);
-  }
-  static dateToTime(DateTime date) {
-//    DateTime time = DateTime.parse(date);
-    return formatDate(date, [yyyy, '-', mm, '-', dd]);
-  }
-
-  static timeRefresh(DateTime time) {
-    return formatDate(time, [hh, ':', nn]);
   }
 
   static checkColor(String status) {

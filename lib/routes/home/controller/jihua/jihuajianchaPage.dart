@@ -72,7 +72,7 @@ class JiHuaPageState extends State<JiHuaPage> {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
           bool res = await PageUtil.push('jianchaForm',
               arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showForm': true});
-          if (res) {
+          if (res == true) {
             controller.callRefresh();
           }
         }
