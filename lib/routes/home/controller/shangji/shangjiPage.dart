@@ -68,7 +68,53 @@ class ShangJiPageState extends State<ShangJiPage> {
       print(err);
     }
   }
+  didSelectCellForIndex(int index) async {
+    String title = _content[index]['danger'];
+    String status = _content[index]['status'];
+    String taskId = _content[index]['id'];
+    String procId = _content[index]['procId'];
+    switch (status) {
+      case '已完成':
+        {
+          PageUtil.push('yinhuanDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+        }
+        break;
+      case '待整改':
+        {
+          await DialogUtil.dialogConfim('是否确定开始本次整改?', title: '隐患整改提示');
+          bool res = await PageUtil.push('yinhuanDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+          if (res == true) {
+            controller.callRefresh();
+          }
+        }
+        break;
 
+      case '待验收':
+        {
+          await DialogUtil.dialogConfim('是否确定开始本次整改?', title: '隐患整改提示');
+          bool res = await PageUtil.push('yinhuanDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+          if (res == true) {
+            controller.callRefresh();
+          }
+        }
+        break;
+
+      case '已超期':
+        {
+          PageUtil.push('yinhuanDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+        }
+        break;
+
+      default:
+        {
+        }
+        break;
+    }
+  }
   Widget layout(BuildContext context) {
     return new Container(
       color: BackgroundColor,
@@ -81,96 +127,82 @@ class ShangJiPageState extends State<ShangJiPage> {
       ),
     );
   }
-  Widget listView(){
+  Widget listView() {
     return ListView.builder(
-      padding: EdgeInsets.all(30 * ScaleWidth),
-      itemCount: 3,
-//          itemExtent: 323 * ScaleWidth,
-//          itemExtent: 365 * ScaleWidth,
-      itemBuilder: (BuildContext context, int index) {
-        if (index == 0) return itemCell(ShangJiType.normal);
-        if (index == 1) return itemCell(ShangJiType.loading);
-        if (index == 2) return itemCell(ShangJiType.error);
-        return null;
-      },
-    );
-  }
+        padding: EdgeInsets.only(bottom: 40),
+        itemCount: _content.length,
+//        itemExtent: 323 * ScaleWidth,
+        itemBuilder: (BuildContext context, int index) {
+          //==========刷新数据==========
+          String title = _content[index]['danger'];
+          String status = _content[index]['status'];
+          Color topColor = Filter.checkShangJiColor(status);
+          List<Widget> items = [];
+          _header.forEach((element) {
+            String text = element['text'];
+            String key = element['key'];
+            String value = _content[index][key];
+            if (key != 'danger') {
+              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+            }
+          });
 
-  Widget itemCell(ShangJiType type) {
-    return GestureDetector(
-      child: Container(
-        margin: EdgeInsets.only(bottom: 30 * ScaleWidth),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
-          child: Container(
-            width: 690 * ScaleWidth,
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  color: type == ShangJiType.normal ? SuccessColor : type == ShangJiType.loading ? LoadingColor : ErrorColor,
-                  height: 92 * ScaleWidth,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: MainTitleLabel('21903810381', textColor: Colors.white, margin: EdgeInsets.only(left: 36 * ScaleWidth)),
+          return GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 32 * ScaleWidth),
+              child: Column(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    child: Container(
+                      width: 690 * ScaleWidth,
+//                      height: 291 * ScaleWidth,
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            color: topColor,
+                            height: 92 * ScaleWidth,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: MainTitleLabel(
+                                    title,
+                                    textColor: Colors.white,
+                                    margin: EdgeInsets.only(left: 36 * ScaleWidth, right: 15 * ScaleWidth),
+                                  ),
+                                ),
+                                SubTextLabel(
+                                  status,
+                                  textColor: Colors.white,
+                                  margin: EdgeInsets.only(right: 32 * ScaleWidth),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 690 * ScaleWidth,
+                            padding: EdgeInsets.only(top: 26 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth, bottom: 10 * ScaleWidth),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                ...items,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SubTextLabel('待整改', textColor: Colors.white, margin: EdgeInsets.only(right: 32 * ScaleWidth)),
-                    ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: 690 * ScaleWidth,
-                  padding: EdgeInsets.only(top: 26 * ScaleWidth, bottom: 30 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      MainTextLabel('检查部门/单位：市卫纪委', textColor: Color(0xFF7D7D7D)),
-                      MainTextLabel('责任部门/单位：相关方1号', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
-                      MainTextLabel('整改要求：立即停工，检查设备', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
-                      MainTextLabel('整改人：赵小刚', textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 10 * ScaleWidth)),
-                      LineView(margin: EdgeInsets.only(top: 20 * ScaleWidth)),
-                      Container(
-                        margin: EdgeInsets.only(top: 20 * ScaleWidth),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            SubTextLabel('2020-05-13', textColor: Color(0xFF7D7D7D)),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-      onTap: () {
-        switch (type) {
-          case ShangJiType.normal:
-            {
-              PageUtil.push('ShangJiDetail');
-            }
-            break;
-          case ShangJiType.loading:
-            {
-              PageUtil.push('zaixiankaoshi');
-            }
-            break;
-          case ShangJiType.error:
-            {
-              PageUtil.push('ShangJiDetail');
-            }
-            break;
-
-          default:
-            {}
-            break;
-        }
-      },
-    );
+            onTap: () {
+              didSelectCellForIndex(index);
+            },
+          );
+          return null;
+        });
   }
 
   @override

@@ -100,7 +100,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
           Expanded(
             flex: 1,
             child: TextButton(
-              '计划检查',
+              '定期检查',
               color: _selectIndex == 0 ? Colors.transparent : Colors.white,
               textColor: _selectIndex == 0 ? Colors.white : Colors.black,
               fontSize: 13,

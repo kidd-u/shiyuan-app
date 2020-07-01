@@ -79,7 +79,10 @@ class JiHuaPageState extends State<JiHuaPage> {
         break;
 
       case '未开始':
-        {}
+        {
+          await PageUtil.push('jianchaDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': false});
+        }
         break;
       case '已完成':
         {
@@ -88,11 +91,21 @@ class JiHuaPageState extends State<JiHuaPage> {
         }
         break;
       case '超期未执行':
-        {}
+        {
+          await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
+          bool res = await PageUtil.push('jianchaForm',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showForm': true});
+          if (res == true) {
+            controller.callRefresh();
+          }
+        }
         break;
 
       default:
-        {}
+        {
+          await PageUtil.push('jianchaDetail',
+              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': false});
+        }
         break;
     }
   }

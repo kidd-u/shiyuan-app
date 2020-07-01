@@ -38,7 +38,7 @@ class WorkImageUploadState extends State<WorkImageUpload> {
     super.initState();
     _imagesArray = widget.value ??
         [
-          {'url': '', 'fileName': ''}
+          {'src': '', 'description': ''}
         ];
   }
 
@@ -66,7 +66,7 @@ class WorkImageUploadState extends State<WorkImageUpload> {
           margin: EdgeInsets.only(right: 20 * ScaleWidth),
           onClick: () {
             setState(() {
-              _imagesArray.add({'url': '', 'fileName': ''});
+              _imagesArray.add({'src': '', 'description': ''});
             });
           },
         ),
@@ -76,7 +76,7 @@ class WorkImageUploadState extends State<WorkImageUpload> {
           margin: EdgeInsets.only(right: 30 * ScaleWidth),
           onClick: () {
             setState(() {
-              _imagesArray.add({'url': '', 'fileName': ''});
+              _imagesArray.add({'src': '', 'description': ''});
             });
           },
         ),
@@ -87,19 +87,18 @@ class WorkImageUploadState extends State<WorkImageUpload> {
       var item = _imagesArray[i];
       imageItems.add(WorkImageWithMessage(
         enabled: widget.enable,
-        src: item['url'],
-        message: item['fileName'],
-        index: i,
+        src: item['src'],
+        message: item['description'],
         onChange: (src, message) {
           setState(() {
-            item['url'] = src;
-            item['fileName'] = message;
+            item['src'] = src;
+            item['description'] = message;
           });
           widget.onChange(_imagesArray);
         },
-        onDelete: (index) {
+        onDelete: () {
           setState(() {
-            _imagesArray.removeAt(index);
+            _imagesArray.removeAt(i);
             widget.onChange(_imagesArray);
           });
         },

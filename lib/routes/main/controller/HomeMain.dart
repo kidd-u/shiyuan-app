@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiyuan/routes/login/model/UserInfo.dart';
 import 'package:shiyuan/states/default.dart';
 import '../../home/controller/home.dart';
 import '../../library/controller/library.dart';
@@ -33,6 +34,9 @@ class _MainRouteState extends State<HomeMainPage> {
   @override
   void initState() {
     super.initState();
+    HttpUtil.get('/account/mine').then((value) {
+      UserInfo.userInfo = UserInfoModel.fromJson(value);
+    });
   }
 
   @override

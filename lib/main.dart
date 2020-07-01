@@ -96,10 +96,7 @@ class MyApp extends StatelessWidget {
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
-          'WorkChooseStore': (BuildContext context) {
-            Map arguments = ModalRoute.of(context).settings.arguments;
-            return new WorkChooseStorePage(arguments: arguments);
-          },
+          'WorkChooseStore': (BuildContext context) => new WorkChooseStorePage(arguments: ModalRoute.of(context).settings.arguments),
           'libraryPage': (BuildContext context) => new LibraryPage(),
           'todoPage': (BuildContext context) => new TodoPage(),
           'messagePage': (BuildContext context) => new MessagePage(),
@@ -143,10 +140,7 @@ class MyApp extends StatelessWidget {
               recordId: arguments['recordId'],
             );
           },
-          'YinhuanAdd': (BuildContext context) {
-            Map arguments = ModalRoute.of(context).settings.arguments;
-            return new YinhuanAddPage(arguments: arguments);
-          },
+          'YinhuanAdd': (BuildContext context) => new YinhuanAddPage(arguments: ModalRoute.of(context).settings.arguments),
           'signOne': (BuildContext context) => new SignOnePage(),
           'signTwo': (BuildContext context) => new SignTwoPage(),
           'xianxiaList': (BuildContext context) => new XianXiaList(),
@@ -155,7 +149,7 @@ class MyApp extends StatelessWidget {
           'signList': (BuildContext context) => new SignListPage(),
           'signNot': (BuildContext context) => new SignNotPage(),
           'yinhuanList': (BuildContext context) => new YinHuanList(),
-          'yinhuanDetail': (BuildContext context) => new YinHuanDetailPage(),
+          'yinhuanDetail': (BuildContext context) => new YinHuanDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'homework': (BuildContext context) => new HomeWorkPage(),
           'homeworkList': (BuildContext context) => new HomeWorkList(),
           'homeworkApply': (BuildContext context) => new HomeWorkApplyPage(),

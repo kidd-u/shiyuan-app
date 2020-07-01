@@ -13,19 +13,20 @@ class YinHuanList extends StatefulWidget {
 class YinHuanListState extends State<YinHuanList> {
   //定义Tab标签
   var tabTexts = ["全部数据", "待整改", "待验收", "已完成", "已超期", "验收未通过"];
+  var tabTexts1 = ["", "待整改", "待验收", "已完成", "已超期", "验收未通过"];
 
   //定义ab标签对应的Page
   var pages;
 
   void initState() {
     super.initState();
-    pages = tabTexts.map((e) => YinHuanPage(type: 'DANGER_ELIMI', status: e)).toList();
+    pages = tabTexts1.map((e) => YinHuanPage(type: 'DANGER_ELIMI', status: e)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context, '隐患整改'),
+        appBar: buildAppBar(context, '隐患治理'),
         body: Column(
           children: <Widget>[
             Expanded(

@@ -220,8 +220,9 @@ class DialogUtil {
         context,
         pickerTheme: DateTimePickerTheme(
           showTitle: true,
-          confirm: Text('确定',style:TextStyle(color:Colors.red)),
-          cancel: Text('取消',style: TextStyle(color: Colors.cyan)),
+          confirm: Text('确定',style:TextStyle(color:MainBlueColor)),
+          cancel: Text('取消',style: TextStyle(color: Colors.black)),
+          itemTextStyle: TextStyle(color: Colors.black),
         ),
         minDateTime: DateTime.now(),
 //        maxDateTime: DateTime.now().add(Duration(days: 7)),

@@ -48,9 +48,9 @@ class TestFileDetailState extends State<TestFileDetailPage> {
           MainTitleLabel('是否允许重考/补考:'),
         ],
         rightActions: [
-          WorkRadio(title: '是', value: true, model: isCan, margin: EdgeInsets.only(right: 67 * ScaleWidth)),
-          WorkRadio(title: '否', value: false, model: isCan),
-        ],
+        WorkRadio(title: '是', value: true, model: isCan, margin: EdgeInsets.only(right: 67 * ScaleWidth)),
+        WorkRadio(title: '否', value: false, model: isCan),
+      ],
       ),
     ];
 

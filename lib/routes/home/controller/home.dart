@@ -172,7 +172,7 @@ class Page extends State<HomePage> {
       changyongItem(context, 'imgs/home/xianshangpeixun.png', '线上培训', 'xianshangList'),
       changyongItem(context, 'imgs/home/jihuajiancha.png', '计划检查', 'jihuajiancha'),
       changyongItem(context, 'imgs/home/xianxiapeixun.png', '线下培训', 'xianxiaList'),
-      changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患整改', 'yinhuanList'),
+      changyongItem(context, 'imgs/home/yinhuanzhenggai.png', '隐患治理', 'yinhuanList'),
       changyongItem(context, 'imgs/home/zuoyeguanli.png', '作业管理', 'homework'),
     ];
     return new Container(
@@ -257,7 +257,7 @@ class Page extends State<HomePage> {
       quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '线上培训', 'xianshangList'),
       quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 'jihuajiancha'),
       quanbuItem(context, 'imgs/home/xianxiapeixun2.png', '线下培训', 'xianxiaList'),
-      quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患整改', 'yinhuanList'),
+      quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患治理', 'yinhuanList'),
       quanbuItem(context, 'imgs/home/anquanhuiwu.png', '安全会务', 'safeMeetList'),
       quanbuItem(context, 'imgs/home/kaoshidangan.png', '考试档案', 'testFileList'),
       quanbuItem(context, 'imgs/home/shangjijiancha.png', '上级检查', 'shangjiList'),

@@ -23,9 +23,6 @@ class LaunchImageState extends State<LaunchImagePage> {
   checkLogin() async {
     await UserInfo().getUserInfo();
     String page = UserInfo().token() == null ? 'loginPage' : 'mainTabPage';
-    HttpUtil.get('/account/mine').then((value) {
-      UserInfo.userInfo = UserInfoModel.fromJson(value);
-    });
     PageUtil.pushAndReplace(page);
   }
 

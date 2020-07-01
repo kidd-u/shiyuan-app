@@ -7,10 +7,16 @@ class Filter {
     return obj ?? '';
   }
 
-  static cover(dynamic cover) {
-    if (!cover) return '';
-    if (cover is Map) return cover['src'];
-    return cover;
+  static src(Map item) {
+    if (item.containsKey('src')) return item['src'];
+    if (item.containsKey('url')) return item['url'];
+    return '';
+  }
+
+  static message(Map item) {
+    if (item.containsKey('fileName')) return item['fileName'];
+    if (item.containsKey('description')) return item['description'];
+    return '';
   }
 
   static fixed2(dynamic num) {
@@ -61,9 +67,24 @@ class Filter {
 
   static checkColor(String status) {
     if (status == '已开始') return NormalColor;
-    if (status == '超期未执行') return ErrorColor;
+    if (status == '已超期') return ErrorColor;
     if (status == '已完成') return SuccessColor;
     if (status == '未完成') return WaitingColor;
+    return NormalColor;
+  }
+  static checkYinHuanColor(String status) {
+    if (status == '已完成') return SuccessColor;
+    if (status == '待整改') return LoadingColor;
+    if (status == '待验收') return NormalColor;
+    if (status == '已超期') return ErrorColor;
+    if (status == '未完成') return WaitingColor;
+    return NormalColor;
+  }
+  static checkShangJiColor(String status) {
+    if (status == '待整改') return LoadingColor;
+    if (status == '已完成') return SuccessColor;
+    if (status == '待复检') return NormalColor;
+    if (status == '已超期') return ErrorColor;
     return NormalColor;
   }
 

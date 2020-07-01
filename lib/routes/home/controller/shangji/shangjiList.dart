@@ -13,13 +13,14 @@ class ShangJiList extends StatefulWidget {
 class ShangJiListState extends State<ShangJiList> {
   //定义Tab标签
   var tabTexts = ["全部数据", "待整改", "待复检", "已完成", "已超期"];
+  var tabTexts1 = ["", "待整改", "待复检", "已完成", "已超期"];
 
   //定义ab标签对应的Page
   var pages;
 
   void initState() {
     super.initState();
-    pages = tabTexts.map((e) => ShangJiPage(type: 'DANGER_ELIMI', status: e)).toList();
+    pages = tabTexts1.map((e) => ShangJiPage(type: 'LEADER_CHECK', status: e)).toList();
   }
 
   @override

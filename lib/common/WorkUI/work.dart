@@ -35,6 +35,7 @@ import 'package:shiyuan/common/WorkUI/WorkSelect.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelectTime.dart';
 import 'package:shiyuan/states/default.dart';
 
+///未能统一，因为不同的流程返回的格式还是有差别，还是需要单独判断
 class WorkUtil {
   static Widget getWorkFormWidget(Map params, {BuildContext context, Function onChange, bool must = false, bool enable = true}) {
     switch (params['type']) {

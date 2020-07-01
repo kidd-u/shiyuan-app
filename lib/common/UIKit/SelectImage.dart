@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
 
 class qiniuUtil {
@@ -55,7 +56,8 @@ class SelectImageState extends State<SelectImage> {
   final _picker = ImagePicker();
   PickedFile _file;
   String _src;
-  bool isUploading, uploadFailed;
+  bool _isUploading = false;
+  bool _uploadFailed = false;
 
   void initState() {
     super.initState();
@@ -95,8 +97,8 @@ class SelectImageState extends State<SelectImage> {
 
   void uploadAvatar() async {
     setState(() {
-      isUploading = true;
-      uploadFailed = false;
+      _isUploading = true;
+      _uploadFailed = false;
     });
     Dio dio = new Dio();
     var bytes = await _file.readAsBytes();
@@ -114,12 +116,15 @@ class SelectImageState extends State<SelectImage> {
       setState(() {
         widget.src = qiniuUtil().cdn + '/' + res.data['key'];
         print(widget.src);
-        isUploading = false;
+        _isUploading = false;
+        _uploadFailed = false;
         widget.onChange(widget.src);
       });
     }).catchError((err) {
       setState(() {
-        uploadFailed = true;
+        _isUploading = false;
+        _uploadFailed = true;
+        _file = null;
       });
       print(err.toString());
     });
@@ -127,22 +132,23 @@ class SelectImageState extends State<SelectImage> {
 
   Widget layout(BuildContext context) {
     Widget view;
-    if (widget.src != null && widget.src!='') {
-      view = Image.network(
-        widget.src,
+    if (widget.src != null && widget.src != '') {
+      view = CachedNetworkImage(
+        imageUrl: widget.src,
         width: widget.width,
         height: widget.heidht,
+        errorWidget: (context, url, error) => Image.asset("imgs/nav/error.png"),
         fit: BoxFit.cover,
       );
     } else if (_file != null) {
-      view = Image.file(
-        File(_file.path),
-        width: widget.width,
-        height: widget.heidht,
-        fit: BoxFit.cover,
-      );
+      view = view = placehold_uploading();
     } else if (widget.enabled) {
-      view = placehold(context);
+//      view = placehold();
+      if (_uploadFailed) {
+        view = placehold_uploadFail();
+      }  else{
+        view = placehold();
+      }
     }
     return GestureDetector(
       child: Container(
@@ -159,7 +165,7 @@ class SelectImageState extends State<SelectImage> {
     );
   }
 
-  Widget placehold(BuildContext context) {
+  Widget placehold() {
     return Stack(
       alignment: AlignmentDirectional.topCenter,
       children: <Widget>[
@@ -174,6 +180,43 @@ class SelectImageState extends State<SelectImage> {
           fontSize: 18 * ScaleWidth,
           textColor: Color(0xFFBEBEBE),
           margin: EdgeInsets.only(top: 95 * ScaleWidth),
+        ),
+      ],
+    );
+  }
+
+  Widget placehold_uploading() {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: <Widget>[
+        Image.file(
+          File(_file.path),
+          width: widget.width,
+          height: widget.heidht,
+          fit: BoxFit.cover,
+        ),
+        Container(
+          width: widget.width,
+          height: widget.heidht,
+          color: Color.fromRGBO(0, 0, 0, 0.3),
+        ),
+        Label(
+          '上传中...',
+          fontSize: 18 * ScaleWidth,
+          textColor: Color(0xFFBEBEBE),
+        ),
+      ],
+    );
+  }
+
+  Widget placehold_uploadFail() {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: <Widget>[
+        Label(
+          '上传失败!',
+          fontSize: 18 * ScaleWidth,
+          textColor: Color(0xFFBEBEBE),
         ),
       ],
     );

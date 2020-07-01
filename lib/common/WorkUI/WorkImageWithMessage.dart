@@ -14,18 +14,16 @@ class WorkImageWithMessage extends StatefulWidget {
     this.enabled = true,
     this.showBorder = true,
     this.paddingTop = 0,
-    @required this.index,
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
-  final Function onChange;
+  final Function onChange;//返回(_src, _message)
   final Function onDelete;
   final String src;
   final String message;
   final bool enabled; //禁用，false为禁用
   final bool showBorder; //是否显示边框
   final double paddingTop;
-  final int index; //用于记录下标
 
   @override
   State<StatefulWidget> createState() {
@@ -63,7 +61,7 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
       Widget delete = GestureDetector(
         onTap: () async {
           await DialogUtil.dialogConfim('是否确认删除');
-          widget.onDelete(widget.index);
+          widget.onDelete();
         },
         child: Container(
           width: 77 * ScaleWidth,

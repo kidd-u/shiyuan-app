@@ -81,6 +81,7 @@ flutter:
     - imgs/nav/xian.png
     - imgs/nav/LaunchImage.png
     - imgs/nav/empty.png
+    - imgs/nav/error.png
     - imgs/tabbar/daiban.png
     - imgs/tabbar/daiban_se.png
     - imgs/tabbar/shouye.png
