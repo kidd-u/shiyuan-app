@@ -22,12 +22,14 @@ class YinhuanAddState extends State<YinhuanAddPage> {
 //  List _formArray = [];
   String _title; //计划名称
   String _procId; //任务id
+  bool _submitForm;//是否直接提交
 
   void initState() {
     super.initState();
     setState(() {
       _title = widget.arguments['title'];
       _procId = widget.arguments['procId'];
+      _submitForm = widget.arguments['submitForm'];
       print(widget.arguments['procId'] is String);
     });
     getFormData();
@@ -44,10 +46,15 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     if (!checkRequired()) {
       return;
     }
-    PageUtil.pop({'forms': _dataArray});
-//    DialogUtil.showLoading();
-//    var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
-//    await DialogUtil.toastSuccess('提交成功');
+    if (_submitForm) {
+      await DialogUtil.dialogConfim('是否确定提交?');
+      DialogUtil.showLoading();
+      var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
+      await DialogUtil.toastSuccess('提交成功');
+      PageUtil.pop();
+    }  else{
+      PageUtil.pop({'forms': _dataArray});
+    }
   }
 
   bool checkRequired() {
@@ -95,7 +102,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     List<Widget> views = [];
     for (int i = 0; i < _dataArray.length; i++) {
       var params = _dataArray[i];
-      if (params['name'] == '计划') {
+      if (params['name'] == '计划' && !_submitForm) {
         _dataArray[i]['value'] = [_procId];
         _dataArray[i]['label'] = _title;
         views.add(WorkSelect(title: params['name'], value: _title));

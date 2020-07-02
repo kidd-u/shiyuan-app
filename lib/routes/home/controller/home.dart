@@ -319,7 +319,13 @@ class Page extends State<HomePage> {
             fit: BoxFit.contain,
             margin: EdgeInsets.only(top: 35 * ScaleWidth),
             onClick: () {
-              PageUtil.push(page);
+              if (page == 'yinhuanfaqi') {
+                PageUtil.push('YinhuanAdd',
+                    arguments: {'title': '', 'procId': '', 'submitForm': true});
+              }  else{
+                PageUtil.push(page);
+              }
+
             },
           ),
           SmallTextLabel(

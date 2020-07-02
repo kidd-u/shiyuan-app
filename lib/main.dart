@@ -58,6 +58,7 @@ import 'routes/home/controller/shangji/shangjiList.dart';
 import 'routes/home/controller/shangji/shangjiApply.dart';
 import 'package:shiyuan/common/WorkUI/WorkChooseStore.dart';
 import 'routes/home/controller/notice.dart';
+import './WebView.dart';
 
 void main() {
   // 强制竖屏
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
         home: new LaunchImagePage(),
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),
+          'WebView': (BuildContext context) => new WebViewPage(url: ModalRoute.of(context).settings.arguments),
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),
           'homePage': (BuildContext context) => new HomePage(),
@@ -141,11 +143,11 @@ class MyApp extends StatelessWidget {
             );
           },
           'YinhuanAdd': (BuildContext context) => new YinhuanAddPage(arguments: ModalRoute.of(context).settings.arguments),
-          'signOne': (BuildContext context) => new SignOnePage(),
-          'signTwo': (BuildContext context) => new SignTwoPage(),
+          'signOne': (BuildContext context) => new SignOnePage(procId: ModalRoute.of(context).settings.arguments),
+          'signTwo': (BuildContext context) => new SignTwoPage(procId: ModalRoute.of(context).settings.arguments),
           'xianxiaList': (BuildContext context) => new XianXiaList(),
           'qrcode': (BuildContext context) => new QrCodePage(),
-          'xianxiaDetail': (BuildContext context) => new XianXiaDetailPage(),
+          'xianxiaDetail': (BuildContext context) => new XianXiaDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'signList': (BuildContext context) => new SignListPage(),
           'signNot': (BuildContext context) => new SignNotPage(),
           'yinhuanList': (BuildContext context) => new YinHuanList(),

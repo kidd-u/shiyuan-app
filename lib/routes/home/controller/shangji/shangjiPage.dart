@@ -2,6 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
+class ShangJiPageController {
+  ShangJiPageState _state;
+
+  void bindState(ShangJiPageState state) {
+    _state = state;
+  }
+
+  void search(String kerword) {
+    _state.search(kerword);
+  }
+}
+
 enum ShangJiType {
   normal, //已完成
   loading, //进行中
@@ -13,21 +25,28 @@ class ShangJiPage extends StatefulWidget {
     Key key,
     this.type,
     this.status,
+    this.controller,
   }) : super(key: key);
   final String type;
   final String status;
+  final ShangJiPageController controller;
 
   @override
   State<StatefulWidget> createState() {
-    return new ShangJiPageState();
+    ShangJiPageState state = new ShangJiPageState();
+    if (controller != null) {
+      controller.bindState(state);
+    }
+    return state;
   }
 }
 
 class ShangJiPageState extends State<ShangJiPage> {
+  String _keyword = '';
   List _header = [];
   List _content = [];
   int _pageIndex = 0;
-  RefreshViewController controller = new RefreshViewController();
+  RefreshViewController refreshViewController = new RefreshViewController();
 
   void initState() {
     super.initState();
@@ -36,6 +55,11 @@ class ShangJiPageState extends State<ShangJiPage> {
   @override
   Widget build(BuildContext context) {
     return layout(context);
+  }
+
+  void search(String kerword) {
+    _keyword = kerword;
+    refreshViewController.callRefresh();
   }
 
   void onRefresh() async {
@@ -53,21 +77,24 @@ class ShangJiPageState extends State<ShangJiPage> {
     try {
       var res = await HttpUtil.get(
         '/process/common/task/summary',
-        params: {'type': widget.type, 'status': widget.status, 'page': page, 'size': 15, 'sort': 'id'},
+        params: {'type': widget.type, 'status': widget.status, 'keyword': _keyword, 'page': page, 'size': 15, 'sort': 'id'},
       );
       List header = res['header'];
       List content = res['page']['content'];
       setState(() {
         _header = header;
         _content = [..._content, ...content];
-        _pageIndex = page;
+        if (content.length > 0) {
+          _pageIndex = page;
+        }
       });
-      controller.finish(success: true, noMore: _content.length < 15);
+      refreshViewController.finish(success: true, noMore: _content.length < 15);
     } catch (err) {
-      controller.finish(success: false, noMore: page != 0);
+      refreshViewController.finish(success: false, noMore: page != 0);
       print(err);
     }
   }
+
   didSelectCellForIndex(int index) async {
     String title = _content[index]['danger'];
     String status = _content[index]['status'];
@@ -76,8 +103,7 @@ class ShangJiPageState extends State<ShangJiPage> {
     switch (status) {
       case '已完成':
         {
-          PageUtil.push('yinhuanDetail',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+          PageUtil.push('yinhuanDetail', arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
         }
         break;
       case '待整改':
@@ -86,7 +112,7 @@ class ShangJiPageState extends State<ShangJiPage> {
           bool res = await PageUtil.push('yinhuanDetail',
               arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
           if (res == true) {
-            controller.callRefresh();
+            refreshViewController.callRefresh();
           }
         }
         break;
@@ -97,24 +123,23 @@ class ShangJiPageState extends State<ShangJiPage> {
           bool res = await PageUtil.push('yinhuanDetail',
               arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
           if (res == true) {
-            controller.callRefresh();
+            refreshViewController.callRefresh();
           }
         }
         break;
 
       case '已超期':
         {
-          PageUtil.push('yinhuanDetail',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
+          PageUtil.push('yinhuanDetail', arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
         }
         break;
 
       default:
-        {
-        }
+        {}
         break;
     }
   }
+
   Widget layout(BuildContext context) {
     return new Container(
       color: BackgroundColor,
@@ -123,10 +148,11 @@ class ShangJiPageState extends State<ShangJiPage> {
         onRefresh: () => onRefresh(),
         onLoad: () => onLoad(),
         count: _content.length,
-        controller: controller,
+        controller: refreshViewController,
       ),
     );
   }
+
   Widget listView() {
     return ListView.builder(
         padding: EdgeInsets.only(bottom: 40),

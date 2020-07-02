@@ -53,7 +53,9 @@ class YinHuanPageState extends State<YinHuanPage> {
       setState(() {
         _header = header;
         _content = [..._content, ...content];
-        _pageIndex = page;
+        if (content.length > 0) {
+          _pageIndex = page;
+        }
       });
       controller.finish(success: true, noMore: _content.length < 15);
     } catch (err) {

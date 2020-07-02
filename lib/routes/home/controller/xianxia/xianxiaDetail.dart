@@ -3,6 +3,11 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
 class XianXiaDetailPage extends StatefulWidget {
+  XianXiaDetailPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
   @override
   State<StatefulWidget> createState() {
     return new XianXiaDetailState();
@@ -10,8 +15,18 @@ class XianXiaDetailPage extends StatefulWidget {
 }
 
 class XianXiaDetailState extends State<XianXiaDetailPage> {
+  String _procId;
+  List _dataArray = [];
   void initState() {
     super.initState();
+    _procId=widget.arguments['procId'];
+    loadDetail();
+  }
+  loadDetail() async {
+    var res = await HttpUtil.get('/process/common/detail/' + _procId);
+    setState(() {
+      _dataArray = res;
+    });
   }
 
   @override
@@ -22,13 +37,7 @@ class XianXiaDetailState extends State<XianXiaDetailPage> {
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
-          WorkSelectMust(title: '计划名称:', value: '2020年全员消防教育'),
-          WorkSelect(title: '培训对象：', value: '全体员工'),
-          WorkSelect(title: '培训地点：', value: 'A306'),
-          WorkSelect(title: '培训老师:', value: '高帅'),
-          WorkSelect(title: '计划开始日期:', value: '2020-03-08'),
-          WorkSelect(title: '培训时长:', value: '2小时'),
-          WorkSelect(title: '签到方式:', value: '现场扫码'),
+          ..._dataArray.map((e) => WorkSelect(title: e['name'],value: e['label'],)).toList(),
           WorkEmpty(
               leftActions: [MainTitleLabel('计划状态', fontWeight: FontWeight.w400)],
               rightActions: [MainTitleLabel('已完成', fontWeight: FontWeight.w400, textColor: SuccessColor)]),

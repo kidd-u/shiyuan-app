@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 import 'package:shiyuan/states/default.dart';
 import 'dart:ui';
-
+import '../../view/SignBoard.dart';
 
 class SignOnePage extends StatefulWidget {
+  const SignOnePage({
+    Key key,
+    this.procId,
+  }) : super(key: key);
+  final String procId;
   @override
   State<StatefulWidget> createState() {
     return new SignOneState();
   }
 }
-
+GlobalKey<SignBoardState> signBoardKey = GlobalKey(debugLabel: 'signBoard');
 class SignOneState extends State<SignOnePage> {
+  List _dataArray = [];
+  bool _isTapSign = false;
   void initState() {
     super.initState();
+    loadDetail();
   }
-  scan()async{
-//    String str = await PageUtil.push('qrcode');
-//    await DialogUtil.toastSuccess(str);
-//    print(str);
-    PageUtil.push('signTwo');
+  void loadDetail()async{
+    var res = await HttpUtil.get('/process/offline/summary/'+widget.procId);
+    setState(() {
+      _dataArray=res['summary'];
+      _isTapSign=res['signMethod']=='SIGN';
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -37,31 +46,8 @@ class SignOneState extends State<SignOnePage> {
                   width: ScreenWidth,
                   height: 500 * ScaleWidth,
                 ),
-                WorkSelectMust(title: '计划名称:', value: '2020年全员消防教育', showBottomLine: false),
-                WorkSelect(title: '教育对象：', value: '全体员工', showBottomLine: false),
-                WorkSelect(title: '培训地点：', value: 'A306', showBottomLine: false),
-                WorkSelect(title: '培训老师:', value: '高帅', showBottomLine: false),
-                WorkSelect(title: '计划开始日期:', value: '2020-03-08', showBottomLine: false),
-                WorkSelect(title: '培训时长:', value: '2小时', showBottomLine: false),
-                Container(
-                  margin: EdgeInsets.only(top: 120 * ScaleWidth),
-                  child: Center(
-                    child: TextButton(
-                      '点击签到',
-                      width: 462 * ScaleWidth,
-                      height: 98 * ScaleWidth,
-                      fontSize: 28*ScaleWidth,
-                      textColor: Colors.white,
-                      decoration: new BoxDecoration(
-                          color: MainDarkBlueColor,
-                          borderRadius: BorderRadius.all(Radius.circular(49*ScaleWidth)),
-                      ),
-                      onPressed: (){
-                        scan();
-                      },
-                    ),
-                  ),
-                ),
+                ..._dataArray.map((e) => WorkSelect(title: e['name'],value: e['label'],)).toList(),
+                ...getBottom(),
               ],
             ),
           ),
@@ -70,7 +56,80 @@ class SignOneState extends State<SignOnePage> {
       ),
     );
   }
+  List<Widget> getBottom(){
+    return _isTapSign?signOneBottom():signTwoBottom();
+  }
+  List<Widget> signOneBottom(){
+    return [
+      Container(
+        margin: EdgeInsets.only(top: 120 * ScaleWidth),
+        child: Center(
+          child: TextButton(
+            '点击签到',
+            width: 462 * ScaleWidth,
+            height: 98 * ScaleWidth,
+            fontSize: 28*ScaleWidth,
+            textColor: Colors.white,
+            decoration: new BoxDecoration(
+              color: MainDarkBlueColor,
+              borderRadius: BorderRadius.all(Radius.circular(49*ScaleWidth)),
+            ),
+            onPressed: (){
 
+            },
+          ),
+        ),
+      ),
+    ];
+  }
+  List<Widget> signTwoBottom(){
+    return [
+      WorkSelect(title: '电子签名:', value: '', showBottomLine: false),
+      Container(
+        height: 226 * ScaleWidth,
+        margin: EdgeInsets.only(top: 30*ScaleWidth),
+        child: Center(
+          child: Stack(
+            children: <Widget>[
+              ImageView(
+                src: 'imgs/home/xianxia/sign.png',
+                width: 562 * ScaleWidth,
+                height: 226 * ScaleWidth,
+                fit: BoxFit.fill,
+              ),
+              SignBoard(key: signBoardKey),
+            ],
+          ),
+        ),
+      ),
+      signBtn(),
+    ];
+  }
+  Widget signBtn() {
+    return Container(
+      margin: EdgeInsets.only(top: 30 * ScaleWidth),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          WorkButtonCancel(
+            title: '清除',
+            onClick: () {
+              signBoardKey.currentState.clear();
+            },
+          ),
+          WorkButtonDone(
+            title: '完成',
+            margin: EdgeInsets.only(left: 56 * ScaleWidth),
+            onClick: ()async{
+//              signBoardKey.currentState.save();
+//            DialogUtil.showLoading();
+              await DialogUtil.dialogSignSuccess();
+            },
+          ),
+        ],
+      ),
+    );
+  }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

@@ -14,29 +14,45 @@ class XianXiaListState extends State<XianXiaList> {
   //定义Tab标签
   var tabTexts = ["所有数据", "待执行", "已结束"];
 
-  //定义ab标签对应的Page
-  var pages = [
-    XianXiaPage(
-      title: '1',
-    ),
-    XianXiaPage(
-      title: '2',
-    ),
-    XianXiaPage(
-      title: '3',
-    ),
+  List<XianXiaController> controllers = [
+    XianXiaController(),
+    XianXiaController(),
+    XianXiaController(),
   ];
+  List<XianXiaPage> pages;
+
+  String _keyword = '';
+  int _index;
 
   void initState() {
     super.initState();
+    pages = [
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '', controller: controllers[0]),
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '待执行', controller: controllers[0]),
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '已结束', controller: controllers[0]),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     Widget rightBtn = Button(
-      child:ImageView(src: 'imgs/home/xianxia/scan.png',width: 42*ScaleWidth,height: 42*ScaleWidth,),
+      child: ImageView(
+        src: 'imgs/home/xianxia/scan.png',
+        width: 42 * ScaleWidth,
+        height: 42 * ScaleWidth,
+      ),
       onPressed: () async {
-        PageUtil.push('signOne');
+        var res = await PageUtil.push('qrcode');
+        print(res);
+        await DialogUtil.dialogConfim(res);
+        Map params = Filter.jsonDeCode(res);
+        String type = params['type'];
+        String procId = params['procId'].toString();
+        if (type == 'OFFLINE_CLASS') {
+          PageUtil.push('signOne', arguments: procId);
+        } else {
+          PageUtil.push('signTwo', arguments: procId);
+        }
       },
     );
     return Scaffold(
@@ -72,7 +88,7 @@ class XianXiaListState extends State<XianXiaList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword = text;
                           },
                         )
                       ],
@@ -90,6 +106,9 @@ class XianXiaListState extends State<XianXiaList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: () {
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -100,7 +119,7 @@ class XianXiaListState extends State<XianXiaList> {
                   tabTexts: tabTexts,
                   pages: pages,
                   onTabChanged: (index) {
-                    print("onTabChanged-->index:$index");
+                    _index = index;
                   }),
             )
           ],

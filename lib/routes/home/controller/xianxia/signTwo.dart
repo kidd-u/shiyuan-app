@@ -5,6 +5,11 @@ import 'dart:ui';
 import '../../view/SignBoard.dart';
 
 class SignTwoPage extends StatefulWidget {
+  const SignTwoPage({
+    Key key,
+    this.procId,
+  }) : super(key: key);
+  final String procId;
   @override
   State<StatefulWidget> createState() {
     return new SignTwoState();

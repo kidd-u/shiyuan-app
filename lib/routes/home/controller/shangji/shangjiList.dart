@@ -16,11 +16,20 @@ class ShangJiListState extends State<ShangJiList> {
   var tabTexts1 = ["", "待整改", "待复检", "已完成", "已超期"];
 
   //定义ab标签对应的Page
-  var pages;
+  List<ShangJiPage> pages;
+  List<ShangJiPageController> controllers;
+
+  String _keyword='';
+  int _index = 0;
 
   void initState() {
     super.initState();
-    pages = tabTexts1.map((e) => ShangJiPage(type: 'LEADER_CHECK', status: e)).toList();
+    controllers = tabTexts1.map((e) => ShangJiPageController()).toList();
+    pages = [];
+    for (int i = 0; i < tabTexts1.length; i++) {
+      String status = tabTexts1[i];
+      pages.add(ShangJiPage(type: 'LEADER_CHECK', status: status, controller: controllers[i]));
+    }
   }
 
   @override
@@ -34,7 +43,7 @@ class ShangJiListState extends State<ShangJiList> {
           fontWeight: FontWeight.w400,
         ),
       ),
-      onPressed: (){
+      onPressed: () {
         PageUtil.push('shangjiApply');
       },
     );
@@ -71,7 +80,7 @@ class ShangJiListState extends State<ShangJiList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword=text;
                           },
                         )
                       ],
@@ -89,6 +98,9 @@ class ShangJiListState extends State<ShangJiList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: (){
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -101,6 +113,7 @@ class ShangJiListState extends State<ShangJiList> {
                   pages: pages,
                   onTabChanged: (index) {
                     print("onTabChanged-->index:$index");
+                    _index=index;
                   }),
             )
           ],

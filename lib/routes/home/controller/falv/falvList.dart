@@ -15,15 +15,24 @@ class FaLvListState extends State<FaLvList> {
   var tabTexts = ["全部", "国家法律", "行政规章", "行业规范"];
 
   //定义ab标签对应的Page
-  var pages = [
-    FaLvPage(title: '1'),
-    FaLvPage(title: '2'),
-    FaLvPage(title: '2'),
-    FaLvPage(title: '2'),
+  List<FaLvController> controllers = [
+    FaLvController(),
+    FaLvController(),
+    FaLvController(),
+    FaLvController(),
   ];
+  List<FaLvPage> pages;
+  String _keyword = '';
+  int _index;
 
   void initState() {
     super.initState();
+    pages = [
+      FaLvPage(title: '', controller: controllers[0]),
+      FaLvPage(title: '国家法律', controller: controllers[0]),
+      FaLvPage(title: '行政规章', controller: controllers[0]),
+      FaLvPage(title: '行业规范', controller: controllers[0]),
+    ];
   }
 
   @override
@@ -61,7 +70,7 @@ class FaLvListState extends State<FaLvList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword = text;
                           },
                         )
                       ],
@@ -79,6 +88,9 @@ class FaLvListState extends State<FaLvList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: () {
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -90,6 +102,7 @@ class FaLvListState extends State<FaLvList> {
                   pages: pages,
                   onTabChanged: (index) {
                     print("onTabChanged-->index:$index");
+                    _index = index;
                   }),
             )
           ],
