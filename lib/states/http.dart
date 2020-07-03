@@ -121,7 +121,10 @@ class HttpUtil {
     return completer.future;
   }
 
-  static put(url, {params}) async {
+  static Future put(url, {params}) async {
+    LogUtil.d('=======================params $url=======================');
+    LogUtil.d(Filter.toJson(params));
+    LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
@@ -132,7 +135,7 @@ class HttpUtil {
       try {
         response = await HttpUtil().dio.put(
               url,
-              queryParameters: params,
+              data: params
             );
         networkSuccess(url, response, completer);
       } on DioError catch (error) {
@@ -142,7 +145,7 @@ class HttpUtil {
     return completer.future;
   }
 
-  static delete(url, {params}) async {
+  static Future delete(url, {params}) async {
     Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
@@ -153,7 +156,7 @@ class HttpUtil {
       try {
         response = await HttpUtil().dio.delete(
               url,
-              queryParameters: params,
+              data: params,
             );
         networkSuccess(url, response, completer);
       } on DioError catch (error) {

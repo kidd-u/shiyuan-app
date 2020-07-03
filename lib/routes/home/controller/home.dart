@@ -248,18 +248,18 @@ class Page extends State<HomePage> {
    * */
   Widget quanbu(BuildContext context) {
     List<Widget> items = [
-      quanbuItem(context, 'imgs/home/zaixiankaoshi.png', '在线考试', 'testList'),
-      quanbuItem(context, 'imgs/home/waibujiaoyu.png', '外部教育', 'specialPeopleList'),
+      quanbuItem(context, 'imgs/home/zaixiankaoshi.png', '0在线考试', 'testList'),
+      quanbuItem(context, 'imgs/home/waibujiaoyu.png', '0外部教育', 'specialPeopleList'),
       quanbuItem(context, 'imgs/home/falvbiaozhunku.png', '法律标准库', 'falvList'),
-      quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '相关方安全工作', 'aboutSafe'),
-      quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '作业管理', 'homework'),
+      quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '0相关方安全工作', 'aboutSafe'),
+      quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '0作业管理', 'homework'),
       quanbuItem(context, 'imgs/home/yinhuanfaqi2.png', '隐患发起', 'yinhuanfaqi'),
-      quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '线上培训', 'xianshangList'),
+      quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '0线上培训', 'xianshangList'),
       quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 'jihuajiancha'),
       quanbuItem(context, 'imgs/home/xianxiapeixun2.png', '线下培训', 'xianxiaList'),
       quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患治理', 'yinhuanList'),
-      quanbuItem(context, 'imgs/home/anquanhuiwu.png', '安全会务', 'safeMeetList'),
-      quanbuItem(context, 'imgs/home/kaoshidangan.png', '考试档案', 'testFileList'),
+      quanbuItem(context, 'imgs/home/anquanhuiwu.png', '0安全会务', 'safeMeetList'),
+      quanbuItem(context, 'imgs/home/kaoshidangan.png', '0考试档案', 'testFileList'),
       quanbuItem(context, 'imgs/home/shangjijiancha.png', '上级检查', 'shangjiList'),
     ];
     return new Container(

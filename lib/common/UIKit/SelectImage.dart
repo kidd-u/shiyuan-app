@@ -27,6 +27,28 @@ class qiniuUtil {
     token = res['token'];
     cdn = res['cdn'];
   }
+  static Future uploadAvatar(String path) async {
+    Completer completer = new Completer();
+    Dio dio = new Dio();
+    PickedFile file = PickedFile(path);
+    var bytes = await file.readAsBytes();
+    String timer = DateTime.now().millisecondsSinceEpoch.toString();
+    List ary = file.path.split('.');
+    FormData data = new FormData.fromMap({
+      'token': qiniuUtil().token,
+      'file': MultipartFile.fromBytes(bytes),
+      'key': timer + '.' + ary.last,
+    });
+    Options options = new Options(contentType: 'multipart/form-data');
+    dio.post('http://upload.qiniup.com', data: data, options: options).then((res) {
+      String src = qiniuUtil().cdn + '/' + res.data['key'];
+      completer.complete(src);
+    }).catchError((err) {
+      completer.completeError(err);
+      print(err.toString());
+    });
+    return completer.future;
+  }
 }
 
 class SelectImage extends StatefulWidget {

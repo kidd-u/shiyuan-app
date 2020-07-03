@@ -8,6 +8,7 @@ class XianXiaDetailPage extends StatefulWidget {
     this.arguments, //任务id
   }) : super();
   Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new XianXiaDetailState();
@@ -38,30 +39,30 @@ class XianXiaDetailState extends State<XianXiaDetailPage> {
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           ..._dataArray.map((e) => WorkSelect(title: e['name'],value: e['label'],)).toList(),
-          WorkEmpty(
-              leftActions: [MainTitleLabel('计划状态', fontWeight: FontWeight.w400)],
-              rightActions: [MainTitleLabel('已完成', fontWeight: FontWeight.w400, textColor: SuccessColor)]),
-          WorkEmpty(
-              leftActions: [MainTitleLabel('我的参与情况:', fontWeight: FontWeight.w400)],
-              rightActions: [MainTitleLabel('未打卡', fontWeight: FontWeight.w400, textColor: ErrorColor)]),
-          WorkEmpty(leftActions: [
-            MainTitleLabel('已签到记录（', fontWeight: FontWeight.w400),
-            MainTitleLabel(
-              '121',
-              fontWeight: FontWeight.w400,
-              textColor: MainDarkBlueColor,
-            ),
-            MainTitleLabel('）', fontWeight: FontWeight.w400),
-          ], rightActions: [
-            MainTitleLabel(
-              '查看浏览详情',
-              fontWeight: FontWeight.w400,
-              textColor: MainDarkBlueColor,
-              onClick: (){
-                PageUtil.push('signList');
-              },
-            )
-          ]),
+//          WorkEmpty(
+//              leftActions: [MainTitleLabel('计划状态', fontWeight: FontWeight.w400)],
+//              rightActions: [MainTitleLabel('已完成', fontWeight: FontWeight.w400, textColor: SuccessColor)]),
+//          WorkEmpty(
+//              leftActions: [MainTitleLabel('我的参与情况:', fontWeight: FontWeight.w400)],
+//              rightActions: [MainTitleLabel('未打卡', fontWeight: FontWeight.w400, textColor: ErrorColor)]),
+//          WorkEmpty(leftActions: [
+//            MainTitleLabel('已签到记录（', fontWeight: FontWeight.w400),
+//            MainTitleLabel(
+//              '121',
+//              fontWeight: FontWeight.w400,
+//              textColor: MainDarkBlueColor,
+//            ),
+//            MainTitleLabel('）', fontWeight: FontWeight.w400),
+//          ], rightActions: [
+//            MainTitleLabel(
+//              '查看浏览详情',
+//              fontWeight: FontWeight.w400,
+//              textColor: MainDarkBlueColor,
+//              onClick: (){
+//                PageUtil.push('signList');
+//              },
+//            )
+//          ]),
         ],
       ),
     );

@@ -80,7 +80,7 @@ class XianXiaPageState extends State<XianXiaPage> {
     }
   }
   void didSelectCellForIndex(int index){
-    PageUtil.push('xianxiaDetail',arguments: _content[index]['procId']);
+    PageUtil.push('xianxiaDetail',arguments: {'procId':_content[index]['procId'],'status':_content[index]['status']});
   }
 
   @override

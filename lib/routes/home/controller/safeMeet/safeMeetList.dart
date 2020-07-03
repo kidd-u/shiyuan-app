@@ -13,30 +13,42 @@ class SafeMeetList extends StatefulWidget {
 class SafeMeetListState extends State<SafeMeetList> {
   //定义Tab标签
   var tabTexts = ["所有数据", "待执行", "已结束"];
+  List<SafeMeetController> controllers=[
+    SafeMeetController(),
+    SafeMeetController(),
+    SafeMeetController(),
+  ];
 
   //定义ab标签对应的Page
-  var pages = [
-    SafeMeetPage(
-      title: '1',
-    ),
-    SafeMeetPage(
-      title: '2',
-    ),
-    SafeMeetPage(
-      title: '3',
-    ),
-  ];
+  var pages;
+  String _keyword = '';
+  int _index = 0;
 
   void initState() {
     super.initState();
+    pages = [
+      SafeMeetPage(type: 'SAFE_MEETING',status: '',controller: controllers[0]),
+      SafeMeetPage(type: 'SAFE_MEETING',status: '待执行',controller: controllers[1]),
+      SafeMeetPage(type: 'SAFE_MEETING',status: '已结束',controller: controllers[2]),
+    ];
   }
-
+  void scan()async{
+//    var res = await PageUtil.push('qrcode');
+//    print(res);
+//    Map params = Filter.jsonDeCode(res);
+//    String procId = params['procId'].toString();
+        String procId = '34323';
+    bool refresh = await PageUtil.push('signOne', arguments: procId);
+    if (refresh == true) {
+      controllers[_index].search(_keyword);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Widget rightBtn = Button(
       child:ImageView(src: 'imgs/home/xianxia/scan.png',width: 42*ScaleWidth,height: 42*ScaleWidth,),
       onPressed: () async {
-        PageUtil.push('safeMeetSignOne');
+        scan();
       },
     );
     return Scaffold(
@@ -72,7 +84,7 @@ class SafeMeetListState extends State<SafeMeetList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword=text;
                           },
                         )
                       ],
@@ -90,6 +102,9 @@ class SafeMeetListState extends State<SafeMeetList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: (){
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -100,7 +115,7 @@ class SafeMeetListState extends State<SafeMeetList> {
                   tabTexts: tabTexts,
                   pages: pages,
                   onTabChanged: (index) {
-                    print("onTabChanged-->index:$index");
+                    _index=index;
                   }),
             )
           ],

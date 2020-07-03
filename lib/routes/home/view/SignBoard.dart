@@ -43,7 +43,7 @@ class SignBoardState extends State<SignBoard> {
     });
   }
 
-  save() async {
+   save() async {
     File toFile = await _saveImageToFile();
     String toPath = await _capturePng(toFile);
     print('Signature Image Path: $toPath');
@@ -52,12 +52,19 @@ class SignBoardState extends State<SignBoard> {
     });
   }
 
+  getImagePath() {
+    if (_imageLocalPath != null && _imageLocalPath.length > 0) {
+      return _imageLocalPath;
+    }
+    DialogUtil.dialogAlert('获取签名文件失败，请重试');
+    throw '获取签名文件失败';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 562 * ScaleWidth,
       height: 226 * ScaleWidth,
-
       child: RepaintBoundary(
         key: _globalKey,
         child: Stack(
@@ -66,7 +73,7 @@ class SignBoardState extends State<SignBoard> {
               onPanStart: (details) => _addPoint(details.globalPosition),
               onPanUpdate: (details) => _addPoint(details.globalPosition),
               onPanEnd: (details) => _points.add(null),
-              onPanDown: (details)=> _addPoint(details.globalPosition),
+              onPanDown: (details) => _addPoint(details.globalPosition),
             ),
             CustomPaint(painter: BoardPainter(_points)),
             Listener(
@@ -75,8 +82,8 @@ class SignBoardState extends State<SignBoard> {
               onPointerMove: (event) => _addPoint(event.localPosition),
               child: RepaintBoundary(
                 child: CustomPaint(painter: BoardPainter(_points)),
-                ),
               ),
+            ),
           ],
         ),
       ),
@@ -97,6 +104,7 @@ class SignBoardState extends State<SignBoard> {
       _points = List.from(_points)..add(localPosition);
     });
   }
+
   _addPoint(Offset details) {
     RenderBox referenceBox = _globalKey.currentContext.findRenderObject();
     Offset localPosition = referenceBox.globalToLocal(details);

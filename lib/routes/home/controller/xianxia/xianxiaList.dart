@@ -22,7 +22,7 @@ class XianXiaListState extends State<XianXiaList> {
   List<XianXiaPage> pages;
 
   String _keyword = '';
-  int _index;
+  int _index = 0;
 
   void initState() {
     super.initState();
@@ -32,7 +32,17 @@ class XianXiaListState extends State<XianXiaList> {
       XianXiaPage(type: 'OFFLINE_CLASS', status: '已结束', controller: controllers[0]),
     ];
   }
-
+  void scan()async{
+    var res = await PageUtil.push('qrcode');
+    print(res);
+    Map params = Filter.jsonDeCode(res);
+    String procId = params['procId'].toString();
+//        String procId = '28331';
+    bool refresh = await PageUtil.push('signOne', arguments: procId);
+    if (refresh == true) {
+      controllers[_index].search(_keyword);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Widget rightBtn = Button(
@@ -42,17 +52,7 @@ class XianXiaListState extends State<XianXiaList> {
         height: 42 * ScaleWidth,
       ),
       onPressed: () async {
-        var res = await PageUtil.push('qrcode');
-        print(res);
-        await DialogUtil.dialogConfim(res);
-        Map params = Filter.jsonDeCode(res);
-        String type = params['type'];
-        String procId = params['procId'].toString();
-        if (type == 'OFFLINE_CLASS') {
-          PageUtil.push('signOne', arguments: procId);
-        } else {
-          PageUtil.push('signTwo', arguments: procId);
-        }
+        scan();
       },
     );
     return Scaffold(

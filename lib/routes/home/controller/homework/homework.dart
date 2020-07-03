@@ -11,11 +11,11 @@ class HomeWorkPage extends StatefulWidget {
 
 class HomeWorkState extends State<HomeWorkPage> {
   List items = [
-    {'src': 'imgs/home/homework/donghuozuoye.png', 'title': '动火作业', 'path': 'homeworkList'},
-    {'src': 'imgs/home/homework/linshiyongdian.png', 'title': '临时用电', 'path': 'homeworkList'},
-    {'src': 'imgs/home/homework/lingxinggongcheng.png', 'title': '零星工程', 'path': 'homeworkApply'},
-    {'src': 'imgs/home/homework/denggaozuoye.png', 'title': '登高作业', 'path': 'homeworkApply'},
-    {'src': 'imgs/home/homework/youxiankongjian.png', 'title': '有限空间', 'path': 'homeworkApply'},
+    {'src': 'imgs/home/homework/donghuozuoye.png', 'title': '动火作业', 'path': 'homeworkList','type':'FIRE_WORK'},
+    {'src': 'imgs/home/homework/linshiyongdian.png', 'title': '临时用电', 'path': 'homeworkList','type':'ELECTRIC_WORK'},
+    {'src': 'imgs/home/homework/lingxinggongcheng.png', 'title': '零星工程', 'path': 'homeworkApply','type':''},
+    {'src': 'imgs/home/homework/denggaozuoye.png', 'title': '登高作业', 'path': 'homeworkApply','type':''},
+    {'src': 'imgs/home/homework/youxiankongjian.png', 'title': '有限空间', 'path': 'homeworkApply','type':''},
   ];
 
   void initState() {
@@ -43,10 +43,10 @@ class HomeWorkState extends State<HomeWorkPage> {
     );
   }
 
-  Widget itemCell(model) {
+  Widget itemCell(Map item) {
     return GestureDetector(
       onTap: (){
-        PageUtil.push(model['path']);
+        PageUtil.push(item['path'],arguments: item);
       },
       child: Container(
         decoration: new BoxDecoration(
@@ -63,7 +63,7 @@ class HomeWorkState extends State<HomeWorkPage> {
         ),
         child: Column(
           children: <Widget>[
-            ImageView(src: model['src'], width: 108 * ScaleWidth, height: 108 * ScaleWidth, margin: EdgeInsets.only(top: 35 * ScaleWidth)),
+            ImageView(src: item['src'], width: 108 * ScaleWidth, height: 108 * ScaleWidth, margin: EdgeInsets.only(top: 35 * ScaleWidth)),
             Container(
               width: 158 * ScaleWidth,
               height: 38 * ScaleWidth,
@@ -73,7 +73,7 @@ class HomeWorkState extends State<HomeWorkPage> {
                 borderRadius: BorderRadius.all(Radius.circular(19 * ScaleWidth)),
               ),
               child: Center(
-                child: Label(model['title'], textColor: Colors.white, fontSize: 24 * ScaleWidth),
+                child: Label(item['title'], textColor: Colors.white, fontSize: 24 * ScaleWidth),
               ),
             )
           ],
