@@ -15,23 +15,24 @@ class XianShangListState extends State<XianShangList> {
   var tabTexts = ["所有数据", "待执行", "已完成", "已超期"];
 
   //定义ab标签对应的Page
-  var pages = [
-    XianShangPage(
-      title: '1',
-    ),
-    XianShangPage(
-      title: '2',
-    ),
-    XianShangPage(
-      title: '3',
-    ),
-    XianShangPage(
-      title: '4',
-    )
+  List<XianShangController> controllers=[
+    XianShangController(),
+    XianShangController(),
+    XianShangController(),
+    XianShangController(),
   ];
+  List<Widget> pages = [];
+  String _keyword = '';
+  int _index = 0;
 
   void initState() {
     super.initState();
+    pages=[
+      XianShangPage(type: 'ONLINE_CLASS',status: '',controller: controllers[0]),
+      XianShangPage(type: 'ONLINE_CLASS',status: '待执行',controller: controllers[1]),
+      XianShangPage(type: 'ONLINE_CLASS',status: '已完成',controller: controllers[2]),
+      XianShangPage(type: 'ONLINE_CLASS',status: '已超期',controller: controllers[3]),
+    ];
   }
 
   @override
@@ -69,7 +70,7 @@ class XianShangListState extends State<XianShangList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword = text;
                           },
                         )
                       ],
@@ -87,6 +88,9 @@ class XianShangListState extends State<XianShangList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: (){
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -97,7 +101,7 @@ class XianShangListState extends State<XianShangList> {
                   tabTexts: tabTexts,
                   pages: pages,
                   onTabChanged: (index) {
-                    print("onTabChanged-->index:$index");
+                    _index=index;
                   }),
             )
           ],

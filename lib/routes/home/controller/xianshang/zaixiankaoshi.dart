@@ -4,6 +4,12 @@ import 'package:shiyuan/common/WorkUI/work.dart';
 import '../../model/AnswerModel.dart';
 
 class ZaiXianKaoShiPage extends StatefulWidget {
+  ZaiXianKaoShiPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new ZaiXianKaoShiState();
@@ -11,10 +17,16 @@ class ZaiXianKaoShiPage extends StatefulWidget {
 }
 
 class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
+  String _procId,_taskId;
   void initState() {
     super.initState();
+    _procId=widget.arguments['procId'];
+    _taskId=widget.arguments['id'];
+    loadTestMain();
   }
+  loadTestMain()async{
 
+  }
   void _submit() async {
     await DialogUtil.dialogConfim('确认提交？');
   }

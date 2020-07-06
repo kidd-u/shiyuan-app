@@ -17,6 +17,7 @@ import 'routes/message/controller/message.dart';
 import 'routes/mine/controller/mine.dart';
 import 'routes/home/controller/yinhuanfaqi.dart';
 import 'routes/home/controller/xianshang/xianshangList.dart';
+import 'routes/home/controller/xianshang/xianshangDetail.dart';
 import 'routes/home/controller/xianshang/xianshangpeixun.dart';
 import 'routes/home/controller/xianshang/testError.dart';
 import 'routes/home/controller/xianshang/zaixiankaoshi.dart';
@@ -107,12 +108,13 @@ class MyApp extends StatelessWidget {
           'newPassWord': (BuildContext context) => new NewPassWordPage(),
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
           'xianshangList': (BuildContext context) => new XianShangList(),
-          'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(),
-          'testError': (BuildContext context) => new TestErrorPage(),
-          'zaixiankaoshi': (BuildContext context) => new ZaiXianKaoShiPage(),
-          'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(),
-          'imagejiaoyu': (BuildContext context) => new ImageJiaoYuPage(),
-          'videojiaoyu': (BuildContext context) => new VideoJiaoYuPage(),
+          'xianshangDetail': (BuildContext context) => new XianShangDetailPage(arguments: ModalRoute.of(context).settings.arguments),
+          'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(arguments: ModalRoute.of(context).settings.arguments),
+          'testError': (BuildContext context) => new TestErrorPage(arguments: ModalRoute.of(context).settings.arguments),
+          'zaixiankaoshi': (BuildContext context) => new ZaiXianKaoShiPage(arguments: ModalRoute.of(context).settings.arguments),
+          'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(arguments: ModalRoute.of(context).settings.arguments),
+          'imagejiaoyu': (BuildContext context) => new ImageJiaoYuPage(arguments: ModalRoute.of(context).settings.arguments),
+          'videojiaoyu': (BuildContext context) => new VideoJiaoYuPage(arguments: ModalRoute.of(context).settings.arguments),
           'xianshangshenhe': (BuildContext context) => new XianShangShenHePage(),
           'jihuajiancha': (BuildContext context) => new JiHuaJianCha(),
           'jianchaDetail': (BuildContext context) {
@@ -154,8 +156,8 @@ class MyApp extends StatelessWidget {
           'yinhuanDetail': (BuildContext context) => new YinHuanDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'homework': (BuildContext context) => new HomeWorkPage(),
           'homeworkList': (BuildContext context) => new HomeWorkList(arguments: ModalRoute.of(context).settings.arguments),
-          'homeworkApply': (BuildContext context) => new HomeWorkApplyPage(),
-          'homeworkCheck': (BuildContext context) => new HomeWorkCheckPage(),
+          'homeworkApply': (BuildContext context) => new HomeWorkApplyPage(arguments: ModalRoute.of(context).settings.arguments),
+          'homeworkCheck': (BuildContext context) => new HomeWorkCheckPage(arguments: ModalRoute.of(context).settings.arguments),
           'testList': (BuildContext context) => new TestList(),
           'testFileList': (BuildContext context) => new TestFileList(),
           'testFileDetail': (BuildContext context) => new TestFileDetailPage(),

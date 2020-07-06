@@ -3,6 +3,12 @@ import 'package:shiyuan/states/default.dart';
 import 'dart:async';
 
 class WenDangJiaoYuPage extends StatefulWidget {
+  WenDangJiaoYuPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new WenDangJiaoYuState();

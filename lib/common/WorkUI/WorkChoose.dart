@@ -43,10 +43,11 @@ class WorkChooseState extends State<WorkChoose> {
   Widget build(BuildContext context) {
     return layout(context);
   }
-  chooseStore()async{
-    print({'isPeople':widget.isPeople});
-    PageUtil.push('WorkChooseStore',arguments: {'isPeople':widget.isPeople});
-    _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
+
+  chooseStore() async {
+    print({'isPeople': widget.isPeople});
+    PageUtil.push('WorkChooseStore', arguments: {'isPeople': widget.isPeople,'page':PageUtil.currentPage(context)});
+    _bus = EventBusUtil.getInstance().on<PageEvent>().listen((data) {
       print(data.params);
       _bus.cancel();
       setState(() {
@@ -54,8 +55,8 @@ class WorkChooseState extends State<WorkChoose> {
       });
       widget.onChange(data.params);
     });
-
   }
+
   Widget layout(BuildContext context) {
     List<Widget> views = [];
     if (widget.showBottomLine) {
@@ -84,27 +85,35 @@ class WorkChooseState extends State<WorkChoose> {
                   ],
                 ),
               ),
-              widget.value == null
-                  ? MainTextLabel(
-                      widget.placeholder,
-                      width: 350 * ScaleWidth,
-                      margin: EdgeInsets.only(right: 18 * ScaleWidth),
-                      textAlign: TextAlign.right,
-                      textColor: Color(0xFFACABAE),
-                      onClick: () async {
-                        chooseStore();
-                      },
-                    )
-                  : MainTextLabel(
-                      widget.value,
-                      width: 350 * ScaleWidth,
-                      margin: EdgeInsets.only(right: 18 * ScaleWidth),
-                      textAlign: TextAlign.right,
-                      onClick: () async {
-                        chooseStore();
-                      },
+              Expanded(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: widget.value == null
+                          ? MainTextLabel(
+                              widget.placeholder,
+//                        width: 350 * ScaleWidth,
+                              margin: EdgeInsets.only(right: 18 * ScaleWidth),
+                              textAlign: TextAlign.right,
+                              textColor: Color(0xFFACABAE),
+                              onClick: () async {
+                                chooseStore();
+                              },
+                            )
+                          : MainTextLabel(
+                              widget.value,
+//                        width: 350 * ScaleWidth,
+                              margin: EdgeInsets.only(right: 18 * ScaleWidth),
+                              textAlign: TextAlign.right,
+                              onClick: () async {
+                                chooseStore();
+                              },
+                            ),
                     ),
-              rightChoose(),
+                    rightChoose(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

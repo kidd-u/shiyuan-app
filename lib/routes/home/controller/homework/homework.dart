@@ -13,9 +13,9 @@ class HomeWorkState extends State<HomeWorkPage> {
   List items = [
     {'src': 'imgs/home/homework/donghuozuoye.png', 'title': '动火作业', 'path': 'homeworkList','type':'FIRE_WORK'},
     {'src': 'imgs/home/homework/linshiyongdian.png', 'title': '临时用电', 'path': 'homeworkList','type':'ELECTRIC_WORK'},
-    {'src': 'imgs/home/homework/lingxinggongcheng.png', 'title': '零星工程', 'path': 'homeworkApply','type':''},
-    {'src': 'imgs/home/homework/denggaozuoye.png', 'title': '登高作业', 'path': 'homeworkApply','type':''},
-    {'src': 'imgs/home/homework/youxiankongjian.png', 'title': '有限空间', 'path': 'homeworkApply','type':''},
+    {'src': 'imgs/home/homework/lingxinggongcheng.png', 'title': '零星工程', 'path': 'homeworkApply','type':'FRAG_WORK'},
+    {'src': 'imgs/home/homework/denggaozuoye.png', 'title': '登高作业', 'path': 'homeworkApply','type':'CLIMB_WORK'},
+    {'src': 'imgs/home/homework/youxiankongjian.png', 'title': '有限空间', 'path': 'homeworkApply','type':'LIMIT_WORK'},
   ];
 
   void initState() {

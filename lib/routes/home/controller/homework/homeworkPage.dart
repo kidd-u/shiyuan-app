@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-
 class HomeWorkPage extends StatefulWidget {
   const HomeWorkPage({
     Key key,
@@ -26,6 +25,7 @@ class HomeWorkPageState extends State<HomeWorkPage> {
   void initState() {
     super.initState();
   }
+
   void onRefresh() async {
     _pageIndex = 0;
     _header = [];
@@ -58,9 +58,11 @@ class HomeWorkPageState extends State<HomeWorkPage> {
       print(err);
     }
   }
-  void didSelectCellForIndex(int index){
+
+  void didSelectCellForIndex(int index) {
 //    PageUtil.push('xianxiaDetail',arguments: {'procId':_content[index]['procId'],'status':_content[index]['status']});
   }
+
   @override
   Widget build(BuildContext context) {
     return layout(context);
@@ -78,21 +80,26 @@ class HomeWorkPageState extends State<HomeWorkPage> {
       ),
     );
   }
-  Widget listView(){
+
+  Widget listView() {
     return ListView.builder(
         padding: EdgeInsets.only(bottom: 40),
         itemCount: _content.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             child: itemCell(_content[index]),
-            onTap: () {
-              PageUtil.push('HomeWorkDetail');
+            onTap: () async {
+              bool res = await PageUtil.push('homeworkCheck', arguments: {'procId': _content[index]['procId'], 'taskId': _content[index]['id'],'status':_content[index]['status']});
+              if (res == true) {
+                refreshViewController.callRefresh();
+              }
             },
           );
           return null;
         });
   }
-  Widget itemCell(Map item){
+
+  Widget itemCell(Map item) {
     String title = item['target'];
     String status = item['status'];
     Color topColor = Filter.checkShangJiColor(status);
@@ -155,6 +162,7 @@ class HomeWorkPageState extends State<HomeWorkPage> {
       ),
     );
   }
+
 //  Container(
 //  height: 77 * ScaleWidth,
 //  padding: EdgeInsets.only(right: 17 * ScaleWidth),
@@ -184,7 +192,7 @@ class HomeWorkPageState extends State<HomeWorkPage> {
               color: color,
               borderRadius: BorderRadius.all(Radius.circular(25 * ScaleWidth)),
             ),
-      onPressed: (){
+      onPressed: () {
         PageUtil.push('homeworkCheck');
       },
     );

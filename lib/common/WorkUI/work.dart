@@ -2,6 +2,7 @@ export 'package:shiyuan/common/WorkUI/WorkInput.dart';
 export 'package:shiyuan/common/WorkUI/WorkSelect.dart';
 export 'package:shiyuan/common/WorkUI/WorkSelectMust.dart';
 export 'package:shiyuan/common/WorkUI/WorkSelectTime.dart';
+export 'package:shiyuan/common/WorkUI/WorkSelectTimeRange.dart';
 export 'package:shiyuan/common/WorkUI/WorkTitle.dart';
 export 'package:shiyuan/common/WorkUI/WorkTitleWithDelete.dart';
 export 'package:shiyuan/common/WorkUI/WorkInputArea.dart';
@@ -33,9 +34,10 @@ import 'package:shiyuan/common/WorkUI/WorkInput.dart';
 import 'package:shiyuan/common/WorkUI/WorkInputArea.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelect.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelectTime.dart';
+import 'package:shiyuan/common/WorkUI/WorkSelectTimeRange.dart';
 import 'package:shiyuan/states/default.dart';
 
-///未能统一，因为不同的流程返回的格式还是有差别，还是需要单独判断
+///未能统一，因为不同的流程返回的格式还是有差别，还是需要单独判断，参考YinhuanAdd,homeworkCheck,yinhuanDetail,homeworkApply
 class WorkUtil {
   static Widget getWorkFormWidget(Map params, {BuildContext context, Function onChange, bool must = false, bool enable = true}) {
     switch (params['type']) {
@@ -111,9 +113,14 @@ class WorkUtil {
           bool required = params['config']['required'];
           bool disabled = params['config']['disabled'];
           String label = params['label'];
+          String type=params['config']['type'];
           if (disabled) {
             return WorkSelect(title: name, value: label);
           }
+          if (type == 'DATERANGE') {
+            int max=params['config']['max'];
+            return WorkSelectTimeRange(title: name,value: label, max: max,must: required, enable: !disabled, onChange: (value) => onChange(value));
+          }  
           return WorkSelectTime(title: name,value: label, must: required, enable: !disabled, onChange: (value) => onChange(value));
         }
         break;

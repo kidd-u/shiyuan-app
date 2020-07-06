@@ -21,7 +21,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
   bool _showForm, _showBtns;
 
   List _dataArray = []; //
-  List _cartArray = []; //
+  List _historyArray = []; //
   //要提交的模型
   Map _formDic = {
     "reply": "",
@@ -41,7 +41,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     _showForm = _status == '待整改' || _status == '待验收' ? true : false;
     _showBtns = _status == '待验收' ? true : false;
     loadDetail();
-    loadReply();
+    loadHistory();
   }
 
   void loadDetail() async {
@@ -52,10 +52,10 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
   }
 
   ///历史回复
-  void loadReply() async {
+  void loadHistory() async {
     var res = await HttpUtil.get('/process/dangerelimi/reply/all/' + _procId,params: {'page': 0, 'size': 9999});
     setState(() {
-      _cartArray = res['content'];
+      _historyArray = res['content'];
     });
   }
 
@@ -129,7 +129,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
         children: <Widget>[
           ...getWorkFormWidget(),
           theTitle(),
-          ..._cartArray.map((e) => yinHuanCardView(e)).toList(),
+          ..._historyArray.map((e) => yinHuanCardView(e)).toList(),
           ..._showForm ? [yinHuanCardInputView(context)] : [],
           ..._showBtns ? [formBtns()] : [],
         ],
@@ -296,7 +296,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     return Container(
       margin: EdgeInsets.only(top: 20 * ScaleWidth, bottom: 40),
       padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
-      height: 90 * ScaleWidth,
+      height: 80 * ScaleWidth,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

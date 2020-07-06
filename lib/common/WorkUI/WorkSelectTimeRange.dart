@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class WorkSelect extends StatefulWidget {
-  const WorkSelect({
+class WorkSelectTimeRange extends StatefulWidget {
+  WorkSelectTimeRange({
     Key key,
-    @required this.title = '',
-    this.must = false,
-    this.enable = true,
+    this.title,
     this.margin,
     this.color = Colors.white,
     this.value,
-    this.placeholder = '请选择',
+    this.max,
+    this.placeholder = '请选择时间',
+    this.must = false,
+    this.enable = true,
     this.onChange,
-    this.showBottomLine = true,
   }) : super(key: key);
   final String title;
-  final bool must;
-  final bool enable;
   final EdgeInsets margin;
   final Color color;
-  final String value;
+  String value;
+  int max;
   final String placeholder;
+  final bool must;
+  final bool enable;
   final Function onChange;
-  final bool showBottomLine;
 
   @override
   State<StatefulWidget> createState() {
-    return new WorkSelectState();
+    return new WorkSelectTimeRangeState();
   }
 }
 
-class WorkSelectState extends State<WorkSelect> {
+class WorkSelectTimeRangeState extends State<WorkSelectTimeRange> {
   void initState() {
     super.initState();
   }
@@ -39,12 +39,17 @@ class WorkSelectState extends State<WorkSelect> {
   Widget build(BuildContext context) {
     return layout(context);
   }
+  selectTime()async{
+    var time1 = await DialogUtil.showTimePicker(context);
+    var time2 = await DialogUtil.showTimePicker(context,maxDateTime: DateTime.now().add(Duration(days: widget.max)));
+
+    setState(() {
+      widget.value=Filter.dateToTime(time1)+' 至 '+Filter.dateToTime(time2);
+      widget.onChange([Filter.dateToTime(time1),Filter.dateToTime(time2)]);
+    });
+  }
 
   Widget layout(BuildContext context) {
-    List<Widget> views = [];
-    if (widget.showBottomLine) {
-      views.add(LineView());
-    }
     return Column(
       children: <Widget>[
         new Container(
@@ -68,26 +73,31 @@ class WorkSelectState extends State<WorkSelect> {
                   ],
                 ),
               ),
-              Expanded(
-                child: widget.value == null
-                    ? MainTextLabel(
-                        widget.placeholder,
-//                  width: 380 * ScaleWidth,
-                        margin: EdgeInsets.only(right: 30 * ScaleWidth),
-                        textAlign: TextAlign.right,
-                        textColor: Color(0xFFACABAE),
-                      )
-                    : MainTextLabel(
-                        widget.value,
-//                  width: 380 * ScaleWidth,
-                        margin: EdgeInsets.only(right: 30 * ScaleWidth),
-                        textAlign: TextAlign.right,
-                      ),
+              widget.value == null
+                  ? MainTextLabel(
+                widget.placeholder,
+                width: 350 * ScaleWidth,
+                margin: EdgeInsets.only(right: 18 * ScaleWidth),
+                textAlign: TextAlign.right,
+                textColor: Color(0xFFACABAE),
+                onClick: () async {
+                  selectTime();
+                },
+              )
+                  : MainTextLabel(
+                widget.value,
+                width: 350 * ScaleWidth,
+                margin: EdgeInsets.only(right: 18 * ScaleWidth),
+                textAlign: TextAlign.right,
+                onClick: () async {
+                  selectTime();
+                },
               ),
+              rightChoose(),
             ],
           ),
         ),
-        ...views,
+        LineView(),
       ],
     );
   }

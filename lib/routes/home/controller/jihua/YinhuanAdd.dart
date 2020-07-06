@@ -22,7 +22,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
 //  List _formArray = [];
   String _title; //计划名称
   String _procId; //任务id
-  bool _submitForm;//是否直接提交
+  bool _submitForm; //是否直接提交
 
   void initState() {
     super.initState();
@@ -52,7 +52,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
       var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
       await DialogUtil.toastSuccess('提交成功');
       PageUtil.pop();
-    }  else{
+    } else {
       PageUtil.pop({'forms': _dataArray});
     }
   }
@@ -109,23 +109,28 @@ class YinhuanAddState extends State<YinhuanAddPage> {
       } else if (params['label'] != null) {
 //        _dataArray[i]['value'] = [params['label']];
       } else {
-        views.add(WorkUtil.getWorkFormWidget(params, onChange: (value) {
-          print('选择的回调');
-          print(value);
-          if (value is List) {
-            List valueStrAry = value.map((e) => Filter.toJson(e)).toList();
-            _dataArray[i]['value'] = [...valueStrAry];
-            _dataArray[i]['label'] = Filter.toJson([...value]);
-          } else if (value is Map) {
-            _dataArray[i]['value'] = [value['value']];
-            _dataArray[i]['label'] = value['label'];
-          } else {
-            _dataArray[i]['value'] = [value];
-            _dataArray[i]['label'] = value;
-          }
-          print('准备提交的form');
-          LogUtil.d(Filter.toJson(_dataArray));
-        }));
+        views.add(
+          WorkUtil.getWorkFormWidget(
+            params,
+            onChange: (value) {
+              print('选择的回调');
+              print(value);
+              if (value is List) {
+                List valueStrAry = value.map((e) => Filter.toJson(e)).toList();
+                _dataArray[i]['value'] = [...valueStrAry];
+                _dataArray[i]['label'] = Filter.toJson([...value]);
+              } else if (value is Map) {
+                _dataArray[i]['value'] = [value['value']];
+                _dataArray[i]['label'] = value['label'];
+              } else {
+                _dataArray[i]['value'] = [value];
+                _dataArray[i]['label'] = value;
+              }
+              print('准备提交的form');
+              LogUtil.d(Filter.toJson(_dataArray));
+            },
+          ),
+        );
       }
     }
     return new Scaffold(

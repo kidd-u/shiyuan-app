@@ -5,6 +5,12 @@ import 'package:video_player/video_player.dart';
 import 'dart:async';
 
 class VideoJiaoYuPage extends StatefulWidget {
+  VideoJiaoYuPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new VideoJiaoYuState();

@@ -31,6 +31,7 @@ class WorkChooseStorePage extends StatefulWidget {
 
 class WorkChooseStoreState extends State<WorkChooseStorePage> {
   List _dataList = [];
+  String _page='';//YinhuanAdd
   bool _isPeople = false;
   bool _isSelectStore = false;
   String _value = '';
@@ -40,10 +41,11 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
     setState(() {
       LogUtil.d(Filter.toJson(widget.arguments));
       _dataList = widget.arguments['dataList'] ?? WorkChooseStoreUtil.allData;
-
+      _page=widget.arguments['page'];
       _isPeople = widget.arguments['isPeople'] ?? false;
 //      _value = widget.arguments['value'] ?? '';
       print(_dataList.length);
+      print('返回的路径'+_page);
     });
   }
 
@@ -112,7 +114,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                         _value = res['name'];
                       });
                       EventBusUtil.getInstance().fire(PageEvent(res));
-                      PageUtil.popToName('YinhuanAdd');
+                      PageUtil.popToName(_page);
                     } else {
                       //正常情况下，继续跳转
                       var children = _dataList[index]['children'];
@@ -131,11 +133,11 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                         }
                       }
                       if (children.length > 0) {
-                        PageUtil.push('WorkChooseStore', arguments: {'isPeople': _isPeople, 'dataList': children});
+                        PageUtil.push('WorkChooseStore', arguments: {'isPeople': _isPeople, 'dataList': children,'page':_page});
                       } else {
                         var res = _dataList[index];
                         EventBusUtil.getInstance().fire(PageEvent(res));
-                        PageUtil.popToName('YinhuanAdd');
+                        PageUtil.popToName(_page);
                       }
                     }
                   } else {
@@ -145,7 +147,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                       _value = res['name'];
                     });
                     EventBusUtil.getInstance().fire(PageEvent(res));
-                    PageUtil.popToName('YinhuanAdd');
+                    PageUtil.popToName(_page);
                   }
                 },
               ),

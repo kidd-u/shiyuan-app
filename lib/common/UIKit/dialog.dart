@@ -211,7 +211,7 @@ class DialogUtil {
     return completer.future;
   }
   /** 选择日期 */
-  static Future showTimePicker(BuildContext context,{String normalTime}) async {
+  static Future showTimePicker(BuildContext context,{String normalTime,DateTime maxDateTime}) async {
     hiddenKeyboard();
     Completer completer = new Completer();
     var _dateTime = normalTime == null?DateTime.now():DateTime.parse(normalTime);
@@ -225,6 +225,7 @@ class DialogUtil {
           itemTextStyle: TextStyle(color: Colors.black),
         ),
         minDateTime: DateTime.now(),
+        maxDateTime: maxDateTime,
 //        maxDateTime: DateTime.now().add(Duration(days: 7)),
         initialDateTime: _dateTime,
         // dateFormat: "yyyy-MMMM-dd", //只包含年、月、日

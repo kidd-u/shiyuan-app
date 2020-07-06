@@ -3,7 +3,13 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 import '../../model/AnswerModel.dart';
 
+///已完成
 class XianXiaPeiXunPage extends StatefulWidget {
+  XianXiaPeiXunPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
   @override
   State<StatefulWidget> createState() {
     return new Page();

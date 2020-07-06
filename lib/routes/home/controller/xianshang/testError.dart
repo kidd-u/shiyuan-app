@@ -3,6 +3,12 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
 class TestErrorPage extends StatefulWidget {
+  TestErrorPage({
+    Key key,
+    this.arguments, //任务id
+  }) : super();
+  Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new TestErrorState();

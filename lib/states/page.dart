@@ -43,4 +43,7 @@ class PageUtil {
     print(page);
     DefaultUtil.navKey.currentState.pushReplacementNamed(page, arguments: arguments);
   }
+  static currentPage(BuildContext context){
+    return ModalRoute.of(context).settings.name;
+  }
 }

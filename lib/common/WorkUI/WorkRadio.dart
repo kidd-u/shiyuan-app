@@ -62,7 +62,7 @@ class WorkRadioState extends State<WorkRadio> {
 //          widget.model = widget.value;
 //        });
         if (widget.onChange != null) {
-          widget.onChange(widget.value);
+          widget.onChange(widget.value,widget.title);
         }
       },
     );
