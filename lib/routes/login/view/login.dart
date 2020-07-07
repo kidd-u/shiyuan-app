@@ -18,17 +18,6 @@ class LoginViewState extends State<LoginView> {
   void initState() {
     super.initState();
   }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return layout(context);
-  }
-
   void closeEye() {
     setState(() {
       _closeEye = !_closeEye;
@@ -43,7 +32,7 @@ class LoginViewState extends State<LoginView> {
       DialogUtil.showToast('请填写账号');
     }
     var token =await HttpUtil.post('/account/login',params: {
-      'phone':'78225777052',
+      'phone':'6206-79466611',
       'password':'123456'
     });
     UserInfo().setToken(token);
@@ -52,7 +41,8 @@ class LoginViewState extends State<LoginView> {
     PageUtil.pushAndReplace('mainTabPage');
   }
 
-  Widget layout(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       height: ScreenHeight,
@@ -166,6 +156,10 @@ class LoginViewState extends State<LoginView> {
         Navigator.pushNamed(context, "findPassWord");
       },
     );
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override

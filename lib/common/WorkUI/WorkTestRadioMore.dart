@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class WorkTestRadio extends StatefulWidget {
-  const WorkTestRadio({
+class WorkTestRadioMore extends StatefulWidget {
+  const WorkTestRadioMore({
     Key key,
     this.margin,
     this.color = Colors.white,
@@ -16,18 +16,19 @@ class WorkTestRadio extends StatefulWidget {
   final Function onChange;
   final Map model; //数据
   final int index; //第几题
-  final Map answer;//已选答案
+  final Map answer; //已选答案
 
   @override
   State<StatefulWidget> createState() {
-    return new WorkTestRadioState();
+    return new WorkTestRadioMoreState();
   }
 }
 
-class WorkTestRadioState extends State<WorkTestRadio> {
-  Map question={};
-  List options=[];
+class WorkTestRadioMoreState extends State<WorkTestRadioMore> {
+  Map question = {};
+  List options = [];
   String answer = '';
+
   void initState() {
     super.initState();
   }
@@ -35,9 +36,14 @@ class WorkTestRadioState extends State<WorkTestRadio> {
   @override
   Widget build(BuildContext context) {
     question = widget.model['question'];
+
     options = question['options'];
     answer = widget.answer['reply'];
+    options.forEach((element) {
+      element['select'] = answer.contains(element['no']) ? element['no'] : '';
+    });
     print(answer);
+    print(options);
     return layout(context);
   }
 
@@ -86,13 +92,18 @@ class WorkTestRadioState extends State<WorkTestRadio> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        answer = e['no'];
+                        e['select'] = e['select'] == e['no'] ? '' : e['no'];
+                        print(options);
+                        answer = options.map((el) => el['select']).toList().join('');
                         widget.onChange(answer);
                       });
                     },
                     child: Row(
                       children: <Widget>[
-                        ImageView(src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png', width: 24 * ScaleWidth, height: 24 * ScaleWidth),
+                        ImageView(
+                            src: answer.contains(e['no']) ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
+                            width: 24 * ScaleWidth,
+                            height: 24 * ScaleWidth),
                         Expanded(
                           child: MainTextLabel(
                             e['no'] + '、' + e['content'],

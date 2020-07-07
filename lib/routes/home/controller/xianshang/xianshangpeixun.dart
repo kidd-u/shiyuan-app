@@ -60,7 +60,7 @@ class Page extends State<XianXiaPeiXunPage> {
               ],
             );
           }
-          return WorkTestRadio(model: modelAry[index - 1]);
+          return WorkTestRadio(model: null, index: null, onChange: null);
         },
         itemCount: modelAry.length + 1,
       ),

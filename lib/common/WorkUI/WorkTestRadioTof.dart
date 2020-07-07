@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
-class WorkTestRadio extends StatefulWidget {
-  const WorkTestRadio({
+class WorkTestRadioTof extends StatefulWidget {
+  const WorkTestRadioTof({
     Key key,
     this.margin,
     this.color = Colors.white,
@@ -20,13 +20,13 @@ class WorkTestRadio extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new WorkTestRadioState();
+    return new WorkTestRadioTofState();
   }
 }
 
-class WorkTestRadioState extends State<WorkTestRadio> {
+class WorkTestRadioTofState extends State<WorkTestRadioTof> {
   Map question={};
-  List options=[];
+  List options=['对','错'];
   String answer = '';
   void initState() {
     super.initState();
@@ -35,7 +35,6 @@ class WorkTestRadioState extends State<WorkTestRadio> {
   @override
   Widget build(BuildContext context) {
     question = widget.model['question'];
-    options = question['options'];
     answer = widget.answer['reply'];
     print(answer);
     return layout(context);
@@ -81,30 +80,30 @@ class WorkTestRadioState extends State<WorkTestRadio> {
           ...options
               .map(
                 (e) => Container(
-                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth),
-                  margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        answer = e['no'];
-                        widget.onChange(answer);
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        ImageView(src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png', width: 24 * ScaleWidth, height: 24 * ScaleWidth),
-                        Expanded(
-                          child: MainTextLabel(
-                            e['no'] + '、' + e['content'],
-                            maxLines: 999,
-                            margin: EdgeInsets.only(left: 21 * ScaleWidth),
-                          ),
-                        ),
-                      ],
+              padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth),
+              margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    answer = e;
+                    widget.onChange(answer);
+                  });
+                },
+                child: Row(
+                  children: <Widget>[
+                    ImageView(src: answer == e ? 'imgs/login/select.png' : 'imgs/login/select_de.png', width: 24 * ScaleWidth, height: 24 * ScaleWidth),
+                    Expanded(
+                      child: MainTextLabel(
+                        e,
+                        maxLines: 999,
+                        margin: EdgeInsets.only(left: 21 * ScaleWidth),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              )
+              ),
+            ),
+          )
               .toList(),
           LineView(),
         ],

@@ -54,6 +54,10 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
         LogUtil.d(Filter.toJson(material));
         if (type == 'IMAGE') {
           PageUtil.push('imagejiaoyu',arguments: material);
+        }else if (type == 'TEXT') {
+          PageUtil.push('wendangjiaoyu',arguments: material);
+        }  else{
+          PageUtil.push('videojiaoyu',arguments: material);
         }
       }
     }  else{

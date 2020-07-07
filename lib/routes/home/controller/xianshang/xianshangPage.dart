@@ -84,8 +84,9 @@ class XianShangPageState extends State<XianShangPage> {
     }
   }
 
-  void didSelectCellForIndex(int index)async {
+  void didSelectCellForIndex(int index) async {
     String status = _content[index]['status'];
+    String title = _content[index]['name'];
     switch (status) {
       case '未开始':
         {
@@ -96,27 +97,57 @@ class XianShangPageState extends State<XianShangPage> {
       case '待执行':
         {
           DialogUtil.showLoading();
-          var res=await HttpUtil.get('/process/online/train/'+_content[index]['id']);
+          var res = await HttpUtil.get('/process/online/train/' + _content[index]['id']);
           if (res['type'] == 'OC_CLASS') {
-            String type=res['material']['type'];
-            Map material=res['material'];
-            material={...material,'content':_content[index],'page':PageUtil.currentPage(context)};
+            String type = res['material']['type'];
+            Map material = res['material'];
+            material = {...material, 'content': _content[index], 'page': PageUtil.currentPage(context)};
             print('数据*****');
             LogUtil.d(Filter.toJson(material));
+            print(type);
             if (type == 'IMAGE') {
-              PageUtil.push('imagejiaoyu',arguments: material);
+              PageUtil.push('imagejiaoyu', arguments: material);
+            } else if (type == 'TEXT') {
+              PageUtil.push('wendangjiaoyu', arguments: material);
+            } else {
+              PageUtil.push('videojiaoyu', arguments: material);
             }
+          } else {
+            Map paper = res['paper'];
+            DialogUtil.showLoading();
+            var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+                params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+            DialogUtil.showLoading();
+            var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+                params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+            DialogUtil.showLoading();
+            var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+                params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+            List contents = [];
+            if (SINGLE['content'].length > 0) {
+              List content=SINGLE['content'];
+              contents.add({'type':'SINGLE','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'SINGLE'}).toList()});
+            }
+            if (MULTI['content'].length > 0) {
+              List content=MULTI['content'];
+              contents.add({'type':'MULTI','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'MULTI'}).toList()});
+            }
+            if (TOF['content'].length > 0) {
+              List content=TOF['content'];
+              contents.add({'type':'TOF','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'TOF'}).toList()});
+            }
+            PageUtil.push('zaixiankaoshi',arguments: {'paper':paper,'contents':contents,'title':title});
           }
         }
         break;
       case '已完成':
         {
-          PageUtil.push('xianshangpeixun',arguments: _content[index]);
+          PageUtil.push('xianshangpeixun', arguments: _content[index]);
         }
         break;
       case '已超期':
         {
-          PageUtil.push('xianshangpeixun',arguments: _content[index]);
+          PageUtil.push('xianshangpeixun', arguments: _content[index]);
         }
         break;
 

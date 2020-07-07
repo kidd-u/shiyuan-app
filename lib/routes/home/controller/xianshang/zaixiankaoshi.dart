@@ -17,18 +17,47 @@ class ZaiXianKaoShiPage extends StatefulWidget {
 }
 
 class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
-  String _procId,_taskId;
+  Map _paper = {};
+  List _contents = [];
+  String _title = '';
+  int _index = 0;
+  int _bigIndex = 0;
+  int _amount = 0;
+
   void initState() {
     super.initState();
-    _procId=widget.arguments['procId'];
-    _taskId=widget.arguments['id'];
-    loadTestMain();
-  }
-  loadTestMain()async{
 
+    _paper = widget.arguments['paper'];
+    _contents = widget.arguments['contents'];
+    _title = widget.arguments['title'];
   }
-  void _submit() async {
+
+  void submit() async {
     await DialogUtil.dialogConfim('确认提交？');
+    List ansList = [];
+    for (int i = 0; i < _contents.length; i++) {
+      Map item = _contents[i];
+      ansList = [...ansList, ...item['answers']];
+    }
+    print(_paper['configs']);
+    int SINGLE_score = _paper['configs']['SINGLE']['score'];
+    int MULTI_score = _paper['configs']['MULTI']['score'];
+    int TOF_score = _paper['configs']['TOF']['score'];
+    int score = 0;
+    ansList.forEach((element) {
+      if (element['isCorrect'] == true) {
+        if (element['type'] == 'SINGLE') {
+          score += SINGLE_score;
+        }
+        if (element['type'] == 'MULTI') {
+          score += MULTI_score;
+        }
+        if (element['type'] == 'TOF') {
+          score += TOF_score;
+        }
+      }
+    });
+    print(score);
   }
 
   @override
@@ -43,36 +72,116 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
         ),
       ),
       onPressed: () {
-        _submit();
+        submit();
       },
     );
-    AnswerModel model = AnswerModel(
-      index: '第一题',
-      title: '单位应当将容易发生火灾、一旦发生火灾可能严重危机人身和财产以及对消防安全有重大影细响的部位，确定为（C ）',
-      answer: 'C',
-      userSelect: 'C',
-      isRight: true,
-      answerList: ['A、重点部位', 'B、要害部位', 'C、消防安全重点部位', 'D、重点防范部位'],
-    );
+    String type = _contents[_bigIndex]['type'];
+    _amount = _paper['configs'][type]['amount'];
+    String bigTitle = '';
+    if (type == 'SINGLE') {
+      bigTitle = '单选题';
+    }
+    if (type == 'MULTI') {
+      bigTitle = '多选题';
+    }
+    if (type == 'TOF') {
+      bigTitle = '判断题';
+    }
+
+    Widget itemView;
+    String itemType = _contents[_bigIndex]['content'][_index]['question']['type'];
+    if (itemType == 'SINGLE') {
+      itemView = WorkTestRadio(
+//          key: new GlobalKey(),
+          model: _contents[_bigIndex]['content'][_index],
+          answer: _contents[_bigIndex]['answers'][_index],
+          index: _index,
+          onChange: (value) {
+            Map ans = _contents[_bigIndex]['answers'][_index];
+            ans['reply'] = value;
+            ans['isCorrect'] = ans['reply'] == _contents[_bigIndex]['content'][_index]['question']['answer'];
+            print(_contents[_bigIndex]['answers'][_index]);
+          });
+    } else if (itemType == 'MULTI') {
+      itemView = WorkTestRadioMore(
+//          key: new GlobalKey(),
+          model: _contents[_bigIndex]['content'][_index],
+          answer: _contents[_bigIndex]['answers'][_index],
+          index: _index,
+          onChange: (value) {
+            print(value);
+            Map ans = _contents[_bigIndex]['answers'][_index];
+            ans['reply'] = value;
+            ans['isCorrect'] = ans['reply'] == _contents[_bigIndex]['content'][_index]['question']['answer'];
+            print(_contents[_bigIndex]['answers'][_index]);
+          });
+    } else if (itemType == 'TOF') {
+      itemView = WorkTestRadioTof(
+//          key: new GlobalKey(),
+          model: _contents[_bigIndex]['content'][_index],
+          answer: _contents[_bigIndex]['answers'][_index],
+          index: _index,
+          onChange: (value) {
+            print(value);
+            Map ans = _contents[_bigIndex]['answers'][_index];
+            ans['reply'] = value;
+            ans['isCorrect'] = ans['reply'] == _contents[_bigIndex]['content'][_index]['question']['answer'];
+            print(_contents[_bigIndex]['answers'][_index]);
+          });
+    } else {
+      itemView = Container();
+    }
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '2020年全体员工消防教育考试', actions: [btn]),
+      appBar: buildAppBar(context, _title, actions: [btn]),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           topView(context),
-          WorkTitle(title: '一、单选题：1/25 每题分值：2分'),
-          WorkTestRadio(model: model),
+          WorkTitle(
+            title: '${_bigIndex + 1}、${bigTitle}:${_index + 1}/${_amount} 每题分值：${_paper['configs'][type]['score']}分',
+          ),
+          itemView,
           Container(
             margin: EdgeInsets.only(top: 300 * ScaleWidth),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                WorkTestLastBtn(),
+                WorkTestLastBtn(
+                  onClick: () {
+                    if (_index == 0) {
+                      if (_bigIndex == 0) {
+                        ///第一题
+                        return;
+                      }
+                      setState(() {
+                        _bigIndex -= 1;
+                        String type = _contents[_bigIndex]['type'];
+                        int amount = _paper['configs'][type]['amount'];
+                        _index = amount - 1;
+                      });
+                    } else {
+                      setState(() {
+                        _index -= 1;
+                      });
+                    }
+                  },
+                ),
                 WorkTestNextBtn(
                   margin: EdgeInsets.only(left: 56 * ScaleWidth),
-                  onClick: (){
-                    PageUtil.push('wendangjiaoyu');
+                  onClick: () {
+                    if (_index + 1 == _amount && _bigIndex + 1 == _contents.length) {
+                      ///没有题了
+                      submit();
+                    } else {
+                      setState(() {
+                        _index += 1;
+                        if (_index >= _amount) {
+                          _index = 0;
+                          _bigIndex += 1;
+                        }
+                      });
+                    }
                   },
                 ),
               ],
@@ -82,6 +191,10 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
       ),
     );
   }
+
+  Widget multi() {}
+
+  Widget tof() {}
 
   Widget topView(BuildContext context) {
     return Container(
@@ -93,13 +206,13 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
             '总题数:',
             margin: EdgeInsets.only(left: 40 * ScaleWidth),
           ),
-          SubTextLabel('25'),
+          SubTextLabel(_paper['totalQustions'].toString()),
           SubTextLabel(
             '满分:',
             margin: EdgeInsets.only(left: 40 * ScaleWidth),
           ),
           SubTextLabel(
-            '100',
+            _paper['totalScore'].toString(),
             textColor: MainBlueColor,
           ),
           SubTextLabel(
@@ -107,14 +220,14 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
             margin: EdgeInsets.only(left: 40 * ScaleWidth),
           ),
           SubTextLabel(
-            '25',
+            _paper['passScore'].toString(),
             textColor: SuccessColor,
           ),
           SubTextLabel(
             '答题时间:',
             margin: EdgeInsets.only(left: 40 * ScaleWidth),
           ),
-          SubTextLabel('40分钟'),
+          SubTextLabel(_paper['duration'].toString() + '分钟'),
         ],
       ),
     );
