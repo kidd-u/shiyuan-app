@@ -14,6 +14,7 @@ export 'package:shiyuan/common/WorkUI/WorkTitleTest.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestRadio.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestRadioMore.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestRadioTof.dart';
+export 'package:shiyuan/common/WorkUI/WorkTestRadioAnswer.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestLastBtn.dart';
 export 'package:shiyuan/common/WorkUI/WorkTestNextBtn.dart';
 export 'package:shiyuan/common/WorkUI/WorkButtonCancel.dart';

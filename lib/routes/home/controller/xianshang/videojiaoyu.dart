@@ -31,12 +31,14 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
   List _attachments = [];
   Map _content = {};
   String _taskId = '';
+  String _title = '';
 
   void initState() {
     super.initState();
     _attachments = widget.arguments['attachments'];
     _content = widget.arguments['content'];
     _taskId = _content['id'];
+    _title = widget.arguments['title'];
     String url = _attachments[0]['src'];
     _startTimer();
     _controller = VideoPlayerController.network(url)
@@ -66,8 +68,43 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
         } else {
           PageUtil.push('videojiaoyu', arguments: material);
         }
-      }else{
-
+      } else {
+        Map paper = res['paper'];
+        DialogUtil.showLoading();
+        var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+        DialogUtil.showLoading();
+        var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+        DialogUtil.showLoading();
+        var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+        List contents = [];
+        if (SINGLE['content'].length > 0) {
+          List content = SINGLE['content'];
+          contents.add({
+            'type': 'SINGLE',
+            'content': content,
+            'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'SINGLE'}).toList()
+          });
+        }
+        if (MULTI['content'].length > 0) {
+          List content = MULTI['content'];
+          contents.add({
+            'type': 'MULTI',
+            'content': content,
+            'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'MULTI'}).toList()
+          });
+        }
+        if (TOF['content'].length > 0) {
+          List content = TOF['content'];
+          contents.add({
+            'type': 'TOF',
+            'content': content,
+            'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
+          });
+        }
+        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title,'page': widget.arguments['page']});
       }
     } else {
       PageUtil.popToName(widget.arguments['page']);

@@ -36,6 +36,8 @@ class _MainRouteState extends State<HomeMainPage> {
     super.initState();
     HttpUtil.get('/account/mine').then((value) {
       UserInfo.userInfo = UserInfoModel.fromJson(value);
+    }).catchError((err){
+      PageUtil.pushAndRemoveAll('loginPage');
     });
   }
 

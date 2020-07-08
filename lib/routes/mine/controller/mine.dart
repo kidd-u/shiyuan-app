@@ -11,7 +11,6 @@ class MinePage extends StatefulWidget {
 class Page extends State<MinePage> {
   void initState() {
     super.initState();
-    print(UserInfo.userInfo.toJson());
   }
 
   @override
@@ -72,8 +71,8 @@ class Page extends State<MinePage> {
           decoration: new BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10 * ScaleWidth))),
           child: Column(
             children: <Widget>[
-              MainTitleLabel(UserInfo.userInfo.name, margin: EdgeInsets.only(top: 90 * ScaleWidth)),
-              MainTitleLabel(UserInfo.userInfo.phone, margin: EdgeInsets.only(top: 28 * ScaleWidth), fontWeight: FontWeight.w400),
+              MainTitleLabel(UserInfo.userInfo.name??'', margin: EdgeInsets.only(top: 90 * ScaleWidth)),
+              MainTitleLabel(UserInfo.userInfo.phone??'', margin: EdgeInsets.only(top: 28 * ScaleWidth), fontWeight: FontWeight.w400),
               LineView(margin: EdgeInsets.only(top: 32 * ScaleWidth)),
               Container(
                   height: 76 * ScaleWidth,

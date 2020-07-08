@@ -41,6 +41,7 @@ class XianShangPageState extends State<XianShangPage> {
   List _content = [];
   int _pageIndex = 0;
   RefreshViewController refreshViewController = new RefreshViewController();
+  StreamSubscription<PageEvent> _bus;
 
   void initState() {
     super.initState();
@@ -101,7 +102,7 @@ class XianShangPageState extends State<XianShangPage> {
           if (res['type'] == 'OC_CLASS') {
             String type = res['material']['type'];
             Map material = res['material'];
-            material = {...material, 'content': _content[index], 'page': PageUtil.currentPage(context)};
+            material = {...material, 'content': _content[index],'title': title, 'page': PageUtil.currentPage(context)};
             print('数据*****');
             LogUtil.d(Filter.toJson(material));
             print(type);
@@ -125,23 +126,41 @@ class XianShangPageState extends State<XianShangPage> {
                 params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
             List contents = [];
             if (SINGLE['content'].length > 0) {
-              List content=SINGLE['content'];
-              contents.add({'type':'SINGLE','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'SINGLE'}).toList()});
+              List content = SINGLE['content'];
+              contents.add({
+                'type': 'SINGLE',
+                'content': content,
+                'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'SINGLE'}).toList()
+              });
             }
             if (MULTI['content'].length > 0) {
-              List content=MULTI['content'];
-              contents.add({'type':'MULTI','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'MULTI'}).toList()});
+              List content = MULTI['content'];
+              contents.add({
+                'type': 'MULTI',
+                'content': content,
+                'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'MULTI'}).toList()
+              });
             }
             if (TOF['content'].length > 0) {
-              List content=TOF['content'];
-              contents.add({'type':'TOF','content':content,'answers':content.map((e) => {'id':e['id'],'reply':'','isCorrect':false,'type':'TOF'}).toList()});
+              List content = TOF['content'];
+              contents.add({
+                'type': 'TOF',
+                'content': content,
+                'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
+              });
             }
-            PageUtil.push('zaixiankaoshi',arguments: {'paper':paper,'contents':contents,'title':title});
+            PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': title,'page': PageUtil.currentPage(context)});
           }
+          _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
+            print(data.params);
+            _bus.cancel();
+            refreshViewController.callRefresh();
+          });
         }
         break;
-      case '已完成':
+      case '已办结':
         {
+          print(_content[index]);
           PageUtil.push('xianshangpeixun', arguments: _content[index]);
         }
         break;

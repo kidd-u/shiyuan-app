@@ -19,6 +19,7 @@ import 'routes/home/controller/yinhuanfaqi.dart';
 import 'routes/home/controller/xianshang/xianshangList.dart';
 import 'routes/home/controller/xianshang/xianshangDetail.dart';
 import 'routes/home/controller/xianshang/xianshangpeixun.dart';
+import 'routes/home/controller/xianshang/xianshangAnswer.dart';
 import 'routes/home/controller/xianshang/testError.dart';
 import 'routes/home/controller/xianshang/zaixiankaoshi.dart';
 import 'routes/home/controller/xianshang/wendangjiaoyu.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
           'xianshangList': (BuildContext context) => new XianShangList(),
           'xianshangDetail': (BuildContext context) => new XianShangDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(arguments: ModalRoute.of(context).settings.arguments),
+          'xianshangAnswer': (BuildContext context) => new xianshangAnswer(arguments: ModalRoute.of(context).settings.arguments),
           'testError': (BuildContext context) => new TestErrorPage(arguments: ModalRoute.of(context).settings.arguments),
           'zaixiankaoshi': (BuildContext context) => new ZaiXianKaoShiPage(arguments: ModalRoute.of(context).settings.arguments),
           'wendangjiaoyu': (BuildContext context) => new WenDangJiaoYuPage(arguments: ModalRoute.of(context).settings.arguments),

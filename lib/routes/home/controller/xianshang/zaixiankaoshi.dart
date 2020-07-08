@@ -58,6 +58,9 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
       }
     });
     print(score);
+    var res = await HttpUtil.post('/process/online/test/${_paper['id']}', params: {'score': score, 'answers': ansList});
+    PageUtil.popToName(widget.arguments['page']);
+    EventBusUtil.getInstance().fire(PageEvent(res));
   }
 
   @override

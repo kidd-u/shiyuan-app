@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
-import '../../model/AnswerModel.dart';
 
 ///已完成
 class XianXiaPeiXunPage extends StatefulWidget {
@@ -10,6 +9,7 @@ class XianXiaPeiXunPage extends StatefulWidget {
     this.arguments, //任务id
   }) : super();
   Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new Page();
@@ -17,27 +17,18 @@ class XianXiaPeiXunPage extends StatefulWidget {
 }
 
 class Page extends State<XianXiaPeiXunPage> {
-  List<AnswerModel> modelAry = [
-    AnswerModel(
-      index: '第一题',
-      title: '单位应当将容易发生火灾、一旦发生火灾可能严重危机人身和财产以及对消防安全有重大影细响的部位，确定为（C ）',
-      answer: 'C',
-      userSelect: 'C',
-      isRight: true,
-      answerList: ['A、重点部位', 'B、要害部位', 'C、消防安全重点部位', 'D、重点防范部位'],
-    ),
-    AnswerModel(
-      index: '第二题',
-      title: '单位应当将容易发生火灾、一旦发生火灾可能严重危机人身和财产以及对消防安全有重大影细响的部位，确定为（C ）',
-      answer: 'C',
-      userSelect: 'B',
-      isRight: false,
-      answerList: ['A、重点部位', 'B、要害部位', 'C、消防安全重点部位', 'D、重点防范部位'],
-    )
-  ];
+  List _dataAry = [];
 
   void initState() {
     super.initState();
+    getDetail();
+  }
+
+  getDetail() async {
+    var res = await HttpUtil.get('/process/common/detail/${widget.arguments['procId']}');
+    setState(() {
+      _dataAry = res;
+    });
   }
 
   @override
@@ -52,17 +43,33 @@ class Page extends State<XianXiaPeiXunPage> {
           if (index == 0) {
             return Column(
               children: <Widget>[
-                WorkSelectMust(title: '计划名称:', value: '2020年全员消防教育'),
-                WorkSelect(title: '满分:'),
-                WorkSelect(title: '及格分数:', value: '80分'),
-                WorkFenshu(title: '考试分数:', value: '后勤保障部'),
-                WorkTitleTest(title: '考试详情', margin: EdgeInsets.only(top: 20 * ScaleWidth)),
+                ..._dataAry.map((e) {
+                  String name = e['name'];
+                  String label = e['label'];
+                  if (name == '是否需要考试' && label == '是') {
+                    return WorkEmpty(
+                      leftActions: [MainTitleLabel(name)],
+                      rightActions: [
+                        MainTextLabel(label),
+                        MainTextLabel(
+                          '(查看考试详情)',
+                          textColor: MainDarkBlueColor,
+                          onClick: () {
+                            PageUtil.push('xianshangAnswer',arguments: widget.arguments);
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                  return WorkSelect(title: name, value: label);
+                }).toList(),
               ],
             );
           }
-          return WorkTestRadio(model: null, index: null, onChange: null);
+          return null;
+//          return WorkTestRadio(model: null, index: null, onChange: null);
         },
-        itemCount: modelAry.length + 1,
+        itemCount: 1,
       ),
     );
   }
