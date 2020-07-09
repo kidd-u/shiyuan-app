@@ -15,23 +15,26 @@ class SpecialPeopleListState extends State<SpecialPeopleList> {
   var tabTexts = ["所有数据", "已超期"];
 
   //定义ab标签对应的Page
-  var pages = [
-    SpecialPeoplePage(
-      title: '1',
-    ),
-    SpecialPeoplePage(
-      title: '2',
-    ),
+  List<SpecialPeoplegController> controllers=[
+    SpecialPeoplegController(),
+    SpecialPeoplegController(),
   ];
+  List<SpecialPeoplePage> pages;
+  String _keyword = '';
+  int _index = 0;
 
   void initState() {
     super.initState();
+    pages = [
+      SpecialPeoplePage(status: '',controller: controllers[0]),
+      SpecialPeoplePage(status: '已超期',controller: controllers[1]),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context, '考试档案'),
+        appBar: buildAppBar(context, '外部教育'),
         body: Column(
           children: <Widget>[
             Container(
@@ -63,7 +66,7 @@ class SpecialPeopleListState extends State<SpecialPeopleList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            print(text);
+                            _keyword=text;
                           },
                         )
                       ],
@@ -81,6 +84,9 @@ class SpecialPeopleListState extends State<SpecialPeopleList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
+                    onPressed: (){
+                      controllers[_index].search(_keyword);
+                    },
                   )
                 ],
               ),
@@ -91,7 +97,7 @@ class SpecialPeopleListState extends State<SpecialPeopleList> {
                   tabTexts: tabTexts,
                   pages: pages,
                   onTabChanged: (index) {
-                    print("onTabChanged-->index:$index");
+                    _index=index;
                   }),
             )
           ],

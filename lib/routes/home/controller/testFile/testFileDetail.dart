@@ -42,15 +42,15 @@ class TestFileDetailState extends State<TestFileDetailPage> {
       WorkDrop(context, title: '科目选择：', actions: ['消防考试', '英语考试', '数学考试']),
       WorkSelect(title: '考试开始日期:', value: '2020/3/12'),
       WorkSelect(title: '考试截止日期:', value: '2020/3/15'),
-      WorkFile(title: '考试资料选择:', name: '后勤保障处消防教育考试试卷（一）', type: File.file),
+      WorkFile(title: '考试资料选择:', name: '后勤保障处消防教育考试试卷（一）', type: 'file'),
       WorkEmpty(
         leftActions: [
           MainTitleLabel('是否允许重考/补考:'),
         ],
         rightActions: [
-        WorkRadio(title: '是', value: true, model: isCan, margin: EdgeInsets.only(right: 67 * ScaleWidth)),
-        WorkRadio(title: '否', value: false, model: isCan),
-      ],
+          WorkRadio(title: '是', value: true, model: isCan, margin: EdgeInsets.only(right: 67 * ScaleWidth)),
+          WorkRadio(title: '否', value: false, model: isCan),
+        ],
       ),
     ];
 

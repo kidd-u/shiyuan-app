@@ -37,12 +37,18 @@ class Filter {
 
   /** yyyy-mm-dd */
   static time(String date) {
+    if (date == null || date == '') {
+      return '';
+    }
     DateTime time = DateTime.parse(date);
     return formatDate(time, [yyyy, '-', mm, '-', dd]);
   }
 
   /** yyyy-mm-dd hh-dd */
   static timeHours(String date) {
+    if (date == null || date == '') {
+      return '';
+    }
     DateTime time = DateTime.parse(date);
     return formatDate(time, [yyyy, '-', mm, '-', dd, '  ', hh, ':', nn]);
   }
@@ -72,6 +78,7 @@ class Filter {
     if (status == '未完成') return WaitingColor;
     return NormalColor;
   }
+
   static checkYinHuanColor(String status) {
     if (status == '已完成') return SuccessColor;
     if (status == '待整改') return LoadingColor;
@@ -80,6 +87,7 @@ class Filter {
     if (status == '未完成') return WaitingColor;
     return NormalColor;
   }
+
   static checkShangJiColor(String status) {
     if (status == '待整改') return LoadingColor;
     if (status == '已完成') return SuccessColor;

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/common/WorkUI/WorkImageWithMessage.dart';
 import 'package:shiyuan/states/default.dart';
-
+class WorkImageUploadController{
+  WorkImageUploadState _state;
+  bind(WorkImageUploadState state){
+    _state=state;
+  }
+  resetValue(List value){
+    _state.resetValue(value);
+  }
+}
 class WorkImageUpload extends StatefulWidget {
-  const WorkImageUpload({
+  WorkImageUpload({
     Key key,
     this.title = '',
     this.margin,
@@ -14,20 +22,26 @@ class WorkImageUpload extends StatefulWidget {
     this.enable = true,
     this.value,
     this.onChange,
+    this.controller,
   }) : super(key: key);
-  final String title;
-  final EdgeInsets margin;
-  final Color color;
-  final bool showTopLine;
-  final bool showBottomLine;
-  final bool must;
-  final bool enable;
-  final List value;
-  final Function onChange;
+  String title;
+  EdgeInsets margin;
+  Color color;
+  bool showTopLine;
+  bool showBottomLine;
+  bool must;
+  bool enable;
+  List value;
+  Function onChange;
+  WorkImageUploadController controller;
 
   @override
   State<StatefulWidget> createState() {
-    return new WorkImageUploadState();
+    WorkImageUploadState state=new WorkImageUploadState();
+    if (controller != null) {
+      controller.bind(state);
+    }
+    return state;
   }
 }
 
@@ -41,9 +55,15 @@ class WorkImageUploadState extends State<WorkImageUpload> {
           {'src': '', 'description': ''}
         ];
   }
+  void resetValue(List value){
+    setState(() {
+      _imagesArray = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return layout(context);
   }
 
@@ -90,10 +110,8 @@ class WorkImageUploadState extends State<WorkImageUpload> {
         src: item['src'],
         message: item['description'],
         onChange: (src, message) {
-          setState(() {
-            item['src'] = src;
-            item['description'] = message;
-          });
+          item['src'] = src;
+          item['description'] = message;
           widget.onChange(_imagesArray);
         },
         onDelete: () {

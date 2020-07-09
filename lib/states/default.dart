@@ -11,6 +11,8 @@ export './http.dart';
 export './page.dart';
 export './filter.dart';
 export './event_util.dart';
+export './objExtension.dart';
+export './SafeMap.dart';
 
 
 final double ScaleWidth = ScreenUtil().scaleWidth;

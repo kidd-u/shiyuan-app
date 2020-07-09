@@ -3,49 +3,130 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
 enum SpecialType {
-  normal, //已完成
-  loading, //进行中
-  error, //超期未考
+  normal, //正常
+  loading, //即将过期
+  error, //已过期
+}
+
+class SpecialPeoplegController {
+  SpecialPeoplePageState _state;
+
+  void bindState(SpecialPeoplePageState state) {
+    _state = state;
+  }
+
+  void search(String kerword) {
+    _state.search(kerword);
+  }
 }
 
 class SpecialPeoplePage extends StatefulWidget {
-  const SpecialPeoplePage({Key key, this.title}) : super(key: key);
-  final String title;
+  const SpecialPeoplePage({
+    Key key,
+    this.status,
+    this.controller,
+  }) : super(key: key);
+  final String status;
+  final SpecialPeoplegController controller;
 
   @override
   State<StatefulWidget> createState() {
-    return new SpecialPeoplePageState();
+    SpecialPeoplePageState state = new SpecialPeoplePageState();
+    if (controller != null) {
+      controller.bindState(state);
+    }
+    return state;
   }
 }
 
 class SpecialPeoplePageState extends State<SpecialPeoplePage> {
+  String _keyword = '';
+  List _content = [];
+  int _pageIndex = 0;
+  RefreshViewController refreshViewController = new RefreshViewController();
+
   void initState() {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return layout(context);
+  void search(String kerword) {
+    _keyword = kerword;
+    refreshViewController.callRefresh();
   }
 
-  Widget layout(BuildContext context) {
+  void onRefresh() async {
+    _pageIndex = 0;
+    _content = [];
+    loadDataByPage(_pageIndex);
+  }
+
+  void onLoad() async {
+    loadDataByPage(_pageIndex + 1);
+  }
+
+  void loadDataByPage(int page) async {
+    var url=widget.status==''?'/extedu/summary':'/extedu/summary/expired';
+    try {
+      var res = await HttpUtil.get(
+        url,
+        params: {'keyword': _keyword, 'page': page, 'size': 15, 'sort': 'id'},
+      );
+      List content = res['content'];
+      setState(() {
+        _content = [..._content, ...content];
+        if (content.length > 0) {
+          _pageIndex = page;
+        }
+      });
+      refreshViewController.finish(success: true, noMore: _content.length < 15);
+    } catch (err) {
+      refreshViewController.finish(success: false, noMore: page != 0);
+      print(err);
+    }
+  }
+  didSelectCellForRow(Map item){
+    PageUtil.push('specialPeopleDetail',arguments: item);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new Container(
       color: BackgroundColor,
-      child: ListView.builder(
-          padding: EdgeInsets.all(30 * ScaleWidth),
-          itemCount: 3,
-//          itemExtent: 323 * ScaleWidth,
-//          itemExtent: 365 * ScaleWidth,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) return itemCell(SpecialType.normal, time: 340);
-            if (index == 1) return itemCell(SpecialType.loading, time: 90);
-            if (index == 2) return itemCell(SpecialType.error);
-            return null;
-          }),
+      child: RefreshView(
+        scrollView: listView(),
+        onRefresh: () => onRefresh(),
+        onLoad: () => onLoad(),
+        count: _content.length,
+        controller: refreshViewController,
+      ),
     );
   }
 
-  Widget itemCell(SpecialType type, {int time = 90}) {
+  Widget listView() {
+    return ListView.builder(
+        padding: EdgeInsets.all(30 * ScaleWidth),
+        itemCount: 3,
+        itemBuilder: (BuildContext context, int index) {
+          return itemCell(_content[index]);
+        });
+  }
+
+  Widget itemCell(Map item) {
+    SpecialType type;
+    int time = item['status'];
+    String name, userName, groupName, timeRange;
+    if (time < 0) {
+      type = SpecialType.error;
+    } else if (time < 90) {
+      type = SpecialType.loading;
+    } else {
+      type = SpecialType.normal;
+    }
+    name = item['name'];
+    userName = item['account']['name'];
+    groupName = item['depart']['name'];
+    timeRange = item['validDate'];
+
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(bottom: 30 * ScaleWidth),
@@ -76,16 +157,16 @@ class SpecialPeoplePageState extends State<SpecialPeoplePage> {
                       WorkEmpty(
                         showTopLine: false,
                         showBottomLine: false,
-                        leftActions: [MainTitleLabel('电工作业证')],
+                        leftActions: [MainTitleLabel(name)],
                         rightActions: [
                           type == SpecialType.normal
                               ? SubTextLabel(
-                                  '距离证书过期还有' + time.toString() + '天',
+                                  '距离证书过期还有${time}天',
                                   textColor: SuccessColor,
                                 )
                               : type == SpecialType.loading
                                   ? SubTextLabel(
-                                      '距离证书过期还有' + time.toString() + '天',
+                                      '距离证书过期还有${time}天',
                                       textColor: LoadingColor,
                                     )
                                   : SubTextLabel(
@@ -95,9 +176,12 @@ class SpecialPeoplePageState extends State<SpecialPeoplePage> {
                         ],
                       ),
                       LineView(margin: EdgeInsets.only(left: 6 * ScaleWidth, right: 18 * ScaleWidth)),
-                      MainTextLabel('持有者：王晓鹏', textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
-                      MainTextLabel('所属部门/单位：上海卫机电设备有限公司', textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
-                      MainTextLabel('证书有效期：2017/06/01 — 2020/06/01', textColor: Color(0xFF7D7D7D),margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
+                      MainTextLabel('持有者：${userName}',
+                          textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
+                      MainTextLabel('所属部门/单位：${groupName}',
+                          textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
+                      MainTextLabel('证书有效期：${timeRange}',
+                          textColor: Color(0xFF7D7D7D), margin: EdgeInsets.only(top: 22 * ScaleWidth, left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
                     ],
                   ),
                 ),
@@ -107,7 +191,7 @@ class SpecialPeoplePageState extends State<SpecialPeoplePage> {
         ),
       ),
       onTap: () {
-        PageUtil.push('specialPeopleDetail');
+        didSelectCellForRow(item);
       },
     );
   }

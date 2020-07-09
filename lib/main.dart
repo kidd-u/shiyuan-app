@@ -164,7 +164,7 @@ class MyApp extends StatelessWidget {
           'testFileList': (BuildContext context) => new TestFileList(),
           'testFileDetail': (BuildContext context) => new TestFileDetailPage(),
           'specialPeopleList': (BuildContext context) => new SpecialPeopleList(),
-          'specialPeopleDetail': (BuildContext context) => new SpecialPeopleDetailPage(),
+          'specialPeopleDetail': (BuildContext context) => new SpecialPeopleDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'falvList': (BuildContext context) => new FaLvList(),
           'aboutSafe': (BuildContext context) => new AboutSafePage(),
           'safeMeetList': (BuildContext context) => new SafeMeetList(),
@@ -174,7 +174,7 @@ class MyApp extends StatelessWidget {
           'safeMeetSignList': (BuildContext context) => new SafeMeetSignListPage(),
           'shangjiList': (BuildContext context) => new ShangJiList(),
           'shangjiApply': (BuildContext context) => new ShangJiApplyPage(),
-          'notice': (BuildContext context) => new NoticePage(),
+          'notice': (BuildContext context) => new NoticePage(arguments: ModalRoute.of(context).settings.arguments),
         },
       ),
     );

@@ -45,8 +45,8 @@ class XianShangShenHeState extends State<XianShangShenHePage> {
                   WorkSelect(title: '发起人：', value: 'admin'),
                   WorkSelect(title: '开始日期：', value: '2020/3/12'),
                   WorkSelect(title: '结束日期：', value: '2020/3/15'),
-                  WorkFile(title: '培训资料选择：', name: '全员消防教育（视频）', type: File.video),
-                  WorkFile(title: '试卷选择：', name: '后勤保障处消防教育考试试卷（一）', type: File.file),
+                  WorkFile(title: '培训资料选择：', name: '全员消防教育（视频）', type: 'video'),
+                  WorkFile(title: '试卷选择：', name: '后勤保障处消防教育考试试卷（一）', type: 'file'),
                   WorkNormal(
                     title: '是否允许补考：',
                     children: <Widget>[

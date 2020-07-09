@@ -12,28 +12,23 @@ class HomePage extends StatefulWidget {
 }
 
 class Page extends State<HomePage> {
+  List _lunbo = [];
+
   void initState() {
     super.initState();
+    getNotice();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  getNotice() async {
+    var res = await HttpUtil.get('/rolling/notice', params: {'page': 0, 'size': 9999});
+    setState(() {
+      _lunbo = res;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return layout(context);
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Widget layout(BuildContext context) {
@@ -127,34 +122,29 @@ class Page extends State<HomePage> {
                 margin: EdgeInsets.only(left: 34 * ScaleWidth, right: 34 * ScaleWidth),
                 height: 70 * ScaleWidth,
                 width: 580 * ScaleWidth,
-                child: new Swiper(
-                  scrollDirection: Axis.vertical,
-                  loop: true,
-                  autoplay: true,
-                  autoplayDelay: 3000,
-                  duration: 600,
-                  outer: false,
-                  itemBuilder: (BuildContext context, int index) {
-                    return new Center(
-                      child: new Text(
-                        '安全通告：2020年第一季度安全综合排查正在进行安全通告：2020年第一季度安全综合排查正在进行',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Color.fromRGBO(93, 83, 168, 1),
-                          fontSize: 24 * ScaleWidth,
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: 3,
-                  pagination: null,
-                  control: null,
-                  onTap: (int index) {
-//                    print(DefaultUtil.mainContext);
-                    PageUtil.push('notice');
-                  },
-                ),
+                child: _lunbo.length > 0
+                    ? new Swiper(
+                        scrollDirection: Axis.vertical,
+                        loop: true,
+                        autoplay: true,
+                        autoplayDelay: 3000,
+                        duration: 600,
+                        outer: false,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: <Widget>[
+                              Expanded(child: Label(_lunbo[index]['title'])),
+                            ],
+                          );
+                        },
+                        itemCount: _lunbo.length,
+                        pagination: null,
+                        control: null,
+                        onTap: (int index) {
+                          PageUtil.push('notice',arguments: _lunbo[index]);
+                        },
+                      )
+                    : SizedBox(),
               )
             ],
           ),
@@ -191,7 +181,7 @@ class Page extends State<HomePage> {
                   margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   fontSize: 26 * ScaleWidth,
                   fontWeight: FontWeight.bold,
-                  onClick: (){
+                  onClick: () {
                     DialogUtil.showTimePicker(context);
                   },
                 )
@@ -249,12 +239,12 @@ class Page extends State<HomePage> {
   Widget quanbu(BuildContext context) {
     List<Widget> items = [
       quanbuItem(context, 'imgs/home/zaixiankaoshi.png', '0在线考试', 'testList'),
-      quanbuItem(context, 'imgs/home/waibujiaoyu.png', '0外部教育', 'specialPeopleList'),
+      quanbuItem(context, 'imgs/home/waibujiaoyu.png', '外部教育', 'specialPeopleList'),
       quanbuItem(context, 'imgs/home/falvbiaozhunku.png', '法律标准库', 'falvList'),
-      quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '0相关方安全工作', 'aboutSafe'),
+      quanbuItem(context, 'imgs/home/xiangguanfanganquangongzuo.png', '相关方安全工作', 'aboutSafe'),
       quanbuItem(context, 'imgs/home/zuoyeguanli2.png', '1作业管理', 'homework'),
       quanbuItem(context, 'imgs/home/yinhuanfaqi2.png', '隐患发起', 'yinhuanfaqi'),
-      quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '0线上培训', 'xianshangList'),
+      quanbuItem(context, 'imgs/home/xianshangpeixun2.png', '1线上培训', 'xianshangList'),
       quanbuItem(context, 'imgs/home/jihuajiancha2.png', '计划检查', 'jihuajiancha'),
       quanbuItem(context, 'imgs/home/xianxiapeixun2.png', '线下培训', 'xianxiaList'),
       quanbuItem(context, 'imgs/home/yinhuanzhenggai2.png', '隐患治理', 'yinhuanList'),
@@ -320,12 +310,10 @@ class Page extends State<HomePage> {
             margin: EdgeInsets.only(top: 35 * ScaleWidth),
             onClick: () {
               if (page == 'yinhuanfaqi') {
-                PageUtil.push('YinhuanAdd',
-                    arguments: {'title': '', 'procId': '', 'submitForm': true});
-              }  else{
+                PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true});
+              } else {
                 PageUtil.push(page);
               }
-
             },
           ),
           SmallTextLabel(
@@ -335,5 +323,20 @@ class Page extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

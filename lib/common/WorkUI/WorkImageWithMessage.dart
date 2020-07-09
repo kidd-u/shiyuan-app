@@ -17,7 +17,7 @@ class WorkImageWithMessage extends StatefulWidget {
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
-  final Function onChange;//返回(_src, _message)
+  final Function onChange; //返回(_src, _message)
   final Function onDelete;
   final String src;
   final String message;
@@ -48,16 +48,20 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
   Widget layout(BuildContext context) {
     List<Widget> views = [];
     if (widget.enabled) {
+      TextEditingController controller = new TextEditingController();
+      controller.text = _message;
       Widget input = Expanded(
-          child: InputView(
-        maxLines: 999,
-        placeholder: '请输入照片描述......',
-        margin: EdgeInsets.only(left: 18 * ScaleWidth),
-        onChanged: (text) {
-          _message = text;
-          widget.onChange(_src, _message);
-        },
-      ));
+        child: InputView(
+          controller: controller,
+          maxLines: 999,
+          placeholder: '请输入照片描述......',
+          margin: EdgeInsets.only(left: 18 * ScaleWidth),
+          onChanged: (text) {
+            _message = text;
+            widget.onChange(_src, _message);
+          },
+        ),
+      );
       Widget delete = GestureDetector(
         onTap: () async {
           await DialogUtil.dialogConfim('是否确认删除');
@@ -85,22 +89,15 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
       views.add(input);
       views.add(delete);
     } else {
-      TextEditingController controller=new TextEditingController();
-      controller.text=_message;
+      TextEditingController controller = new TextEditingController();
+      controller.text = _message;
       Widget text = Expanded(
-//        child: SubTextLabel(
-//          widget.message,
-//          maxLines: 9999,
-////          width: 518 * ScaleWidth - 2,
-//          height: 136 * ScaleWidth - 2,
-//          padding: EdgeInsets.all(5),
-//        ),
-      child: InputView(
-        controller: controller,
-        enabled: false,
-        maxLines: 9999,
-        contentPadding: EdgeInsets.all(15*ScaleWidth),
-      ),
+        child: InputView(
+          controller: controller,
+          enabled: false,
+          maxLines: 9999,
+          contentPadding: EdgeInsets.all(15 * ScaleWidth),
+        ),
       );
       views.add(text);
     }
@@ -117,7 +114,7 @@ class WorkImageWithMessageState extends State<WorkImageWithMessage> {
             margin: EdgeInsets.only(left: 30 * ScaleWidth),
             enabled: widget.enabled,
             src: _src,
-            onChange: (value){
+            onChange: (value) {
               setState(() {
                 _src = value;
               });

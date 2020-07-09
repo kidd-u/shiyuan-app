@@ -21,19 +21,9 @@ class WebViewState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget btn = Button(
-      child: Text(
-        '完成',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '文档教育', actions: [btn]),
+      appBar: buildAppBar(context, ''),
       body: WebView(
         initialUrl: widget.url,
         //JS执行模式 是否允许JS执行

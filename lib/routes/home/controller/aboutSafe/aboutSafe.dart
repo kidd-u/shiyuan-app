@@ -12,8 +12,68 @@ class AboutSafePage extends StatefulWidget {
 }
 
 class AboutSafeState extends State<AboutSafePage> {
+  Map _detail = {};
+  List _safeEdu = [];
+  List _safeCheck = [];
+  List _safeLog = [];
+  List<WorkImageUploadController> controllers=[
+    WorkImageUploadController(),
+    WorkImageUploadController(),
+    WorkImageUploadController(),
+  ];
+
   void initState() {
     super.initState();
+    getForm();
+  }
+
+  getForm() async {
+    Map res = await HttpUtil.get('/thirdparty/record/mine/detail');
+    setState(() {
+      _detail = res;
+      _safeEdu = _detail.safe(['detail','EDU'])??[];
+      _safeCheck = _detail.safe(['detail', 'CHECK']) ?? [];
+      _safeLog = _detail.safe(['detail', 'LOG']) ?? [];
+      controllers[0].resetValue(_safeEdu);
+      controllers[1].resetValue(_safeCheck);
+      controllers[2].resetValue(_safeLog);
+    });
+  }
+
+  submit() async {
+    print(_safeEdu);
+    print(_safeCheck);
+    print(_safeLog);
+    if (_safeEdu.length == 0 || _safeCheck.length == 0 || _safeLog.length == 0) {
+      DialogUtil.dialogAlert('您有必填项没有填写!');
+      return;
+    }
+    await DialogUtil.dialogConfim('确认提交?');
+    List images = [
+      ..._safeEdu
+          .map((e) => {
+                'usage': 'EDU',
+                'image': {'type': 'IMAGE', 'src': e['src'], 'description': e['description']}
+              })
+          .toList(),
+      ..._safeCheck
+          .map((e) => {
+                'usage': 'CHECK',
+                'image': {'type': 'IMAGE', 'src': e['src'], 'description': e['description']}
+              })
+          .toList(),
+      ..._safeLog
+          .map((e) => {
+                'usage': 'LOG',
+                'image': {'type': 'IMAGE', 'src': e['src'], 'description': e['description']}
+              })
+          .toList(),
+    ];
+    print(images);
+    DialogUtil.showLoading();
+    var res = await HttpUtil.put('/thirdparty/record/detail/${_detail['id']}', params: {'images': images});
+    DialogUtil.toastSuccess('提交成功!');
+    PageUtil.pop();
   }
 
   @override
@@ -27,7 +87,9 @@ class AboutSafeState extends State<AboutSafePage> {
           fontWeight: FontWeight.w400,
         ),
       ),
+      onPressed: () => submit(),
     );
+
     return new Scaffold(
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '相关方安全工作', actions: [btn]),
@@ -47,35 +109,41 @@ class AboutSafeState extends State<AboutSafePage> {
                   color: Colors.transparent,
                   showTopLine: false,
                   showBottomLine: false,
-                  leftActions: [MainTitleLabel('高帅')],
-                  rightActions: [MainTitleLabel('相关方公司1')],
-                ),
-                WorkEmpty(
-                  color: Colors.transparent,
-                  showBottomLine: false,
-                  leftActions: [MainTitleLabel('本月需填写报表2份', textColor: Color(0xFFB3B3B3))],
-                  rightActions: [MainTitleLabel('2020-03-20', textColor: Color(0xFFB3B3B3))],
+                  leftActions: [MainTitleLabel(UserInfo.userInfo.name)],
+                  rightActions: [
+                    MainTitleLabel(_detail.safe(['depart', 'name']) ?? '')
+                  ],
                 ),
               ],
             ),
           ),
           WorkSelect(title: '安全教育', color: Colors.transparent, must: true, placeholder: ''),
-          WorkImageTitle(leftActions: [MainTitleLabel('本月安全教育记录:')]),
-          LineView(),
-          WorkImageWithMessage(paddingTop: 20 * ScaleWidth),
-          WorkSelect(title: '安全巡查', color: Colors.transparent, must: true, placeholder: ''),
-          WorkImageTitle(leftActions: [MainTitleLabel('本月安全巡查记录:')]),
-          LineView(),
-          WorkImageWithMessage(paddingTop: 20 * ScaleWidth),
-          WorkEmpty(
-            showBottomLine: false,
-            margin: EdgeInsets.only(top: 20*ScaleWidth),
-            leftActions: [MainTitleLabel('安全工作日志:')],
-            rightActions: [MainTextLabel('添加',textColor: MainDarkBlueColor,)],
+          WorkImageUpload(
+            title: '本月安全教育记录:',
+            value: _safeEdu,
+            controller: controllers[0],
+            onChange: (value) {
+              _safeEdu = value;
+            },
           ),
-          WorkInputArea(),
-          WorkImageTitle(leftActions: []),
-          WorkImageWithMessage(),
+          WorkSelect(title: '安全巡查', color: Colors.transparent, must: true, placeholder: ''),
+          WorkImageUpload(
+            title: '本月安全巡查记录:',
+            value: _safeCheck,
+            controller: controllers[1],
+            onChange: (value) {
+              _safeCheck = value;
+            },
+          ),
+          WorkSelect(title: '安全工作', color: Colors.transparent, must: true, placeholder: ''),
+          WorkImageUpload(
+            title: '安全工作日志:',
+            value: _safeLog,
+            controller: controllers[2],
+            onChange: (value) {
+              _safeLog = value;
+            },
+          ),
         ],
       ),
     );

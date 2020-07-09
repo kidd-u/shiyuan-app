@@ -44,8 +44,9 @@ class LibraryState extends State<LibraryPage> {
 
   void initState() {
     super.initState();
-//    onlineKey.currentState.getTitle();
+    print('initState');
   }
+  
 
   @override
   void didChangeDependencies() {
