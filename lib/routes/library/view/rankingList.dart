@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class RankingListView extends StatefulWidget {
-  const RankingListView({Key key, this.title}) : super(key: key);
-  final String title;
+  const RankingListView({
+    Key key,
+    this.data,
+  }) : super(key: key);
+  final List data;
 
   @override
   State<StatefulWidget> createState() {
@@ -43,17 +46,17 @@ class RankingListViewState extends State<RankingListView> {
           ),
           Expanded(
             child: ListView.builder(
-                itemCount: 9,
+                itemCount: widget.data.length,
                 itemExtent: 73 * ScaleWidth,
                 itemBuilder: (BuildContext context, int index) {
                   return new Container(
 //                    color: index.isEven ? Colors.yellow : Colors.cyanAccent,
                     child: Row(
                       children: <Widget>[
-                        MainTextLabel('$index', fontWeight: FontWeight.bold, width: 20 * ScaleWidth, margin: EdgeInsets.only(left: 52 * ScaleWidth)),
-                        MainTextLabel('赵依依', width: 226 * ScaleWidth, margin: EdgeInsets.only(left: 33 * ScaleWidth)),
-                        MainTextLabel('保卫科', width: 228 * ScaleWidth),
-                        MainTextLabel('40条'),
+                        MainTextLabel('${index + 1}', fontWeight: FontWeight.bold, width: 40 * ScaleWidth, margin: EdgeInsets.only(left: 52 * ScaleWidth)),
+                        MainTextLabel('${widget.data[index]['name']}', width: 226 * ScaleWidth, margin: EdgeInsets.only(left: 33 * ScaleWidth)),
+                        MainTextLabel('${widget.data[index]['depart']}', width: 228 * ScaleWidth),
+                        MainTextLabel('${widget.data[index]['amount']}条'),
                       ],
                     ),
                   );

@@ -2,10 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 class BlueCartView extends StatefulWidget {
-  const BlueCartView({Key key, this.title, this.margin,this.width}) : super(key: key);
+  const BlueCartView({
+    Key key,
+    this.title,
+    this.margin,
+    this.width,
+    this.total = '0',
+    this.isAdd = false,
+    this.add = '0',
+  }) : super(key: key);
   final String title;
   final EdgeInsets margin;
   final double width;
+  final String total;
+  final bool isAdd;
+  final String add;
 
   @override
   State<StatefulWidget> createState() {
@@ -34,15 +45,15 @@ class BlueCartViewState extends State<BlueCartView> {
       child: Column(children: <Widget>[
         Label(widget.title,
             textColor: Colors.white, fontSize: 22 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 25 * ScaleWidth)),
-        Label('490', textColor: Colors.white, fontSize: 48 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 37 * ScaleWidth)),
+        Label(widget.total, textColor: Colors.white, fontSize: 48 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 25 * ScaleWidth)),
         Container(
-          margin: EdgeInsets.only(top: 32 * ScaleWidth),
+          margin: EdgeInsets.only(top: 30 * ScaleWidth),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Label('同比上月', textColor: Colors.white, fontSize: 22 * ScaleWidth),
-              ImageView(src: 'imgs/library/UP.png', width: 13 * ScaleWidth, height: 17 * ScaleWidth),
-              Label('26%', textColor: Colors.white, fontSize: 22 * ScaleWidth)
+              ImageView(src: widget.isAdd?'imgs/library/UP.png':'imgs/library/down.png', width: 13 * ScaleWidth, height: 17 * ScaleWidth),
+              Label(widget.add, textColor: Colors.white, fontSize: 22 * ScaleWidth)
             ],
           ),
         )

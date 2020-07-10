@@ -4,6 +4,14 @@ import 'package:shiyuan/common/UIKit/TabBarPageView.dart';
 import './xianshangPage.dart';
 
 class XianShangList extends StatefulWidget {
+  const XianShangList({
+    Key key,
+    this.type = 'ONLINE_CLASS',
+    this.title = '线上培训',
+  }) : super(key: key);
+  final String type;
+  final String title;
+
   @override
   State<StatefulWidget> createState() {
     return new XianShangListState();
@@ -28,17 +36,17 @@ class XianShangListState extends State<XianShangList> {
   void initState() {
     super.initState();
     pages=[
-      XianShangPage(type: 'ONLINE_CLASS',status: '',controller: controllers[0]),
-      XianShangPage(type: 'ONLINE_CLASS',status: '待执行',controller: controllers[1]),
-      XianShangPage(type: 'ONLINE_CLASS',status: '已完成',controller: controllers[2]),
-      XianShangPage(type: 'ONLINE_CLASS',status: '已超期',controller: controllers[3]),
+      XianShangPage(type: widget.type,status: '',controller: controllers[0]),
+      XianShangPage(type: widget.type,status: '待执行',controller: controllers[1]),
+      XianShangPage(type: widget.type,status: '已完成',controller: controllers[2]),
+      XianShangPage(type: widget.type,status: '已超期',controller: controllers[3]),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(context, '线上培训'),
+        appBar: buildAppBar(context, widget.title),
         body: Column(
           children: <Widget>[
             Container(

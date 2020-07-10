@@ -4,6 +4,12 @@ import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
 class TestFileDetailPage extends StatefulWidget {
+  TestFileDetailPage({
+    Key key,
+    this.arguments,
+  }) : super();
+  Map arguments;
+
   @override
   State<StatefulWidget> createState() {
     return new TestFileDetailState();
@@ -11,64 +17,56 @@ class TestFileDetailPage extends StatefulWidget {
 }
 
 class TestFileDetailState extends State<TestFileDetailPage> {
-  List modelAry = [
-    {'name': '赵小雨', 'num': 90},
-    {'name': '王依依', 'num': 90},
-    {'name': '张娟', 'num': 90},
-    {'name': '黄薇', 'num': 90},
-    {'name': '杨月', 'num': 90},
-    {'name': '李思思', 'num': 90},
-  ];
-  bool isCan = true;
+  String _procId;
+  List _details = [];
+  List _archives = [];
+  List _peoples = [];
 
   void initState() {
     super.initState();
+    _procId = '${widget.arguments['procId']}';
+    getDetail();
+    getArchive();
+    getHistory();
+  }
+
+  getDetail() async {
+    var res = await HttpUtil.get('/process/common/detail/${_procId}');
+    setState(() {
+      _details = res;
+    });
+  }
+
+  getArchive() async {
+    var res = await HttpUtil.get('/process/test/archive/${_procId}');
+    setState(() {
+      _archives = res[0]['detail'];
+    });
+  }
+
+  getHistory() async {
+    var res = await HttpUtil.get('/process/test/summary/${_procId}');
+    setState(() {
+      _peoples=res['content'];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> headerViews = [
-      WorkEmpty(
-        leftActions: [
-          MainTitleLabel('*', textColor: WarningColor),
-          MainTitleLabel('考试标题:'),
-        ],
-        rightActions: [
-          MainTitleLabel('2020年全员消防教育'),
-          MainTitleLabel('(考试进行中)', textColor: SuccessColor),
-        ],
-      ),
-      WorkSelect(title: '考试对象：', value: '保卫科'),
-      WorkDrop(context, title: '科目选择：', actions: ['消防考试', '英语考试', '数学考试']),
-      WorkSelect(title: '考试开始日期:', value: '2020/3/12'),
-      WorkSelect(title: '考试截止日期:', value: '2020/3/15'),
-      WorkFile(title: '考试资料选择:', name: '后勤保障处消防教育考试试卷（一）', type: 'file'),
-      WorkEmpty(
-        leftActions: [
-          MainTitleLabel('是否允许重考/补考:'),
-        ],
-        rightActions: [
-          WorkRadio(title: '是', value: true, model: isCan, margin: EdgeInsets.only(right: 67 * ScaleWidth)),
-          WorkRadio(title: '否', value: false, model: isCan),
-        ],
-      ),
-    ];
+    List<Widget> headerViews = [..._details.map((e) => WorkSelect(title: e['name'], value: e['label'])).toList()];
 
-    if (modelAry.length >= 0) {
-      List<Widget> top = [
-        WorkTitle(title: '考试详情:', margin: EdgeInsets.only(top: 20 * ScaleWidth)),
-        WorkSelect(title: '目前已考人数：', value: '57人'),
-        WorkSelect(title: '及格人数：', value: '55人'),
-        WorkEmpty(
-          leftActions: [MainTitleLabel('平均分：')],
-          rightActions: [MainTitleLabel('87.3分', textColor: ErrorColor)],
-          showTopLine: false,
-        ),
-        WorkSelect(title: '及格人数：', value: '55人'),
-        WorkTitle(title: '分数一览:', margin: EdgeInsets.only(top: 20 * ScaleWidth)),
-      ];
-      headerViews.addAll(top);
-    }
+    List<Widget> top = [
+      WorkTitle(title: '考试详情:', margin: EdgeInsets.only(top: 20 * ScaleWidth)),
+      ..._archives.map((e) {
+        if (e['name'] == '平均分') {
+          return WorkEmpty(leftActions: [MainTextLabel(e['name'])], rightActions: [MainTextLabel(e['label'], textColor: LoadingColor)]);
+        } else {
+          return WorkSelect(title: e['name'], value: e['label']);
+        }
+      }).toList(),
+      WorkTitle(title: '分数一览:', margin: EdgeInsets.only(top: 20 * ScaleWidth)),
+    ];
+    headerViews.addAll(top);
 
     return new Scaffold(
       backgroundColor: BackgroundColor,
@@ -84,31 +82,37 @@ class TestFileDetailState extends State<TestFileDetailPage> {
               ],
             );
           }
-          return itemCell(modelAry[index - 1]);
+          return itemCell(_peoples[index - 1]);
         },
-        itemCount: modelAry.length + 1,
+        itemCount: _peoples.length + 1,
       ),
     );
   }
 
-  Widget itemCell(Map obj) {
-    return Column(
-      children: <Widget>[
-        Container(
-          color: Colors.white,
-          height: 135 * ScaleWidth,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: MainTitleLabel(obj['name'], margin: EdgeInsets.only(left: 56 * ScaleWidth)),
-              ),
-              MainTitleLabel(obj['num'].toString() + '分', width: 70 * ScaleWidth, margin: EdgeInsets.only(right: 140 * ScaleWidth)),
-              MainTitleLabel('点击查看试卷', textColor: NormalColor, margin: EdgeInsets.only(right: 39 * ScaleWidth)),
-            ],
+  Widget itemCell(Map item) {
+    return GestureDetector(
+      onTap: (){
+        item['isAdmin']=true;
+        PageUtil.push('xianshangAnswer',arguments: item);
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            height: 135 * ScaleWidth,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: MainTitleLabel(item['accountName'], margin: EdgeInsets.only(left: 56 * ScaleWidth)),
+                ),
+                MainTitleLabel('${item['score']}分', width: 100 * ScaleWidth, margin: EdgeInsets.only(right: 140 * ScaleWidth)),
+                MainTitleLabel('点击查看试卷', textColor: NormalColor, margin: EdgeInsets.only(right: 39 * ScaleWidth)),
+              ],
+            ),
           ),
-        ),
-        LineView(),
-      ],
+          LineView(),
+        ],
+      ),
     );
   }
 

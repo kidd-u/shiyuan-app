@@ -17,7 +17,8 @@ class xianshangAnswer extends StatefulWidget {
 }
 
 class WenDangJiaoYuState extends State<xianshangAnswer> {
-  bool _showAll = true;
+  bool _showAll = true; //是否显示错误试题
+  bool _showBtn = true; //是否显示重新培训
   List _dataAry = [];
 
   void initState() {
@@ -27,9 +28,30 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
 
   getAnswer() async {
     print(widget.arguments);
-    var SINGLE = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': 9999});
-    var MULTI = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'MULTI', 'page': 0, 'size': 9999});
-    var TOF = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'TOF', 'page': 0, 'size': 9999});
+    bool isAdmin = widget.arguments.safe(['isAdmin']) ?? false;
+    var SINGLE, MULTI, TOF;
+    if (isAdmin) {
+      setState(() {
+        _showBtn = !isAdmin;
+      });
+      SINGLE = await HttpUtil.get(
+        '/process/online/done/test/detail',
+        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'SINGLE', 'page': 0, 'size': 9999},
+      );
+      MULTI = await HttpUtil.get(
+        '/process/online/done/test/detail',
+        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'MULTI', 'page': 0, 'size': 9999},
+      );
+      TOF = await HttpUtil.get(
+        '/process/online/done/test/detail',
+        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'TOF', 'page': 0, 'size': 9999},
+      );
+    } else {
+      SINGLE = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': 9999});
+      MULTI = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'MULTI', 'page': 0, 'size': 9999});
+      TOF = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'TOF', 'page': 0, 'size': 9999});
+    }
+
     List single_all = SINGLE['content'];
     List multi_all = MULTI['content'];
     List tof_all = TOF['content'];
@@ -98,7 +120,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
               } else {
                 if (answer['isCorrect'] != true) {
                   return WorkTestRadioAnswer(model: answer, index: i);
-                }else{
+                } else {
                   return SizedBox();
                 }
               }

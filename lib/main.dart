@@ -108,7 +108,13 @@ class MyApp extends StatelessWidget {
           'findPassWord': (BuildContext context) => new FindPassWordPage(),
           'newPassWord': (BuildContext context) => new NewPassWordPage(),
           'yinhuanfaqi': (BuildContext context) => new YinhuanFaqiPage(),
-          'xianshangList': (BuildContext context) => new XianShangList(),
+          'xianshangList': (BuildContext context) {
+            Map arguments = ModalRoute.of(context).settings.arguments;
+            return new XianShangList(
+              type: arguments['type'],
+              title: arguments['title'],
+            );
+          },
           'xianshangDetail': (BuildContext context) => new XianShangDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'xianshangpeixun': (BuildContext context) => new XianXiaPeiXunPage(arguments: ModalRoute.of(context).settings.arguments),
           'xianshangAnswer': (BuildContext context) => new xianshangAnswer(arguments: ModalRoute.of(context).settings.arguments),
@@ -162,7 +168,7 @@ class MyApp extends StatelessWidget {
           'homeworkCheck': (BuildContext context) => new HomeWorkCheckPage(arguments: ModalRoute.of(context).settings.arguments),
           'testList': (BuildContext context) => new TestList(),
           'testFileList': (BuildContext context) => new TestFileList(),
-          'testFileDetail': (BuildContext context) => new TestFileDetailPage(),
+          'testFileDetail': (BuildContext context) => new TestFileDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'specialPeopleList': (BuildContext context) => new SpecialPeopleList(),
           'specialPeopleDetail': (BuildContext context) => new SpecialPeopleDetailPage(arguments: ModalRoute.of(context).settings.arguments),
           'falvList': (BuildContext context) => new FaLvList(),
