@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/LogUtil.dart';
 import 'package:shiyuan/states/default.dart';
 
-class MessagePage extends StatefulWidget {
+class TodoView extends StatefulWidget {
+  const TodoView({
+    Key key,
+    this.url,
+  }) : super(key: key);
+  final String url;
+
   @override
   State<StatefulWidget> createState() {
-    return new Page();
+    return new TodoViewState();
   }
 }
 
-class Page extends State<MessagePage> {
+class TodoViewState extends State<TodoView> {
   List _content = [];
   int _pageIndex = 0;
   RefreshViewController refreshViewController = new RefreshViewController();
 
   void initState() {
     super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return layout(context);
   }
 
   void onRefresh() async {
@@ -35,7 +36,7 @@ class Page extends State<MessagePage> {
 
   void loadDataByPage(int page) async {
     try {
-      var res = await HttpUtil.get('/message/', params: {'page': page, 'size': 15});
+      var res = await HttpUtil.get('${widget.url}', params: {'page': page, 'size': 15});
       List content = res['content'];
       setState(() {
         _content = [..._content, ...content];
@@ -51,25 +52,25 @@ class Page extends State<MessagePage> {
   }
 
   didSelectRow(Map item) {
-    String type = item['taskInfo']['type'];
-    String procTmplName = item['taskInfo']['procTmplName'];
+    String type = item['type'];
+    String procTmplName = item['procTmplName'];
     print(type);
     if (procTmplName == 'TEMP_CHECK' || procTmplName == 'REGULAR_CHECK' || procTmplName == 'REGULAR_CHECK_RECORD') {
       //临时检查，定期检查，定期检查档案
-      jiancha(item['taskInfo'], procTmplName == 'TEMP_CHECK' ? '临时检查' : '定期检查');
+      jiancha(item, procTmplName == 'TEMP_CHECK' ? '临时检查' : '定期检查');
     } else if (procTmplName == 'DANGER_ELIMI') {
       //隐患整改
-      yinhuan(item['taskInfo'], type == 'DE_RECTIFY' ? '隐患整改' : '隐患验收');
+      yinhuan(item, type == 'DE_RECTIFY' ? '隐患整改' : '隐患验收');
     } else if (procTmplName == 'LEADER_CHECK') {
       //上级检查
-      yinhuan(item['taskInfo'], type == 'LC_RECTIFY' ? '隐患整改' : '隐患验收');
+      yinhuan(item, type == 'LC_RECTIFY' ? '隐患整改' : '隐患验收');
     } else if (procTmplName == 'FIRE_WORK' ||
         procTmplName == 'ELECTRIC_WORK' ||
         procTmplName == 'LIMIT_WORK' ||
         procTmplName == 'CLIMB_WORK' ||
         procTmplName == 'FRAG_WORK') {
       //动火作业，临时用电，有限空间，登高作业，零星工程
-      homeWork(item['taskInfo']); //作业管理
+      homeWork(item); //作业管理
     } else if (procTmplName == 'OFFLINE_CLASS') {
       //线下培训
       if (type == 'FC_SIGN') {
@@ -80,12 +81,10 @@ class Page extends State<MessagePage> {
     } else if (procTmplName == 'SAFE_MEETING') {
       safeMetting(item);
     } else if (procTmplName == 'ONLINE_CLASS' || procTmplName == 'ONLINE_TEST') {
-      oc_test(item['taskInfo']);
+      oc_test(item);
     } else {
       DialogUtil.dialogAlert('不支持的消息类型');
     }
-    HttpUtil.post('/message/read/${item['id']}');
-    refreshViewController.callRefresh();
   }
 
   oc_test(Map item) async {
@@ -231,105 +230,92 @@ class Page extends State<MessagePage> {
   }
 
   safeMetting(Map item) {
-    PageUtil.push('safeMeetDetail', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
+    PageUtil.push('safeMeetDetail', arguments: {'procId': item['procId'], 'status': item['status']});
   }
 
   xianxia(Map item) {
-    PageUtil.push('xianxiaDetail', arguments: {'procId': item['procId'], 'taskId': '${item['id']}', 'status': item['status']});
+    PageUtil.push('xianxiaDetail', arguments: {'procId': item['procId'], 'status': item['status']});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return layout(context);
   }
 
   Widget layout(BuildContext context) {
-    return new Scaffold(
-        appBar: buildAppBar(context),
-        body: new Container(
-          color: Colors.white,
-          child: RefreshView(
-            scrollView: listView(),
-            onRefresh: () => onRefresh(),
-            onLoad: () => onLoad(),
-            count: _content.length,
-            controller: refreshViewController,
-          ),
-        ));
-  }
-
-  Widget listView() {
-    return ListView.builder(
-      itemCount: _content.length,
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          child: cellItem(_content[index]),
-          onTap: () {
-            didSelectRow(_content[index]);
-          },
-        );
-      },
-    );
-  }
-
-  Widget cellItem(Map item) {
-    String title = item['title'];
-    String receivedAt = item['receivedAt'];
-    String type = item['taskInfo']['type'];
-    String status = item['taskInfo']['status'];
-    bool hasRead = item['hasRead'];
-    return Container(
-      child: Row(
-        children: <Widget>[
-          ImageView(
-              src: 'imgs/message/xiaoxi1.png',
-              width: 100 * ScaleWidth,
-              height: 100 * ScaleWidth,
-              margin: EdgeInsets.only(left: 22 * ScaleWidth, right: 25 * ScaleWidth)),
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 30 * ScaleWidth),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Label(Filter.typeToString(type), fontSize: 34 * ScaleWidth),
-                    ),
-                    MainTextLabel(status, textColor: Filter.checkColor(status), margin: EdgeInsets.only(right: 25 * ScaleWidth)),
-                    Container(
-                      width: 10 * ScaleWidth,
-                      height: 10 * ScaleWidth,
-                      margin: EdgeInsets.only(right: 30 * ScaleWidth),
-                      decoration: new BoxDecoration(
-                        color: hasRead ? Colors.white : WarningColor,
-                        borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              MainTextLabel(
-                title,
-                margin: EdgeInsets.only(top: 18 * ScaleWidth, right: 25 * ScaleWidth),
-                maxLines: 2,
-              ),
-              MainTextLabel(
-                '开始时间：${Filter.timeHours(receivedAt)}',
-                margin: EdgeInsets.only(top: 15 * ScaleWidth, right: 25 * ScaleWidth),
-              ),
-              LineView(margin: EdgeInsets.only(top: 25 * ScaleWidth))
-            ],
-          ))
-        ],
+    return new Container(
+      color: BackgroundColor,
+      child: RefreshView(
+        scrollView: listView(),
+        onRefresh: () => onRefresh(),
+        onLoad: () => onLoad(),
+        count: _content.length,
+        controller: refreshViewController,
       ),
     );
   }
 
-  Widget buildAppBar(BuildContext context) {
-    return new AppBar(
-        elevation: 1,
-        title: const Text(
-          '消息',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white);
+  Widget listView() {
+    return ListView.builder(
+        itemCount: _content.length,
+        itemExtent: 195 * ScaleWidth,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            child: cellItem(_content[index]),
+            onTap: () {
+              didSelectRow(_content[index]);
+            },
+          );
+          return null;
+        });
+  }
+
+  Widget cellItem(Map item) {
+    String status = item['status'];
+    String startDate = item['startDate'];
+    String type = item['type'];
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            width: 714 * ScaleWidth,
+            height: 172 * ScaleWidth,
+            decoration: new BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10 * ScaleWidth)), boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.05),
+                  offset: Offset(0.0, 2.0), //阴影xy轴偏移量
+                  blurRadius: 3.0, //阴影模糊程度
+                  spreadRadius: 1 //阴影扩散程度
+                  )
+            ]),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 35 * ScaleWidth),
+                  padding: EdgeInsets.only(left: 35 * ScaleWidth, right: 35 * ScaleWidth),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(child: MainTitleLabel(Filter.typeToString(type))),
+                      MainTitleLabel(status, textColor: Filter.checkColor(status))
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 50 * ScaleWidth),
+                  padding: EdgeInsets.only(left: 35 * ScaleWidth, right: 35 * ScaleWidth),
+                  child: Row(
+                    children: <Widget>[
+                      MainTextLabel(startDate),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override

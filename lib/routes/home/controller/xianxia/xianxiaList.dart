@@ -37,7 +37,6 @@ class XianXiaListState extends State<XianXiaList> {
     print(res);
     Map params = Filter.jsonDeCode(res);
     String procId = params['procId'].toString();
-//        String procId = '28331';
     bool refresh = await PageUtil.push('signOne', arguments: procId);
     if (refresh == true) {
       controllers[_index].search(_keyword);

@@ -66,14 +66,14 @@ class JiHuaPageState extends State<JiHuaPage> {
   didSelectCellForIndex(int index) async {
     String title = _content[index]['name'];
     String status = _content[index]['status'];
-    String taskId = _content[index]['id'];
-    String procId = _content[index]['procId'];
+    String taskId = '${_content[index]['id']}';
+    String procId = '${_content[index]['procId']}';
     switch (status) {
       case '待执行':
         {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
           bool res = await PageUtil.push('jianchaForm',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showForm': true});
+              arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showForm': true});
           if (res == true) {
             controller.callRefresh();
           }
@@ -83,20 +83,20 @@ class JiHuaPageState extends State<JiHuaPage> {
       case '未开始':
         {
           await PageUtil.push('jianchaDetail',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': false});
+              arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': false});
         }
         break;
       case '已完成':
         {
           await PageUtil.push('jianchaDetail',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': true});
+              arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': true});
         }
         break;
-      case '超期未执行':
+      case '已超期':
         {
           await DialogUtil.dialogConfim('是否确定开始本次检查?', title: '检查执行提示');
           bool res = await PageUtil.push('jianchaForm',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showForm': true});
+              arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showForm': true});
           if (res == true) {
             controller.callRefresh();
           }
@@ -106,7 +106,7 @@ class JiHuaPageState extends State<JiHuaPage> {
       default:
         {
           await PageUtil.push('jianchaDetail',
-              arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'showHistory': false});
+              arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': false});
         }
         break;
     }

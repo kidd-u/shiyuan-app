@@ -6,7 +6,7 @@ import 'package:shiyuan/common/WorkUI/work.dart';
 class XianXiaPeiXunPage extends StatefulWidget {
   XianXiaPeiXunPage({
     Key key,
-    this.arguments, //任务id
+    this.arguments,
   }) : super();
   Map arguments;
 

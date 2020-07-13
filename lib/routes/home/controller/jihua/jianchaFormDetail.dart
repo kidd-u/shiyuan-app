@@ -8,15 +8,15 @@ import '../../view/JainChaBiaoZhunCell.dart';
 class JianChaFormDetailPage extends StatefulWidget {
   JianChaFormDetailPage({
     Key key,
-    this.type, //表单类型
     this.title, //任务标题
     this.procId, //任务id
     this.recordId, //回显表单id
+    this.status, //任务状态
   }) : super();
-  String type;
   String title;
   String procId;
   String recordId;
+  String status;
 
   @override
   State<StatefulWidget> createState() {
@@ -71,6 +71,8 @@ class JianChaFormDetailState extends State<JianChaFormDetailPage> {
       String value = element['label'];
       views.add(WorkSelect(title: title, value: value));
     });
+    views.add(
+        WorkEmpty(leftActions: [MainTitleLabel('状态')], rightActions: [MainTextLabel(widget.status, textColor: Filter.checkColor(widget.status))]));
     List<Widget> cards = [];
     if (_format == 'style1') cards = getCard1(); //执行标准样式
     if (_format == 'style2') cards = getCard3(); //下拉选择样式，后台2和3写反了

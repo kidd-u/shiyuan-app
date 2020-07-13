@@ -59,8 +59,11 @@ class HomeWorkPageState extends State<HomeWorkPage> {
     }
   }
 
-  void didSelectCellForIndex(int index) {
-//    PageUtil.push('xianxiaDetail',arguments: {'procId':_content[index]['procId'],'status':_content[index]['status']});
+  void didSelectCellForIndex(int index)async {
+    bool res = await PageUtil.push('homeworkCheck', arguments: {'procId': _content[index]['procId'], 'taskId': _content[index]['id'],'status':_content[index]['status']});
+    if (res == true) {
+      refreshViewController.callRefresh();
+    }
   }
 
   @override
@@ -88,11 +91,8 @@ class HomeWorkPageState extends State<HomeWorkPage> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             child: itemCell(_content[index]),
-            onTap: () async {
-              bool res = await PageUtil.push('homeworkCheck', arguments: {'procId': _content[index]['procId'], 'taskId': _content[index]['id'],'status':_content[index]['status']});
-              if (res == true) {
-                refreshViewController.callRefresh();
-              }
+            onTap: () {
+              didSelectCellForIndex(index);
             },
           );
           return null;

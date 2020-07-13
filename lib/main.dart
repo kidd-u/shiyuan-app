@@ -63,10 +63,9 @@ import 'routes/home/controller/notice.dart';
 import './WebView.dart';
 
 void main() {
+  runApp(new MyApp());
   // 强制竖屏
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -111,7 +110,6 @@ class MyApp extends StatelessWidget {
           'xianshangList': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new XianShangList(
-              type: arguments['type'],
               title: arguments['title'],
             );
           },
@@ -131,25 +129,25 @@ class MyApp extends StatelessWidget {
               type: arguments['type'],
               title: arguments['title'],
               procId: arguments['procId'],
-              taskId: arguments['taskId'],
+              status: arguments['status'],
             );
           },
           'jianchaForm': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaFormPage(
-              type: arguments['type'],
               title: arguments['title'],
               procId: arguments['procId'],
               taskId: arguments['taskId'],
+              status: arguments['status'],
             );
           },
           'jianchaFormDetail': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new JianChaFormDetailPage(
-              type: arguments['type'],
               title: arguments['title'],
               procId: arguments['procId'],
               recordId: arguments['recordId'],
+              status: arguments['status'],
             );
           },
           'YinhuanAdd': (BuildContext context) => new YinhuanAddPage(arguments: ModalRoute.of(context).settings.arguments),

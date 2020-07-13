@@ -87,7 +87,7 @@ class SafeMeetPageState extends State<SafeMeetPage> {
     }
   }
   void didSelectCellForIndex(int index){
-    PageUtil.push('safeMeetDetail',arguments: {'procId':_content[index]['procId'],'status':_content[index]['status']});
+    PageUtil.push('safeMeetDetail',arguments: {'procId':'${_content[index]['procId']}','taskId':'${_content[index]['id']}','status':_content[index]['status']});
   }
   @override
   Widget build(BuildContext context) {

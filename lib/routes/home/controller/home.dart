@@ -227,7 +227,11 @@ class Page extends State<HomePage> {
             height: 100 * ScaleWidth,
             margin: EdgeInsets.only(top: 35 * ScaleWidth),
             onClick: () {
-              PageUtil.push(page);
+              if (page == 'xianshangList') {
+                PageUtil.push('xianshangList',arguments: {'type':'ONLINE_CLASS','title':'线上培训'});
+              }else{
+                PageUtil.push(page);
+              }
             },
           ),
           SmallTextLabel(title),
@@ -318,6 +322,8 @@ class Page extends State<HomePage> {
                 PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true});
               }else if (page == 'testList') {
                 PageUtil.push('xianshangList',arguments: {'type':'ONLINE_TEST','title':'在线考试'});
+              }else if (page == 'xianshangList') {
+                PageUtil.push('xianshangList',arguments: {'type':'ONLINE_CLASS','title':'线上培训'});
               }
               else {
                 PageUtil.push(page);

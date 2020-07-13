@@ -35,8 +35,8 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
 
   void initState() {
     super.initState();
-    _procId = widget.arguments['procId'];
-    _taskId = widget.arguments['taskId'];
+    _procId = '${widget.arguments['procId']}';
+    _taskId = '${widget.arguments['taskId']}';
     _status = widget.arguments['status'];
     loadDetail();
     loadHistory();

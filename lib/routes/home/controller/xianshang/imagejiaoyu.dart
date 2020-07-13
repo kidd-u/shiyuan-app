@@ -35,7 +35,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
     super.initState();
     _attachments = widget.arguments['attachments'];
     _content = widget.arguments['content'];
-    _taskId = _content['id'];
+    _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
     _startTimer();
   }
@@ -43,11 +43,11 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
   submit() async {
     if (!_clickable) return;
     await DialogUtil.dialogConfim('确定完成培训?');
-    var res = await HttpUtil.post('/process/online/material/' + _taskId, params: {'duration': _readTimes});
+    var res = await HttpUtil.post('/process/online/material/${_taskId}', params: {'duration': _readTimes});
     _cancelTimer();
     if (res == true) {
       DialogUtil.showLoading();
-      var res=await HttpUtil.get('/process/online/train/'+_content['id']);
+      var res=await HttpUtil.get('/process/online/train/${_content['id']}');
       if (res['type'] == 'OC_CLASS') {
         String type=res['material']['type'];
         Map material=res['material'];

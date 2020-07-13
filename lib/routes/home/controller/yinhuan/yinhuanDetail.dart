@@ -17,7 +17,7 @@ class YinHuanDetailPage extends StatefulWidget {
 }
 
 class YinHuanDetailState extends State<YinHuanDetailPage> {
-  String _title, _type, _status, _procId, _taskId;
+  String _title, _status, _procId, _taskId;
   bool _showForm, _showBtns;
 
   List _dataArray = []; //
@@ -34,7 +34,6 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
   void initState() {
     super.initState();
     _title = widget.arguments['title'];
-    _type = widget.arguments['type'];
     _status = widget.arguments['status'];
     _procId = widget.arguments['procId'];
     _taskId = widget.arguments['taskId'];

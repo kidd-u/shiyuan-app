@@ -8,12 +8,12 @@ class JianChaDetailPage extends StatefulWidget {
     this.type, //表单类型
     this.title, //任务标题
     this.procId, //任务id
-    this.taskId, //表单id
+    this.status, //任务状态
   }) : super();
   String type;
   String title;
   String procId;
-  String taskId;
+  String status;
 
   @override
   State<StatefulWidget> createState() {
@@ -53,6 +53,8 @@ class JianChaDetailState extends State<JianChaDetailPage> {
       String value = element['label'];
       views.add(WorkSelect(title: title, value: value));
     });
+    views.add(
+        WorkEmpty(leftActions: [MainTitleLabel('状态')], rightActions: [MainTextLabel(widget.status, textColor: Filter.checkColor(widget.status))]));
     if (_formArray.length > 0) {
       views.add(titleNum());
       for (int i = 0; i < _formArray.length; i++) {

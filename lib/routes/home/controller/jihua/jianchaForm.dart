@@ -8,15 +8,15 @@ import '../../view/JainChaBiaoZhunCell.dart';
 class JianChaFormPage extends StatefulWidget {
   JianChaFormPage({
     Key key,
-    this.type, //表单类型
     this.title, //任务标题
     this.procId, //任务id
     this.taskId, //表单id
+    this.status, //任务状态
   }) : super();
-  String type;
   String title;
   String procId;
   String taskId;
+  String status;
 
   @override
   State<StatefulWidget> createState() {
@@ -60,7 +60,6 @@ class JianChaFormState extends State<JianChaFormPage> {
   }
 
   void submit() async {
-    print(widget.type);
     var content = _style ?? [];
     if (_FORMAT == 'STYLE1') {
       var contentAry = [];
