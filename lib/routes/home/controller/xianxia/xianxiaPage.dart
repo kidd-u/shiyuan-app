@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
+
 class XianXiaController {
   XianXiaPageState _state;
 
@@ -11,6 +12,7 @@ class XianXiaController {
     _state.search(kerword);
   }
 }
+
 class XianXiaPage extends StatefulWidget {
   const XianXiaPage({
     Key key,
@@ -24,7 +26,7 @@ class XianXiaPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    XianXiaPageState state=new XianXiaPageState();
+    XianXiaPageState state = new XianXiaPageState();
     if (controller != null) {
       controller.bindState(state);
     }
@@ -42,6 +44,7 @@ class XianXiaPageState extends State<XianXiaPage> {
   void initState() {
     super.initState();
   }
+
   void search(String kerword) {
     _keyword = kerword;
     refreshViewController.callRefresh();
@@ -79,8 +82,12 @@ class XianXiaPageState extends State<XianXiaPage> {
       print(err);
     }
   }
-  void didSelectCellForIndex(int index){
-    PageUtil.push('xianxiaDetail',arguments: {'procId':_content[index]['procId'],'status':_content[index]['status']});
+
+  void didSelectCellForIndex(int index) async {
+    bool res = await PageUtil.push('xianxiaDetail', arguments: _content[index]);
+    if (res == true) {
+      refreshViewController.callRefresh();
+    }
   }
 
   @override
@@ -100,6 +107,7 @@ class XianXiaPageState extends State<XianXiaPage> {
       ),
     );
   }
+
   Widget listView() {
     return ListView.builder(
         padding: EdgeInsets.only(bottom: 40),

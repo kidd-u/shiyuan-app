@@ -29,7 +29,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
     _taskId = widget.arguments['taskId'];
     _status = widget.arguments['status'];
     loadDetail();
-    if (_status == '待审核') {
+    if (_status == '待审核' || _status == '待上传') {
       loadForms();
     }
   }
@@ -59,7 +59,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
   submit() async {
     LogUtil.d(Filter.toJson(_forms));
     await DialogUtil.dialogConfim('是否确定提交?');
-    var res = await HttpUtil.get('/process/offline/todo/${_taskId}', params: {'forms': _forms});
+    var res = await HttpUtil.post('/process/offline/todo/${_taskId}', params: {'forms': _forms});
     PageUtil.pop(true);
   }
 
@@ -78,7 +78,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
     );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '安全会晤详情', actions: _status == '待审核' ? [btn] : []),
+      appBar: buildAppBar(context, '安全会晤详情', actions: _status == '待审核' || _status == '待上传' ? [btn] : []),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
@@ -93,7 +93,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
             rightActions: [MainTextLabel(_status, textColor: Filter.checkColor(_status))],
             showTopLine: false,
           ),
-          ..._status == '待审核' ? shenhe() : [],
+          ..._status == '待审核' || _status == '待上传' ? shenhe() : [],
         ],
       ),
     );

@@ -32,7 +32,7 @@ class LoginViewState extends State<LoginView> {
       DialogUtil.showToast('请填写账号');
     }
     var token =await HttpUtil.post('/account/login',params: {
-      'phone':'5468-28457763',
+      'phone':'440-84738618',
       'password':'123456'
     });
     UserInfo().setToken(token);
@@ -45,7 +45,7 @@ class LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: ScreenHeight,
+//      height: ScreenHeight,
       child: Column(
         children: <Widget>[
           phoneInput(),

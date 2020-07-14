@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shiyuan/common/UIKit/UIKit.dart';
 import '../../../states/default.dart';
 import '../view/login.dart';
-import '../view/register.dart';
+import '../view/registerView.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -81,7 +81,7 @@ class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
             centerView(), //中间切换
             Container(
               width: ScreenWidth,
-              height: ScreenHeight,
+              height: ScreenHeight - 430 * ScaleWidth - 85 *ScaleWidth,
               child: DefaultTabController(
                   length: 2,
                   child: TabBarView(

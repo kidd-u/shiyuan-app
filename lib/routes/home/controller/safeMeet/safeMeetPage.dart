@@ -13,6 +13,7 @@ class SafeMeetController {
     _state.search(kerword);
   }
 }
+
 enum SafeMeetType {
   normal, //已完成
   loading, //进行中
@@ -32,7 +33,7 @@ class SafeMeetPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    SafeMeetPageState state=new SafeMeetPageState();
+    SafeMeetPageState state = new SafeMeetPageState();
     if (controller != null) {
       controller.bindState(state);
     }
@@ -46,9 +47,11 @@ class SafeMeetPageState extends State<SafeMeetPage> {
   List _content = [];
   int _pageIndex = 0;
   RefreshViewController refreshViewController = new RefreshViewController();
+
   void initState() {
     super.initState();
   }
+
   void search(String kerword) {
     _keyword = kerword;
     refreshViewController.callRefresh();
@@ -86,9 +89,15 @@ class SafeMeetPageState extends State<SafeMeetPage> {
       print(err);
     }
   }
-  void didSelectCellForIndex(int index){
-    PageUtil.push('safeMeetDetail',arguments: {'procId':'${_content[index]['procId']}','taskId':'${_content[index]['id']}','status':_content[index]['status']});
+
+  void didSelectCellForIndex(int index) async {
+    bool res = await PageUtil.push('safeMeetDetail',
+        arguments: {'procId': '${_content[index]['procId']}', 'taskId': '${_content[index]['id']}', 'status': _content[index]['status']});
+    if (res == true) {
+      refreshViewController.callRefresh();
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return layout(context);

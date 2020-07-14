@@ -24,6 +24,7 @@ class InputView extends StatelessWidget {
     this.obscureText = false,
     this.maxLines = 1,
     this.maxLength,
+    this.showCounterText = true,
     this.maxLengthEnforced = true,
     this.onChanged,
     this.onEditingComplete,
@@ -49,6 +50,7 @@ class InputView extends StatelessWidget {
   final bool obscureText; //密文形式
   final int maxLines; //行数
   final int maxLength; //限制字数
+  final bool showCounterText; //右下角统计字符串
   final bool maxLengthEnforced; //超出不可编辑
   final ValueChanged<String> onChanged; //文本改变事件
   final VoidCallback onEditingComplete; //点击完成
@@ -89,6 +91,7 @@ class InputView extends StatelessWidget {
 //        enabled: enabled,
         style: TextStyle(fontSize: 28 * ScaleWidth, color: Colors.black),
         decoration: InputDecoration(
+          counterText: showCounterText?null:'',
           contentPadding: contentPadding,
           hintText: placeholder,
           hintStyle: TextStyle(fontSize: 28 * ScaleWidth, color: Color.fromRGBO(149, 147, 151, 1)),

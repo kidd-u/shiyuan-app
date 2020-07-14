@@ -171,7 +171,12 @@ class XianShangPageState extends State<XianShangPage> {
         break;
 
       default:
-        {}
+        {
+          bool res = await PageUtil.push('xianshangpeixun', arguments: _content[index]);
+          if (res == true) {
+            refreshViewController.callRefresh();
+          }
+        }
         break;
     }
   }

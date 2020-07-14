@@ -65,9 +65,9 @@ class OnLineView extends StatelessWidget {
               children: <Widget>[
                 ImageView(src: 'imgs/library/yueduleiji.png', width: 118 * ScaleWidth, height: 118 * ScaleWidth),
                 Container(
-                  width: 100 * ScaleWidth,
+                  width: 160 * ScaleWidth,
                   height: 118 * ScaleWidth,
-                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+//                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   child: Column(
                     children: <Widget>[
                       Label(total, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
@@ -82,9 +82,9 @@ class OnLineView extends StatelessWidget {
                     height: 118 * ScaleWidth,
                     margin: EdgeInsets.only(left: 43 * ScaleWidth)),
                 Container(
-//                  width: 100 * ScaleWidth,
+                  width: 160 * ScaleWidth,
                   height: 118 * ScaleWidth,
-                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+//                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -110,9 +110,9 @@ class OnLineView extends StatelessWidget {
               children: <Widget>[
                 ImageView(src: 'imgs/library/yiwancheng.png', width: 118 * ScaleWidth, height: 118 * ScaleWidth),
                 Container(
-                  width: 100 * ScaleWidth,
+                  width: 160 * ScaleWidth,
                   height: 118 * ScaleWidth,
-                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+//                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   child: Column(
                     children: <Widget>[
                       Label(finished, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
@@ -127,9 +127,9 @@ class OnLineView extends StatelessWidget {
                     height: 118 * ScaleWidth,
                     margin: EdgeInsets.only(left: 43 * ScaleWidth)),
                 Container(
-                  width: 100 * ScaleWidth,
+                  width: 160 * ScaleWidth,
                   height: 118 * ScaleWidth,
-                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
+//                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   child: Column(
                     children: <Widget>[
                       Label(pending, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
