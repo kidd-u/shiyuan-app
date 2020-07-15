@@ -32,10 +32,10 @@ android {
     compileSdkVersion 28
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            keyAlias "my-key-alias"
+            keyPassword "shiyuansafe"
+            storeFile file("my-release-key.keystore")
+            storePassword "shiyuansafe"
         }
     }
     lintOptions {
@@ -54,7 +54,7 @@ android {
 
     buildTypes {
         release {
-            singleConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
 }

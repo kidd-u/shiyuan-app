@@ -16,7 +16,7 @@ class WorkTestRadio extends StatefulWidget {
   final Function onChange;
   final Map model; //数据
   final int index; //第几题
-  final Map answer;//已选答案
+  final Map answer; //已选答案
 
   @override
   State<StatefulWidget> createState() {
@@ -25,9 +25,10 @@ class WorkTestRadio extends StatefulWidget {
 }
 
 class WorkTestRadioState extends State<WorkTestRadio> {
-  Map question={};
-  List options=[];
+  Map question = {};
+  List options = [];
   String answer = '';
+
   void initState() {
     super.initState();
   }
@@ -81,8 +82,8 @@ class WorkTestRadioState extends State<WorkTestRadio> {
           ...options
               .map(
                 (e) => Container(
-                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth),
-                  margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
+                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
+//                  margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -92,7 +93,10 @@ class WorkTestRadioState extends State<WorkTestRadio> {
                     },
                     child: Row(
                       children: <Widget>[
-                        ImageView(src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png', width: 24 * ScaleWidth, height: 24 * ScaleWidth),
+                        ImageView(
+                            src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
+                            width: 24 * ScaleWidth,
+                            height: 24 * ScaleWidth),
                         Expanded(
                           child: MainTextLabel(
                             e['no'] + '、' + e['content'],

@@ -4,6 +4,7 @@ import '../model/user.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert' as Convert;
 
+
 class LoginView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +28,19 @@ class LoginViewState extends State<LoginView> {
   void login() async{
     if (_phone == null || _phone.length == 0) {
       DialogUtil.showToast('请填写账号');
+      return;
     }
     if (_password == null || _password.length == 0) {
-      DialogUtil.showToast('请填写账号');
+      DialogUtil.showToast('请填写密码');
+      return;
     }
     var token =await HttpUtil.post('/account/login',params: {
-      'phone':'440-84738618',
-      'password':'123456'
+      'accountName':_phone,
+      'password':_password
     });
     UserInfo().setToken(token);
 //    var res = await HttpUtil().get('/account/staff/' + UserInfo().token().jwt);
-
+    await DialogUtil.toastSuccess('登录成功');
     PageUtil.pushAndReplace('mainTabPage');
   }
 
@@ -74,7 +77,7 @@ class LoginViewState extends State<LoginView> {
             child: InputView(
               margin: EdgeInsets.only(left: 15 * ScaleWidth),
               placeholder: '登录账号',
-              keyboardType: TextInputType.number,
+//              keyboardType: TextInputType.number,
               onChanged: (String text) {
                 _phone = text;
               },

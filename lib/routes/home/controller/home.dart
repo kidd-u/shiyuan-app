@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,12 +14,12 @@ class HomePage extends StatefulWidget {
 
 class Page extends State<HomePage> {
   List _lunbo = [];
-  bool _showTest=false;
+  bool _showTest = false;
 
   void initState() {
     super.initState();
     print(UserInfo().token().toJson());
-    _showTest=UserInfo().token().perms.contains('ONLINE_TEST_DATA');
+    _showTest = UserInfo().token().perms.contains('ONLINE_TEST_DATA');
     getNotice();
   }
 
@@ -144,7 +145,7 @@ class Page extends State<HomePage> {
                         pagination: null,
                         control: null,
                         onTap: (int index) {
-                          PageUtil.push('notice',arguments: _lunbo[index]);
+                          PageUtil.push('notice', arguments: _lunbo[index]);
                         },
                       )
                     : SizedBox(),
@@ -216,26 +217,32 @@ class Page extends State<HomePage> {
   }
 
   Widget changyongItem(BuildContext context, String src, String title, String page) {
-    return Container(
-      width: ScreenWidth / 5,
-      height: 358 / 2 * ScaleWidth,
-      child: Column(
-        children: <Widget>[
-          ImageView(
-            src: src,
-            width: 100 * ScaleWidth,
-            height: 100 * ScaleWidth,
-            margin: EdgeInsets.only(top: 35 * ScaleWidth),
-            onClick: () {
-              if (page == 'xianshangList') {
-                PageUtil.push('xianshangList',arguments: {'type':'ONLINE_CLASS','title':'线上培训'});
-              }else{
-                PageUtil.push(page);
-              }
-            },
-          ),
-          SmallTextLabel(title),
-        ],
+    return GestureDetector(
+      onTap: () {
+        if (page == 'yinhuanfaqi') {
+          PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true});
+        } else if (page == 'testList') {
+          PageUtil.push('xianshangList', arguments: {'type': 'ONLINE_TEST', 'title': '在线考试'});
+        } else if (page == 'xianshangList') {
+          PageUtil.push('xianshangList', arguments: {'type': 'ONLINE_CLASS', 'title': '线上培训'});
+        } else {
+          PageUtil.push(page);
+        }
+      },
+      child: Container(
+        width: ScreenWidth / 5,
+        height: 358 / 2 * ScaleWidth,
+        child: Column(
+          children: <Widget>[
+            ImageView(
+              src: src,
+              width: 100 * ScaleWidth,
+              height: 100 * ScaleWidth,
+              margin: EdgeInsets.only(top: 35 * ScaleWidth),
+            ),
+            SmallTextLabel(title),
+          ],
+        ),
       ),
     );
   }
@@ -306,35 +313,38 @@ class Page extends State<HomePage> {
   }
 
   Widget quanbuItem(BuildContext context, String src, String title, String page) {
-    return Container(
-      width: ScreenWidth / 5,
-      height: 508 / 3 * ScaleWidth,
-      child: Column(
-        children: <Widget>[
-          ImageView(
-            src: src,
-            width: 77 * ScaleWidth,
-            height: 61 * ScaleWidth,
-            fit: BoxFit.contain,
-            margin: EdgeInsets.only(top: 35 * ScaleWidth),
-            onClick: () {
-              if (page == 'yinhuanfaqi') {
-                PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true});
-              }else if (page == 'testList') {
-                PageUtil.push('xianshangList',arguments: {'type':'ONLINE_TEST','title':'在线考试'});
-              }else if (page == 'xianshangList') {
-                PageUtil.push('xianshangList',arguments: {'type':'ONLINE_CLASS','title':'线上培训'});
-              }
-              else {
-                PageUtil.push(page);
-              }
-            },
-          ),
-          SmallTextLabel(
-            title,
-            margin: EdgeInsets.only(top: 30 * ScaleWidth),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        if (page == 'yinhuanfaqi') {
+          PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true});
+        } else if (page == 'testList') {
+          PageUtil.push('xianshangList', arguments: {'type': 'ONLINE_TEST', 'title': '在线考试'});
+        } else if (page == 'xianshangList') {
+          PageUtil.push('xianshangList', arguments: {'type': 'ONLINE_CLASS', 'title': '线上培训'});
+        } else {
+          PageUtil.push(page);
+        }
+      },
+      child: Container(
+        width: ScreenWidth / 5,
+        height: 508 / 3 * ScaleWidth,
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            ImageView(
+              src: src,
+              width: 77 * ScaleWidth,
+              height: 61 * ScaleWidth,
+//              color: Colors.yellow,
+              fit: BoxFit.contain,
+              margin: EdgeInsets.only(top: 35 * ScaleWidth),
+            ),
+            SmallTextLabel(
+              title,
+              margin: EdgeInsets.only(top: 30 * ScaleWidth),
+            ),
+          ],
+        ),
       ),
     );
   }

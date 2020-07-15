@@ -66,6 +66,7 @@ void main() {
   runApp(new MyApp());
   // 强制竖屏
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top,SystemUiOverlay.bottom]);
 }
 
 class MyApp extends StatelessWidget {

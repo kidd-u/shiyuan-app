@@ -80,8 +80,8 @@ class WorkTestRadioTofState extends State<WorkTestRadioTof> {
           ...options
               .map(
                 (e) => Container(
-              padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth),
-              margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
+                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
+//              margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
               child: GestureDetector(
                 onTap: () {
                   setState(() {
