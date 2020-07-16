@@ -20,10 +20,12 @@ class XianShangList extends StatefulWidget {
 
 class XianShangListState extends State<XianShangList> {
   //定义Tab标签
-  var tabTexts = ["所有数据", "待执行", "已完成", "已超期"];
+  var tabTexts;
 
   //定义ab标签对应的Page
-  List<XianShangController> controllers=[
+  List<XianShangController> controllers = [
+    XianShangController(),
+    XianShangController(),
     XianShangController(),
     XianShangController(),
     XianShangController(),
@@ -35,12 +37,26 @@ class XianShangListState extends State<XianShangList> {
 
   void initState() {
     super.initState();
-    pages=[
-      XianShangPage(type: widget.type,status: '',controller: controllers[0]),
-      XianShangPage(type: widget.type,status: '待执行',controller: controllers[1]),
-      XianShangPage(type: widget.type,status: '已完成',controller: controllers[2]),
-      XianShangPage(type: widget.type,status: '已超期',controller: controllers[3]),
-    ];
+    if (widget.type == 'ONLINE_CLASS') {
+      tabTexts = ["所有数据", "待审核", "待执行", "未开始", "已办结", "已超期"];
+      pages = [
+        XianShangPage(type: widget.type, status: '', controller: controllers[0]),
+        XianShangPage(type: widget.type, status: '待审核', controller: controllers[1]),
+        XianShangPage(type: widget.type, status: '待执行', controller: controllers[2]),
+        XianShangPage(type: widget.type, status: '未开始', controller: controllers[3]),
+        XianShangPage(type: widget.type, status: '已办结', controller: controllers[4]),
+        XianShangPage(type: widget.type, status: '已超期', controller: controllers[5]),
+      ];
+    } else {
+      tabTexts = ["所有数据", "未开始", "待执行", "已超期", "已办结"];
+      pages = [
+        XianShangPage(type: widget.type, status: '', controller: controllers[0]),
+        XianShangPage(type: widget.type, status: '未开始', controller: controllers[1]),
+        XianShangPage(type: widget.type, status: '待执行', controller: controllers[2]),
+        XianShangPage(type: widget.type, status: '已超期', controller: controllers[3]),
+        XianShangPage(type: widget.type, status: '已办结', controller: controllers[4]),
+      ];
+    }
   }
 
   @override
@@ -96,7 +112,7 @@ class XianShangListState extends State<XianShangList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       controllers[_index].search(_keyword);
                     },
                   )
@@ -108,8 +124,9 @@ class XianShangListState extends State<XianShangList> {
               child: TabBarPageView(
                   tabTexts: tabTexts,
                   pages: pages,
+                  isScrollable: true,
                   onTabChanged: (index) {
-                    _index=index;
+                    _index = index;
                   }),
             )
           ],

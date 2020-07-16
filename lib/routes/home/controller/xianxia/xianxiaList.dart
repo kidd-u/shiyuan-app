@@ -12,9 +12,10 @@ class XianXiaList extends StatefulWidget {
 
 class XianXiaListState extends State<XianXiaList> {
   //定义Tab标签
-  var tabTexts = ["所有数据", "待执行", "已结束"];
+  var tabTexts = ["所有数据", "待执行","待审核", "已办结"];
 
   List<XianXiaController> controllers = [
+    XianXiaController(),
     XianXiaController(),
     XianXiaController(),
     XianXiaController(),
@@ -28,8 +29,9 @@ class XianXiaListState extends State<XianXiaList> {
     super.initState();
     pages = [
       XianXiaPage(type: 'OFFLINE_CLASS', status: '', controller: controllers[0]),
-      XianXiaPage(type: 'OFFLINE_CLASS', status: '待执行', controller: controllers[0]),
-      XianXiaPage(type: 'OFFLINE_CLASS', status: '已结束', controller: controllers[0]),
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '待执行', controller: controllers[1]),
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '待审核', controller: controllers[2]),
+      XianXiaPage(type: 'OFFLINE_CLASS', status: '已办结', controller: controllers[3]),
     ];
   }
   void scan()async{

@@ -15,7 +15,7 @@ class ShangJiPageController {
 }
 
 enum ShangJiType {
-  normal, //已完成
+  normal, //已办结
   loading, //进行中
   error, //超期未考
 }
@@ -101,7 +101,7 @@ class ShangJiPageState extends State<ShangJiPage> {
     String taskId = _content[index]['id'];
     String procId = _content[index]['procId'];
     switch (status) {
-      case '已完成':
+      case '已办结':
         {
           PageUtil.push('yinhuanDetail', arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
         }

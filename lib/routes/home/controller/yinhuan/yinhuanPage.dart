@@ -69,7 +69,7 @@ class YinHuanPageState extends State<YinHuanPage> {
     String taskId = _content[index]['id'];
     String procId = _content[index]['procId'];
     switch (status) {
-      case '已完成':
+      case '已办结':
         {
           PageUtil.push('yinhuanDetail',
               arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});

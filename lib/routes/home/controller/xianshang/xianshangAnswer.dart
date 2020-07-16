@@ -20,6 +20,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
   bool _showAll = true; //是否显示错误试题
   bool _showBtn = true; //是否显示重新培训
   List _dataAry = [];
+  String _title='';
 
   void initState() {
     super.initState();
@@ -29,11 +30,13 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
   getAnswer() async {
     print(widget.arguments);
     bool isAdmin = widget.arguments.safe(['isAdmin']) ?? false;
-    var SINGLE, MULTI, TOF;
+    var SINGLE, MULTI, TOF,summary;
     if (isAdmin) {
       setState(() {
         _showBtn = !isAdmin;
       });
+      summary = await HttpUtil.get('/process/online/done/summary',
+          params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId']});
       SINGLE = await HttpUtil.get(
         '/process/online/done/test/detail',
         params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'SINGLE', 'page': 0, 'size': 9999},
@@ -47,6 +50,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
         params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'TOF', 'page': 0, 'size': 9999},
       );
     } else {
+      summary = await HttpUtil.get('/process/online/done/summary/${widget.arguments['id']}');
       SINGLE = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': 9999});
       MULTI = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'MULTI', 'page': 0, 'size': 9999});
       TOF = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'TOF', 'page': 0, 'size': 9999});
@@ -83,6 +87,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
     }
     setState(() {
       _dataAry = dataAry;
+      _title=summary['name'];
     });
   }
 
@@ -100,7 +105,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
     );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '${widget.arguments['name']}', actions: [btn]),
+      appBar: buildAppBar(context, _title, actions: [btn]),
       body: Container(
         child: new ListView.builder(
           padding: EdgeInsets.only(bottom: 100),

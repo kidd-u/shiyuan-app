@@ -12,8 +12,12 @@ class SafeMeetList extends StatefulWidget {
 
 class SafeMeetListState extends State<SafeMeetList> {
   //定义Tab标签
-  var tabTexts = ["所有数据", "待执行", "已结束"];
-  List<SafeMeetController> controllers=[
+  var tabTexts = ["所有数据", "待审核", "未开始", "未打卡", "已打卡", "已办结", "待上传"];
+  List<SafeMeetController> controllers = [
+    SafeMeetController(),
+    SafeMeetController(),
+    SafeMeetController(),
+    SafeMeetController(),
     SafeMeetController(),
     SafeMeetController(),
     SafeMeetController(),
@@ -27,26 +31,36 @@ class SafeMeetListState extends State<SafeMeetList> {
   void initState() {
     super.initState();
     pages = [
-      SafeMeetPage(type: 'SAFE_MEETING',status: '',controller: controllers[0]),
-      SafeMeetPage(type: 'SAFE_MEETING',status: '待执行',controller: controllers[1]),
-      SafeMeetPage(type: 'SAFE_MEETING',status: '已结束',controller: controllers[2]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '', controller: controllers[0]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '待审核', controller: controllers[1]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '未开始', controller: controllers[2]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '未打卡', controller: controllers[3]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '已打卡', controller: controllers[4]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '已办结', controller: controllers[5]),
+      SafeMeetPage(type: 'SAFE_MEETING', status: '待上传', controller: controllers[6]),
     ];
   }
-  void scan()async{
+
+  void scan() async {
 //    var res = await PageUtil.push('qrcode');
 //    print(res);
 //    Map params = Filter.jsonDeCode(res);
 //    String procId = params['procId'].toString();
-        String procId = '34323';
+    String procId = '34323';
     bool refresh = await PageUtil.push('signOne', arguments: procId);
     if (refresh == true) {
       controllers[_index].search(_keyword);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Widget rightBtn = Button(
-      child:ImageView(src: 'imgs/home/xianxia/scan.png',width: 42*ScaleWidth,height: 42*ScaleWidth,),
+      child: ImageView(
+        src: 'imgs/home/xianxia/scan.png',
+        width: 42 * ScaleWidth,
+        height: 42 * ScaleWidth,
+      ),
       onPressed: () async {
         scan();
       },
@@ -84,7 +98,7 @@ class SafeMeetListState extends State<SafeMeetList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            _keyword=text;
+                            _keyword = text;
                           },
                         )
                       ],
@@ -102,7 +116,7 @@ class SafeMeetListState extends State<SafeMeetList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       controllers[_index].search(_keyword);
                     },
                   )
@@ -115,7 +129,7 @@ class SafeMeetListState extends State<SafeMeetList> {
                   tabTexts: tabTexts,
                   pages: pages,
                   onTabChanged: (index) {
-                    _index=index;
+                    _index = index;
                   }),
             )
           ],

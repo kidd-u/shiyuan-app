@@ -18,7 +18,7 @@ class JiHuaJianChaTab extends StatefulWidget {
 
 class JiHuaJianChaTabState extends State<JiHuaJianChaTab> {
   //定义Tab标签
-  var tabTexts = ["全部数据", "待执行", "已完成", "超期未执行"];
+  var tabTexts = ["全部数据", "待执行", "已办结", "超期未执行"];
 
   //定义ab标签对应的Page
   var pages;
@@ -27,7 +27,7 @@ class JiHuaJianChaTabState extends State<JiHuaJianChaTab> {
     pages = [
       JiHuaPage(type: widget.type, status: ""),
       JiHuaPage(type: widget.type, status: "待执行"),
-      JiHuaPage(type: widget.type, status: "已完成"),
+      JiHuaPage(type: widget.type, status: "已办结"),
       JiHuaPage(type: widget.type, status: "超期未执行"),
     ];
     super.initState();

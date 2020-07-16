@@ -12,8 +12,8 @@ class ShangJiList extends StatefulWidget {
 
 class ShangJiListState extends State<ShangJiList> {
   //定义Tab标签
-  var tabTexts = ["全部数据", "待整改", "待复检", "已完成", "已超期"];
-  var tabTexts1 = ["", "待整改", "待复检", "已完成", "已超期"];
+  var tabTexts = ["全部数据", "待整改", "待验收", "已办结", "已超期"];
+  var tabTexts1 = ["", "待整改", "待验收", "已办结", "已超期"];
 
   //定义ab标签对应的Page
   List<ShangJiPage> pages;

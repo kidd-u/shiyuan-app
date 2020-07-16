@@ -65,13 +65,15 @@ class UserInfo {
         print(jwt);
         userInfo['jwt'] = jwt;
         _token = UserToken.fromJson(userInfo);
-        qiniuUtil().getToken();//初始化七牛token
-        WorkChooseStoreUtil().getAllData();//初始化人员选择
       }
       completer.complete(true);
     }).catchError((err){
       completer.complete(false);
     });
     return completer.future;
+  }
+  getCache()async{
+    qiniuUtil().getToken();//初始化七牛token
+    WorkChooseStoreUtil().getAllData();//初始化人员选择
   }
 }

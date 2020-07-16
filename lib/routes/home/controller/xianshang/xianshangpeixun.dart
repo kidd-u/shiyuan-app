@@ -3,7 +3,7 @@ import 'package:shiyuan/states/LogUtil.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
 
-///已完成
+///已办结
 class XianXiaPeiXunPage extends StatefulWidget {
   XianXiaPeiXunPage({
     Key key,
@@ -21,17 +21,30 @@ class Page extends State<XianXiaPeiXunPage> {
   String _procId, _taskId, _status;
   List _dataAry = [];
   List _forms = [];
-  bool _isAccepted=false;
+  bool _isAccepted = false;
+  String _title = '';
+  String _score = '0';
+  bool _isPassed = true;
 
   void initState() {
     super.initState();
     _procId = widget.arguments['procId'];
     _taskId = widget.arguments['id'];
     _status = widget.arguments['status'];
+    loadSummary();
     getDetail();
     if (_status == '待审核') {
       loadForms();
     }
+  }
+
+  loadSummary() async {
+    var summary = await HttpUtil.get('/process/online/done/summary/${widget.arguments['id']}');
+    setState(() {
+      _title = summary['name'];
+      _score = '${summary['score']}';
+      _isPassed = summary['isPassed'];
+    });
   }
 
   getDetail() async {
@@ -40,12 +53,13 @@ class Page extends State<XianXiaPeiXunPage> {
       _dataAry = res;
     });
   }
+
   loadForms() async {
     var res = await HttpUtil.get('/process/offline/todo/${_taskId}');
     setState(() {
       _forms = res['forms'];
       for (int i = 0; i < _forms.length; i++) {
-        Map item=_forms[i];
+        Map item = _forms[i];
         if (item['name'] == '是否通过') {
           _forms[i]['value'] = ['${false}'];
           _forms[i]['label'] = '${false}';
@@ -54,6 +68,7 @@ class Page extends State<XianXiaPeiXunPage> {
       }
     });
   }
+
   submit() async {
     LogUtil.d(Filter.toJson(_forms));
     await DialogUtil.dialogConfim('是否确定提交?');
@@ -75,7 +90,7 @@ class Page extends State<XianXiaPeiXunPage> {
       onPressed: () => submit(),
     );
     return new Scaffold(
-      appBar: buildAppBar(context, '线上培训考试结果',actions: _status == '待审核' ? [btn] : []),
+      appBar: buildAppBar(context, '线上培训考试结果', actions: _status == '待审核' ? [btn] : []),
       backgroundColor: BackgroundColor,
       body: new ListView(
         padding: EdgeInsets.only(bottom: 40),
@@ -93,7 +108,7 @@ class Page extends State<XianXiaPeiXunPage> {
                     '(查看考试详情)',
                     textColor: MainDarkBlueColor,
                     onClick: () {
-                      PageUtil.push('xianshangAnswer',arguments: widget.arguments);
+                      PageUtil.push('xianshangAnswer', arguments: widget.arguments);
                     },
                   ),
                 ],
@@ -106,13 +121,23 @@ class Page extends State<XianXiaPeiXunPage> {
             rightActions: [MainTextLabel(_status, textColor: Filter.checkColor(_status))],
             showTopLine: false,
           ),
+          WorkEmpty(
+            showTopLine: false,
+            leftActions: [MainTitleLabel('分数')],
+            rightActions: [
+              MainTextLabel(
+                _score,
+                textColor: _isPassed ? SuccessColor : WarningColor,
+              )
+            ],
+          ),
           ..._status == '待审核' ? shenhe() : [],
         ],
       ),
     );
   }
-  List<Widget> shenhe() {
 
+  List<Widget> shenhe() {
     List<Widget> views = [];
     for (int i = 0; i < _forms.length; i++) {
       Map params = _forms[i];

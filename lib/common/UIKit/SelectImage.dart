@@ -23,10 +23,12 @@ class qiniuUtil {
   }
 
   void getToken() async {
-    Map res = await HttpUtil.get('/qiniu/token');
-    token = res['token'];
-    cdn = res['cdn'];
+    HttpUtil.get('/qiniu/token').then((res) {
+      token = res['token'];
+      cdn = res['cdn'];
+    });
   }
+
   static Future uploadAvatar(String path) async {
     Completer completer = new Completer();
     Dio dio = new Dio();
@@ -100,21 +102,30 @@ class SelectImageState extends State<SelectImage> {
   }
 
   Future<void> selectImages() async {
-    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _file = image;
-    });
-    print(_file.path);
-    uploadAvatar();
+    try {
+      PickedFile image = await _picker.getImage(source: ImageSource.gallery);
+      print(image);
+      setState(() {
+        _file = image;
+      });
+      print(_file.path);
+      uploadAvatar();
+    } catch (err) {
+      DialogUtil.toastError('获取图片失败，请重新选择');
+    }
   }
 
   Future<void> selectCamera() async {
-    PickedFile image = await _picker.getImage(source: ImageSource.camera);
-    setState(() {
-      _file = image;
-    });
-    print(_file.path);
-    uploadAvatar();
+    try {
+      PickedFile image = await _picker.getImage(source: ImageSource.camera);
+      setState(() {
+        _file = image;
+      });
+      print(_file.path);
+      uploadAvatar();
+    } catch (err) {
+      DialogUtil.toastError('获取图片失败，请重新选择');
+    }
   }
 
   void uploadAvatar() async {
@@ -159,6 +170,16 @@ class SelectImageState extends State<SelectImage> {
         imageUrl: widget.src,
         width: widget.width,
         height: widget.heidht,
+        placeholder: (context, url) => Container(
+          color: BackgroundColor,
+          child: Center(
+            child: Label(
+              '加载中...',
+              fontSize: 18 * ScaleWidth,
+              textColor: Color(0xFFBEBEBE),
+            ),
+          ),
+        ),
         errorWidget: (context, url, error) => Image.asset("imgs/nav/error.png"),
         fit: BoxFit.cover,
       );
@@ -168,7 +189,7 @@ class SelectImageState extends State<SelectImage> {
 //      view = placehold();
       if (_uploadFailed) {
         view = placehold_uploadFail();
-      }  else{
+      } else {
         view = placehold();
       }
     }

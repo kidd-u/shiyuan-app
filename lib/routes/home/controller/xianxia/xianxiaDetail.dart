@@ -95,7 +95,7 @@ class XianXiaDetailState extends State<XianXiaDetailPage> {
           ..._status == '待审核' || _status == '待上传' ? shenhe() : [],
 //          WorkEmpty(
 //              leftActions: [MainTitleLabel('计划状态', fontWeight: FontWeight.w400)],
-//              rightActions: [MainTitleLabel('已完成', fontWeight: FontWeight.w400, textColor: SuccessColor)]),
+//              rightActions: [MainTitleLabel('已办结', fontWeight: FontWeight.w400, textColor: SuccessColor)]),
 //          WorkEmpty(
 //              leftActions: [MainTitleLabel('我的参与情况:', fontWeight: FontWeight.w400)],
 //              rightActions: [MainTitleLabel('未打卡', fontWeight: FontWeight.w400, textColor: ErrorColor)]),

@@ -34,6 +34,7 @@ class LoginViewState extends State<LoginView> {
       DialogUtil.showToast('请填写密码');
       return;
     }
+    DialogUtil.showLoading();
     var token =await HttpUtil.post('/account/login',params: {
       'accountName':_phone,
       'password':_password

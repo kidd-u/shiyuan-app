@@ -12,8 +12,8 @@ class YinHuanList extends StatefulWidget {
 
 class YinHuanListState extends State<YinHuanList> {
   //定义Tab标签
-  var tabTexts = ["全部数据", "待整改", "待验收", "已完成", "已超期", "验收未通过"];
-  var tabTexts1 = ["", "待整改", "待验收", "已完成", "已超期", "验收未通过"];
+  var tabTexts = ["全部数据", "待整改", "待验收", "已办结", "已超期", "验收未通过"];
+  var tabTexts1 = ["", "待整改", "待验收", "已办结", "已超期", "验收未通过"];
 
   //定义ab标签对应的Page
   var pages;

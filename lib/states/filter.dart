@@ -74,14 +74,14 @@ class Filter {
   static checkColor(String status) {
     if (status == '已开始') return NormalColor;
     if (status == '已超期') return ErrorColor;
-    if (status == '已完成') return SuccessColor;
+    if (status == '已办结') return SuccessColor;
     if (status == '未完成') return WaitingColor;
     if (status == '待审核') return LoadingColor;
     return NormalColor;
   }
 
   static checkYinHuanColor(String status) {
-    if (status == '已完成') return SuccessColor;
+    if (status == '已办结') return SuccessColor;
     if (status == '待整改') return LoadingColor;
     if (status == '待验收') return NormalColor;
     if (status == '已超期') return ErrorColor;
@@ -91,7 +91,7 @@ class Filter {
 
   static checkShangJiColor(String status) {
     if (status == '待整改') return LoadingColor;
-    if (status == '已完成') return SuccessColor;
+    if (status == '已办结') return SuccessColor;
     if (status == '待复检') return NormalColor;
     if (status == '已超期') return ErrorColor;
     return NormalColor;

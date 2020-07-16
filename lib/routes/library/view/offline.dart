@@ -25,10 +25,7 @@ class OffLineView extends StatelessWidget {
 
 
     String total1='${data.safe(['current','signed'])??0}';
-    String lastTotal1='${data.safe(['previous','signed'])??0}';
-    int than1=int.parse(total1) - int.parse(lastTotal1);
-    bool isAdd1 = than1>=0;
-    String thanStr1=than1.abs().toString();
+
     return new Container(
       decoration: new BoxDecoration(
         color: Colors.white,
@@ -59,50 +56,6 @@ class OffLineView extends StatelessWidget {
                   ),
                 ),
                 ImageView(
-                    src: 'imgs/library/tongbishangyue2.png',
-                    width: 118 * ScaleWidth,
-                    height: 118 * ScaleWidth,
-                    margin: EdgeInsets.only(left: 43 * ScaleWidth)),
-                Container(
-                  width: 160 * ScaleWidth,
-                  height: 118 * ScaleWidth,
-//                  margin: EdgeInsets.only(left: 30 * ScaleWidth),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 10 * ScaleWidth),
-                        child: Row(
-                          children: <Widget>[
-                            ImageView(src: isAdd?'imgs/library/UP.png':'imgs/library/down.png', width: 34 * ScaleWidth, height: 44 * ScaleWidth),
-                            Label(thanStr, textColor: isAdd?SuccessColor:ErrorColor, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold),
-                          ],
-                        ),
-                      ),
-                      Label('同比上月',
-                          fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 10 * ScaleWidth))
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 67 * ScaleWidth, left: 65 * ScaleWidth),
-            child: Row(
-              children: <Widget>[
-                ImageView(src: 'imgs/library/yiwancheng2.png', width: 118 * ScaleWidth, height: 118 * ScaleWidth),
-                Container(
-                    width: 160 * ScaleWidth,
-                    height: 118 * ScaleWidth,
-//                    margin: EdgeInsets.only(left: 30 * ScaleWidth),
-                    child: Column(
-                      children: <Widget>[
-                        Label(finished, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
-                        Label('已完成',
-                            fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 10 * ScaleWidth))
-                      ],
-                    )),
-                ImageView(
                     src: 'imgs/library/daizhixing2.png',
                     width: 118 * ScaleWidth,
                     height: 118 * ScaleWidth,
@@ -123,11 +76,30 @@ class OffLineView extends StatelessWidget {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(top: 67 * ScaleWidth, left: 65 * ScaleWidth),
+            child: Row(
+              children: <Widget>[
+                ImageView(src: 'imgs/library/yiwancheng2.png', width: 118 * ScaleWidth, height: 118 * ScaleWidth),
+                Container(
+                    width: 160 * ScaleWidth,
+                    height: 118 * ScaleWidth,
+//                    margin: EdgeInsets.only(left: 30 * ScaleWidth),
+                    child: Column(
+                      children: <Widget>[
+                        Label(finished, fontSize: 54 * ScaleWidth, fontWeight: FontWeight.bold, margin: EdgeInsets.only(top: 10 * ScaleWidth)),
+                        Label('已办结',
+                            fontSize: 24 * ScaleWidth, textColor: Color.fromRGBO(118, 118, 118, 1), margin: EdgeInsets.only(top: 10 * ScaleWidth))
+                      ],
+                    )),
+              ],
+            ),
+          ),
+          Container(
             margin: EdgeInsets.only(top: 75 * ScaleWidth),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                BlueCartView(title: '本月累计培训人数', width: 430 * ScaleWidth,total: total1,isAdd: isAdd1,add: thanStr1),
+                BlueCartView(title: '本月累计培训人数', width: 430 * ScaleWidth,total: total1),
               ],
             ),
           )

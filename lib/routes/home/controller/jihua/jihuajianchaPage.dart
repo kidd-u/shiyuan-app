@@ -86,7 +86,7 @@ class JiHuaPageState extends State<JiHuaPage> {
               arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': false});
         }
         break;
-      case '已完成':
+      case '已办结':
         {
           await PageUtil.push('jianchaDetail',
               arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': true});

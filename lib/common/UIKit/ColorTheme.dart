@@ -16,7 +16,7 @@ const Color LineColor = Color.fromRGBO(224, 224, 224, 1);
 const Color BackgroundColor = Color.fromRGBO(245, 245, 245, 1);
 /** 警告，橘红 */
 const Color WarningColor = Color.fromRGBO(231, 72, 10, 1);
-/** 已完成，浅绿色 */
+/** 已办结，浅绿色 */
 const Color SuccessColor = Color.fromRGBO(97, 204, 162, 1);
 /** 未完成，棕黄色 */
 const Color LoadingColor = Color.fromRGBO(238, 158, 71, 1);

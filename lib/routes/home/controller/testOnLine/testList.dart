@@ -12,7 +12,7 @@ class TestList extends StatefulWidget {
 
 class TestListState extends State<TestList> {
   //定义Tab标签
-  var tabTexts = ["待执行", "已完成", "已超期"];
+  var tabTexts = ["待执行", "已办结", "已超期"];
 
   //定义ab标签对应的Page
   var pages = [

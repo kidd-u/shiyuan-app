@@ -79,28 +79,12 @@ class LibraryState extends State<LibraryPage> {
 
   Widget layout(BuildContext context) {
     String total1='${_dangerelimi.safe(['current','total'])??0}';
-    String lastTotal1='${_dangerelimi.safe(['previous','total'])??0}';
-    int than1=int.parse(total1) - int.parse(lastTotal1);
-    bool isAdd1 = than1>=0;
-    String thanStr1=than1.abs().toString();
 
     String total2='${_dangerelimi.safe(['current','finished'])??'0'}';
-    String lastTotal2='${_dangerelimi.safe(['previous','finished'])??'0'}';
-    int than2=int.parse(total2) - int.parse(lastTotal2);
-    bool isAdd2 = than2>=0;
-    String thanStr2=than2.abs().toString();
 
     String total3='${_dangerelimi.safe(['current','pending'])??'0'}';
-    String lastTotal3='${_dangerelimi.safe(['previous','pending'])??'0'}';
-    int than3=int.parse(total3) - int.parse(lastTotal3);
-    bool isAdd3 = than3>=0;
-    String thanStr3=than3.abs().toString();
 
     String total4='${_dangerelimi.safe(['current','delayed'])??'0'}';
-    String lastTotal4='${_dangerelimi.safe(['previous','delayed'])??'0'}';
-    int than4=int.parse(total4) - int.parse(lastTotal4);
-    bool isAdd4 = than4>=0;
-    String thanStr4=than4.abs().toString();
 
     return new Scaffold(
       appBar: buildAppBar(context),
@@ -112,17 +96,18 @@ class LibraryState extends State<LibraryPage> {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) return new OnLineView(data: _onlineData);
           if (index == 1) return new OffLineView(data: _offlineData,);
-          if (index == 2) return new CartView(tag: 0,total: total1,isAdd: isAdd1,add: thanStr1);
-          if (index == 3) return new CartView(tag: 1,total: total2,isAdd: isAdd2,add: thanStr2);
-          if (index == 4) return new CartView(tag: 2,total: total3,isAdd: isAdd3,add: thanStr3);
-          if (index == 5) return new CartView(tag: 3,total: total4,isAdd: isAdd4,add: thanStr4);
+          if (index == 2) return new CartView(tag: 0,total: total1);
+          if (index == 3) return new CartView(tag: 1,total: total2);
+          if (index == 4) return new CartView(tag: 2,total: total3);
+          if (index == 5) return new CartView(tag: 3,total: total4);
           if (index == 6) return new RankingListView(data: _peoples);
 
           return null;
         },
         staggeredTileBuilder: (int index) {
-          if (index == 0 || index == 1 || index == 6) return new StaggeredTile.extent(4, 775 * ScaleWidth);
-          return new StaggeredTile.extent(2, 408 * ScaleWidth);
+          if (index == 0 || index == 1) return new StaggeredTile.extent(4, 735 * ScaleWidth);
+          if (index == 6) return new StaggeredTile.extent(4, 775 * ScaleWidth);
+          return new StaggeredTile.extent(2, 368 * ScaleWidth);
         },
         mainAxisSpacing: 29 * ScaleWidth,
         crossAxisSpacing: 29 * ScaleWidth,

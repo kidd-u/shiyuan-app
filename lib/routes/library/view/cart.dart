@@ -7,14 +7,10 @@ class CartView extends StatefulWidget {
     this.title,
     this.tag = 0,
     this.total = '0',
-    this.isAdd = false,
-    this.add = '0',
   }) : super(key: key);
   final String title;
   final int tag;
   final String total;
-  final bool isAdd;
-  final String add;
 
   @override
   State<StatefulWidget> createState() {
@@ -58,18 +54,6 @@ class CartViewState extends State<CartView> {
           ImageView(src: _imagesList[widget.tag], margin: EdgeInsets.only(top: 52 * ScaleWidth), width: 82 * ScaleWidth, height: 82 * ScaleWidth),
           Label(_titleList[widget.tag], margin: EdgeInsets.only(top: 30 * ScaleWidth), fontSize: 30 * ScaleWidth, fontWeight: FontWeight.bold),
           Label(widget.total, margin: EdgeInsets.only(top: 42 * ScaleWidth), fontSize: 60 * ScaleWidth, fontWeight: FontWeight.bold),
-          Container(
-            margin: EdgeInsets.only(top: 34 * ScaleWidth),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Label('同比上月', fontSize: 22 * ScaleWidth),
-                ImageView(src: widget.isAdd?'imgs/library/UP2.png':'imgs/library/down2.png', width: 13 * ScaleWidth, height: 17 * ScaleWidth),
-                Label(widget.add, fontSize: 22 * ScaleWidth, textColor: Color(0xFFED6B47))
-              ],
-            ),
-          )
         ],
       ),
     );

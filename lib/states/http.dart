@@ -74,9 +74,9 @@ class HttpUtil {
   }
 
   static Future get(url, {params}) async {
-//    LogUtil.d('=======================params $url=======================');
-//    LogUtil.d(Filter.toJson(params));
-//    LogUtil.d('=======================params $url=======================');
+    LogUtil.d('=======================params $url=======================');
+    LogUtil.d(Filter.toJson(params));
+    LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
@@ -98,9 +98,9 @@ class HttpUtil {
   }
 
   static Future post(url, {params}) async {
-//    LogUtil.d('=======================params $url=======================');
-//    LogUtil.d(Filter.toJson(params));
-//    LogUtil.d('=======================params $url=======================');
+    LogUtil.d('=======================params $url=======================');
+    LogUtil.d(Filter.toJson(params));
+    LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();
@@ -122,9 +122,9 @@ class HttpUtil {
   }
 
   static Future put(url, {params}) async {
-//    LogUtil.d('=======================params $url=======================');
-//    LogUtil.d(Filter.toJson(params));
-//    LogUtil.d('=======================params $url=======================');
+    LogUtil.d('=======================params $url=======================');
+    LogUtil.d(Filter.toJson(params));
+    LogUtil.d('=======================params $url=======================');
     Completer completer = new Completer();
     Response response;
     bool networkReachable = await NetWorkUtils.instance.isNetworkUseable();

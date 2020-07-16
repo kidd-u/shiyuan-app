@@ -15,7 +15,7 @@ class SafeMeetController {
 }
 
 enum SafeMeetType {
-  normal, //已完成
+  normal, //已办结
   loading, //进行中
   error, //超期未考
 }

@@ -55,7 +55,7 @@ class DialogUtil {
     return showToast(msg ?? '操作成功');
   }
   /** 失败提示悬浮 */
-  static toastError(BuildContext context, String msg) {
+  static toastError(String msg) {
     return showToast(msg ?? '操作失败');
   }
   /** confim操作提示 */
@@ -724,7 +724,7 @@ class DialogUtil {
     });
     return completer.future;
   }
-  /** 培训已完成，开始考试 */
+  /** 培训已办结，开始考试 */
   static Future dialogTrainingDone() async {
     Completer completer = new Completer();
     BotToast.showWidget(toastBuilder: (cancelFunc) {
@@ -747,7 +747,7 @@ class DialogUtil {
                     margin: EdgeInsets.only(top: 51 * ScaleWidth),
                   ),
                   Label(
-                    '培训已完成',
+                    '培训已办结',
                     fontWeight: FontWeight.bold,
                     fontSize: 36 * ScaleWidth,
                     textColor: Color(0xFF62CCA2),

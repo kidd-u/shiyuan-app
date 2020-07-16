@@ -16,13 +16,21 @@ class XianShangDetailPage extends StatefulWidget {
 }
 
 class XianShangDetailState extends State<XianShangDetailPage> {
-  String _procId;
+  String _procId, _title;
   List _dataArray = [];
+
   void initState() {
     super.initState();
-    _procId=widget.arguments['procId'];
+    _procId = widget.arguments['procId'];
+    _title = widget.arguments['name'];
+//    loadSummary();
     loadDetail();
   }
+
+  loadSummary() async {
+    var summary = await HttpUtil.get('/process/online/done/summary/${widget.arguments['id']}');
+  }
+
   loadDetail() async {
     var res = await HttpUtil.get('/process/common/detail/' + _procId);
     setState(() {
@@ -34,11 +42,16 @@ class XianShangDetailState extends State<XianShangDetailPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '线上培训详情'),
+      appBar: buildAppBar(context, _title),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
-          ..._dataArray.map((e) => WorkSelect(title: e['name'],value: e['label'],)).toList(),
+          ..._dataArray
+              .map((e) => WorkSelect(
+                    title: e['name'],
+                    value: e['label'],
+                  ))
+              .toList(),
         ],
       ),
     );

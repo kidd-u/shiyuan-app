@@ -59,7 +59,10 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
     });
     print(score);
     var res = await HttpUtil.post('/process/online/test/${_paper['id']}', params: {'score': score, 'answers': ansList});
-    PageUtil.popToName(widget.arguments['page']);
+    res['id'] = widget.arguments['id'];
+    res['isAdmin'] = false;
+    PageUtil.pushAndReplace('xianshangAnswer', arguments: res);
+//    PageUtil.popToName(widget.arguments['page']);
     EventBusUtil.getInstance().fire(PageEvent(res));
   }
 
@@ -137,16 +140,22 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
     return new Scaffold(
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, _title, actions: [btn]),
-      body: new ListView(
-        physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
+      body: Column(
         children: <Widget>[
-          topView(context),
-          WorkTitle(
-            title: '${_bigIndex + 1}、${bigTitle}:${_index + 1}/${_amount} 每题分值：${_paper['configs'][type]['score']}分',
+          Expanded(
+            child: new ListView(
+              physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
+              children: <Widget>[
+                topView(context),
+                WorkTitle(
+                  title: '${_bigIndex + 1}、${bigTitle}:${_index + 1}/${_amount} 每题分值：${_paper['configs'][type]['score']}分',
+                ),
+                itemView,
+              ],
+            ),
           ),
-          itemView,
           Container(
-            margin: EdgeInsets.only(top: 300 * ScaleWidth),
+            margin: EdgeInsets.only(top: 30 * ScaleWidth, bottom: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

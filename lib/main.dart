@@ -111,6 +111,7 @@ class MyApp extends StatelessWidget {
           'xianshangList': (BuildContext context) {
             Map arguments = ModalRoute.of(context).settings.arguments;
             return new XianShangList(
+              type: arguments['type'],
               title: arguments['title'],
             );
           },

@@ -91,7 +91,7 @@ class XianShangPageState extends State<XianShangPage> {
     switch (status) {
       case '未开始':
         {
-          PageUtil.push('xianshangDetail', arguments: {'procId': _content[index]['procId'], 'status': _content[index]['status']});
+          PageUtil.push('xianshangDetail', arguments: _content[index]);
         }
         break;
 
@@ -149,7 +149,7 @@ class XianShangPageState extends State<XianShangPage> {
                 'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
               });
             }
-            PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': title,'page': PageUtil.currentPage(context)});
+            PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': title,'id':_content[index]['id'],'page': PageUtil.currentPage(context)});
           }
           _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
             print(data.params);

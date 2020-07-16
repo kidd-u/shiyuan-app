@@ -170,7 +170,7 @@ class Page extends State<MessagePage> {
           PageUtil.push('jianchaDetail', arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': false});
         }
         break;
-      case '已完成':
+      case '已办结':
         {
           PageUtil.push('jianchaDetail', arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'showHistory': true});
         }
@@ -199,7 +199,7 @@ class Page extends State<MessagePage> {
     String taskId = item['id'];
     String procId = item['procId'];
     switch (status) {
-      case '已完成':
+      case '已办结':
         {
           PageUtil.push('yinhuanDetail', arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'status': status});
         }

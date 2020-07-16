@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
 
 enum TestFileType {
-  done, //已完成
+  done, //已办结
   loading, //进行中
   wait, //超期未考
 }
@@ -83,7 +83,7 @@ class TestFilePageState extends State<TestFilePage> {
                       Expanded(
                         child: MainTitleLabel('2020年冬季防火专项培训', textColor: Colors.white, margin: EdgeInsets.only(left: 36 * ScaleWidth)),
                       ),
-                      SubTextLabel('已完成', textColor: Colors.white, margin: EdgeInsets.only(right: 32 * ScaleWidth)),
+                      SubTextLabel('已办结', textColor: Colors.white, margin: EdgeInsets.only(right: 32 * ScaleWidth)),
                     ],
                   ),
                 ),
