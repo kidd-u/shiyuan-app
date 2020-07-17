@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shiyuan/common/WorkUI/WorkEmpty.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
+import 'package:shiyuan/states/LogUtil.dart';
 import 'package:shiyuan/states/default.dart';
 
 class xianshangAnswer extends StatefulWidget {
@@ -19,8 +20,9 @@ class xianshangAnswer extends StatefulWidget {
 class WenDangJiaoYuState extends State<xianshangAnswer> {
   bool _showAll = true; //是否显示错误试题
   bool _showBtn = true; //是否显示重新培训
+  Map summaryRes = {};
   List _dataAry = [];
-  String _title='';
+  String _title = '';
 
   void initState() {
     super.initState();
@@ -30,24 +32,23 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
   getAnswer() async {
     print(widget.arguments);
     bool isAdmin = widget.arguments.safe(['isAdmin']) ?? false;
-    var SINGLE, MULTI, TOF,summary;
+    var SINGLE, MULTI, TOF, summary;
     if (isAdmin) {
-      setState(() {
-        _showBtn = !isAdmin;
-      });
+      String procId='${widget.arguments['procId']}';
+      String accountId='${widget.arguments['accountId']}';
       summary = await HttpUtil.get('/process/online/done/summary',
-          params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId']});
+          params: {'procId': procId, 'accountId': accountId});
       SINGLE = await HttpUtil.get(
         '/process/online/done/test/detail',
-        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'SINGLE', 'page': 0, 'size': 9999},
+        params: {'procId': procId, 'accountId': accountId, 'type': 'SINGLE', 'page': 0, 'size': 9999},
       );
       MULTI = await HttpUtil.get(
         '/process/online/done/test/detail',
-        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'MULTI', 'page': 0, 'size': 9999},
+        params: {'procId': procId, 'accountId': accountId, 'type': 'MULTI', 'page': 0, 'size': 9999},
       );
       TOF = await HttpUtil.get(
         '/process/online/done/test/detail',
-        params: {'procId': widget.arguments['procId'], 'accountId': widget.arguments['accountId'], 'type': 'TOF', 'page': 0, 'size': 9999},
+        params: {'procId': procId, 'accountId': accountId, 'type': 'TOF', 'page': 0, 'size': 9999},
       );
     } else {
       summary = await HttpUtil.get('/process/online/done/summary/${widget.arguments['id']}');
@@ -55,7 +56,10 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
       MULTI = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'MULTI', 'page': 0, 'size': 9999});
       TOF = await HttpUtil.get('/process/online/done/test/${widget.arguments['id']}', params: {'type': 'TOF', 'page': 0, 'size': 9999});
     }
-
+    setState(() {
+      summaryRes=summary;
+      _showBtn = isAdmin==false && summaryRes.safe(['isPassed']) == false;
+    });
     List single_all = SINGLE['content'];
     List multi_all = MULTI['content'];
     List tof_all = TOF['content'];
@@ -87,8 +91,64 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
     }
     setState(() {
       _dataAry = dataAry;
-      _title=summary['name'];
+      _title = summary['name'];
     });
+  }
+  textAgan()async{
+    DialogUtil.showLoading();
+    var res = await HttpUtil.get('/process/online/train/' + widget.arguments['id']);
+    if (res['type'] == 'OC_CLASS') {
+      String type = res['material']['type'];
+      Map material = res['material'];
+      material = {...material, 'content': widget.arguments,'title': _title, 'page': PageUtil.currentPage(context)};
+      print('数据*****');
+      LogUtil.d(Filter.toJson(material));
+      print(type);
+      if (type == 'IMAGE') {
+        PageUtil.pushAndReplace('imagejiaoyu', arguments: material);
+      } else if (type == 'TEXT') {
+        PageUtil.pushAndReplace('wendangjiaoyu', arguments: material);
+      } else {
+        PageUtil.pushAndReplace('videojiaoyu', arguments: material);
+      }
+    } else {
+      Map paper = res['paper'];
+      DialogUtil.showLoading();
+      var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+          params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+      DialogUtil.showLoading();
+      var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+          params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+      DialogUtil.showLoading();
+      var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+          params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+      List contents = [];
+      if (SINGLE['content'].length > 0) {
+        List content = SINGLE['content'];
+        contents.add({
+          'type': 'SINGLE',
+          'content': content,
+          'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'SINGLE'}).toList()
+        });
+      }
+      if (MULTI['content'].length > 0) {
+        List content = MULTI['content'];
+        contents.add({
+          'type': 'MULTI',
+          'content': content,
+          'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'MULTI'}).toList()
+        });
+      }
+      if (TOF['content'].length > 0) {
+        List content = TOF['content'];
+        contents.add({
+          'type': 'TOF',
+          'content': content,
+          'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
+        });
+      }
+      PageUtil.pushAndReplace('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title,'id':widget.arguments['id'],'page': PageUtil.currentPage(context)});
+    }
   }
 
   @override
@@ -102,10 +162,13 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
           fontWeight: FontWeight.w400,
         ),
       ),
+      onPressed: (){
+        textAgan();
+      },
     );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, _title, actions: [btn]),
+      appBar: buildAppBar(context, _title, actions: _showBtn?[btn]:[]),
       body: Container(
         child: new ListView.builder(
           padding: EdgeInsets.only(bottom: 100),
@@ -143,6 +206,19 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
       width: ScreenWidth,
       child: Column(
         children: <Widget>[
+          WorkSelect(title: '计划名称：', must: true, value: summaryRes.safe(['name'])),
+          WorkSelect(title: '满分：', value: '${summaryRes.safe(['totalScore']) ?? 0}分'),
+          WorkSelect(title: '及格分数：', value: '${summaryRes.safe(['passScore']) ?? 0}分'),
+          WorkEmpty(
+            leftActions: [MainTitleLabel('考试分数：')],
+            rightActions: [
+              MainTextLabel('${summaryRes.safe(['score']) ?? 0}分'),
+              MainTextLabel(
+                summaryRes.safe(['isPassed']) == true ? '(已及格)' : '(未及格)',
+                textColor: summaryRes.safe(['isPassed']) == true ? SuccessColor : WarningColor,
+              )
+            ],
+          ),
           WorkEmpty(
             margin: EdgeInsets.only(top: 20 * ScaleWidth),
             leftActions: [

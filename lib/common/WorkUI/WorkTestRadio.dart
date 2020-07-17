@@ -81,22 +81,25 @@ class WorkTestRadioState extends State<WorkTestRadio> {
           ),
           ...options
               .map(
-                (e) => Container(
-                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
+                (e) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      answer = e['no'];
+                      widget.onChange(answer);
+                    });
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 20 * ScaleWidth, bottom: 20 * ScaleWidth),
 //                  margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        answer = e['no'];
-                        widget.onChange(answer);
-                      });
-                    },
                     child: Row(
                       children: <Widget>[
                         ImageView(
-                            src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
-                            width: 24 * ScaleWidth,
-                            height: 24 * ScaleWidth),
+                          src: answer == e['no'] ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
+                          width: 24 * ScaleWidth,
+                          height: 24 * ScaleWidth,
+                          color: Colors.white,
+                        ),
                         Expanded(
                           child: MainTextLabel(
                             e['no'] + '、' + e['content'],

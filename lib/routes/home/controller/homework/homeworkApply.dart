@@ -34,6 +34,7 @@ class HomeWorkApplyState extends State<HomeWorkApplyPage> {
   }
 
   void submit() async {
+    LogUtil.d(Filter.toJson(_dataArray));
     if (!checkRequired()) {
       return;
     }

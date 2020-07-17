@@ -18,7 +18,7 @@ class YinHuanDetailPage extends StatefulWidget {
 
 class YinHuanDetailState extends State<YinHuanDetailPage> {
   String _title, _status, _procId, _taskId;
-  bool _showForm, _showBtns;
+  bool _showForm, _showBtns, _showSubmit;
 
   List _dataArray = []; //
   List _historyArray = []; //
@@ -39,6 +39,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     _taskId = widget.arguments['taskId'];
     _showForm = _status == '待整改' || _status == '待验收' ? true : false;
     _showBtns = _status == '待验收' ? true : false;
+    _showSubmit = _status == '已办结' ? false : true;
     loadDetail();
     loadHistory();
   }
@@ -52,7 +53,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
 
   ///历史回复
   void loadHistory() async {
-    var res = await HttpUtil.get('/process/dangerelimi/reply/all/' + _procId,params: {'page': 0, 'size': 9999});
+    var res = await HttpUtil.get('/process/dangerelimi/reply/all/' + _procId, params: {'page': 0, 'size': 9999});
     setState(() {
       _historyArray = res['content'];
     });
@@ -61,8 +62,8 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
   void submit() async {
     LogUtil.d(Filter.toJson(_formDic));
     await DialogUtil.dialogConfim('是否确定提交?');
-    if (_status=='待验收') {
-      _formDic['isAccepted']=_isAccepted;
+    if (_status == '待验收') {
+      _formDic['isAccepted'] = _isAccepted;
     }
     var res = await HttpUtil.post('/process/dangerelimi/todo/' + _taskId, params: _formDic);
     await DialogUtil.toastSuccess('提交成功!');
@@ -76,7 +77,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
       String type = param['type'];
       String label = param['label'];
       String name = param['name'];
-      if (type == 'CUpload') {
+      if (type == 'CUpload' || type == 'CUploadImage') {
         List imagesList = Filter.jsonDeCode(label);
         views.add(WorkTitle(title: name));
         for (int i = 0; i < imagesList.length; i++) {
@@ -89,6 +90,8 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
             paddingTop: i == 0 ? 20 * ScaleWidth : 0,
           ));
         }
+      } else if (type == 'CWork') {
+        views.add(WorkWorkPeoples(value: Filter.jsonDeCode(label), onChange: null, enable: false));
       } else {
         if (name == '安全隐患' || name == '整改要求') {
           views.add(WorkTitle(title: name, margin: EdgeInsets.only(top: 20 * ScaleWidth)));

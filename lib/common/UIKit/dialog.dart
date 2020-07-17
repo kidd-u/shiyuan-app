@@ -153,58 +153,61 @@ class DialogUtil {
         );
         actionItems.add(item);
       }
-      return Container(
-        width: ScreenWidth,
-        color: Colors.black38,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              child: Container(
-                  width: 700 * ScaleWidth,
-                  height: 45.0 * (actions.length + 1),
-                  color: Colors.white,
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 700 * ScaleWidth,
-                        height: 45.0,
-                        //边框设置
-                        decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
-                        child: Center(
-                            child: Text(
-                          title,
-                          style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.bold),
-                        )),
-                      ),
-                      ...actionItems,
-                    ],
-                  )),
-            ),
-            Button(
-              width: 700 * ScaleWidth,
-              height: 45,
-              margin: EdgeInsets.only(bottom: 15, top: 15),
-              //边框设置
-              decoration: new BoxDecoration(
-                //背景
-                color: Colors.white,
-                //设置四周圆角 角度
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          width: ScreenWidth,
+          color: Colors.black38,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                child: Container(
+                    width: 700 * ScaleWidth,
+                    height: 45.0 * (actions.length + 1),
+                    color: Colors.white,
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 700 * ScaleWidth,
+                          height: 45.0,
+                          //边框设置
+                          decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
+                          child: Center(
+                              child: Text(
+                                title,
+                                style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                        ...actionItems,
+                      ],
+                    )),
               ),
-              child: Text(
-                '取消',
-                style: TextStyle(color: WarningColor, fontSize: 15, fontWeight: FontWeight.w400),
+              Button(
+                width: 700 * ScaleWidth,
+                height: 45,
+                margin: EdgeInsets.only(bottom: 15, top: 15),
+                //边框设置
+                decoration: new BoxDecoration(
+                  //背景
+                  color: Colors.white,
+                  //设置四周圆角 角度
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                child: Text(
+                  '取消',
+                  style: TextStyle(color: WarningColor, fontSize: 15, fontWeight: FontWeight.w400),
+                ),
+                onPressed: () {
+                  cancelFunc();
+                  completer.completeError('点击了取消');
+                  hiddenKeyboard();
+                },
               ),
-              onPressed: () {
-                cancelFunc();
-                completer.completeError('点击了取消');
-                hiddenKeyboard();
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });

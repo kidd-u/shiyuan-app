@@ -23,6 +23,8 @@ class YinhuanAddState extends State<YinhuanAddPage> {
   String _title; //计划名称
   String _procId; //任务id
   bool _submitForm; //是否直接提交
+  String _type='';
+  String _navTitle='';
 
   void initState() {
     super.initState();
@@ -30,13 +32,15 @@ class YinhuanAddState extends State<YinhuanAddPage> {
       _title = widget.arguments['title'];
       _procId = widget.arguments['procId'];
       _submitForm = widget.arguments['submitForm'];
+      _type = widget.arguments['type']??'DANGER_ELIMI';
+      _navTitle = widget.arguments['navTitle']??'隐患发起';
       print(widget.arguments['procId'] is String);
     });
     getFormData();
   }
 
   void getFormData() async {
-    var res = await HttpUtil.get('/process/common/init', params: {'name': 'DANGER_ELIMI'});
+    var res = await HttpUtil.get('/process/common/init', params: {'name': _type});
     setState(() {
       _dataArray = res;
     });
@@ -46,7 +50,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     if (!checkRequired()) {
       return;
     }
-    if (_submitForm) {
+    if (_submitForm == true) {
       await DialogUtil.dialogConfim('是否确定提交?');
       DialogUtil.showLoading();
       var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
@@ -64,7 +68,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
       bool required = params['config']['required'];
       List value = params['value'];
       if (required) {
-        if (value.length == 0) {
+        if (value == null || value.length == 0) {
           DialogUtil.dialogAlert('【$name】为必填');
           return false;
         } else {
@@ -102,7 +106,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     List<Widget> views = [];
     for (int i = 0; i < _dataArray.length; i++) {
       var params = _dataArray[i];
-      if (params['name'] == '计划' && !_submitForm) {
+      if (params['name'] == '计划' && _submitForm == false) {
         _dataArray[i]['value'] = [_procId];
         _dataArray[i]['label'] = _title;
         views.add(WorkSelect(title: params['name'], value: _title));
@@ -135,7 +139,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     }
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '隐患发起', actions: [btn]),
+      appBar: buildAppBar(context, _navTitle, actions: [btn]),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[

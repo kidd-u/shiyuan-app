@@ -86,24 +86,27 @@ class WorkTestRadioMoreState extends State<WorkTestRadioMore> {
           ),
           ...options
               .map(
-                (e) => Container(
-                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
+                (e) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      e['select'] = e['select'] == e['no'] ? '' : e['no'];
+                      print(options);
+                      answer = options.map((el) => el['select']).toList().join('');
+                      widget.onChange(answer);
+                    });
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 20 * ScaleWidth, bottom: 20 * ScaleWidth),
 //                  margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        e['select'] = e['select'] == e['no'] ? '' : e['no'];
-                        print(options);
-                        answer = options.map((el) => el['select']).toList().join('');
-                        widget.onChange(answer);
-                      });
-                    },
                     child: Row(
                       children: <Widget>[
                         ImageView(
-                            src: answer.contains(e['no']) ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
-                            width: 24 * ScaleWidth,
-                            height: 24 * ScaleWidth),
+                          src: answer.contains(e['no']) ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
+                          width: 24 * ScaleWidth,
+                          height: 24 * ScaleWidth,
+                          color: Colors.white,
+                        ),
                         Expanded(
                           child: MainTextLabel(
                             e['no'] + '、' + e['content'],

@@ -148,8 +148,7 @@ class Page extends State<MinePage> {
         ),
       ),
       onTap: (){
-        DialogUtil.toastSuccess('111');
-//        showToast("hello world");
+        PageUtil.push('newPassWord');
       },
     );
   }

@@ -49,6 +49,7 @@ dependencies:
   webview_flutter: 0.3.22+1
   url_launcher: 5.4.11
   flutter_html: 1.0.0
+  photo_view: 0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,10 @@ flutter:
     - imgs/login/mima.png
     - imgs/login/phone.png
     - imgs/login/code.png
+    - imgs/login/zhanghao.png
+    - imgs/login/shenfenzhenghao.png
+    - imgs/login/xingming.png
+    - imgs/login/yaoqingma.png
     - imgs/login/close.png
     - imgs/login/open.png
     - imgs/login/sanjiao.png

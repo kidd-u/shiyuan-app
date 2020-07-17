@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
   TabController _controller;
   int _selectIndex = 0;
-  List _pageView = <Widget>[new LoginView(), new RegisterView()];
+  List _pageView ;
 
 //  PageController _pageController = PageController(initialPage: 0, keepPage: false);
 
@@ -23,6 +23,14 @@ class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
   void initState() {
 //    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     super.initState();
+    _pageView = <Widget>[
+      new LoginView(),
+      new RegisterView(
+        onSuccess: () {
+          _handleTap(0);
+        },
+      )
+    ];
     _controller = TabController(length: 2, vsync: this);
     _controller.addListener(() {
       if (_selectIndex == _controller.index) return;
@@ -81,7 +89,7 @@ class Page extends State<LoginPage> with SingleTickerProviderStateMixin {
             centerView(), //中间切换
             Container(
               width: ScreenWidth,
-              height: ScreenHeight - 430 * ScaleWidth - 85 *ScaleWidth,
+              height: ScreenHeight - 220 * ScaleWidth,
               child: DefaultTabController(
                   length: 2,
                   child: TabBarView(

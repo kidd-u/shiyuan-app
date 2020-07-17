@@ -34,7 +34,10 @@ class qiniuUtil {
     Dio dio = new Dio();
     PickedFile file = PickedFile(path);
     var bytes = await file.readAsBytes();
-    String timer = DateTime.now().millisecondsSinceEpoch.toString();
+    String timer = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     List ary = file.path.split('.');
     FormData data = new FormData.fromMap({
       'token': qiniuUtil().token,
@@ -135,7 +138,10 @@ class SelectImageState extends State<SelectImage> {
     });
     Dio dio = new Dio();
     var bytes = await _file.readAsBytes();
-    String timer = DateTime.now().millisecondsSinceEpoch.toString();
+    String timer = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     List ary = _file.path.split('.');
     FormData data = new FormData.fromMap({
       'token': qiniuUtil().token,
@@ -170,16 +176,17 @@ class SelectImageState extends State<SelectImage> {
         imageUrl: widget.src,
         width: widget.width,
         height: widget.heidht,
-        placeholder: (context, url) => Container(
-          color: BackgroundColor,
-          child: Center(
-            child: Label(
-              '加载中...',
-              fontSize: 18 * ScaleWidth,
-              textColor: Color(0xFFBEBEBE),
+        placeholder: (context, url) =>
+            Container(
+              color: BackgroundColor,
+              child: Center(
+                child: Label(
+                  '加载中...',
+                  fontSize: 18 * ScaleWidth,
+                  textColor: Color(0xFFBEBEBE),
+                ),
+              ),
             ),
-          ),
-        ),
         errorWidget: (context, url, error) => Image.asset("imgs/nav/error.png"),
         fit: BoxFit.cover,
       );
@@ -202,7 +209,10 @@ class SelectImageState extends State<SelectImage> {
         child: view,
       ),
       onTap: () {
-        if (!widget.enabled) return;
+        if (!widget.enabled) {
+          PageUtil.push('PhotoViewSimpleScreen', arguments: widget.src);
+          return;
+        };
         onTapSelect();
       },
     );

@@ -19,7 +19,7 @@ class ShangJiListState extends State<ShangJiList> {
   List<ShangJiPage> pages;
   List<ShangJiPageController> controllers;
 
-  String _keyword='';
+  String _keyword = '';
   int _index = 0;
 
   void initState() {
@@ -44,7 +44,8 @@ class ShangJiListState extends State<ShangJiList> {
         ),
       ),
       onPressed: () {
-        PageUtil.push('shangjiApply');
+//        PageUtil.push('shangjiApply');
+        PageUtil.push('YinhuanAdd', arguments: {'title': '', 'procId': '', 'submitForm': true, 'type': 'LEADER_CHECK','navTitle':'检查发起'});
       },
     );
     return Scaffold(
@@ -80,7 +81,7 @@ class ShangJiListState extends State<ShangJiList> {
                           placeholder: '请输入关键词搜索',
                           contentPadding: EdgeInsets.only(bottom: 10),
                           onChanged: (text) {
-                            _keyword=text;
+                            _keyword = text;
                           },
                         )
                       ],
@@ -98,7 +99,7 @@ class ShangJiListState extends State<ShangJiList> {
                       color: MainDarkBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       controllers[_index].search(_keyword);
                     },
                   )
@@ -113,7 +114,7 @@ class ShangJiListState extends State<ShangJiList> {
                   pages: pages,
                   onTabChanged: (index) {
                     print("onTabChanged-->index:$index");
-                    _index=index;
+                    _index = index;
                   }),
             )
           ],

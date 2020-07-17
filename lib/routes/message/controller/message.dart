@@ -85,7 +85,8 @@ class Page extends State<MessagePage> {
       DialogUtil.dialogAlert('不支持的消息类型');
     }
     HttpUtil.post('/message/read/${item['id']}');
-    refreshViewController.callRefresh();
+//    refreshViewController.callRefresh();
+    onRefresh();
   }
 
   oc_test(Map item) async {
@@ -109,13 +110,13 @@ class Page extends State<MessagePage> {
       Map paper = res['paper'];
       DialogUtil.showLoading();
       var SINGLE =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
       var MULTI =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
       var TOF =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
       List contents = [];
       if (SINGLE['content'].length > 0) {
         List content = SINGLE['content'];
@@ -149,7 +150,7 @@ class Page extends State<MessagePage> {
     var res = await PageUtil.push('qrcode');
     print(res);
     Map params = Filter.jsonDeCode(res);
-    String procId = params['procId'].toString();
+    String procId = '${params['procId']}';
     PageUtil.push('signOne', arguments: procId);
   }
 
@@ -191,13 +192,13 @@ class Page extends State<MessagePage> {
   }
 
   homeWork(Map item) {
-    PageUtil.push('homeworkCheck', arguments: {'procId': item['procId'], 'taskId': item['id'], 'status': item['status']});
+    PageUtil.push('homeworkCheck', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
   }
 
   yinhuan(Map item, String title) async {
     String status = item['status'];
-    String taskId = item['id'];
-    String procId = item['procId'];
+    String taskId = '${item['id']}';
+    String procId = '${item['procId']}';
     switch (status) {
       case '已办结':
         {
@@ -231,11 +232,12 @@ class Page extends State<MessagePage> {
   }
 
   safeMetting(Map item) {
-    PageUtil.push('safeMeetDetail', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
+    print(item);
+    PageUtil.push('safeMeetDetail', arguments: {'procId': '${item['taskInfo']['procId']}', 'taskId': '${item['taskInfo']['id']}', 'status': item['taskInfo']['status']});
   }
 
   xianxia(Map item) {
-    PageUtil.push('xianxiaDetail', arguments: {'procId': item['procId'], 'taskId': '${item['id']}', 'status': item['status']});
+    PageUtil.push('xianxiaDetail', arguments: item['taskInfo']);
   }
 
   Widget layout(BuildContext context) {

@@ -128,6 +128,7 @@ class SafeMeetListState extends State<SafeMeetList> {
               child: TabBarPageView(
                   tabTexts: tabTexts,
                   pages: pages,
+                  isScrollable: true,
                   onTabChanged: (index) {
                     _index = index;
                   }),

@@ -16,7 +16,7 @@ class WorkTestRadioTof extends StatefulWidget {
   final Function onChange;
   final Map model; //数据
   final int index; //第几题
-  final Map answer;//已选答案
+  final Map answer; //已选答案
 
   @override
   State<StatefulWidget> createState() {
@@ -25,9 +25,10 @@ class WorkTestRadioTof extends StatefulWidget {
 }
 
 class WorkTestRadioTofState extends State<WorkTestRadioTof> {
-  Map question={};
-  List options=['对','错'];
+  Map question = {};
+  List options = ['对', '错'];
   String answer = '';
+
   void initState() {
     super.initState();
   }
@@ -79,31 +80,37 @@ class WorkTestRadioTofState extends State<WorkTestRadioTof> {
           ),
           ...options
               .map(
-                (e) => Container(
-                  padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 10 * ScaleWidth, bottom: 10 * ScaleWidth),
+                (e) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      answer = e;
+                      widget.onChange(answer);
+                    });
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(left: 65 * ScaleWidth, right: 15 * ScaleWidth, top: 20 * ScaleWidth, bottom: 20 * ScaleWidth),
 //              margin: EdgeInsets.only(bottom: 15 * ScaleWidth),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    answer = e;
-                    widget.onChange(answer);
-                  });
-                },
-                child: Row(
-                  children: <Widget>[
-                    ImageView(src: answer == e ? 'imgs/login/select.png' : 'imgs/login/select_de.png', width: 24 * ScaleWidth, height: 24 * ScaleWidth),
-                    Expanded(
-                      child: MainTextLabel(
-                        e,
-                        maxLines: 999,
-                        margin: EdgeInsets.only(left: 21 * ScaleWidth),
-                      ),
+                    child: Row(
+                      children: <Widget>[
+                        ImageView(
+                          src: answer == e ? 'imgs/login/select.png' : 'imgs/login/select_de.png',
+                          width: 24 * ScaleWidth,
+                          height: 24 * ScaleWidth,
+                          color: Colors.white,
+                        ),
+                        Expanded(
+                          child: MainTextLabel(
+                            e,
+                            maxLines: 999,
+                            margin: EdgeInsets.only(left: 21 * ScaleWidth),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          )
+              )
               .toList(),
           LineView(),
         ],

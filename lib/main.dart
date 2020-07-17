@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:shiyuan/routes/home/controller/jihua/jihuajianchaPage.dart';
 import 'states/default.dart';
 import './LaunchImage.dart';
+import './PhotoViewSimpleScreen.dart';
 import 'routes/login/controller/login.dart';
 import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
         home: new LaunchImagePage(),
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),
+          'PhotoViewSimpleScreen': (BuildContext context) => new PhotoViewSimpleScreen(src: ModalRoute.of(context).settings.arguments),
           'WebView': (BuildContext context) => new WebViewPage(url: ModalRoute.of(context).settings.arguments),
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),

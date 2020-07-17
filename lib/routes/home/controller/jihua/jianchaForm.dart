@@ -79,6 +79,16 @@ class JianChaFormState extends State<JianChaFormPage> {
         }
       }
     }
+    if (_FORMAT == 'STYLE2') {
+      for (int i = 0; i < content.length; i++) {
+        Map params = _style[i];
+        if (params['value'] == null || params['value'].length == 0) {
+          String title = params['label'];
+          DialogUtil.dialogAlert('【$title】为必填项');
+          return;
+        }
+      }
+    }
 
     await DialogUtil.dialogConfim('确定提交吗?');
     if (_yinhuanArray.length > 0) {
@@ -229,9 +239,19 @@ class JianChaFormState extends State<JianChaFormPage> {
             onTap: () async {
               var res = await DialogUtil.dialogSheet(['符合', '不符合']);
               print(res);
-              setState(() {
-                content[i]['value'] = res + 1;
-              });
+              if (res == 1) {
+                //不符合，添加隐患
+                bool addRes = await addYinhuan();
+                if (addRes) {
+                  setState(() {
+                    content[i]['value'] = res + 1;
+                  });
+                }
+              } else {
+                setState(() {
+                  content[i]['value'] = res + 1;
+                });
+              }
             },
             child: JiHuaCell(
               type: content[i]['value'],
@@ -259,6 +279,24 @@ class JianChaFormState extends State<JianChaFormPage> {
     return views;
   }
 
+  Future addYinhuan() async {
+    Completer completer = new Completer();
+    try {
+      var res =
+          await PageUtil.push('YinhuanAdd', arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+      if (res != null) {
+        print(res);
+        setState(() {
+          _yinhuanArray.add(res);
+        });
+        completer.complete(true);
+      }
+    } catch (err) {
+      completer.completeError(false);
+    }
+    return completer.future;
+  }
+
   ///发起隐患样式
   List<Widget> getCard2() {
     List<Widget> views = [
@@ -272,14 +310,7 @@ class JianChaFormState extends State<JianChaFormPage> {
           border: new Border.all(width: 1, color: LineColor),
         ),
         onPressed: () async {
-          var res = await PageUtil.push('YinhuanAdd',
-              arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
-          if (res != null) {
-            print(res);
-            setState(() {
-              _yinhuanArray.add(res);
-            });
-          }
+          addYinhuan();
         },
       ),
     ];

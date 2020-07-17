@@ -31,7 +31,7 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
     super.initState();
     _attachments = widget.arguments['attachments'];
     _content = widget.arguments['content'];
-    _taskId = _content['id'];
+    _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
     _startTimer();
   }
@@ -42,7 +42,7 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
     _cancelTimer();
     if (res == true) {
       DialogUtil.showLoading();
-      var res=await HttpUtil.get('/process/online/train/'+_content['id']);
+      var res=await HttpUtil.get('/process/online/train/${_content['id']}');
       if (res['type'] == 'OC_CLASS') {
         String type=res['material']['type'];
         Map material=res['material'];

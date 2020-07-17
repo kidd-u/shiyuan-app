@@ -108,13 +108,13 @@ class TodoViewState extends State<TodoView> {
       Map paper = res['paper'];
       DialogUtil.showLoading();
       var SINGLE =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
       var MULTI =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
       var TOF =
-          await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
       List contents = [];
       if (SINGLE['content'].length > 0) {
         List content = SINGLE['content'];
@@ -148,7 +148,7 @@ class TodoViewState extends State<TodoView> {
     var res = await PageUtil.push('qrcode');
     print(res);
     Map params = Filter.jsonDeCode(res);
-    String procId = params['procId'].toString();
+    String procId = '${params['procId']}';
     PageUtil.push('signOne', arguments: procId);
   }
 
@@ -190,13 +190,13 @@ class TodoViewState extends State<TodoView> {
   }
 
   homeWork(Map item) {
-    PageUtil.push('homeworkCheck', arguments: {'procId': item['procId'], 'taskId': item['id'], 'status': item['status']});
+    PageUtil.push('homeworkCheck', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
   }
 
   yinhuan(Map item, String title) async {
     String status = item['status'];
-    String taskId = item['id'];
-    String procId = item['procId'];
+    String taskId = '${item['id']}';
+    String procId = '${item['procId']}';
     switch (status) {
       case '已办结':
         {
@@ -230,11 +230,11 @@ class TodoViewState extends State<TodoView> {
   }
 
   safeMetting(Map item) {
-    PageUtil.push('safeMeetDetail', arguments: {'procId': item['procId'], 'status': item['status']});
+    PageUtil.push('safeMeetDetail', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
   }
 
   xianxia(Map item) {
-    PageUtil.push('xianxiaDetail', arguments: {'procId': item['procId'], 'status': item['status']});
+    PageUtil.push('xianxiaDetail', arguments: item['taskInfo']);
   }
 
   @override

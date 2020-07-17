@@ -19,7 +19,7 @@ class ImageJiaoYuPage extends StatefulWidget {
 
 class ImageJiaoYuState extends State<ImageJiaoYuPage> {
   List _attachments = [];
-  Map _content={};
+  Map _content = {};
   int _index = 0;
   String _taskId = '';
   int _seconds = 60;
@@ -47,19 +47,19 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
     _cancelTimer();
     if (res == true) {
       DialogUtil.showLoading();
-      var res=await HttpUtil.get('/process/online/train/${_content['id']}');
+      var res = await HttpUtil.get('/process/online/train/${_content['id']}');
       if (res['type'] == 'OC_CLASS') {
-        String type=res['material']['type'];
-        Map material=res['material'];
-        material={...material,'content':_content,'page':widget.arguments['page']};
+        String type = res['material']['type'];
+        Map material = res['material'];
+        material = {...material, 'content': _content, 'page': widget.arguments['page']};
         print('数据*****');
         LogUtil.d(Filter.toJson(material));
         if (type == 'IMAGE') {
-          PageUtil.push('imagejiaoyu',arguments: material);
-        }else if (type == 'TEXT') {
-          PageUtil.push('wendangjiaoyu',arguments: material);
-        }  else{
-          PageUtil.push('videojiaoyu',arguments: material);
+          PageUtil.push('imagejiaoyu', arguments: material);
+        } else if (type == 'TEXT') {
+          PageUtil.push('wendangjiaoyu', arguments: material);
+        } else {
+          PageUtil.push('videojiaoyu', arguments: material);
         }
       } else {
         Map paper = res['paper'];
@@ -70,8 +70,8 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
         var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
             params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
-            params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+        var TOF =
+            await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
           List content = SINGLE['content'];
@@ -97,9 +97,9 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
             'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
           });
         }
-        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title,'page': widget.arguments['page']});
+        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title, 'page': widget.arguments['page']});
       }
-    }  else{
+    } else {
       PageUtil.popToName(widget.arguments['page']);
     }
   }
@@ -163,9 +163,12 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
                       itemBuilder: (BuildContext context, int index) {
                         return new ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          child: Image.network(
-                            _attachments[index]['src'],
-                            fit: BoxFit.cover,
+                          child: Container(
+                            color: BackgroundColor,
+                            child: Image.network(
+                              _attachments[index]['src'],
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },
@@ -175,6 +178,9 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
                       itemCount: _attachments.length,
                       viewportFraction: 0.8,
                       scale: 0.9,
+                      onTap: (index) {
+                        PageUtil.push('PhotoViewSimpleScreen', arguments: _attachments[index]['src']);
+                      },
                     ),
                   ),
                   MainTitleLabel(

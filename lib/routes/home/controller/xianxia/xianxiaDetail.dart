@@ -24,8 +24,9 @@ class XianXiaDetailState extends State<XianXiaDetailPage> {
 
   void initState() {
     super.initState();
-    _procId = widget.arguments['procId'];
-    _taskId = widget.arguments['id'];
+    print(widget.arguments);
+    _procId = '${widget.arguments['procId']}';
+    _taskId = '${widget.arguments['id']}';
     _status = widget.arguments['status'];
     loadDetail();
     if (_status == '待审核' || _status == '待上传') {

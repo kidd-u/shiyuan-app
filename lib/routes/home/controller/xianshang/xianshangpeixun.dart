@@ -90,7 +90,7 @@ class Page extends State<XianXiaPeiXunPage> {
       onPressed: () => submit(),
     );
     return new Scaffold(
-      appBar: buildAppBar(context, '线上培训考试结果', actions: _status == '待审核' ? [btn] : []),
+      appBar: buildAppBar(context, _title, actions: _status == '待审核' ? [btn] : []),
       backgroundColor: BackgroundColor,
       body: new ListView(
         padding: EdgeInsets.only(bottom: 40),
@@ -123,14 +123,25 @@ class Page extends State<XianXiaPeiXunPage> {
           ),
           WorkEmpty(
             showTopLine: false,
-            leftActions: [MainTitleLabel('分数')],
+            leftActions: [MainTitleLabel('考试分数')],
             rightActions: [
               MainTextLabel(
-                _score,
+                '${_score}(${_isPassed ? '已及格' : '未及格'})',
                 textColor: _isPassed ? SuccessColor : WarningColor,
-              )
+              ),
             ],
           ),
+          WorkEmpty(leftActions: [
+            MainTitleLabel('考试详情')
+          ], rightActions: [
+            MainTextLabel(
+              '点击查看考试详情',
+              textColor: MainDarkBlueColor,
+              onClick: (){
+                PageUtil.push('xianshangAnswer',arguments: widget.arguments);
+              },
+            )
+          ]),
           ..._status == '待审核' ? shenhe() : [],
         ],
       ),

@@ -27,6 +27,7 @@ export 'package:shiyuan/common/WorkUI/WorkDrop.dart';
 export 'package:shiyuan/common/WorkUI/WorkYinhuanTitle.dart';
 export 'package:shiyuan/common/WorkUI/WorkImageUpload.dart';
 export 'package:shiyuan/common/WorkUI/WorkYinHuanCell.dart';
+export 'package:shiyuan/common/WorkUI/WorkWorkPeoples.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:shiyuan/common/WorkUI/WorkChoose.dart';
@@ -38,6 +39,7 @@ import 'package:shiyuan/common/WorkUI/WorkInputArea.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelect.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelectTime.dart';
 import 'package:shiyuan/common/WorkUI/WorkSelectTimeRange.dart';
+import 'package:shiyuan/common/WorkUI/WorkWorkPeoples.dart';
 import 'package:shiyuan/states/default.dart';
 
 ///未能统一，因为不同的流程返回的格式还是有差别，还是需要单独判断，参考YinhuanAdd,homeworkCheck,yinhuanDetail,homeworkApply
@@ -110,6 +112,18 @@ class WorkUtil {
           return WorkImageUpload(title: name,value: Filter.jsonDeCode(label), must: required, enable: !disabled, onChange: (value) => onChange(value));
         }
         break;
+      case 'CUploadImage':
+        {
+          String name = params['name'];
+          bool required = params['config']['required'];
+          bool disabled = params['config']['disabled'];
+          var label = params['label'];
+          if (disabled) {
+            return WorkSelect(title: name, value: label);
+          }
+          return WorkImageUpload(title: name,value: Filter.jsonDeCode(label), must: required, enable: !disabled, onChange: (value) => onChange(value));
+        }
+        break;
       case 'CDate':
         {
           String name = params['name'];
@@ -125,6 +139,15 @@ class WorkUtil {
             return WorkSelectTimeRange(title: name,value: label, max: max,must: required, enable: !disabled, onChange: (value) => onChange(value));
           }  
           return WorkSelectTime(title: name,value: label, must: required, enable: !disabled, onChange: (value) => onChange(value));
+        }
+        break;
+      case 'CWork':
+        {
+          String name = params['name'];
+          bool required = params['config']['required'];
+          bool disabled = params['config']['disabled'];
+          var label = params['label'];
+          return WorkWorkPeoples(value: Filter.jsonDeCode(label)??[], must: required, enable: !disabled, onChange: (value) => onChange(value));
         }
         break;
 

@@ -143,11 +143,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     List<Widget> views = [];
     _dataArray.forEach((e) {
       if (e['type'] == 'CWork') {
-        views.add(WorkSelect(title: e['name'], value: '', showBottomLine: false));
-        List srcList = Filter.jsonDeCode(e['label']);
-        srcList.forEach((element) {
-          views.add(WorkImageWithMessage(src: Filter.src(element), message: Filter.message(element), enabled: false, onChange: null, onDelete: null));
-        });
+        views.add(WorkWorkPeoples(value: Filter.jsonDeCode(e['label']), onChange: null,enable: false));
       } else {
         views.add(WorkSelect(title: e['name'], value: e['label']));
       }
