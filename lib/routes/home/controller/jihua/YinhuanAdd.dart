@@ -28,6 +28,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
 
   void initState() {
     super.initState();
+    print(widget.arguments);
     setState(() {
       _title = widget.arguments['title'];
       _procId = widget.arguments['procId'];
@@ -43,6 +44,13 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     var res = await HttpUtil.get('/process/common/init', params: {'name': _type});
     setState(() {
       _dataArray = res;
+      for (int i = 0; i < _dataArray.length; i++){
+        var params = _dataArray[i];
+        if (params['name'] == '计划' && _submitForm == true){
+          _dataArray[i]['value'] = [''];
+          _dataArray[i]['label'] = '';
+        }
+      }
     });
   }
 
@@ -110,9 +118,11 @@ class YinhuanAddState extends State<YinhuanAddPage> {
         _dataArray[i]['value'] = [_procId];
         _dataArray[i]['label'] = _title;
         views.add(WorkSelect(title: params['name'], value: _title));
-      } else if (params['label'] != null) {
-//        _dataArray[i]['value'] = [params['label']];
-      } else {
+      }
+//      else if (params['name'] == '计划' && _submitForm == true) {
+////        _dataArray[i]['value'] = [params['label']];
+//      }
+      else {
         views.add(
           WorkUtil.getWorkFormWidget(
             params,

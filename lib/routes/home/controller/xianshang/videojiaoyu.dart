@@ -77,8 +77,8 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
         var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
             params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
-            params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+        var TOF =
+            await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
           List content = SINGLE['content'];
@@ -104,7 +104,7 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
             'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
           });
         }
-        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title,'page': widget.arguments['page']});
+        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title, 'page': widget.arguments['page']});
       }
     } else {
       PageUtil.popToName(widget.arguments['page']);
@@ -175,7 +175,7 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
                       : SizedBox(),
                 ),
                 MainTitleLabel(
-                  _attachments[0]['name'],
+                  _attachments.length > 0 ? _attachments[0]['description'] : '',
                   fontWeight: FontWeight.bold,
                   margin: EdgeInsets.only(top: 30 * ScaleWidth, left: 25 * ScaleWidth),
                 ),

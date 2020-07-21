@@ -73,7 +73,7 @@ class UserInfo {
     return completer.future;
   }
   getCache()async{
-    qiniuUtil().getToken();//初始化七牛token
-    WorkChooseStoreUtil().getAllData();//初始化人员选择
+    await qiniuUtil().getToken();//初始化七牛token
+    await WorkChooseStoreUtil().getAllData();//初始化人员选择
   }
 }

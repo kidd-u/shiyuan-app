@@ -23,10 +23,13 @@ class qiniuUtil {
   }
 
   void getToken() async {
+    Completer completer=new Completer();
     HttpUtil.get('/qiniu/token').then((res) {
       token = res['token'];
       cdn = res['cdn'];
+      completer.complete(true);
     });
+    return completer.future;
   }
 
   static Future uploadAvatar(String path) async {

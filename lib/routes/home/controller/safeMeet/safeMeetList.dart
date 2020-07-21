@@ -42,11 +42,10 @@ class SafeMeetListState extends State<SafeMeetList> {
   }
 
   void scan() async {
-//    var res = await PageUtil.push('qrcode');
-//    print(res);
-//    Map params = Filter.jsonDeCode(res);
-//    String procId = params['procId'].toString();
-    String procId = '34323';
+    var res = await PageUtil.push('qrcode');
+    print(res);
+    Map params = Filter.jsonDeCode(res);
+    String procId = params['procId'].toString();
     bool refresh = await PageUtil.push('signOne', arguments: procId);
     if (refresh == true) {
       controllers[_index].search(_keyword);
@@ -66,7 +65,7 @@ class SafeMeetListState extends State<SafeMeetList> {
       },
     );
     return Scaffold(
-        appBar: buildAppBar(context, '安全会晤', actions: [rightBtn]),
+        appBar: buildAppBar(context, '安全会务', actions: [rightBtn]),
         body: Column(
           children: <Widget>[
             Container(

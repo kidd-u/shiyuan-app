@@ -18,26 +18,27 @@ class HomeWorkList extends StatefulWidget {
 
 class HomeWorkListState extends State<HomeWorkList> {
   //定义Tab标签
-  var tabTexts = ["全部数据", "待审核", "监管中","已办结","未通过"];
+  var tabTexts = ["全部数据", "待审核", "监管中", "已办结", "未通过"];
 
   //定义ab标签对应的Page
   var pages;
-  String _type,_title;
+  String _type, _title;
 
   void initState() {
     super.initState();
-    _type=widget.arguments['type'];
-    _title=widget.arguments['title'];
+    _type = widget.arguments['type'];
+    _title = widget.arguments['title'];
     pages = [
-      HomeWorkPage(type: _type,status: ''),
-      HomeWorkPage(type: _type,status: '待审核'),
-      HomeWorkPage(type: _type,status: '监管中'),
-      HomeWorkPage(type: _type,status: '已办结'),
-      HomeWorkPage(type: _type,status: '未通过'),
+      HomeWorkPage(type: _type, title: _title, status: ''),
+      HomeWorkPage(type: _type, title: _title, status: '待审核'),
+      HomeWorkPage(type: _type, title: _title, status: '监管中'),
+      HomeWorkPage(type: _type, title: _title, status: '已办结'),
+      HomeWorkPage(type: _type, title: _title, status: '未通过'),
     ];
   }
-  submit(){
-    PageUtil.push('homeworkApply',arguments: widget.arguments);
+
+  submit() {
+    PageUtil.push('homeworkApply', arguments: widget.arguments);
   }
 
   @override
@@ -54,7 +55,7 @@ class HomeWorkListState extends State<HomeWorkList> {
       onPressed: () => submit(),
     );
     return Scaffold(
-        appBar: buildAppBar(context, _title,actions: [btn]),
+        appBar: buildAppBar(context, _title, actions: [btn]),
         body: Column(
           children: <Widget>[
             Expanded(

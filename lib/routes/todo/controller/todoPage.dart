@@ -107,14 +107,11 @@ class TodoViewState extends State<TodoView> {
     } else {
       Map paper = res['paper'];
       DialogUtil.showLoading();
-      var SINGLE =
-      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+      var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var MULTI =
-      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+      var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var TOF =
-      await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+      var TOF = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
       List contents = [];
       if (SINGLE['content'].length > 0) {
         List content = SINGLE['content'];
@@ -190,7 +187,13 @@ class TodoViewState extends State<TodoView> {
   }
 
   homeWork(Map item) {
-    PageUtil.push('homeworkCheck', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
+    String title = Filter.homeWorkToString(item['procTmplName']);
+    PageUtil.push('homeworkCheck', arguments: {
+      'procId': '${item['procId']}',
+      'taskId': '${item['id']}',
+      'status': item['status'],
+      'title': title,
+    });
   }
 
   yinhuan(Map item, String title) async {
@@ -212,7 +215,7 @@ class TodoViewState extends State<TodoView> {
 
       case '待验收':
         {
-          await DialogUtil.dialogConfim('是否确定开始本次整改?', title: '隐患整改提示');
+          await DialogUtil.dialogConfim('是否确定开始本次验收?', title: '隐患验收提示');
           PageUtil.push('yinhuanDetail', arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'status': status});
         }
         break;

@@ -26,6 +26,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
   String _procId;
   String _taskId;
   String _status;
+  String _title='';
   List _dataArray = [];
   List _historyArray = [];
 
@@ -38,6 +39,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     _procId = '${widget.arguments['procId']}';
     _taskId = '${widget.arguments['taskId']}';
     _status = widget.arguments['status'];
+    _title = widget.arguments['title'];
     loadDetail();
     loadHistory();
     if (_status != '已办结' && _status != '审核未通过') {
@@ -77,11 +79,11 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     setState(() {
       _forms = res['forms'];
       if (res['type'] == 'WK_AUDIT') {
-        _peopleType='审核人';
-      }  else if (res['type'] == 'WK_LEADER_AUDIT') {
-        _peopleType='上级审核人';
-      }else if (res['type'] == 'WK_SUPERVISE') {
-        _peopleType='监管人';
+        _peopleType = '审核人';
+      } else if (res['type'] == 'WK_LEADER_AUDIT') {
+        _peopleType = '上级审核人';
+      } else if (res['type'] == 'WK_SUPERVISE') {
+        _peopleType = '监管人';
       }
     });
   }
@@ -143,15 +145,16 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     List<Widget> views = [];
     _dataArray.forEach((e) {
       if (e['type'] == 'CWork') {
-        views.add(WorkWorkPeoples(value: Filter.jsonDeCode(e['label']), onChange: null,enable: false));
+        views.add(WorkWorkPeoples(value: Filter.jsonDeCode(e['label']), onChange: null, enable: false));
       } else {
         views.add(WorkSelect(title: e['name'], value: e['label']));
       }
     });
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '动火作业', actions: [btn]),
+      appBar: buildAppBar(context, _title, actions: _status != '已办结'?[btn]:[]),
       body: new ListView(
+        padding: EdgeInsets.only(bottom: 30),
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
           ...views,
@@ -205,7 +208,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
               model: item['value'][0],
               title: radioItem['label'],
               margin: EdgeInsets.only(left: i == 0 ? 0 : 70 * ScaleWidth),
-              onChange: (value,label) {
+              onChange: (value, label) {
                 setState(() {
                   item['label'] = label;
                   item['value'] = [value];
@@ -253,7 +256,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
       }
     }
     for (int i = 0; i < _forms.length; i++) {
-      Map item=_forms[i];
+      Map item = _forms[i];
       String type = item['type'];
       if (type == 'CSwitch') {
         _forms[i]['label'] = _isAccepted;
@@ -266,7 +269,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     }
 
     return new Container(
-      margin: EdgeInsets.only(top: 20*ScaleWidth),
+      margin: EdgeInsets.only(top: 20 * ScaleWidth),
       decoration: new BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -285,7 +288,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
             width: 680 * ScaleWidth,
             child: Column(
               children: <Widget>[
-                WorkTitle(title: _peopleType + '：' + UserInfo.userInfo.name, fontWeight: FontWeight.w400,showBottomLine: false),
+                WorkTitle(title: _peopleType + '：' + UserInfo.userInfo.name, fontWeight: FontWeight.w400, showBottomLine: false),
                 LineView(),
                 ...views,
               ],
@@ -348,23 +351,31 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
 
   Widget getHistoryCard(Map item) {
     List<Widget> views = [];
-    List detail=item['detail'];
+    List detail = item['detail'];
     bool isAccepted = false;
+    String node = item['node'];
+    if (node == 'WK_AUDIT') {
+      node = '审核';
+    }
+    if (node == 'WK_LEADER_AUDIT') {
+      node = '上级审批';
+    }
+    if (node == 'WK_SUPERVISE') {
+      node = '监管';
+    }
     for (int i = 0; i < detail.length; i++) {
       Map item = detail[i];
       String type = item['type'];
       if (type == 'CRadio') {
-        views.add(WorkSelect(title: '动火等级：',value: item['label'], placeholder: '', enable: false));
+        views.add(WorkSelect(title: '动火等级：', value: item['label'], placeholder: '', enable: false));
       } else if (type == 'CSwitch') {
-        isAccepted=item['label']=='true';
-      }else if(type == 'CUpload'){
-        views.add(WorkImageUpload(title: item['name'],value: Filter.jsonDeCode(item['label']), must: false, enable: false, onChange: (value) {}));
-      }
-      else {
+        isAccepted = item['label'] == 'true';
+      } else if (type == 'CUpload') {
+        views.add(WorkImageUpload(title: item['name'], value: Filter.jsonDeCode(item['label']), must: false, enable: false, onChange: (value) {}));
+      } else {
         views.add(
 //          WorkUtil.getWorkFormWidget(item, onChange: (value) {}, enable: false),
-        WorkSelect(title: item['name'],value: item['label'])
-        );
+            WorkSelect(title: item['name'], value: item['label']));
       }
     }
     return new Container(
@@ -392,7 +403,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
                   padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
                   decoration: new BoxDecoration(
                     gradient: LinearGradient(
-                      colors: isAccepted?[Color(0xFF3E4AD5), Color(0xFF2532BF)]:[Color(0xFFF75E51), Color(0xFFE03C30)],
+                      colors: isAccepted ? [Color(0xFF3E4AD5), Color(0xFF2532BF)] : [Color(0xFFF75E51), Color(0xFFE03C30)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -400,9 +411,9 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: MainTitleLabel('审批人：高帅', textColor: Colors.white),
+                        child: MainTitleLabel(node, textColor: Colors.white),
                       ),
-                      MainTitleLabel(isAccepted?'通过':'不通过', textColor: Colors.white)
+                      MainTitleLabel(isAccepted ? '通过' : '不通过', textColor: Colors.white)
                     ],
                   ),
                 ),

@@ -64,7 +64,7 @@ class SignOneState extends State<SignOnePage> {
             color: Colors.white,
             child: new ListView(
               padding: EdgeInsets.only(bottom: 40),
-              physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
+              physics: new NeverScrollableScrollPhysics(),
               children: <Widget>[
                 ImageView(
                   src: 'imgs/home/xianxia/signtop.png',

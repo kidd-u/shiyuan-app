@@ -97,7 +97,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
             'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
           });
         }
-        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title, 'page': widget.arguments['page']});
+        PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title,'id':_taskId, 'page': widget.arguments['page']});
       }
     } else {
       PageUtil.popToName(widget.arguments['page']);

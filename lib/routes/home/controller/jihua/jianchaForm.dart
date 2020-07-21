@@ -266,7 +266,7 @@ class JianChaFormState extends State<JianChaFormPage> {
         margin: EdgeInsets.only(top: 25 * ScaleWidth),
         onClick: () async {
           var res = await PageUtil.push('YinhuanAdd',
-              arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+              arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'submitForm': false});
           if (res != null) {
             print(res);
             setState(() {
@@ -283,7 +283,7 @@ class JianChaFormState extends State<JianChaFormPage> {
     Completer completer = new Completer();
     try {
       var res =
-          await PageUtil.push('YinhuanAdd', arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+          await PageUtil.push('YinhuanAdd', arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'submitForm': false});
       if (res != null) {
         print(res);
         setState(() {
@@ -331,7 +331,7 @@ class JianChaFormState extends State<JianChaFormPage> {
       WorkYinhuanTitle(
         onClick: () async {
           var res = await PageUtil.push('YinhuanAdd',
-              arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'showForm': true});
+              arguments: {'title': widget.title, 'procId': widget.procId, 'taskId': widget.taskId, 'submitForm': false});
           if (res != null) {
             print(res);
             setState(() {

@@ -18,9 +18,13 @@ class Page extends State<HomePage> {
 
   void initState() {
     super.initState();
-    UserInfo().getCache();
+    getNet();
     print(UserInfo().token().toJson());
     _showTest = UserInfo().token().perms.contains('ONLINE_TEST_DATA');
+
+  }
+  getNet()async{
+    await UserInfo().getCache();
     getNotice();
   }
 

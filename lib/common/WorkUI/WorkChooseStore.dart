@@ -5,14 +5,21 @@ import 'package:shiyuan/states/default.dart';
 class WorkChooseStoreUtil {
   static List allData;
 
-  getAllData() async {
-    var res = await HttpUtil.get('/depart/');
+  Future getAllData() async {
+    Completer completer = new Completer();
+    try {
+      var res = await HttpUtil.get('/depart/');
 
-    for (int i = 0; i < res.length; i++) {
-      var res1 = await HttpUtil.get('/account/depart/eager/' + res[i]['id'].toString());
-      res[i]['children'] = res1;
+      for (int i = 0; i < res.length; i++) {
+        var res1 = await HttpUtil.get('/account/depart/eager/' + res[i]['id'].toString());
+        res[i]['children'] = res1;
+      }
+      WorkChooseStoreUtil.allData = res;
+      completer.complete(true);
+    } catch (err) {
+      completer.completeError(err);
     }
-    WorkChooseStoreUtil.allData = res;
+    return completer.future;
   }
 }
 
@@ -31,7 +38,7 @@ class WorkChooseStorePage extends StatefulWidget {
 
 class WorkChooseStoreState extends State<WorkChooseStorePage> {
   List _dataList = [];
-  String _page='';//YinhuanAdd
+  String _page = ''; //YinhuanAdd
   bool _isPeople = false;
   bool _isSelectStore = false;
   String _value = '';
@@ -40,12 +47,13 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
     super.initState();
     setState(() {
       LogUtil.d(Filter.toJson(widget.arguments));
-      _dataList = widget.arguments['dataList'] ?? WorkChooseStoreUtil.allData;
-      _page=widget.arguments['page'];
+      _dataList = widget.arguments.containsKey('dataList') ? widget.arguments['dataList'] : WorkChooseStoreUtil.allData;
+      _page = widget.arguments['page'];
       _isPeople = widget.arguments['isPeople'] ?? false;
 //      _value = widget.arguments['value'] ?? '';
-      print(_dataList.length);
-      print('返回的路径'+_page);
+      print(WorkChooseStoreUtil.allData);
+      print(_dataList);
+      print('返回的路径' + _page);
     });
   }
 
@@ -90,17 +98,29 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                       Expanded(
                         child: MainTitleLabel(_dataList[index]['name']),
                       ),
-                      (_dataList[index] as Map).containsKey('children') && _dataList[index]['children'].length > 0
-                          //有children显示箭头
-                          ? _isSelectStore
-                              //选择部门模式可以直接选择大的部门
-                              ? ImageView(
-                                  src: _value == _dataList[index]['name'] ? 'imgs/mine/select_se.png' : 'imgs/mine/select_de.png',
-                                  width: 38 * ScaleWidth,
-                                  height: 38 * ScaleWidth)
-                              : ImageView(src: 'imgs/mine/right_icon.png', width: 12 * ScaleWidth, height: 23 * ScaleWidth)
-                          //没有children显示圈⭕
-                          : ImageView(src: 'imgs/mine/select_de.png', width: 38 * ScaleWidth, height: 38 * ScaleWidth),
+                      _isPeople == true//选择人
+                          ? (_dataList[index] as Map).containsKey('children')
+                              //有children显示箭头
+                              ? _isSelectStore
+                                  //选择部门模式可以直接选择大的部门
+                                  ? ImageView(
+                                      src: _value == _dataList[index]['name'] ? 'imgs/mine/select_se.png' : 'imgs/mine/select_de.png',
+                                      width: 38 * ScaleWidth,
+                                      height: 38 * ScaleWidth)
+                                  : ImageView(src: 'imgs/mine/right_icon.png', width: 12 * ScaleWidth, height: 23 * ScaleWidth)
+                              //没有children显示圈⭕
+                              : ImageView(src: 'imgs/mine/select_de.png', width: 38 * ScaleWidth, height: 38 * ScaleWidth)
+                          : (_dataList[index] as Map).containsKey('children') && _dataList[index]['children'].length > 0//选择部门
+                              //有children显示箭头
+                              ? _isSelectStore
+                                  //选择部门模式可以直接选择大的部门
+                                  ? ImageView(
+                                      src: _value == _dataList[index]['name'] ? 'imgs/mine/select_se.png' : 'imgs/mine/select_de.png',
+                                      width: 38 * ScaleWidth,
+                                      height: 38 * ScaleWidth)
+                                  : ImageView(src: 'imgs/mine/right_icon.png', width: 12 * ScaleWidth, height: 23 * ScaleWidth)
+                              //没有children显示圈⭕
+                              : ImageView(src: 'imgs/mine/select_de.png', width: 38 * ScaleWidth, height: 38 * ScaleWidth),
                     ],
                   ),
                 ),
@@ -133,8 +153,12 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                         }
                       }
                       if (children.length > 0) {
-                        PageUtil.push('WorkChooseStore', arguments: {'isPeople': _isPeople, 'dataList': children,'page':_page});
+                        PageUtil.push('WorkChooseStore', arguments: {'isPeople': _isPeople, 'dataList': children, 'page': _page});
                       } else {
+                        if (_isPeople) {
+                          DialogUtil.toastError('该部门下没有可执行人员');
+                          return;
+                        }
                         var res = _dataList[index];
                         EventBusUtil.getInstance().fire(PageEvent(res));
                         PageUtil.popToName(_page);

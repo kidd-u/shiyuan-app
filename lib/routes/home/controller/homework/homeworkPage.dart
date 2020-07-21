@@ -6,9 +6,11 @@ class HomeWorkPage extends StatefulWidget {
     Key key,
     this.type,
     this.status,
+    this.title,
   }) : super(key: key);
   final String type;
   final String status;
+  final String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -59,8 +61,13 @@ class HomeWorkPageState extends State<HomeWorkPage> {
     }
   }
 
-  void didSelectCellForIndex(int index)async {
-    bool res = await PageUtil.push('homeworkCheck', arguments: {'procId': _content[index]['procId'], 'taskId': _content[index]['id'],'status':_content[index]['status']});
+  void didSelectCellForIndex(int index) async {
+    bool res = await PageUtil.push('homeworkCheck', arguments: {
+      'procId': _content[index]['procId'],
+      'taskId': _content[index]['id'],
+      'status': _content[index]['status'],
+      'title': widget.title,
+    });
     if (res == true) {
       refreshViewController.callRefresh();
     }
@@ -160,41 +167,6 @@ class HomeWorkPageState extends State<HomeWorkPage> {
           ),
         ],
       ),
-    );
-  }
-
-//  Container(
-//  height: 77 * ScaleWidth,
-//  padding: EdgeInsets.only(right: 17 * ScaleWidth),
-//  child: Row(
-//  mainAxisAlignment: MainAxisAlignment.end,
-//  children: <Widget>[
-//  textBtn('待审核'),
-//  textBtn('监管中', color: LoadingColor),
-//  textBtn('作业结束'),
-//  ],
-//  ),
-//  ),
-  Widget textBtn(String text, {Color color = Colors.white, String path, double width}) {
-    return TextButton(
-      text,
-      margin: EdgeInsets.only(left: 10 * ScaleWidth),
-      width: width == null ? 132 * ScaleWidth : width,
-      height: 50 * ScaleWidth,
-      textColor: color == Colors.white ? Color(0xFFC2C2C2) : Colors.white,
-      decoration: color == Colors.white
-          ? BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.all(Radius.circular(25 * ScaleWidth)),
-              border: new Border.all(width: 1, color: Color(0xFFC2C2C2)),
-            )
-          : BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.all(Radius.circular(25 * ScaleWidth)),
-            ),
-      onPressed: () {
-        PageUtil.push('homeworkCheck');
-      },
     );
   }
 

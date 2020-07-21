@@ -50,7 +50,8 @@ class HttpUtil {
     LogUtil.d('初始化');
     // 初始化
     options = new BaseOptions(
-      baseUrl: 'http://47.105.133.198/safecoop/api',
+//      baseUrl: 'http://47.105.133.198/safecoop/api',
+      baseUrl: 'https://shiyuan.singsafety.cn/safecoop/api',
       //连接服务器超时时间，单位是毫秒.
       connectTimeout: 30 * 1000,
       receiveTimeout: 30 * 1000,

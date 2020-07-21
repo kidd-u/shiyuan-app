@@ -86,7 +86,7 @@ class Page extends State<MessagePage> {
     }
     HttpUtil.post('/message/read/${item['id']}');
 //    refreshViewController.callRefresh();
-    onRefresh();
+//    onRefresh();
   }
 
   oc_test(Map item) async {
@@ -109,14 +109,11 @@ class Page extends State<MessagePage> {
     } else {
       Map paper = res['paper'];
       DialogUtil.showLoading();
-      var SINGLE =
-          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+      var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var MULTI =
-          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+      var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var TOF =
-          await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+      var TOF = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
       List contents = [];
       if (SINGLE['content'].length > 0) {
         List content = SINGLE['content'];
@@ -142,7 +139,8 @@ class Page extends State<MessagePage> {
           'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
         });
       }
-      PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': '在线考试', 'page': PageUtil.currentPage(context)});
+      PageUtil.push('zaixiankaoshi',
+          arguments: {'paper': paper, 'contents': contents, 'title': '在线考试', 'id': item['id'], 'page': PageUtil.currentPage(context)});
     }
   }
 
@@ -192,7 +190,13 @@ class Page extends State<MessagePage> {
   }
 
   homeWork(Map item) {
-    PageUtil.push('homeworkCheck', arguments: {'procId': '${item['procId']}', 'taskId': '${item['id']}', 'status': item['status']});
+    String title = Filter.homeWorkToString(item['procTmplName']);
+    PageUtil.push('homeworkCheck', arguments: {
+      'procId': '${item['procId']}',
+      'taskId': '${item['id']}',
+      'status': item['status'],
+      'title': title,
+    });
   }
 
   yinhuan(Map item, String title) async {
@@ -214,7 +218,7 @@ class Page extends State<MessagePage> {
 
       case '待验收':
         {
-          await DialogUtil.dialogConfim('是否确定开始本次整改?', title: '隐患整改提示');
+          await DialogUtil.dialogConfim('是否确定开始本次验收?', title: '隐患验收提示');
           PageUtil.push('yinhuanDetail', arguments: {'title': title, 'status': status, 'procId': procId, 'taskId': taskId, 'status': status});
         }
         break;
@@ -233,7 +237,8 @@ class Page extends State<MessagePage> {
 
   safeMetting(Map item) {
     print(item);
-    PageUtil.push('safeMeetDetail', arguments: {'procId': '${item['taskInfo']['procId']}', 'taskId': '${item['taskInfo']['id']}', 'status': item['taskInfo']['status']});
+    PageUtil.push('safeMeetDetail',
+        arguments: {'procId': '${item['taskInfo']['procId']}', 'taskId': '${item['taskInfo']['id']}', 'status': item['taskInfo']['status']});
   }
 
   xianxia(Map item) {
@@ -273,6 +278,7 @@ class Page extends State<MessagePage> {
     String title = item['title'];
     String receivedAt = item['receivedAt'];
     String type = item['taskInfo']['type'];
+    String procTmplName = item['taskInfo']['procTmplName'];
     String status = item['taskInfo']['status'];
     bool hasRead = item['hasRead'];
     return Container(
@@ -292,7 +298,7 @@ class Page extends State<MessagePage> {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: Label(Filter.typeToString(type), fontSize: 34 * ScaleWidth),
+                      child: Label(Filter.typeToString(type, procTmplName: procTmplName), fontSize: 34 * ScaleWidth),
                     ),
                     MainTextLabel(status, textColor: Filter.checkColor(status), margin: EdgeInsets.only(right: 25 * ScaleWidth)),
                     Container(

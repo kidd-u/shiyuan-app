@@ -157,7 +157,8 @@ class LoginViewState extends State<LoginView> {
       textDecoration: TextDecoration.underline,
       decorationStyle: TextDecorationStyle.solid,
       onClick: () {
-        Navigator.pushNamed(context, "findPassWord");
+//        Navigator.pushNamed(context, "findPassWord");
+      DialogUtil.dialogAlert('请联系管理员!');
       },
     );
   }

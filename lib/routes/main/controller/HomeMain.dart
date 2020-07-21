@@ -8,7 +8,6 @@ import '../../message/controller/message.dart';
 import '../../mine/controller/mine.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-
 class HomeMainPage extends StatefulWidget {
   @override
   _MainRouteState createState() => _MainRouteState();
@@ -16,29 +15,29 @@ class HomeMainPage extends StatefulWidget {
 
 class _MainRouteState extends State<HomeMainPage> {
   int _selectedIndex = 0;
-  var pageList = [
-    new HomePage(),
-    new LibraryPage(),
-    new TodoPage(),
-    new MessagePage(),
-    new MinePage()
-  ];
+  var pageList = [new HomePage(), new LibraryPage(), new TodoPage(), new MessagePage(), new MinePage()];
   var icons = [
-    ['imgs/tabbar/shouye_se.png','imgs/tabbar/shouye.png'],
-    ['imgs/tabbar/shujuzhongxin_se.png','imgs/tabbar/shujuzhongxin.png'],
-    ['imgs/tabbar/daiban_se.png','imgs/tabbar/daiban.png'],
-    ['imgs/tabbar/xiaoxi_se.png','imgs/tabbar/xiaoxi.png'],
-    ['imgs/tabbar/wode_se.png','imgs/tabbar/wode.png'],
+    ['imgs/tabbar/shouye_se.png', 'imgs/tabbar/shouye.png'],
+    ['imgs/tabbar/shujuzhongxin_se.png', 'imgs/tabbar/shujuzhongxin.png'],
+    ['imgs/tabbar/daiban_se.png', 'imgs/tabbar/daiban.png'],
+    ['imgs/tabbar/xiaoxi_se.png', 'imgs/tabbar/xiaoxi.png'],
+    ['imgs/tabbar/wode_se.png', 'imgs/tabbar/wode.png'],
   ];
-  var appBarTitles = ['首页','数据中心','待办','消息','我的'];
+  var appBarTitles = ['首页', '数据中心', '待办', '消息', '我的'];
+
   @override
   void initState() {
     super.initState();
-    HttpUtil.get('/account/mine').then((value) {
-      UserInfo.userInfo = UserInfoModel.fromJson(value);
-    }).catchError((err){
+    getUser();
+  }
+
+  getUser() async {
+    try {
+      var res = await HttpUtil.get('/account/mine');
+      UserInfo.userInfo = UserInfoModel.fromJson(res);
+    } catch (err) {
       PageUtil.pushAndRemoveAll('loginPage');
-    });
+    }
   }
 
   @override
@@ -67,18 +66,19 @@ class _MainRouteState extends State<HomeMainPage> {
       ),
     );
   }
-  Widget tabbarItem(index){
+
+  Widget tabbarItem(index) {
     List icon_item = icons[index];
     return Image(
-      image: AssetImage(_selectedIndex == index ? icon_item[0]:icon_item[1]),
+      image: AssetImage(_selectedIndex == index ? icon_item[0] : icon_item[1]),
       width: 22,
       height: 22,
       fit: BoxFit.cover,
     );
   }
+
   Text getTabTitle(int curIndex) {
-    return new Text(appBarTitles[curIndex],
-        style: new TextStyle(fontSize: 14.0, color: MainBlueColor));
+    return new Text(appBarTitles[curIndex], style: new TextStyle(fontSize: 14.0, color: MainBlueColor));
   }
 
   void _onItemTapped(int index) {

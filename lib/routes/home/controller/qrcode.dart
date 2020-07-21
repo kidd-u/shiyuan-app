@@ -95,12 +95,12 @@ class QrCodeState extends State<QrCodePage> with TickerProviderStateMixin{
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        FlatButton(
-          onPressed: () {
-            _captureController.pause();
-          },
-          child: Text('暂停'),
-        ),
+//        FlatButton(
+//          onPressed: () {
+//            _captureController.pause();
+//          },
+//          child: Text('暂停'),
+//        ),
         FlatButton(
           onPressed: () {
             if (_isTorchOn) {
@@ -112,12 +112,12 @@ class QrCodeState extends State<QrCodePage> with TickerProviderStateMixin{
           },
           child: Text('手电筒'),
         ),
-        FlatButton(
-          onPressed: () {
-            _captureController.resume();
-          },
-          child: Text('恢复'),
-        ),
+//        FlatButton(
+//          onPressed: () {
+//            _captureController.resume();
+//          },
+//          child: Text('恢复'),
+//        ),
       ],
     );
   }

@@ -61,6 +61,20 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
 
   void submit() async {
     LogUtil.d(Filter.toJson(_formDic));
+    if (_status == '待整改') {
+      if (_formDic['reply'] == null || _formDic['reply'] == '') {
+        DialogUtil.dialogAlert('回复内容为必填!');
+        return;
+      }
+      if (_formDic['images'] == null || _formDic['images'].length == 0) {
+        DialogUtil.dialogAlert('请上传附件!');
+        return;
+      }
+      if (_formDic['images'][0]['src'] == null || _formDic['images'][0]['src'] == '') {
+        DialogUtil.dialogAlert('请上传附件!');
+        return;
+      }
+    }
     await DialogUtil.dialogConfim('是否确定提交?');
     if (_status == '待验收') {
       _formDic['isAccepted'] = _isAccepted;
@@ -125,7 +139,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, _title, actions: [btn]),
+      appBar: buildAppBar(context, _title, actions: _showSubmit == true ? [btn] : []),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
@@ -187,6 +201,8 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
                 ),
                 LineView(),
                 WorkInputArea(
+                  title: '回复：',
+                  must: true,
                   placehoder: '请输入回复内容......',
                   showBottomLine: false,
                   showTopLine: false,
@@ -197,8 +213,12 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
                 WorkImageTitle(
                   leftActions: [
                     MainTitleLabel(
-                      '上传附件',
+                      '*',
+                      textColor: WarningColor,
                       margin: EdgeInsets.only(left: 20 * ScaleWidth),
+                    ),
+                    MainTitleLabel(
+                      '上传附件',
                     )
                   ],
                   onAdd: () {

@@ -67,8 +67,11 @@ class SpecialPeopleDetailState extends State<SpecialPeopleDetailPage> {
                 );
               },
               itemCount: SafeMap(_detail)['certificates'].list.length,
-              pagination: new SwiperPagination(),
-              autoplay: true,
+              pagination: SafeMap(_detail)['certificates'].list.length > 1 ? new SwiperPagination():null,
+              autoplay: SafeMap(_detail)['certificates'].list.length > 1,
+              onTap: (index) {
+                PageUtil.push('PhotoViewSimpleScreen', arguments: SafeMap(_detail)['certificates'].list[index]['src']);
+              },
             ):SizedBox(),
           ),
           WorkSelect(title: '证书名称:', value: SafeMap(_detail)['name'].value),

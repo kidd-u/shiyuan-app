@@ -105,7 +105,7 @@ class SpecialPeoplePageState extends State<SpecialPeoplePage> {
   Widget listView() {
     return ListView.builder(
         padding: EdgeInsets.all(30 * ScaleWidth),
-        itemCount: 3,
+        itemCount: _content.length,
         itemBuilder: (BuildContext context, int index) {
           return itemCell(_content[index]);
         });

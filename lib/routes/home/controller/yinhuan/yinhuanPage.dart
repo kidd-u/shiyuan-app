@@ -88,7 +88,7 @@ class YinHuanPageState extends State<YinHuanPage> {
 
       case '待验收':
         {
-          await DialogUtil.dialogConfim('是否确定开始本次整改?', title: '隐患整改提示');
+          await DialogUtil.dialogConfim('是否确定开始本次验收?', title: '隐患验收提示');
           bool res = await PageUtil.push('yinhuanDetail',
               arguments: {'title': title, 'type': widget.type, 'procId': procId, 'taskId': taskId, 'status': status});
           if (res == true) {
