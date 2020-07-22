@@ -33,9 +33,10 @@ class YinhuanAddState extends State<YinhuanAddPage> {
       _title = widget.arguments['title'];
       _procId = widget.arguments['procId'];
       _submitForm = widget.arguments['submitForm'];
-      _type = widget.arguments['type']??'DANGER_ELIMI';
+      _type = widget.arguments.safe(['type'])??'DANGER_ELIMI';
       _navTitle = widget.arguments['navTitle']??'隐患发起';
-      print(widget.arguments['procId'] is String);
+      print('=====');
+      print(_type);
     });
     getFormData();
   }
@@ -61,7 +62,7 @@ class YinhuanAddState extends State<YinhuanAddPage> {
     if (_submitForm == true) {
       await DialogUtil.dialogConfim('是否确定提交?');
       DialogUtil.showLoading();
-      var res = await HttpUtil.post('/process/common/init?name=DANGER_ELIMI', params: {'forms': _dataArray});
+      var res = await HttpUtil.post('/process/common/init?name=${_type}', params: {'forms': _dataArray});
       await DialogUtil.toastSuccess('提交成功');
       PageUtil.pop();
     } else {

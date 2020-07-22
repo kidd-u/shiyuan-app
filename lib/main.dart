@@ -6,7 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:shiyuan/routes/home/controller/jihua/jihuajianchaPage.dart';
 import 'states/default.dart';
 import './LaunchImage.dart';
+import './WebView.dart';
 import './PhotoViewSimpleScreen.dart';
+import './PhotoViewGalleryScreen.dart';
+
 import 'routes/login/controller/login.dart';
 import 'routes/login/controller/findPassWord.dart';
 import 'routes/login/controller/newPassWord.dart';
@@ -61,7 +64,6 @@ import 'routes/home/controller/shangji/shangjiList.dart';
 import 'routes/home/controller/shangji/shangjiApply.dart';
 import 'package:shiyuan/common/WorkUI/WorkChooseStore.dart';
 import 'routes/home/controller/notice.dart';
-import './WebView.dart';
 
 void main() {
   runApp(new MyApp());
@@ -98,6 +100,7 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           'LaunchImage': (BuildContext context) => new LaunchImagePage(),
           'PhotoViewSimpleScreen': (BuildContext context) => new PhotoViewSimpleScreen(src: ModalRoute.of(context).settings.arguments),
+          'PhotoViewGalleryScreen': (BuildContext context) => new PhotoViewGalleryScreen(arguments: ModalRoute.of(context).settings.arguments),
           'WebView': (BuildContext context) => new WebViewPage(url: ModalRoute.of(context).settings.arguments),
           'loginPage': (BuildContext context) => new LoginPage(),
           'mainTabPage': (BuildContext context) => new HomeMainPage(),

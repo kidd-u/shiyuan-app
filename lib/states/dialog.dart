@@ -7,6 +7,7 @@ import 'package:shiyuan/common/UIKit/UIKit.dart';
 import 'package:shiyuan/states/default.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import './dialogUI.dart';
 
 class DialogUtil {
   // 工厂模式
@@ -25,13 +26,16 @@ class DialogUtil {
     }
     return _instance;
   }
-  static hiddenKeyboard(){
+
+  static hiddenKeyboard() {
     FocusScope.of(DefaultUtil.navKey.currentState.context).requestFocus(FocusNode());
   }
+
   /** 加载中 */
   static showLoading() {
     BotToast.showLoading();
   }
+
   /** 取消所有加载中 */
   static hiddenLoading() {
     BotToast.closeAllLoading();
@@ -50,14 +54,17 @@ class DialogUtil {
         });
     return completer.future;
   }
+
   /** 成功提示悬浮 */
   static toastSuccess(String msg) {
     return showToast(msg ?? '操作成功');
   }
+
   /** 失败提示悬浮 */
   static toastError(String msg) {
     return showToast(msg ?? '操作失败');
   }
+
   /** confim操作提示 */
   static Future dialogConfim(String content, {String title}) async {
     hiddenKeyboard();
@@ -66,22 +73,24 @@ class DialogUtil {
       return Container(
         color: Colors.black38,
         child: Center(
-          child: Container(
+          child: DialogBounceAnimation(
             child: CupertinoAlertDialog(
               title: Text(title == null ? '温馨提示' : title),
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('取消', style: TextStyle(color: Colors.black,fontSize: 30*ScaleWidth)),
+                  child: Text('取消', style: TextStyle(color: Colors.black, fontSize: 30 * ScaleWidth)),
                   onPressed: () {
                     cancelFunc();
                     completer.completeError('点击了取消');
                     hiddenKeyboard();
-//                    throw '点击了取消';
                   },
                 ),
                 FlatButton(
-                  child: Text('确定',style: TextStyle(color: MainDarkBlueColor,fontSize: 30*ScaleWidth),),
+                  child: Text(
+                    '确定',
+                    style: TextStyle(color: MainDarkBlueColor, fontSize: 30 * ScaleWidth),
+                  ),
                   onPressed: () {
                     cancelFunc();
                     completer.complete(true);
@@ -96,6 +105,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** alert无返回值提示 */
   static Future<bool> dialogAlert(String content, {String title}) async {
     hiddenKeyboard();
@@ -103,7 +113,7 @@ class DialogUtil {
       return Container(
         color: Colors.black38,
         child: Center(
-          child: Container(
+          child: DialogBounceAnimation(
             child: CupertinoAlertDialog(
               title: Label(
                 title == null ? '提示' : title,
@@ -113,7 +123,10 @@ class DialogUtil {
               content: Text(content == null ? '无' : content),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('确定',style: TextStyle(color: MainDarkBlueColor,fontSize: 30*ScaleWidth),),
+                  child: Text(
+                    '确定',
+                    style: TextStyle(color: MainDarkBlueColor, fontSize: 30 * ScaleWidth),
+                  ),
                   onPressed: () {
                     cancelFunc();
                   },
@@ -125,6 +138,7 @@ class DialogUtil {
       );
     });
   }
+
   /** sheet底部弹框 */
   static Future dialogSheet(List<String> actions, {String title = '提示'}) async {
     hiddenKeyboard();
@@ -153,78 +167,92 @@ class DialogUtil {
         );
         actionItems.add(item);
       }
+      double theHeight = 45.0 * (actions.length + 1) + 75;
       return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Container(
-          width: ScreenWidth,
-          color: Colors.black38,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        backgroundColor: Colors.black38,
+        body: GestureDetector(
+          onTap: () {
+            cancelFunc();
+            completer.completeError('点击了取消');
+            hiddenKeyboard();
+          },
+          child: Container(
+            color: Colors.transparent,
+            child: DialogBottomSheetAnimation(
                 child: Container(
-                    width: 700 * ScaleWidth,
-                    height: 45.0 * (actions.length + 1),
-                    color: Colors.white,
-                    padding: EdgeInsets.zero,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: 700 * ScaleWidth,
-                          height: 45.0,
-                          //边框设置
-                          decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
-                          child: Center(
-                              child: Text(
-                                title,
-                                style: TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.bold),
-                              )),
+                  width: ScreenWidth,
+                  height: theHeight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        child: Container(
+                            width: 700 * ScaleWidth,
+                            height: 45.0 * (actions.length + 1),
+                            color: Colors.white,
+                            padding: EdgeInsets.zero,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  width: 700 * ScaleWidth,
+                                  height: 45.0,
+                                  //边框设置
+                                  decoration: new BoxDecoration(border: new Border(bottom: BorderSide(color: LineColor, width: 0.5))),
+                                  child: Center(
+                                      child: Text(
+                                    title,
+                                    style:
+                                        TextStyle(decoration: TextDecoration.none, color: MainTitleColor, fontSize: 15, fontWeight: FontWeight.bold),
+                                  )),
+                                ),
+                                ...actionItems,
+                              ],
+                            )),
+                      ),
+                      Button(
+                        width: 700 * ScaleWidth,
+                        height: 45,
+                        margin: EdgeInsets.only(bottom: 15, top: 15),
+                        //边框设置
+                        decoration: new BoxDecoration(
+                          //背景
+                          color: Colors.white,
+                          //设置四周圆角 角度
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
-                        ...actionItems,
-                      ],
-                    )),
-              ),
-              Button(
-                width: 700 * ScaleWidth,
-                height: 45,
-                margin: EdgeInsets.only(bottom: 15, top: 15),
-                //边框设置
-                decoration: new BoxDecoration(
-                  //背景
-                  color: Colors.white,
-                  //设置四周圆角 角度
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        child: Text(
+                          '取消',
+                          style: TextStyle(color: WarningColor, fontSize: 15, fontWeight: FontWeight.w400),
+                        ),
+                        onPressed: () {
+                          cancelFunc();
+                          completer.completeError('点击了取消');
+                          hiddenKeyboard();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                child: Text(
-                  '取消',
-                  style: TextStyle(color: WarningColor, fontSize: 15, fontWeight: FontWeight.w400),
-                ),
-                onPressed: () {
-                  cancelFunc();
-                  completer.completeError('点击了取消');
-                  hiddenKeyboard();
-                },
-              ),
-            ],
+                height: theHeight),
           ),
         ),
       );
     });
     return completer.future;
   }
+
   /** 选择日期 */
-  static Future showTimePicker(BuildContext context,{String normalTime,DateTime maxDateTime}) async {
+  static Future showTimePicker(BuildContext context, {String normalTime, DateTime maxDateTime}) async {
     hiddenKeyboard();
     Completer completer = new Completer();
-    var _dateTime = normalTime == null?DateTime.now():DateTime.parse(normalTime);
+    var _dateTime = normalTime == null ? DateTime.now() : DateTime.parse(normalTime);
 
-    DatePicker.showDatePicker(
-        context,
+    DatePicker.showDatePicker(context,
         pickerTheme: DateTimePickerTheme(
           showTitle: true,
-          confirm: Text('确定',style:TextStyle(color:MainBlueColor)),
-          cancel: Text('取消',style: TextStyle(color: Colors.black)),
+          confirm: Text('确定', style: TextStyle(color: MainBlueColor)),
+          cancel: Text('取消', style: TextStyle(color: Colors.black)),
           itemTextStyle: TextStyle(color: Colors.black),
         ),
         minDateTime: DateTime.now(),
@@ -235,16 +263,13 @@ class DialogUtil {
 //        dateFormat: 'yyyy年M月d日  EEE,H时:m分',
         dateFormat: 'yyyy  MMMM  dd',
         pickerMode: DateTimePickerMode.date,
-        locale: DateTimePickerLocale.zh_cn,
-        onCancel: (){
-          debugPrint("onCancel");
-        },
-        onConfirm: (dateTime,List<int> index){
-          _dateTime=dateTime;
-          completer.complete(_dateTime);
-          hiddenKeyboard();
-        }
-    );
+        locale: DateTimePickerLocale.zh_cn, onCancel: () {
+      debugPrint("onCancel");
+    }, onConfirm: (dateTime, List<int> index) {
+      _dateTime = dateTime;
+      completer.complete(_dateTime);
+      hiddenKeyboard();
+    });
     return completer.future;
   }
 
@@ -346,9 +371,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -361,9 +386,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -381,6 +406,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** 开始考试 */
   static Future dialogBeganTest() async {
     Completer completer = new Completer();
@@ -430,9 +456,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -445,9 +471,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -465,6 +491,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** 完成培训 */
   static Future dialogEndTraining() async {
     Completer completer = new Completer();
@@ -514,9 +541,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -529,9 +556,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -549,6 +576,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** 离开培训 */
   static Future dialogLeaveTraining() async {
     Completer completer = new Completer();
@@ -607,9 +635,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -622,9 +650,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -642,6 +670,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** 重新培训 */
   static Future dialogAgainTraining() async {
     Completer completer = new Completer();
@@ -692,9 +721,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -707,9 +736,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -727,6 +756,7 @@ class DialogUtil {
     });
     return completer.future;
   }
+
   /** 培训已办结，开始考试 */
   static Future dialogTrainingDone() async {
     Completer completer = new Completer();
@@ -785,9 +815,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '取消',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
-                            onPressed: (){
+                            onPressed: () {
                               completer.completeError(false);
                               cancelFunc();
                             },
@@ -800,9 +830,9 @@ class DialogUtil {
                         Expanded(
                           child: TextButton(
                             '确定',
-                            fontSize: 30*ScaleWidth,
+                            fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
-                            onPressed: (){
+                            onPressed: () {
                               completer.complete(true);
                               cancelFunc();
                             },
@@ -820,5 +850,4 @@ class DialogUtil {
     });
     return completer.future;
   }
-
 }

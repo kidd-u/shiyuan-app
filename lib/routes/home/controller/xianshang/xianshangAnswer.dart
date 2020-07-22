@@ -96,7 +96,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
   }
   textAgan()async{
     DialogUtil.showLoading();
-    var res = await HttpUtil.get('/process/online/train/' + widget.arguments['id']);
+    var res = await HttpUtil.get('/process/online/train/${widget.arguments['id']}');
     if (res['type'] == 'OC_CLASS') {
       String type = res['material']['type'];
       Map material = res['material'];

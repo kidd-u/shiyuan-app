@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "GeneratedPluginRegistrant.h"
-
+//DISABLE_PUSH_NOTIFICATIONS=1禁止推送
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application

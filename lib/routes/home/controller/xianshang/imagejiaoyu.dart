@@ -19,6 +19,7 @@ class ImageJiaoYuPage extends StatefulWidget {
 
 class ImageJiaoYuState extends State<ImageJiaoYuPage> {
   List _attachments = [];
+  List _images = [];
   Map _content = {};
   int _index = 0;
   String _taskId = '';
@@ -37,6 +38,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
     _content = widget.arguments['content'];
     _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
+    _images=_attachments.map((e) => e['src']).toList();
     _startTimer();
   }
 
@@ -179,7 +181,8 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
                       viewportFraction: 0.8,
                       scale: 0.9,
                       onTap: (index) {
-                        PageUtil.push('PhotoViewSimpleScreen', arguments: _attachments[index]['src']);
+//                        PageUtil.push('PhotoViewSimpleScreen', arguments: _attachments[index]['src']);
+                      PageUtil.push('PhotoViewGalleryScreen',arguments: {'images':_images,'currentIndex':index});
                       },
                     ),
                   ),

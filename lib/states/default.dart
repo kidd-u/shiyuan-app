@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui';
 
-export '../common/UIKit/dialog.dart';
+export 'dialog.dart';
 export '../common/UIKit/RefreshView.dart';
 export './userInfo.dart';
 export '../common/UIKit/ColorTheme.dart';

@@ -122,7 +122,7 @@ class Filter {
     if (type == 'C_REJECT') return '审核未通过';
     // SC 安全检查
     if (type == 'SC_TEMP_CHECK') return procTmplName == 'REGULAR_CHECK_RECORD' ? '定期检查' : '临时检查';
-    if (type == 'SC_PERIOD_START') return '定期检查';
+    if (type == 'SC_PERIOD_START') return procTmplName == 'REGULAR_CHECK_RECORD' ? '定期检查' : '临时检查';
     // DE 隐患整改
     if (type == 'DE_RECTIFY') return '隐患整改';
     if (type == 'DE_ACCEPTANCE') return '隐患验收';
