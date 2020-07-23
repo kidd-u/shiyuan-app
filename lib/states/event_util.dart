@@ -13,20 +13,24 @@ class EventBusUtil {
 }
 
 class PageEvent {
-  var params;
+  String name;
+  Map data;
 
-  PageEvent(this.params);
+  PageEvent({this.name, this.data});
 }
 /**
  * 用法
  * StreamSubscription<PageEvent> _bus;
  * _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
-    print(data.params);
+    if (data.name != 'Message') {
+    return;
+    }
+    print(data.name);
     _bus.cancel();
     setState(() {
-    widget.value = data.params['name'];
+    widget.value = data.data['name'];
     });
-    widget.onChange(data.params);
+    widget.onChange(data.data);
     });
  * EventBusUtil.getInstance().fire(PageEvent(res));
  *  */

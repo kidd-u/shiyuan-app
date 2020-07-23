@@ -50,6 +50,7 @@ class Page extends State<TodoPage> {
         '待办',
         style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
       ),
+      brightness: Brightness.light,
       backgroundColor: Colors.white,
     );
   }

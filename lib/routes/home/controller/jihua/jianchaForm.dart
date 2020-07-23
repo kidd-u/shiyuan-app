@@ -39,14 +39,14 @@ class JianChaFormState extends State<JianChaFormPage> {
   }
 
   void loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + widget.procId);
+    var res = await HttpUtil.get('/process/common/detail/${widget.procId}');
     setState(() {
       _dataArray = res;
     });
   }
 
   void loadForm() async {
-    var res = await HttpUtil.get('/process/safecheck/todo/' + widget.taskId);
+    var res = await HttpUtil.get('/process/safecheck/todo/${widget.taskId}');
 
     setState(() {
       _formData = res;
@@ -95,7 +95,7 @@ class JianChaFormState extends State<JianChaFormPage> {
       await HttpUtil.post('/process/common/init/batch?name=DANGER_ELIMI', params: {'batch': _yinhuanArray});
     }
     var params = {'format': _FORMAT, 'content': content};
-    await HttpUtil.post('/process/safecheck/todo/' + widget.taskId, params: params);
+    await HttpUtil.post('/process/safecheck/todo/${widget.taskId}', params: params);
     await DialogUtil.toastSuccess('提交成功!');
     PageUtil.pop(true);
   }
@@ -323,7 +323,7 @@ class JianChaFormState extends State<JianChaFormPage> {
     for (int i = 0; i < _style.length; i++) {
       Map params = _style[i];
       views.add(WorkUtil.getWorkFormWidget(params, context: context, must: true, onChange: (value) {
-        print('选择了' + value);
+        print('选择了${value}');
         _style[i]['value'] = value;
       }));
     }

@@ -66,14 +66,14 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
       } else {
         Map paper = res['paper'];
         DialogUtil.showLoading();
-        var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
         var TOF =
-            await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+            await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
           List content = SINGLE['content'];
@@ -187,7 +187,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
                     ),
                   ),
                   MainTitleLabel(
-                    (_index + 1).toString() + '/' + _attachments.length.toString(),
+                    '${_index + 1}/${_attachments.length}',
                     margin: EdgeInsets.only(top: 47 * ScaleWidth),
                     fontWeight: FontWeight.bold,
                     textAlign: TextAlign.center,

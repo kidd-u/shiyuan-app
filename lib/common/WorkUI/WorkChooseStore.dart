@@ -11,7 +11,7 @@ class WorkChooseStoreUtil {
       var res = await HttpUtil.get('/depart/');
 
       for (int i = 0; i < res.length; i++) {
-        var res1 = await HttpUtil.get('/account/depart/eager/' + res[i]['id'].toString());
+        var res1 = await HttpUtil.get('/account/depart/eager/${res[i]['id']}');
         res[i]['children'] = res1;
       }
       WorkChooseStoreUtil.allData = res;
@@ -53,7 +53,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
 //      _value = widget.arguments['value'] ?? '';
       print(WorkChooseStoreUtil.allData);
       print(_dataList);
-      print('返回的路径' + _page);
+      print('返回的路径${_page}');
     });
   }
 
@@ -133,7 +133,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                       setState(() {
                         _value = res['name'];
                       });
-                      EventBusUtil.getInstance().fire(PageEvent(res));
+                      EventBusUtil.getInstance().fire(PageEvent(name: 'WorkChoose',data: res));
                       PageUtil.popToName(_page);
                     } else {
                       //正常情况下，继续跳转
@@ -160,7 +160,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                           return;
                         }
                         var res = _dataList[index];
-                        EventBusUtil.getInstance().fire(PageEvent(res));
+                        EventBusUtil.getInstance().fire(PageEvent(name: 'WorkChoose',data: res));
                         PageUtil.popToName(_page);
                       }
                     }
@@ -170,7 +170,7 @@ class WorkChooseStoreState extends State<WorkChooseStorePage> {
                     setState(() {
                       _value = res['name'];
                     });
-                    EventBusUtil.getInstance().fire(PageEvent(res));
+                    EventBusUtil.getInstance().fire(PageEvent(name: 'WorkChoose',data: res));
                     PageUtil.popToName(_page);
                   }
                 },

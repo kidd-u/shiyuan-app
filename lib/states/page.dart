@@ -14,7 +14,7 @@ class PageUtil {
 //  'qrcode': (BuildContext context) => new QrCodePage(text:ModalRoute.of(context).settings.arguments),
   static push(String page, {Object arguments}) {
     print('***************************');
-    print('push to ' + page);
+    print('push to ${page}');
     print('***************************');
     return DefaultUtil.navKey.currentState.pushNamed(page, arguments: arguments);
   }

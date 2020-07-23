@@ -48,12 +48,15 @@ class WorkChooseState extends State<WorkChoose> {
     print({'isPeople': widget.isPeople});
     PageUtil.push('WorkChooseStore', arguments: {'isPeople': widget.isPeople,'page':PageUtil.currentPage(context)});
     _bus = EventBusUtil.getInstance().on<PageEvent>().listen((data) {
-      print(data.params);
+      if (data.name != 'WorkChoose') {
+        return;
+      }
+      print(data.name);
       _bus.cancel();
       setState(() {
-        widget.value = data.params['name'];
+        widget.value = data.data['name'];
       });
-      widget.onChange(data.params);
+      widget.onChange(data.data);
     });
   }
 

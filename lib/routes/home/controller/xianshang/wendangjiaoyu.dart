@@ -38,7 +38,7 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
   submit() async {
     if (!_clickable) return;
     await DialogUtil.dialogConfim('确定完成培训?');
-    var res = await HttpUtil.post('/process/online/material/' + _taskId, params: {'duration': _readTimes});
+    var res = await HttpUtil.post('/process/online/material/${_taskId}', params: {'duration': _readTimes});
     _cancelTimer();
     if (res == true) {
       DialogUtil.showLoading();
@@ -59,13 +59,13 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
       } else {
         Map paper = res['paper'];
         DialogUtil.showLoading();
-        var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var TOF = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
@@ -96,7 +96,7 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
       }
     }  else{
       PageUtil.popToName(widget.arguments['page']);
-      EventBusUtil.getInstance().fire(PageEvent(res));
+      EventBusUtil.getInstance().fire(PageEvent(name: 'xianshangPage',data: res));
     }
   }
   _startTimer() {

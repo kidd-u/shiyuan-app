@@ -40,7 +40,7 @@ class HomeWorkApplyState extends State<HomeWorkApplyPage> {
     }
     await DialogUtil.dialogConfim('是否确定提交?');
     DialogUtil.showLoading();
-    var res = await HttpUtil.post('/process/common/init?name=' + _type, params: {'forms': _dataArray});
+    var res = await HttpUtil.post('/process/common/init?name=${_type}', params: {'forms': _dataArray});
     await DialogUtil.toastSuccess('提交成功');
     PageUtil.pop();
   }
@@ -99,7 +99,7 @@ class HomeWorkApplyState extends State<HomeWorkApplyPage> {
             if (value is List) {
               if (params['type'] == 'CDate' && params['config']['type'] == 'DATERANGE') {
                 _dataArray[i]['value'] = value;
-                _dataArray[i]['label'] = value[0] + ' 至 ' + value[1];
+                _dataArray[i]['label'] = 'value[0] 至 value[1]';
               } else {
                 List valueStrAry = value.map((e) => Filter.toJson(e)).toList();
                 _dataArray[i]['value'] = [...valueStrAry];

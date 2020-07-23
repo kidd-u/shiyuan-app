@@ -81,7 +81,11 @@ class TodoViewState extends State<TodoView> {
     } else if (procTmplName == 'SAFE_MEETING') {
       safeMetting(item);
     } else if (procTmplName == 'ONLINE_CLASS' || procTmplName == 'ONLINE_TEST') {
-      oc_test(item);
+      if (type == 'OC_AUDIT') {
+        PageUtil.push('xianshangpeixun', arguments: item);
+      } else {
+        oc_test(item);
+      }
     } else {
       DialogUtil.dialogAlert('不支持的消息类型');
     }
@@ -137,7 +141,8 @@ class TodoViewState extends State<TodoView> {
           'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
         });
       }
-      PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': '在线考试', 'page': PageUtil.currentPage(context)});
+      PageUtil.push('zaixiankaoshi',
+          arguments: {'paper': paper, 'contents': contents, 'title': '在线考试', 'id': item['id'], 'page': PageUtil.currentPage(context)});
     }
   }
 
@@ -237,7 +242,7 @@ class TodoViewState extends State<TodoView> {
   }
 
   xianxia(Map item) {
-    PageUtil.push('xianxiaDetail', arguments: item['taskInfo']);
+    PageUtil.push('xianxiaDetail', arguments: item);
   }
 
   @override
@@ -276,6 +281,7 @@ class TodoViewState extends State<TodoView> {
   Widget cellItem(Map item) {
     String status = item['status'];
     String startDate = item['startDate'];
+    String procName = item['procName'];
     String type = item['type'];
     return Container(
       child: Column(
@@ -299,7 +305,7 @@ class TodoViewState extends State<TodoView> {
                   padding: EdgeInsets.only(left: 35 * ScaleWidth, right: 35 * ScaleWidth),
                   child: Row(
                     children: <Widget>[
-                      Expanded(child: MainTitleLabel(Filter.typeToString(type))),
+                      Expanded(child: MainTitleLabel(procName)),
                       MainTitleLabel(status, textColor: Filter.checkColor(status))
                     ],
                   ),

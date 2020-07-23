@@ -122,6 +122,7 @@ class LibraryState extends State<LibraryPage> {
         '数据统计',
         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),
       ),
+      brightness: Brightness.light,
       flexibleSpace: Container(
         color: Color.fromRGBO(116, 143, 254, 1),
       ),

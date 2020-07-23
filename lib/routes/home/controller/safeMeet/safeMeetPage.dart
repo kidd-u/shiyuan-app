@@ -132,7 +132,7 @@ class SafeMeetPageState extends State<SafeMeetPage> {
             String key = element['key'];
             String value = _content[index][key];
             if (key != 'name') {
-              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+              items.add(MainTextLabel('${text}: ${value}', margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
             }
           });
 

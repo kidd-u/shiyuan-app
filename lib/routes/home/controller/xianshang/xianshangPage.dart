@@ -98,7 +98,7 @@ class XianShangPageState extends State<XianShangPage> {
       case '待执行':
         {
           DialogUtil.showLoading();
-          var res = await HttpUtil.get('/process/online/train/' + _content[index]['id']);
+          var res = await HttpUtil.get('/process/online/train/${_content[index]['id']}');
           if (res['type'] == 'OC_CLASS') {
             String type = res['material']['type'];
             Map material = res['material'];
@@ -116,13 +116,13 @@ class XianShangPageState extends State<XianShangPage> {
           } else {
             Map paper = res['paper'];
             DialogUtil.showLoading();
-            var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
                 params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
             DialogUtil.showLoading();
-            var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
                 params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
             DialogUtil.showLoading();
-            var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+            var TOF = await HttpUtil.get('/process/online/test/${paper['id']}',
                 params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
             List contents = [];
             if (SINGLE['content'].length > 0) {
@@ -152,7 +152,10 @@ class XianShangPageState extends State<XianShangPage> {
             PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': title,'id':_content[index]['id'],'page': PageUtil.currentPage(context)});
           }
           _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
-            print(data.params);
+            if (data.name !='xianshangPage') {
+              return;
+            }
+            print(data.name);
             _bus.cancel();
             refreshViewController.callRefresh();
           });
@@ -215,7 +218,7 @@ class XianShangPageState extends State<XianShangPage> {
             String key = element['key'];
             String value = _content[index][key];
             if (key != 'name') {
-              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+              items.add(MainTextLabel('${text}: ${value}', margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
             }
           });
 

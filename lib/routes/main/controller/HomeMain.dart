@@ -6,7 +6,7 @@ import '../../library/controller/library.dart';
 import '../../todo/controller/todo.dart';
 import '../../message/controller/message.dart';
 import '../../mine/controller/mine.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'dart:async';
 
 class HomeMainPage extends StatefulWidget {
   @override
@@ -14,6 +14,9 @@ class HomeMainPage extends StatefulWidget {
 }
 
 class _MainRouteState extends State<HomeMainPage> {
+  StreamSubscription<PageEvent> _bus;
+  Timer _timer;
+  int _num = 0;
   int _selectedIndex = 0;
   var pageList = [new HomePage(), new LibraryPage(), new TodoPage(), new MessagePage(), new MinePage()];
   var icons = [
@@ -29,6 +32,20 @@ class _MainRouteState extends State<HomeMainPage> {
   void initState() {
     super.initState();
     getUser();
+    startTime();
+    getMessageNum();
+    _bus=EventBusUtil.getInstance().on<PageEvent>().listen((data) {
+      if (data.name != 'Message') {
+        return;
+      }
+      print(data.name);
+      getMessageNum();
+    });
+  }
+  startTime(){
+    _timer = new Timer.periodic(new Duration(seconds: 15), (timer) {
+      getMessageNum();
+    });
   }
 
   getUser() async {
@@ -38,6 +55,12 @@ class _MainRouteState extends State<HomeMainPage> {
     } catch (err) {
       PageUtil.pushAndRemoveAll('loginPage');
     }
+  }
+  getMessageNum()async{
+    var res=await HttpUtil.get('/message/unread/amount');
+    setState(() {
+      _num=res;
+    });
   }
 
   @override
@@ -57,7 +80,38 @@ class _MainRouteState extends State<HomeMainPage> {
           BottomNavigationBarItem(icon: tabbarItem(0), title: getTabTitle(0)),
           BottomNavigationBarItem(icon: tabbarItem(1), title: getTabTitle(1)),
           BottomNavigationBarItem(icon: tabbarItem(2), title: getTabTitle(2)),
-          BottomNavigationBarItem(icon: tabbarItem(3), title: getTabTitle(3)),
+          new BottomNavigationBarItem(
+              title: getTabTitle(3),
+              icon: new Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    tabbarItem(3),
+                    ..._num>0?[Positioned(  // draw a red marble
+                      top: -6.0,
+                      right: -10.0,
+                      child: Container(
+                        padding: EdgeInsets.all(1),
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 14,
+                          minHeight: 14,
+                        ),
+                        child: new Text(
+                          '${_num}',
+                          style: new TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )]:[],
+                  ]
+              ),
+          ),
           BottomNavigationBarItem(icon: tabbarItem(4), title: getTabTitle(4)),
         ],
         currentIndex: _selectedIndex,
@@ -94,6 +148,9 @@ class _MainRouteState extends State<HomeMainPage> {
 
   @override
   void dispose() {
+    _timer?.cancel();
+    _timer = null;
+    _bus.cancel();
     super.dispose();
   }
 }

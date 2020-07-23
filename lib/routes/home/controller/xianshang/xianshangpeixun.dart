@@ -28,11 +28,14 @@ class Page extends State<XianXiaPeiXunPage> {
 
   void initState() {
     super.initState();
-    _procId = widget.arguments['procId'];
-    _taskId = widget.arguments['id'];
+    _procId = '${widget.arguments['procId']}';
+    _taskId = '${widget.arguments['id']}';
     _status = widget.arguments['status'];
-    loadSummary();
+
     getDetail();
+    if (_status != '待审核') {
+      loadSummary();
+    }
     if (_status == '待审核') {
       loadForms();
     }
@@ -104,13 +107,17 @@ class Page extends State<XianXiaPeiXunPage> {
                 leftActions: [MainTitleLabel(name)],
                 rightActions: [
                   MainTextLabel(label),
-                  MainTextLabel(
-                    '(查看考试详情)',
-                    textColor: MainDarkBlueColor,
-                    onClick: () {
-                      PageUtil.push('xianshangAnswer', arguments: widget.arguments);
-                    },
-                  ),
+                  ..._status != '待审核'
+                      ? [
+                          MainTextLabel(
+                            '(查看考试详情)',
+                            textColor: MainDarkBlueColor,
+                            onClick: () {
+                              PageUtil.push('xianshangAnswer', arguments: widget.arguments);
+                            },
+                          ),
+                        ]
+                      : []
                 ],
               );
             }
@@ -121,28 +128,31 @@ class Page extends State<XianXiaPeiXunPage> {
             rightActions: [MainTextLabel(_status, textColor: Filter.checkColor(_status))],
             showTopLine: false,
           ),
-          WorkEmpty(
-            showTopLine: false,
-            leftActions: [MainTitleLabel('考试分数')],
-            rightActions: [
-              MainTextLabel(
-                '${_score}(${_isPassed ? '已及格' : '未及格'})',
-                textColor: _isPassed ? SuccessColor : WarningColor,
-              ),
-            ],
-          ),
-          WorkEmpty(leftActions: [
-            MainTitleLabel('考试详情')
-          ], rightActions: [
-            MainTextLabel(
-              '点击查看考试详情',
-              textColor: MainDarkBlueColor,
-              onClick: (){
-                PageUtil.push('xianshangAnswer',arguments: widget.arguments);
-              },
-            )
-          ]),
-          ..._status == '待审核' ? shenhe() : [],
+          ..._status == '待审核'
+              ? shenhe()
+              : [
+                  WorkEmpty(
+                    showTopLine: false,
+                    leftActions: [MainTitleLabel('考试分数')],
+                    rightActions: [
+                      MainTextLabel(
+                        '${_score}(${_isPassed ? '已及格' : '未及格'})',
+                        textColor: _isPassed ? SuccessColor : WarningColor,
+                      ),
+                    ],
+                  ),
+                  WorkEmpty(leftActions: [
+                    MainTitleLabel('考试详情')
+                  ], rightActions: [
+                    MainTextLabel(
+                      '点击查看考试详情',
+                      textColor: MainDarkBlueColor,
+                      onClick: () {
+                        PageUtil.push('xianshangAnswer', arguments: widget.arguments);
+                      },
+                    )
+                  ]),
+                ],
         ],
       ),
     );

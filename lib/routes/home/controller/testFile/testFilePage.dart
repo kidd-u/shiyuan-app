@@ -53,12 +53,12 @@ class TestFilePageState extends State<TestFilePage> {
     views.add(endTime);
     views.add(people);
     if (type == TestFileType.done) {
-      Widget fenshu = MainTextLabel('考试时间：' + time.toString(), margin: EdgeInsets.only(top: 16 * ScaleWidth), textColor: Color(0xFF7D7D7D));
+      Widget fenshu = MainTextLabel('考试时间：${time}', margin: EdgeInsets.only(top: 16 * ScaleWidth), textColor: Color(0xFF7D7D7D));
       views.add(fenshu);
     }
     views.add(testTime);
     if (type == TestFileType.done) {
-      Widget fenshu = MainTextLabel('考试分数：' + num.toString(),
+      Widget fenshu = MainTextLabel('考试分数：${num}',
           margin: EdgeInsets.only(top: 16 * ScaleWidth), textColor: num >= 60 ? Color(0xFF7D7D7D) : ErrorColor);
       views.add(fenshu);
     }

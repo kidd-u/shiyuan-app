@@ -35,7 +35,7 @@ class YinhuanfaqiViewState extends State<YinhuanfaqiView> {
       child: Column(
         children: <Widget>[
           WorkTitleWithDelete(
-              title: '安全隐患' + widget.index.toString(),
+              title: '安全隐患${widget.index}',
               onDelete: () {
                 widget.onDelete();
               }),

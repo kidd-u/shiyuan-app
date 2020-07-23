@@ -139,7 +139,7 @@ class YinHuanPageState extends State<YinHuanPage> {
             String key = element['key'];
             String value = _content[index][key];
             if (key != 'danger') {
-              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+              items.add(MainTextLabel('${text}: ${value}', margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
             }
           });
 

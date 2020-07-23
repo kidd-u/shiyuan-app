@@ -134,7 +134,7 @@ class FaLvPageState extends State<FaLvPage> {
               MainTitleLabel(name,
                   maxLines: 2, margin: EdgeInsets.only(top: 30 * ScaleWidth, bottom: 15 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth)),
               LineView(margin: EdgeInsets.only(left: 22 * ScaleWidth, right: 22 * ScaleWidth)),
-              MainTextLabel('上传时间：' + time,
+              MainTextLabel('上传时间：${time}',
                   textColor: Color(0xFF7D7D7D),
                   margin: EdgeInsets.only(top: 18 * ScaleWidth, left: 36 * ScaleWidth, right: 36 * ScaleWidth, bottom: 30 * ScaleWidth)),
             ],

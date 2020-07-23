@@ -54,7 +54,7 @@ class TestPageState extends State<TestPage> {
     views.add(people);
     views.add(testTime);
     if (type != TestType.loading) {
-      Widget fenshu = MainTextLabel('考试分数：' + num.toString(),
+      Widget fenshu = MainTextLabel('考试分数：${num}',
           margin: EdgeInsets.only(top: 16 * ScaleWidth), textColor: num >= 60 ? Color(0xFF7D7D7D) : ErrorColor);
       views.add(fenshu);
     }

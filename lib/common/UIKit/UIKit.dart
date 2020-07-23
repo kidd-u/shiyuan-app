@@ -701,6 +701,7 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true, Lis
       title,
       style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),
     ),
+    brightness: Brightness.light,
     flexibleSpace: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

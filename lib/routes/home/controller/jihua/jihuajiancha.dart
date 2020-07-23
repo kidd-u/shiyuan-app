@@ -61,6 +61,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
   Widget buildAppBar(BuildContext context) {
     return new AppBar(
       title: segmented(),
+      brightness: Brightness.light,
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

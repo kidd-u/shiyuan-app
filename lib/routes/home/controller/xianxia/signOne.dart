@@ -30,7 +30,7 @@ class SignOneState extends State<SignOnePage> {
   }
 
   void loadDetail() async {
-    var res = await HttpUtil.get('/process/offline/summary/' + widget.procId);
+    var res = await HttpUtil.get('/process/offline/summary/${widget.procId}');
     setState(() {
       _dataArray = res['summary'];
       _isTapSign = res['signMethod'] == 'QECODE';
@@ -46,7 +46,7 @@ class SignOneState extends State<SignOnePage> {
     }
     print(src);
     var res = await HttpUtil.put(
-      '/process/offline/sign/' + widget.procId,
+      '/process/offline/sign/${widget.procId}',
       params: {
         'signDigit': {'type': 'IMAGE', 'src': src},
       },

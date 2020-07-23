@@ -102,7 +102,7 @@ class WorkTestRadioState extends State<WorkTestRadio> {
                         ),
                         Expanded(
                           child: MainTextLabel(
-                            e['no'] + '、' + e['content'],
+                            '${e['no']}、${e['content']}',
                             maxLines: 999,
                             margin: EdgeInsets.only(left: 21 * ScaleWidth),
                           ),

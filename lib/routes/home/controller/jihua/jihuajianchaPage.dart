@@ -142,7 +142,7 @@ class JiHuaPageState extends State<JiHuaPage> {
             String key = element['key'];
             String value = _content[index][key];
             if (key != 'name') {
-              items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+              items.add(MainTextLabel('${text}: ${value}', margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
             }
           });
 

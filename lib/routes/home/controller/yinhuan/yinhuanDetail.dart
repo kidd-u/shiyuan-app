@@ -45,7 +45,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
   }
 
   void loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + _procId);
+    var res = await HttpUtil.get('/process/common/detail/${_procId}');
     setState(() {
       _dataArray = res;
     });
@@ -53,7 +53,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
 
   ///历史回复
   void loadHistory() async {
-    var res = await HttpUtil.get('/process/dangerelimi/reply/all/' + _procId, params: {'page': 0, 'size': 9999});
+    var res = await HttpUtil.get('/process/dangerelimi/reply/all/${_procId}', params: {'page': 0, 'size': 9999});
     setState(() {
       _historyArray = res['content'];
     });
@@ -79,7 +79,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     if (_status == '待验收') {
       _formDic['isAccepted'] = _isAccepted;
     }
-    var res = await HttpUtil.post('/process/dangerelimi/todo/' + _taskId, params: _formDic);
+    var res = await HttpUtil.post('/process/dangerelimi/todo/${_taskId}', params: _formDic);
     await DialogUtil.toastSuccess('提交成功!');
     PageUtil.pop(true);
   }
@@ -194,7 +194,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: MainTitleLabel(type + '：' + UserInfo.userInfo.name),
+                        child: MainTitleLabel('${type}：${UserInfo.userInfo.name}'),
                       ),
                     ],
                   ),

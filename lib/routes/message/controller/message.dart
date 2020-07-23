@@ -51,6 +51,7 @@ class Page extends State<MessagePage> {
   }
 
   didSelectRow(Map item) {
+    print(item);
     String type = item['taskInfo']['type'];
     String procTmplName = item['taskInfo']['procTmplName'];
     print(type);
@@ -80,13 +81,17 @@ class Page extends State<MessagePage> {
     } else if (procTmplName == 'SAFE_MEETING') {
       safeMetting(item);
     } else if (procTmplName == 'ONLINE_CLASS' || procTmplName == 'ONLINE_TEST') {
-      oc_test(item['taskInfo']);
+      if (type == 'OC_AUDIT') {
+        PageUtil.push('xianshangpeixun', arguments: item['taskInfo']);
+      } else {
+        oc_test(item['taskInfo']);
+      }
     } else {
       DialogUtil.dialogAlert('不支持的消息类型');
     }
     HttpUtil.post('/message/read/${item['id']}');
-//    refreshViewController.callRefresh();
-//    onRefresh();
+    onRefresh();
+    EventBusUtil.getInstance().fire(PageEvent(name: 'Message', data: {}));
   }
 
   oc_test(Map item) async {
@@ -139,6 +144,8 @@ class Page extends State<MessagePage> {
           'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
         });
       }
+//      Map arg={'paper': paper, 'contents': contents, 'title': '在线考试', 'id': item['id'], 'page': PageUtil.currentPage(context)};
+//      print(arg);
       PageUtil.push('zaixiankaoshi',
           arguments: {'paper': paper, 'contents': contents, 'title': '在线考试', 'id': item['id'], 'page': PageUtil.currentPage(context)});
     }
@@ -337,6 +344,7 @@ class Page extends State<MessagePage> {
           '消息',
           style: TextStyle(color: Colors.black),
         ),
+        brightness: Brightness.light,
         backgroundColor: Colors.white);
   }
 

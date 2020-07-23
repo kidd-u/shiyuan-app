@@ -116,7 +116,7 @@ class HomeWorkPageState extends State<HomeWorkPage> {
       String key = element['key'];
       String value = item[key];
       if (key != 'target') {
-        items.add(MainTextLabel(text + ': ' + value, margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
+        items.add(MainTextLabel('${text}: ${value}', margin: EdgeInsets.only(bottom: 16 * ScaleWidth)));
       }
     });
     return Container(

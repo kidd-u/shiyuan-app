@@ -45,11 +45,11 @@ class qiniuUtil {
     FormData data = new FormData.fromMap({
       'token': qiniuUtil().token,
       'file': MultipartFile.fromBytes(bytes),
-      'key': timer + '.' + ary.last,
+      'key': '${timer}.${ary.last}',
     });
     Options options = new Options(contentType: 'multipart/form-data');
     dio.post('http://upload.qiniup.com', data: data, options: options).then((res) {
-      String src = qiniuUtil().cdn + '/' + res.data['key'];
+      String src = '${qiniuUtil().cdn}/${res.data['key']}';
       completer.complete(src);
     }).catchError((err) {
       completer.completeError(err);
@@ -149,14 +149,14 @@ class SelectImageState extends State<SelectImage> {
     FormData data = new FormData.fromMap({
       'token': qiniuUtil().token,
       'file': MultipartFile.fromBytes(bytes),
-      'key': timer + '.' + ary.last,
+      'key': '${timer}.${ary.last}',
     });
     Options options = new Options(contentType: 'multipart/form-data');
     dio.post('http://upload.qiniup.com', data: data, options: options).then((res) {
       print('上传成功');
       print(res);
       setState(() {
-        widget.src = qiniuUtil().cdn + '/' + res.data['key'];
+        widget.src = '${qiniuUtil().cdn}/${res.data['key']}';
         print(widget.src);
         _isUploading = false;
         _uploadFailed = false;

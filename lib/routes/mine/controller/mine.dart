@@ -222,6 +222,7 @@ class Page extends State<MinePage> {
           '登录',
           style: TextStyle(color: Colors.black),
         ),
+        brightness: Brightness.light,
         backgroundColor: Colors.white);
   }
 

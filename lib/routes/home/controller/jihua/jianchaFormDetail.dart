@@ -40,14 +40,14 @@ class JianChaFormDetailState extends State<JianChaFormDetailPage> {
   }
 
   void loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + widget.procId);
+    var res = await HttpUtil.get('/process/common/detail/${widget.procId}');
     setState(() {
       _dataArray = res;
     });
   }
 
   void loadDoneForm() async {
-    var res = await HttpUtil.get('/process/safecheck/done/detail/' + widget.recordId);
+    var res = await HttpUtil.get('/process/safecheck/done/detail/${widget.recordId}');
     setState(() {
       _formData = res;
       if (_formData.containsKey('format')) {

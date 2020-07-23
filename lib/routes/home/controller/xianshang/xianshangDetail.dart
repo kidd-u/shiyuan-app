@@ -32,7 +32,7 @@ class XianShangDetailState extends State<XianShangDetailPage> {
   }
 
   loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + _procId);
+    var res = await HttpUtil.get('/process/common/detail/${_procId}');
     setState(() {
       _dataArray = res;
     });

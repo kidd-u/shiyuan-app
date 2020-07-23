@@ -48,7 +48,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
   }
 
   loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + _procId);
+    var res = await HttpUtil.get('/process/common/detail/${_procId}');
     setState(() {
       _dataArray = res;
     });
@@ -56,14 +56,14 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
 
   ///历史回复
   void loadHistory() async {
-    var res = await HttpUtil.get('/process/work/history/' + _procId, params: {'page': 0, 'size': 9999});
+    var res = await HttpUtil.get('/process/work/history/${_procId}', params: {'page': 0, 'size': 9999});
     setState(() {
       _historyArray = res;
     });
   }
 
   loadForm() async {
-    var res = await HttpUtil.get('/process/work/todo/' + _taskId);
+    var res = await HttpUtil.get('/process/work/todo/${_taskId}');
     List forms = res['forms'];
     for (int i = 0; i < forms.length; i++) {
       Map item = forms[i];
@@ -94,7 +94,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
     }
     await DialogUtil.dialogConfim('是否确定提交?');
     DialogUtil.showLoading();
-    var res = await HttpUtil.post('/process/work/todo/' + _taskId, params: {'forms': _forms});
+    var res = await HttpUtil.post('/process/work/todo/${_taskId}', params: {'forms': _forms});
     await DialogUtil.toastSuccess('提交成功!');
     PageUtil.pop(true);
   }
@@ -288,7 +288,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
             width: 680 * ScaleWidth,
             child: Column(
               children: <Widget>[
-                WorkTitle(title: _peopleType + '：' + UserInfo.userInfo.name, fontWeight: FontWeight.w400, showBottomLine: false),
+                WorkTitle(title: '${_peopleType}：${UserInfo.userInfo.name}', fontWeight: FontWeight.w400, showBottomLine: false),
                 LineView(),
                 ...views,
               ],

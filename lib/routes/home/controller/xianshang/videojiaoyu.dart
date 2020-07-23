@@ -37,11 +37,11 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
     super.initState();
     _attachments = widget.arguments['attachments'];
     _content = widget.arguments['content'];
-    _taskId = _content['id'];
+    _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
     String url = _attachments[0]['src'];
     _startTimer();
-    _controller = VideoPlayerController.network(url)
+    _controller = VideoPlayerController.network(Uri.encodeFull(url))
       ..initialize().then((_) {
         setState(() {});
       });
@@ -50,11 +50,11 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
   submit() async {
     if (!_clickable) return;
     await DialogUtil.dialogConfim('确定完成培训?');
-    var res = await HttpUtil.post('/process/online/material/' + _taskId, params: {'duration': _readTimes});
+    var res = await HttpUtil.post('/process/online/material/${_taskId}', params: {'duration': _readTimes});
     _cancelTimer();
     if (res == true) {
       DialogUtil.showLoading();
-      var res = await HttpUtil.get('/process/online/train/' + _content['id']);
+      var res = await HttpUtil.get('/process/online/train/${_content['id']}');
       if (res['type'] == 'OC_CLASS') {
         String type = res['material']['type'];
         Map material = res['material'];
@@ -71,14 +71,14 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
       } else {
         Map paper = res['paper'];
         DialogUtil.showLoading();
-        var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+        var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
             params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
         var TOF =
-            await HttpUtil.get('/process/online/test/' + paper['id'].toString(), params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+            await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
           List content = SINGLE['content'];
@@ -104,6 +104,7 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
             'answers': content.map((e) => {'id': e['id'], 'reply': '', 'isCorrect': false, 'type': 'TOF'}).toList()
           });
         }
+        _controller.pause();
         PageUtil.push('zaixiankaoshi', arguments: {'paper': paper, 'contents': contents, 'title': _title, 'page': widget.arguments['page']});
       }
     } else {

@@ -114,13 +114,13 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
     } else {
       Map paper = res['paper'];
       DialogUtil.showLoading();
-      var SINGLE = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+      var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
           params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var MULTI = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+      var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
           params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
       DialogUtil.showLoading();
-      var TOF = await HttpUtil.get('/process/online/test/' + paper['id'].toString(),
+      var TOF = await HttpUtil.get('/process/online/test/${paper['id']}',
           params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
       List contents = [];
       if (SINGLE['content'].length > 0) {

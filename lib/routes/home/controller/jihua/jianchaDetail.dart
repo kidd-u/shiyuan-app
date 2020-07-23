@@ -32,14 +32,14 @@ class JianChaDetailState extends State<JianChaDetailPage> {
   }
 
   loadDetail() async {
-    var res = await HttpUtil.get('/process/common/detail/' + widget.procId);
+    var res = await HttpUtil.get('/process/common/detail/${widget.procId}');
     setState(() {
       _dataArray = res;
     });
   }
 
   loadJainCha() async {
-    var res = await HttpUtil.get('/process/safecheck/done/summary/' + widget.procId);
+    var res = await HttpUtil.get('/process/safecheck/done/summary/${widget.procId}');
     setState(() {
       _formArray = res;
     });
@@ -88,7 +88,7 @@ class JianChaDetailState extends State<JianChaDetailPage> {
             margin: EdgeInsets.only(left: 45 * ScaleWidth),
           ),
           MainTitleLabel(
-            '检查记录（' + _formArray.length.toString() + '）',
+            '检查记录（${_formArray.length}）',
             margin: EdgeInsets.only(left: 15 * ScaleWidth),
           )
         ],

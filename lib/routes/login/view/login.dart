@@ -40,7 +40,6 @@ class LoginViewState extends State<LoginView> {
       'password':_password
     });
     UserInfo().setToken(token);
-//    var res = await HttpUtil().get('/account/staff/' + UserInfo().token().jwt);
     await DialogUtil.toastSuccess('登录成功');
     PageUtil.pushAndReplace('mainTabPage');
   }

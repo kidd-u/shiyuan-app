@@ -63,7 +63,7 @@ class ZaiXianKaoShiState extends State<ZaiXianKaoShiPage> {
     res['isAdmin'] = false;
     PageUtil.pushAndReplace('xianshangAnswer', arguments: res);
 //    PageUtil.popToName(widget.arguments['page']);
-    EventBusUtil.getInstance().fire(PageEvent(res));
+    EventBusUtil.getInstance().fire(PageEvent(name: 'xianshangPage',data: res));
   }
 
   @override
