@@ -37,6 +37,7 @@ import 'routes/home/controller/jihua/jianchaFormDetail.dart';
 import 'routes/home/controller/jihua/YinhuanAdd.dart';
 import 'routes/home/controller/xianxia/signOne.dart';
 import 'routes/home/controller/xianxia/signTwo.dart';
+import 'routes/home/controller/signBoard.dart';
 import 'routes/home/controller/xianxia/xianxiaList.dart';
 import 'routes/home/controller/qrcode.dart';
 import 'routes/home/controller/xianxia/xianxiaDetail.dart';
@@ -160,6 +161,7 @@ class MyApp extends StatelessWidget {
           'YinhuanAdd': (BuildContext context) => new YinhuanAddPage(arguments: ModalRoute.of(context).settings.arguments),
           'signOne': (BuildContext context) => new SignOnePage(procId: ModalRoute.of(context).settings.arguments),
           'signTwo': (BuildContext context) => new SignTwoPage(procId: ModalRoute.of(context).settings.arguments),
+          'signBoard': (BuildContext context) => new SignBoardPage(),
           'xianxiaList': (BuildContext context) => new XianXiaList(),
           'qrcode': (BuildContext context) => new QrCodePage(),
           'xianxiaDetail': (BuildContext context) => new XianXiaDetailPage(arguments: ModalRoute.of(context).settings.arguments),

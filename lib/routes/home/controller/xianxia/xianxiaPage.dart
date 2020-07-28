@@ -65,7 +65,7 @@ class XianXiaPageState extends State<XianXiaPage> {
     try {
       var res = await HttpUtil.get(
         '/process/common/task/summary',
-        params: {'type': widget.type, 'status': widget.status, 'keyword': _keyword, 'page': page, 'size': 15, 'sort': 'id'},
+        params: {'type': widget.type, 'status': widget.status, 'keyword': _keyword, 'page': page, 'size': 15},
       );
       List header = res['header'];
       List content = res['page']['content'];

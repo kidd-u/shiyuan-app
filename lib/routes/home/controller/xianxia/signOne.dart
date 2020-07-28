@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shiyuan/common/UIKit/SelectImage.dart';
 import 'package:shiyuan/common/WorkUI/work.dart';
@@ -23,6 +25,7 @@ GlobalKey<SignBoardState> signBoardKey = GlobalKey(debugLabel: 'signBoard');
 class SignOneState extends State<SignOnePage> {
   List _dataArray = [];
   bool _isTapSign = true;
+  String _path;
 
   void initState() {
     super.initState();
@@ -39,10 +42,10 @@ class SignOneState extends State<SignOnePage> {
 
   void sign() async {
     await DialogUtil.dialogConfim('确认提交签到?');
-    String src='';
+    String src = '';
     if (!_isTapSign) {
-      String path = signBoardKey.currentState.getImagePath();
-      src = await qiniuUtil.uploadAvatar(path);
+//      String path = signBoardKey.currentState.getImagePath();
+      src = await qiniuUtil.uploadAvatar(_path);
     }
     print(src);
     var res = await HttpUtil.put(
@@ -55,40 +58,35 @@ class SignOneState extends State<SignOnePage> {
     PageUtil.pop(true);
   }
 
+  void signBoard() async {
+    var res = await PageUtil.push('signBoard');
+    setState(() {
+      if (res != null) {
+        _path = res;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
+    return new Scaffold(
+      backgroundColor: BackgroundColor,
+      appBar: buildAppBar(context, '签到'),
+      body: new ListView(
+        padding: EdgeInsets.only(bottom: 40),
+        physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: new ListView(
-              padding: EdgeInsets.only(bottom: 40),
-              physics: new NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                ImageView(
-                  src: 'imgs/home/xianxia/signtop.png',
-                  width: ScreenWidth,
-                  height: 500 * ScaleWidth,
-                ),
-                ..._dataArray
-                    .map((e) => WorkSelect(
-                          title: e['name'],
-                          value: e['label'],
-                        ))
-                    .toList(),
-                ...getBottom(),
-              ],
-            ),
-          ),
-          navBar(window, '签到'),
+          ..._dataArray
+              .map((e) => WorkSelect(
+                    title: e['name'],
+                    value: e['label'],
+                  ))
+              .toList(),
+          ..._isTapSign ? [] : _path == null ? signTwoBottom() : signImage(),
+          ...signOneBottom(),
         ],
       ),
     );
-  }
-
-  List<Widget> getBottom() {
-    return _isTapSign ? signOneBottom() : signTwoBottom();
   }
 
   List<Widget> signOneBottom() {
@@ -117,7 +115,37 @@ class SignOneState extends State<SignOnePage> {
 
   List<Widget> signTwoBottom() {
     return [
-      WorkSelect(title: '电子签名:', value: '', showBottomLine: false),
+      WorkEmpty(
+        leftActions: [MainTitleLabel('签名')],
+        rightActions: [
+          MainTextLabel(
+            '点解签名',
+            textColor: MainDarkBlueColor,
+            onClick: (){
+              signBoard();
+            },
+          )
+        ],
+        showTopLine: false,
+      )
+    ];
+  }
+
+  List<Widget> signImage() {
+    return [
+      WorkEmpty(
+        leftActions: [MainTitleLabel('电子签名')],
+        rightActions: [
+          MainTextLabel(
+            '点解重签',
+            textColor: MainDarkBlueColor,
+            onClick: (){
+              signBoard();
+            },
+          )
+        ],
+        showTopLine: false,
+      ),
       Container(
         height: 226 * ScaleWidth,
         margin: EdgeInsets.only(top: 30 * ScaleWidth),
@@ -130,12 +158,17 @@ class SignOneState extends State<SignOnePage> {
                 height: 226 * ScaleWidth,
                 fit: BoxFit.fill,
               ),
-              SignBoard(key: signBoardKey),
+              Image.file(
+                File(_path),
+                width: 562 * ScaleWidth,
+                height: 226 * ScaleWidth,
+                fit: BoxFit.cover,
+              ),
             ],
           ),
         ),
       ),
-      signBtn(),
+//      signBtn(),
     ];
   }
 

@@ -24,7 +24,7 @@ class Page extends State<HomePage> {
 
   }
   getNet()async{
-    await UserInfo().getCache();
+    UserInfo().getCache();
     getNotice();
   }
 
