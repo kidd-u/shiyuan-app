@@ -69,7 +69,7 @@ class SpecialPeoplePageState extends State<SpecialPeoplePage> {
     try {
       var res = await HttpUtil.get(
         url,
-        params: {'keyword': _keyword, 'page': page, 'size': 15, 'sort': 'id'},
+        params: {'keyword': _keyword, 'page': page, 'size': 15},
       );
       List content = res['content'];
       setState(() {

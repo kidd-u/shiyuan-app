@@ -25,7 +25,7 @@ class WebViewState extends State<WebViewPage> {
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, ''),
       body: WebView(
-        initialUrl: widget.url,
+        initialUrl: Uri.encodeFull(widget.url),
         //JS执行模式 是否允许JS执行
         javascriptMode: JavascriptMode.unrestricted,
       ),

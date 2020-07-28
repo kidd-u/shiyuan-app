@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import './network_utils.dart';
 import 'package:shiyuan/states/default.dart';
 import './LogUtil.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:http/io_client.dart';
 
 class TokenInterceptor extends Interceptor {
   String token;
@@ -39,6 +43,7 @@ class HttpUtil {
   Dio dio;
   BaseOptions options;
 
+
   static HttpUtil _getInstance() {
     if (_instance == null) {
       _instance = new HttpUtil._internal();
@@ -50,21 +55,31 @@ class HttpUtil {
     LogUtil.d('初始化');
     // 初始化
     options = new BaseOptions(
-      baseUrl: 'http://47.105.133.198/safecoop/api',
-//      baseUrl: 'https://shiyuan.singsafety.cn/safecoop/api',
+//      baseUrl: 'http://47.105.133.198/safecoop/api',
+      baseUrl: 'https://shiyuan.singsafety.cn/safecoop/api',
       //连接服务器超时时间，单位是毫秒.
       connectTimeout: 30 * 1000,
       receiveTimeout: 30 * 1000,
       headers: {
         'Source': 'APP',
         'Authorization': UserInfo().token() != null ? UserInfo().token().jwt : '',
-      },
+  },
 
 //      contentType: ContentType.parse("multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL"),
 //      contentType: ContentType.parse('application/x-www-form-urlencoded'),
     );
     dio = new Dio(options);
     dio.transformer = new FlutterTransformer();
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      // config the http client
+//      client.findProxy = (uri) {
+//        return "PROXY 192.168.10.47:8888";//如果设置代理（localhost,127.0.0.1这样的是不行的。必须是电脑的ip）
+////        return 'DIRECT';// 如果不设置代理
+//      };
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;//忽略证书
+    };
   }
 
   setHeader() {

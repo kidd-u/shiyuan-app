@@ -68,7 +68,7 @@ class FaLvPageState extends State<FaLvPage> {
     try {
       var res = await HttpUtil.get(
         '/law/summary',
-        params: {'status': widget.title, 'keyword': _keyword, 'page': page, 'size': 15, 'sort': 'id'},
+        params: {'status': widget.title, 'keyword': _keyword, 'page': page, 'size': 15},
       );
       List content = res['content'];
       setState(() {

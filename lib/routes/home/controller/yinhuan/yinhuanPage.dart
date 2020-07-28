@@ -46,7 +46,7 @@ class YinHuanPageState extends State<YinHuanPage> {
     try {
       var res = await HttpUtil.get(
         '/process/common/task/summary',
-        params: {'type': widget.type, 'status': widget.status, 'page': page, 'size': 15, 'sort': 'id'},
+        params: {'type': widget.type, 'status': widget.status, 'page': page, 'size': 15},
       );
       List header = res['header'];
       List content = res['page']['content'];
