@@ -8,14 +8,42 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui show ImageByteFormat, Image;
 import 'package:shiyuan/states/default.dart';
 
-/// Created On 2019/12/7
-/// Description: 签名画板并截图
-///
+class SignBoardController {
+  SignBoardState _state;
+
+  bindState(SignBoardState state) {
+    _state = state;
+  }
+  clear(){
+    _state.clear();
+  }
+  save()async{
+    await _state.save();
+  }
+  String getImagePath(){
+    return _state.getImagePath();
+  }
+}
+
 class SignBoard extends StatefulWidget {
-  const SignBoard({Key key}) : super(key: key);
+  const SignBoard({
+    Key key,
+    this.width,
+    this.height,
+    this.controller,
+  }) : super(key: key);
+  final double width;
+  final double height;
+  final SignBoardController controller;
 
   @override
-  SignBoardState createState() => SignBoardState();
+  SignBoardState createState() {
+    SignBoardState state = SignBoardState();
+    if (controller != null) {
+      controller.bindState(state);
+    }
+    return state;
+  }
 }
 
 class SignBoardState extends State<SignBoard> {
@@ -43,7 +71,7 @@ class SignBoardState extends State<SignBoard> {
     });
   }
 
-   save() async {
+  save() async {
     File toFile = await _saveImageToFile();
     String toPath = await _capturePng(toFile);
     print('Signature Image Path: $toPath');
@@ -52,7 +80,7 @@ class SignBoardState extends State<SignBoard> {
     });
   }
 
-  getImagePath() {
+  String getImagePath() {
     if (_imageLocalPath != null && _imageLocalPath.length > 0) {
       return _imageLocalPath;
     }
@@ -63,8 +91,8 @@ class SignBoardState extends State<SignBoard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 562 * ScaleWidth,
-      height: 226 * ScaleWidth,
+      width: widget.width ?? 562 * ScaleWidth,
+      height: widget.height ?? 226 * ScaleWidth,
       child: RepaintBoundary(
         key: _globalKey,
         child: Stack(
