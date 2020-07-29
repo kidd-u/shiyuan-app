@@ -15,7 +15,7 @@ class RegisterView extends StatefulWidget {
 }
 
 class RegisterViewState extends State<RegisterView> {
-  String _yaoqingCode, _account, _passWord, _passWord2, _name, _idCard, _phone;
+  String _yaoqingCode, _account, _passWord, _passWord2, _name, _phone;
 
   void initState() {
     super.initState();
@@ -42,10 +42,6 @@ class RegisterViewState extends State<RegisterView> {
       DialogUtil.dialogAlert('请填写姓名');
       return;
     }
-    if (_idCard == null || _idCard == '') {
-      DialogUtil.dialogAlert('请填写身份证号');
-      return;
-    }
     if (_passWord != _passWord2) {
       DialogUtil.dialogAlert('两次输入密码不一致');
       return;
@@ -58,7 +54,7 @@ class RegisterViewState extends State<RegisterView> {
         "userName": _account,
         "password": _passWord,
         "name": _name,
-        "idCard": _idCard,
+        "idCard": '',
         "phone": _phone ?? '',
       },
     );
@@ -106,12 +102,6 @@ class RegisterViewState extends State<RegisterView> {
               src: 'imgs/login/xingming.png',
               onChange: (text) {
                 _name = text;
-              }),
-          yaoqingCode(
-              title: '身份证号:',
-              src: 'imgs/login/shenfenzhenghao.png',
-              onChange: (text) {
-                _idCard = text;
               }),
           phoneInput(onChange: (text) {
             _phone = text;

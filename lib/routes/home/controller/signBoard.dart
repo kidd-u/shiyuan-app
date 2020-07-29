@@ -39,7 +39,6 @@ class SignBoardPageState extends State<SignBoardPage> {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-
               Positioned(
                 child: SignBoard(
                   controller: controller,
@@ -48,40 +47,48 @@ class SignBoardPageState extends State<SignBoardPage> {
                 ),
               ),
               Positioned(
-                top: 15 * ScaleWidth,
-                left: 15 * ScaleWidth,
-                width: 272 * ScaleWidth,
-                height: 80 * ScaleWidth,
-                child: WorkButtonCancel(
-                  title: '返回',
+                top: 25 * ScaleWidth,
+                left: 35 * ScaleWidth,
+                width: 44 * ScaleWidth,
+                height: 44 * ScaleWidth,
+                child: ImageView(
+                  src: 'imgs/home/xianxia/fanhui.png',
+                  width: 44 * ScaleWidth,
+                  height: 44 * ScaleWidth,
+                  fit: BoxFit.contain,
                   onClick: () {
                     PageUtil.pop();
                   },
                 ),
               ),
               Positioned(
-                top: 15 * ScaleWidth,
-//                left: 15 * ScaleWidth,
-                width: 272 * ScaleWidth,
-                height: 80 * ScaleWidth,
-                child: WorkButtonCancel(
-                  title: '清除',
+                top: 25 * ScaleWidth,
+                right: 105 * ScaleWidth,
+                width: 44 * ScaleWidth,
+                height: 44 * ScaleWidth,
+                child: ImageView(
+                  src: 'imgs/home/xianxia/qingchu.png',
+                  width: 44 * ScaleWidth,
+                  height: 44 * ScaleWidth,
+                  fit: BoxFit.contain,
                   onClick: () {
                     controller.clear();
                   },
                 ),
               ),
               Positioned(
-                top: 15 * ScaleWidth,
-                right: 15 * ScaleWidth,
-                width: 272 * ScaleWidth,
-                height: 80 * ScaleWidth,
-                child: WorkButtonDone(
-                  title: '完成',
-                  margin: EdgeInsets.only(left: 56 * ScaleWidth),
-                  onClick: () async {
+                top: 25 * ScaleWidth,
+                right: 35 * ScaleWidth,
+                width: 44 * ScaleWidth,
+                height: 44 * ScaleWidth,
+                child: ImageView(
+                  src: 'imgs/home/xianxia/wancheng.png',
+                  width: 44 * ScaleWidth,
+                  height: 44 * ScaleWidth,
+                  fit: BoxFit.contain,
+                  onClick: () async{
                     await controller.save();
-                    String path=controller.getImagePath();
+                    String path = controller.getImagePath();
                     print(path);
                     PageUtil.pop(path);
                   },
