@@ -18,7 +18,7 @@ class WenDangJiaoYuPage extends StatefulWidget {
 }
 
 class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
-  int _seconds = 60;
+  int _seconds = 0;
   Timer _timer;
   String _vftext = '';
   bool _clickable = false;
@@ -33,6 +33,9 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
     _content = widget.arguments['content'];
     _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
+    int duration = widget.arguments['duration'];
+    _seconds = duration * 60;
+    print('培训时间${_seconds}');
     _startTimer();
   }
   submit() async {

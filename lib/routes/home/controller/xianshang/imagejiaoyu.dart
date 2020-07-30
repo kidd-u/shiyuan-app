@@ -23,7 +23,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
   Map _content = {};
   int _index = 0;
   String _taskId = '';
-  int _seconds = 60;
+  int _seconds = 0;
   int _readTimes = 0;
   Timer _timer;
   String _vftext = '';
@@ -38,6 +38,9 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
     _content = widget.arguments['content'];
     _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
+    int duration = widget.arguments['duration'];
+    _seconds = duration * 60;
+    print('培训时间${_seconds}');
     _images=_attachments.map((e) => e['src']).toList();
     _startTimer();
   }

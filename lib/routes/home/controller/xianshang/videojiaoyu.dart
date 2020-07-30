@@ -23,7 +23,7 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
   VideoPlayerController _controller;
 
   // bool _isPlaying = false;
-  int _seconds = 60;
+  int _seconds = 0;
   Timer _timer;
   String _vftext = '';
   bool _clickable = false;
@@ -39,6 +39,9 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
     _content = widget.arguments['content'];
     _taskId = '${_content['id']}';
     _title = widget.arguments['title'];
+    int duration = widget.arguments['duration'];
+    _seconds = duration * 60;
+    print('培训时间${_seconds}');
     String url = _attachments[0]['src'];
     _startTimer();
     _controller = VideoPlayerController.network(Uri.encodeFull(url))
@@ -71,14 +74,11 @@ class VideoJiaoYuState extends State<VideoJiaoYuPage> {
       } else {
         Map paper = res['paper'];
         DialogUtil.showLoading();
-        var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}',
-            params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
+        var SINGLE = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'SINGLE', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}',
-            params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
+        var MULTI = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'MULTI', 'page': 0, 'size': paper['totalQustions']});
         DialogUtil.showLoading();
-        var TOF =
-            await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
+        var TOF = await HttpUtil.get('/process/online/test/${paper['id']}', params: {'type': 'TOF', 'page': 0, 'size': paper['totalQustions']});
         List contents = [];
         if (SINGLE['content'].length > 0) {
           List content = SINGLE['content'];
