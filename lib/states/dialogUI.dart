@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shiyuan/states/default.dart';
 import 'package:flutter/cupertino.dart';
 
 class DialogBounceAnimation extends StatefulWidget {

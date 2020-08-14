@@ -5,26 +5,7 @@ import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import './network_utils.dart';
 import 'package:shiyuan/states/default.dart';
 import './LogUtil.dart';
-import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'package:http/io_client.dart';
-
-class TokenInterceptor extends Interceptor {
-  String token;
-
-  @override
-  onRequest(RequestOptions options) {
-    if (token != null) {
-      options.queryParameters["session_uuid"] = token;
-    }
-  }
-
-  @override
-  onError(DioError err) {}
-
-  @override
-  onResponse(Response response) {}
-}
 
 class NetworkError {
   int errorCode;
