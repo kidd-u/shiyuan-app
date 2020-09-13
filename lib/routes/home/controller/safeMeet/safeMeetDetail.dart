@@ -62,23 +62,41 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
     var res = await HttpUtil.post('/process/offline/todo/${_taskId}', params: {'forms': _forms});
     PageUtil.pop(true);
   }
+  void scan() async {
+    var res = await PageUtil.push('qrcode');
+    print(res);
+    Map params = Filter.jsonDeCode(res);
+    String procId = params['procId'].toString();
+    bool refresh = await PageUtil.push('signOne', arguments: procId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget btn = Button(
-      child: Text(
-        '确定',
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.white,
-          fontWeight: FontWeight.w400,
-        ),
+    Widget btn=CenterLabel('确定',fontSize: 14,textColor: Colors.white,onClick: ()=>submit(),);
+//    Widget btn = Button(
+//      child: Text(
+//        '确定',
+//        style: TextStyle(
+//          fontSize: 14,
+//          color: Colors.white,
+//          fontWeight: FontWeight.w400,
+//        ),
+//      ),
+//      onPressed: () => submit(),
+//    );
+    Widget rightBtn = Button(
+      child: ImageView(
+        src: 'imgs/home/xianxia/scan.png',
+        width: 42 * ScaleWidth,
+        height: 42 * ScaleWidth,
       ),
-      onPressed: () => submit(),
+      onPressed: () async {
+        scan();
+      },
     );
     return new Scaffold(
       backgroundColor: BackgroundColor,
-      appBar: buildAppBar(context, '安全会务详情', actions: _status == '待审核' || _status == '待上传' ? [btn] : []),
+      appBar: buildAppBar(context, '安全会务详情', actions: _status == '待审核' || _status == '待上传' ? [btn,rightBtn] : [rightBtn]),
       body: new ListView(
         physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
         children: <Widget>[

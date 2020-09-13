@@ -147,7 +147,7 @@ class WorkUtil {
           bool required = params['config']['required'];
           bool disabled = params['config']['disabled'];
           var label = params['label'];
-          return WorkWorkPeoples(value: Filter.jsonDeCode(label)??[], must: required, enable: !disabled, onChange: (value) => onChange(value));
+          return WorkWorkPeoples(name: name,value: Filter.jsonDeCode(label)??[], must: required, enable: !disabled, onChange: (value) => onChange(value));
         }
         break;
 

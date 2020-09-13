@@ -15,6 +15,7 @@ class WorkWorkPeoples extends StatefulWidget {
     this.must = false,
     this.showBorder = true,
     this.paddingTop = 0,
+    this.name='作业人信息',
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
@@ -24,6 +25,7 @@ class WorkWorkPeoples extends StatefulWidget {
   final bool showBorder; //是否显示边框
   final double paddingTop;
   final bool must;
+  final String name;
 
   @override
   State<StatefulWidget> createState() {
@@ -64,7 +66,7 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
             showBottomLine: false,
             leftActions: [
               ...widget.must ? [MainTitleLabel('*', textColor: WarningColor)] : [],
-              MainTitleLabel('动火人信息：')
+              MainTitleLabel('${widget.name}：')
             ],
             rightActions: [
               ...widget.enable
@@ -108,20 +110,20 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
 
     return [
       WorkTitleWithDelete(
-        title: '动火人信息${index + 1}',
+        title: '${widget.name}${index + 1}',
         enbale: widget.enable,
         onDelete: () async {
           print('=====');
-          await DialogUtil.dialogConfim('确认删除动火人信息?');
+          await DialogUtil.dialogConfim('确认删除${widget.name}?');
           setState(() {
             _value.removeAt(index);
           });
         },
       ),
       WorkInput(
-          title: '动火人：',
+          title: '作业人：',
           value: _value[index]['fileName'],
-          placehoder: '请输入动火人',
+          placehoder: '请输入作业人',
           enable: widget.enable,
           onChange: (text) {
             _value[index]['fileName'] = text;

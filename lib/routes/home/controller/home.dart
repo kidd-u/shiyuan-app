@@ -121,9 +121,6 @@ class Page extends State<HomePage> {
                     width: 38 * ScaleWidth,
                     height: 38 * ScaleWidth,
                     margin: EdgeInsets.only(bottom: 6 * ScaleWidth),
-                    onClick: () {
-                      DialogUtil.showToast('111');
-                    },
                   ),
                 ),
               ),

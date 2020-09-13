@@ -82,7 +82,7 @@ class SignOneState extends State<SignOnePage> {
                     value: e['label'],
                   ))
               .toList(),
-          ..._isTapSign ? [] : _path == null ? signTwoBottom() : signImage(),
+          ..._path == null ? signTwoBottom() : signImage(),
           ...signOneBottom(),
         ],
       ),
@@ -119,7 +119,7 @@ class SignOneState extends State<SignOnePage> {
         leftActions: [MainTitleLabel('签名')],
         rightActions: [
           MainTextLabel(
-            '点解签名',
+            '点击签名',
             textColor: MainDarkBlueColor,
             onClick: (){
               signBoard();
@@ -137,7 +137,7 @@ class SignOneState extends State<SignOnePage> {
         leftActions: [MainTitleLabel('电子签名')],
         rightActions: [
           MainTextLabel(
-            '点解重签',
+            '点击重签',
             textColor: MainDarkBlueColor,
             onClick: (){
               signBoard();

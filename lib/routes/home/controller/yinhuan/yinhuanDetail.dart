@@ -37,7 +37,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
     _status = widget.arguments['status'];
     _procId = widget.arguments['procId'];
     _taskId = widget.arguments['taskId'];
-    _showForm = _status == '待整改' || _status == '待验收' ? true : false;
+    _showForm = _status == '待整改' || _status == '待验收' || _status == '已超期'? true : false;
     _showBtns = _status == '待验收' ? true : false;
     _showSubmit = _status == '已办结' ? false : true;
     loadDetail();
@@ -61,7 +61,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
 
   void submit() async {
     LogUtil.d(Filter.toJson(_formDic));
-    if (_status == '待整改') {
+    if (_status == '待整改' || _status == '待验收' || _status == '已超期') {
       if (_formDic['reply'] == null || _formDic['reply'] == '') {
         DialogUtil.dialogAlert('回复内容为必填!');
         return;
