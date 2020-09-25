@@ -58,6 +58,14 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
 
   submit() async {
     LogUtil.d(Filter.toJson(_forms));
+    for (int i = 0; i < _forms.length; i++) {
+      Map params = _forms[i];
+      if (params['value'] == null || params['value'].length == 0) {
+        String title = params['name'];
+        DialogUtil.dialogAlert('【$title】为必填项');
+        return;
+      }
+    }
     await DialogUtil.dialogConfim('是否确定提交?');
     var res = await HttpUtil.post('/process/offline/todo/${_taskId}', params: {'forms': _forms});
     PageUtil.pop(true);

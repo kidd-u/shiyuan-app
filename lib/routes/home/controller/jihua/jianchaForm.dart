@@ -55,8 +55,43 @@ class JianChaFormState extends State<JianChaFormPage> {
         _FORMAT = format;
         _format = format.toLowerCase() ?? '';
         _style = _formData[_format];
+        if(_format.toLowerCase() == 'style1'){
+          for (int i = 0; i < _style.length; i++) {
+            Map params = _style[i];
+            List content = params['content'];
+            for (int i = 0; i < content.length; i++) {
+              setState(() {
+                content[i]['value'] = 0;
+              });
+            }
+          }
+        }
       }
     });
+  }
+  void changeCard1() {
+    for (int i = 0; i < _style.length; i++) {
+      Map params = _style[i];
+      List content = params['content'];
+      for (int i = 0; i < content.length; i++) {
+        setState(() {
+          content[i]['value'] = 1;
+        });
+      }
+    }
+    DialogUtil.showToast('已符合');
+  }
+
+  void changeCard3() {
+    for (int i = 0; i < _style.length; i++) {
+      Map params = _style[i];
+      if (params['type'] == 'SELECT') {
+        setState(() {
+          _style[i]['value'] = params['options'][0];
+        });
+      }
+    }
+    DialogUtil.showToast('已符合');
   }
 
   void submit() async {
@@ -192,29 +227,6 @@ class JianChaFormState extends State<JianChaFormPage> {
       ],
       rightActions: <Widget>[...actions],
     );
-  }
-
-  void changeCard1() {
-    for (int i = 0; i < _style.length; i++) {
-      Map params = _style[i];
-      List content = params['content'];
-      for (int i = 0; i < content.length; i++) {
-        setState(() {
-          content[i]['value'] = 1;
-        });
-      }
-    }
-  }
-
-  void changeCard3() {
-    for (int i = 0; i < _style.length; i++) {
-      Map params = _style[i];
-      if (params['type'] == 'SELECT') {
-        setState(() {
-          _style[i]['value'] = params['options'][0];
-        });
-      }
-    }
   }
 
   ///执行标准样式

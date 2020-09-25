@@ -47,7 +47,7 @@ class SignBoardPageState extends State<SignBoardPage> {
                 ),
               ),
               Positioned(
-                top: 25 * ScaleWidth,
+                bottom: 30 * ScaleWidth,
                 left: 35 * ScaleWidth,
                 width: 44 * ScaleWidth,
                 height: 44 * ScaleWidth,
@@ -62,7 +62,7 @@ class SignBoardPageState extends State<SignBoardPage> {
                 ),
               ),
               Positioned(
-                top: 25 * ScaleWidth,
+                bottom: 30 * ScaleWidth,
                 right: 105 * ScaleWidth,
                 width: 44 * ScaleWidth,
                 height: 44 * ScaleWidth,
@@ -77,7 +77,7 @@ class SignBoardPageState extends State<SignBoardPage> {
                 ),
               ),
               Positioned(
-                top: 25 * ScaleWidth,
+                bottom: 30 * ScaleWidth,
                 right: 35 * ScaleWidth,
                 width: 44 * ScaleWidth,
                 height: 44 * ScaleWidth,
