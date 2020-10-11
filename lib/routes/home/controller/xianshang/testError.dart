@@ -40,7 +40,7 @@ class TestErrorState extends State<TestErrorPage> {
                 textColor: ErrorColor,
                 margin: EdgeInsets.only(right: 22 * ScaleWidth),
               ),
-              TextButton(
+              TextBtn(
                 '点击补考',
                 width: 130 * ScaleWidth,
                 height: 52 * ScaleWidth,

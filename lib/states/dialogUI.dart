@@ -14,14 +14,16 @@ class DialogBounceAnimation extends StatefulWidget {
   }
 }
 
-class DialogBounceAnimationState extends State<DialogBounceAnimation> with SingleTickerProviderStateMixin {
+class DialogBounceAnimationState extends State<DialogBounceAnimation>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   double _scale = 0.8;
 
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(milliseconds: 150), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 150));
     _animation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 0.8, end: 1.2), weight: 1),
       TweenSequenceItem(tween: Tween(begin: 1.1, end: 1.0), weight: 1),
@@ -74,7 +76,8 @@ class DialogBottomSheetAnimation extends StatefulWidget {
   }
 }
 
-class DialogBottomSheetAnimationState extends State<DialogBottomSheetAnimation> with SingleTickerProviderStateMixin {
+class DialogBottomSheetAnimationState extends State<DialogBottomSheetAnimation>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _animation;
   double _bottom = 0;
@@ -82,7 +85,8 @@ class DialogBottomSheetAnimationState extends State<DialogBottomSheetAnimation> 
   void initState() {
     super.initState();
     _bottom = -widget.height;
-    _controller = AnimationController(duration: const Duration(milliseconds: 150), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 150));
     _animation = Tween(begin: -widget.height, end: 0.0).animate(_controller)
       ..addListener(() {
         setState(() {

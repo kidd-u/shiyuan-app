@@ -15,7 +15,7 @@ class WorkWorkPeoples extends StatefulWidget {
     this.must = false,
     this.showBorder = true,
     this.paddingTop = 0,
-    this.name='作业人信息',
+    this.name = '作业人信息',
   }) : super(key: key);
   final EdgeInsets margin;
   final Color color;
@@ -65,13 +65,15 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
             showTopLine: false,
             showBottomLine: false,
             leftActions: [
-              ...widget.must ? [MainTitleLabel('*', textColor: WarningColor)] : [],
+              ...widget.must
+                  ? [MainTitleLabel('*', textColor: WarningColor)]
+                  : [],
               MainTitleLabel('${widget.name}：')
             ],
             rightActions: [
               ...widget.enable
                   ? [
-                      TextButton(
+                      TextBtn(
                         '新增',
                         textColor: Colors.white,
                         fontSize: 24 * ScaleWidth,
@@ -79,7 +81,8 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
                         height: 50 * ScaleWidth,
                         decoration: new BoxDecoration(
                           color: NormalColor,
-                          borderRadius: BorderRadius.all(Radius.circular(5 * ScaleWidth)),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(5 * ScaleWidth)),
                         ),
                         onPressed: () {
                           setState(() {
@@ -107,7 +110,6 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
   }
 
   List<Widget> items(int index) {
-
     return [
       WorkTitleWithDelete(
         title: '${widget.name}${index + 1}',
@@ -147,7 +149,10 @@ class WorkWorkPeoplesState extends State<WorkWorkPeoples> {
               SelectImage(
                 width: 136 * ScaleWidth,
                 heidht: 136 * ScaleWidth,
-                margin: EdgeInsets.only(left: 30 * ScaleWidth, top: 20 * ScaleWidth, bottom: 20 * ScaleWidth),
+                margin: EdgeInsets.only(
+                    left: 30 * ScaleWidth,
+                    top: 20 * ScaleWidth,
+                    bottom: 20 * ScaleWidth),
                 enabled: widget.enable,
                 src: _value[index]['url'],
                 onChange: (value) {

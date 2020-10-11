@@ -138,7 +138,7 @@ class JianChaFormDetailState extends State<JianChaFormDetailPage> {
                             //边框设置
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [Color.fromRGBO(255, 255, 255, 0.7), Colors.white],
+                                List: [Color.fromRGBO(255, 255, 255, 0.7), Colors.white],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                               ),

@@ -323,7 +323,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextButton(
+            child: TextBtn(
               '不通过',
               textColor: _isAccepted ? WarningColor : Colors.white, //边框设置
               fontSize: 28 * ScaleWidth,
@@ -340,7 +340,7 @@ class YinHuanDetailState extends State<YinHuanDetailPage> {
             ),
           ),
           Expanded(
-            child: TextButton(
+            child: TextBtn(
               '通过',
               margin: EdgeInsets.only(left: 30 * ScaleWidth),
               textColor: _isAccepted ? Colors.white : MainDarkBlueColor,

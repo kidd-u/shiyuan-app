@@ -23,7 +23,7 @@ class QrCodeState extends State<QrCodePage> with TickerProviderStateMixin{
       PageUtil.pop(data);
     });
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+        AnimationController(duration: Duration(seconds: 1));
     _animation =
     AlignmentTween(begin: Alignment.topCenter, end: Alignment.bottomCenter)
         .animate(_animationController)

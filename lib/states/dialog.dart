@@ -297,7 +297,7 @@ class DialogUtil {
                   fontWeight: FontWeight.bold,
                   textColor: MainBlueColor,
                 ),
-                TextButton(
+                TextBtn(
                   '确定',
                   textColor: Colors.white,
                   width: 386 * ScaleWidth,
@@ -368,7 +368,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -383,7 +383,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
@@ -453,7 +453,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -468,7 +468,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
@@ -538,7 +538,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -553,7 +553,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
@@ -632,7 +632,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -647,7 +647,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
@@ -718,7 +718,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -733,7 +733,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,
@@ -812,7 +812,7 @@ class DialogUtil {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '取消',
                             fontSize: 30 * ScaleWidth,
                             textColor: Colors.black,
@@ -827,7 +827,7 @@ class DialogUtil {
                           width: 0.5,
                         ),
                         Expanded(
-                          child: TextButton(
+                          child: TextBtn(
                             '确定',
                             fontSize: 30 * ScaleWidth,
                             textColor: MainDarkBlueColor,

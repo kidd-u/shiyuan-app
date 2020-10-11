@@ -36,7 +36,7 @@ class BlueCartViewState extends State<BlueCartView> {
       width: widget.width,
       height: 170 * ScaleWidth,
       decoration: new BoxDecoration(
-          gradient: LinearGradient(colors: [Color(0xFF3280E9), Color(0xFF254DC2)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+          gradient: LinearGradient(List: [Color(0xFF3280E9), Color(0xFF254DC2)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           borderRadius: BorderRadius.all(Radius.circular(20 * ScaleWidth))),
       child: Column(children: <Widget>[
         Label(widget.title,

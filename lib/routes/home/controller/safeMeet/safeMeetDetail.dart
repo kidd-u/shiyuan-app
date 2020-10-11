@@ -166,7 +166,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: TextButton(
+                child: TextBtn(
                   '不通过',
                   textColor: _isAccepted ? WarningColor : Colors.white, //边框设置
                   fontSize: 28 * ScaleWidth,
@@ -185,7 +185,7 @@ class SafeMeetDetailState extends State<SafeMeetDetailPage> {
                 ),
               ),
               Expanded(
-                child: TextButton(
+                child: TextBtn(
                   '通过',
                   margin: EdgeInsets.only(left: 30 * ScaleWidth),
                   textColor: _isAccepted ? Colors.white : MainDarkBlueColor,

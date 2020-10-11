@@ -30,7 +30,7 @@ class WorkTestNextBtnState extends State<WorkTestNextBtn> {
         margin: widget.margin,
         decoration: new BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
+            List: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

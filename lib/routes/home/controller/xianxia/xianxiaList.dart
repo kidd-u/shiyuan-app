@@ -95,7 +95,7 @@ class XianXiaListState extends State<XianXiaList> {
                       ],
                     ),
                   ),
-                  TextButton(
+                  TextBtn(
                     '搜索',
                     width: 86 * ScaleWidth,
                     height: 50 * ScaleWidth,

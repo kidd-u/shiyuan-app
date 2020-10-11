@@ -192,7 +192,7 @@ class JianChaFormState extends State<JianChaFormPage> {
 //      Widget label = MainTextLabel('已符合', textColor: SuccessColor);
 //      actions.add(label);
 //    } else {}
-    Widget fuheBtn = TextButton(
+    Widget fuheBtn = TextBtn(
       '一键符合',
       width: 130 * ScaleWidth,
       height: 52 * ScaleWidth,
@@ -312,7 +312,7 @@ class JianChaFormState extends State<JianChaFormPage> {
   ///发起隐患样式
   List<Widget> getCard2() {
     List<Widget> views = [
-      TextButton(
+      TextBtn(
         '发起隐患', //边框设置
         margin: EdgeInsets.all(25 * ScaleWidth),
         height: 80 * ScaleWidth,

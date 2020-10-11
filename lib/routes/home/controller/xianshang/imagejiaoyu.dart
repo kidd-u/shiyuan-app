@@ -247,7 +247,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          TextButton(
+          TextBtn(
             '课件',
             width: 118 * ScaleWidth,
             height: 40 * ScaleWidth,
@@ -258,7 +258,7 @@ class ImageJiaoYuState extends State<ImageJiaoYuPage> {
               borderRadius: BorderRadius.all(Radius.circular(20 * ScaleWidth)),
             ),
           ),
-          TextButton(
+          TextBtn(
             'MP4',
             width: 118 * ScaleWidth,
             height: 40 * ScaleWidth,

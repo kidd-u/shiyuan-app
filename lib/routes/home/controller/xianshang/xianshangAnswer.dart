@@ -225,7 +225,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
               MainTitleLabel('考试详情'),
             ],
             rightActions: [
-              TextButton(
+              TextBtn(
                 '全部试题',
                 width: 130 * ScaleWidth,
                 height: 52 * ScaleWidth,
@@ -243,7 +243,7 @@ class WenDangJiaoYuState extends State<xianshangAnswer> {
                   });
                 },
               ),
-              TextButton(
+              TextBtn(
                 '错误试题',
                 width: 130 * ScaleWidth,
                 height: 52 * ScaleWidth,

@@ -94,7 +94,7 @@ class SignOneState extends State<SignOnePage> {
       Container(
         margin: EdgeInsets.only(top: 120 * ScaleWidth),
         child: Center(
-          child: TextButton(
+          child: TextBtn(
             '点击签到',
             width: 462 * ScaleWidth,
             height: 98 * ScaleWidth,

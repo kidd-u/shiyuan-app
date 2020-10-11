@@ -139,7 +139,7 @@ class HomeWorkApplyState extends State<HomeWorkApplyPage> {
         MainTitleLabel('作业人信息：'),
       ],
       rightActions: [
-        TextButton(
+        TextBtn(
           '新增',
           fontSize: 24 * ScaleWidth,
           textColor: Colors.white,

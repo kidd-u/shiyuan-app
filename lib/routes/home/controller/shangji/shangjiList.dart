@@ -87,7 +87,7 @@ class ShangJiListState extends State<ShangJiList> {
                       ],
                     ),
                   ),
-                  TextButton(
+                  TextBtn(
                     '搜索',
                     width: 86 * ScaleWidth,
                     height: 50 * ScaleWidth,

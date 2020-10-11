@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:flutter/material.dart';
 import '../../states/default.dart';
 
 /**
@@ -168,10 +167,10 @@ class Button extends StatelessWidget {
 }
 
 /**
- * Button 纯文字按钮
+ * Button 纯文字按钮，TextButton在1.2.0被新组件占用，先用TextBtn代替
  * */
-class TextButton extends StatelessWidget {
-  const TextButton(
+class TextBtn extends StatelessWidget {
+  const TextBtn(
     this.data, {
     Key key,
     this.color,
@@ -788,7 +787,7 @@ Widget buildAppBar(BuildContext context, String title, {bool showPop = true, Lis
     flexibleSpace: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+          List: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
         ),
       ),
     ),

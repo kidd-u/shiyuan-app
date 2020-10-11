@@ -65,7 +65,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+            List: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
           ),
         ),
       ),
@@ -86,7 +86,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: TextButton(
+            child: TextBtn(
               '临时检查',
               color: _selectIndex == 0 ? Colors.white : Colors.transparent,
               textColor: _selectIndex == 0 ? Colors.black : Colors.white,
@@ -100,7 +100,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
           ),
           Expanded(
             flex: 1,
-            child: TextButton(
+            child: TextBtn(
               '定期检查',
               color: _selectIndex == 0 ? Colors.transparent : Colors.white,
               textColor: _selectIndex == 0 ? Colors.white : Colors.black,

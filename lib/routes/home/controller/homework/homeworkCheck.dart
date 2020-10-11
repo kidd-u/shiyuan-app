@@ -308,7 +308,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Expanded(
-            child: TextButton(
+            child: TextBtn(
               '不通过',
               textColor: _isAccepted ? WarningColor : Colors.white, //边框设置
               fontSize: 28 * ScaleWidth,
@@ -326,7 +326,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
             ),
           ),
           Expanded(
-            child: TextButton(
+            child: TextBtn(
               '通过',
               margin: EdgeInsets.only(left: 30 * ScaleWidth),
               textColor: _isAccepted ? Colors.white : MainDarkBlueColor,
@@ -403,7 +403,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
                   padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
                   decoration: new BoxDecoration(
                     gradient: LinearGradient(
-                      colors: isAccepted ? [Color(0xFF3E4AD5), Color(0xFF2532BF)] : [Color(0xFFF75E51), Color(0xFFE03C30)],
+                      List: isAccepted ? [Color(0xFF3E4AD5), Color(0xFF2532BF)] : [Color(0xFFF75E51), Color(0xFFE03C30)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
