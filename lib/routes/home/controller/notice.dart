@@ -3,7 +3,7 @@ import 'package:shiyuan/common/WorkUI/work.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:shiyuan/states/default.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class NoticePage extends StatefulWidget {
   NoticePage({
@@ -52,7 +52,9 @@ class NoticeState extends State<NoticePage> {
       backgroundColor: BackgroundColor,
       appBar: buildAppBar(context, '通告详情'),
       body: new ListView(
-        physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
+        physics: new AlwaysScrollableScrollPhysics(
+            parent: new BouncingScrollPhysics()),
+        padding: EdgeInsets.all(15 * ScaleWidth),
         children: <Widget>[
           MainTitleLabel(
             _detail.safe(['title']) ?? '',
@@ -60,7 +62,9 @@ class NoticeState extends State<NoticePage> {
             textAlign: TextAlign.center,
             margin: EdgeInsets.only(top: 22 * ScaleWidth),
           ),
-          SubTextLabel('${Filter.time(_detail.safe(['createdAt']))}', textAlign: TextAlign.center, margin: EdgeInsets.only(top: 20 * ScaleWidth)),
+          SubTextLabel('${Filter.time(_detail.safe(['createdAt']))}',
+              textAlign: TextAlign.center,
+              margin: EdgeInsets.only(top: 20 * ScaleWidth)),
           ..._detail.containsKey('attachment')
               ? [
                   WorkFile(
@@ -70,14 +74,16 @@ class NoticeState extends State<NoticePage> {
 //                    showBottomLine: false,
                     title: _detail.safe(['attachment', 'description']) ?? '',
                     name: _detail.safe(['attachment', 'name']) ?? '',
-                    type: (_detail.safe(['attachment', 'type']) ?? '' as String).toLowerCase(),
+                    type: (_detail.safe(['attachment', 'type']) ?? '' as String)
+                        .toLowerCase(),
                     onClick: () {
                       openFile();
                     },
                   ),
                 ]
               : [],
-          Html(data: _detail.safe(['content']) ?? ''),
+          SizedBox(height: 25 * ScaleWidth),
+          HtmlWidget(_detail.safe(['content']) ?? ''),
         ],
       ),
     );

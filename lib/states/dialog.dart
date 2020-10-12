@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:shiyuan/common/UIKit/UIKit.dart';
 import 'package:shiyuan/states/default.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import './dialogUI.dart';
 
 class DialogUtil {
@@ -248,23 +248,24 @@ class DialogUtil {
     var _dateTime = normalTime == null ? DateTime.now() : DateTime.parse(normalTime);
 
     DatePicker.showDatePicker(context,
-        pickerTheme: DateTimePickerTheme(
-          showTitle: true,
-          confirm: Text('确定', style: TextStyle(color: MainBlueColor)),
-          cancel: Text('取消', style: TextStyle(color: Colors.black)),
-          itemTextStyle: TextStyle(color: Colors.black),
+        theme: DatePickerTheme(
+          doneStyle: TextStyle(color: MainBlueColor),
+          cancelStyle:  TextStyle(color: Colors.black),
+          itemStyle: TextStyle(color: Colors.black),
         ),
-        minDateTime: DateTime.now(),
-        maxDateTime: maxDateTime,
+        showTitleActions: true,
+        minTime: DateTime.now(),
+        maxTime: maxDateTime,
 //        maxDateTime: DateTime.now().add(Duration(days: 7)),
-        initialDateTime: _dateTime,
+        currentTime: _dateTime,
         // dateFormat: "yyyy-MMMM-dd", //只包含年、月、日
 //        dateFormat: 'yyyy年M月d日  EEE,H时:m分',
-        dateFormat: 'yyyy  MMMM  dd',
-        pickerMode: DateTimePickerMode.date,
-        locale: DateTimePickerLocale.zh_cn, onCancel: () {
+//         dateFormat: 'yyyy  MMMM  dd',
+//         pickerMode: DateTimePickerMode.date,
+        locale: LocaleType.zh,
+        onCancel: () {
       debugPrint("onCancel");
-    }, onConfirm: (dateTime, List<int> index) {
+    }, onConfirm: (dateTime) {
       _dateTime = dateTime;
       completer.complete(_dateTime);
       hiddenKeyboard();

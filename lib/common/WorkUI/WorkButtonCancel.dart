@@ -39,7 +39,7 @@ class WorkButtonCancelState extends State<WorkButtonCancel> {
         decoration: widget.showBorder
             ? BoxDecoration(
                 gradient: LinearGradient(
-                  List: [Color(0xFFF75E52), Color(0xFFE03E31)],
+                  colors: [Color(0xFFF75E52), Color(0xFFE03E31)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -50,7 +50,7 @@ class WorkButtonCancelState extends State<WorkButtonCancel> {
               )
             : BoxDecoration(
                 gradient: LinearGradient(
-                  List: [Color(0xFFF75E52), Color(0xFFE03E31)],
+                  colors: [Color(0xFFF75E52), Color(0xFFE03E31)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),

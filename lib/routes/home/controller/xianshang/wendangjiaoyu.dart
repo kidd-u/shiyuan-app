@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shiyuan/states/LogUtil.dart';
 import 'package:shiyuan/states/default.dart';
 import 'dart:async';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class WenDangJiaoYuPage extends StatefulWidget {
   WenDangJiaoYuPage({
@@ -150,7 +150,7 @@ class WenDangJiaoYuState extends State<WenDangJiaoYuPage> {
             child: new ListView(
               physics: new AlwaysScrollableScrollPhysics(parent: new BouncingScrollPhysics()),
               children: <Widget>[
-                Html(data: _attachments[0]['richText']),
+                HtmlWidget(_attachments[0]['richText']),
               ],
             ),
           ),

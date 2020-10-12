@@ -53,7 +53,7 @@ class HomeWorkCardThreeState extends State<HomeWorkCardThree> {
                   padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
                   decoration: new BoxDecoration(
                     gradient: LinearGradient(
-                      List: [Color(0xFFF75E51), Color(0xFFE03C30)],
+                      colors: [Color(0xFFF75E51), Color(0xFFE03C30)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),

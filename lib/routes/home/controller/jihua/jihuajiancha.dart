@@ -65,7 +65,7 @@ class JiHuaJianChaState extends State<JiHuaJianCha> with SingleTickerProviderSta
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            List: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
+            colors: [Color.fromRGBO(37, 49, 191, 1), Color.fromRGBO(18, 113, 224, 1)],
           ),
         ),
       ),

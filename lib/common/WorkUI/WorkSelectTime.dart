@@ -65,7 +65,7 @@ class WorkSelectTimeState extends State<WorkSelectTime> {
                     ),
                     MainTitleLabel(
                       widget.title,
-                      width: 295 * ScaleWidth,
+                      width: 280 * ScaleWidth,
                     ),
                   ],
                 ),

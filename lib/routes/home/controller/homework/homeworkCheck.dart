@@ -403,7 +403,7 @@ class HomeWorkCheckState extends State<HomeWorkCheckPage> {
                   padding: EdgeInsets.only(left: 30 * ScaleWidth, right: 30 * ScaleWidth),
                   decoration: new BoxDecoration(
                     gradient: LinearGradient(
-                      List: isAccepted ? [Color(0xFF3E4AD5), Color(0xFF2532BF)] : [Color(0xFFF75E51), Color(0xFFE03C30)],
+                      colors: isAccepted ? [Color(0xFF3E4AD5), Color(0xFF2532BF)] : [Color(0xFFF75E51), Color(0xFFE03C30)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),

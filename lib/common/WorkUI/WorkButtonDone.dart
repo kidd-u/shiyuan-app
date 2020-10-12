@@ -39,7 +39,7 @@ class WorkButtonDoneState extends State<WorkButtonDone> {
         decoration: widget.showBorder
             ? BoxDecoration(
                 gradient: LinearGradient(
-                  List: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
+                  colors: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -50,7 +50,7 @@ class WorkButtonDoneState extends State<WorkButtonDone> {
               )
             : BoxDecoration(
                 gradient: LinearGradient(
-                  List: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
+                  colors: [Color(0xFF3E4AD5), Color(0xFF2532BF)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
