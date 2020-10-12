@@ -195,7 +195,7 @@ class HttpUtil {
   static networkErrorTransform(Response response, Completer completer) {
     DialogUtil.hiddenLoading();
     LogUtil.d("networkErrorTransform === $response");
-    DialogUtil.dialogAlert(response.statusMessage);
+    DialogUtil.toastError(response.statusMessage);
     completer.completeError(response);
   }
 }
