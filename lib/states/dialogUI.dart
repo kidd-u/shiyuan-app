@@ -23,7 +23,7 @@ class DialogBounceAnimationState extends State<DialogBounceAnimation>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 150));
+        duration: const Duration(milliseconds: 150),vsync: this);
     _animation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 0.8, end: 1.2), weight: 1),
       TweenSequenceItem(tween: Tween(begin: 1.1, end: 1.0), weight: 1),
@@ -86,7 +86,7 @@ class DialogBottomSheetAnimationState extends State<DialogBottomSheetAnimation>
     super.initState();
     _bottom = -widget.height;
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 150));
+        duration: const Duration(milliseconds: 150),vsync: this);
     _animation = Tween(begin: -widget.height, end: 0.0).animate(_controller)
       ..addListener(() {
         setState(() {
